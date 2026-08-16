@@ -115,8 +115,9 @@ const MainLayout = () => {
                 {({ isActive }) => (
                   <>
                     <div className={`p-1.5 rounded-xl transition-all duration-200 ${isActive ? 'bg-primary/15 text-primary scale-105' : 'bg-transparent'}`}>
-                      <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                      <NavIcon icon={item.key} active={isActive} size={20} />
                     </div>
+
                     <span className={`text-[10px] tracking-tight transition-all duration-200 ${isActive ? 'opacity-100 font-bold' : 'opacity-80'}`}>
                       {item.label}
                     </span>
