@@ -121,7 +121,7 @@ const FinancialStatus = () => {
 
       const { error: patchError } = await supabase
         .from('profiles')
-        .update({ [fieldKey]: newVal })
+        .update({ [fieldKey]: newVal } as never)
         .eq('id', selectedUserForBalance.id);
 
       if (patchError) throw patchError;

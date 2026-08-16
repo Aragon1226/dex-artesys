@@ -72,8 +72,8 @@ const AdminDashboard = () => {
       const filteredD = filterUsersByAdminGroup(d || [], adminId);
       const filteredWL = filterUsersByAdminGroup(wl || [], adminId);
 
-      setProfiles(filteredP);
-      setDeposits(filteredD);
+      setProfiles(filteredP as unknown as ProfileRow[]);
+      setDeposits(filteredD as unknown as DepositRow[]);
       setWalletCount(w?.length || 0);
       setPendingWithdrawals(filteredWL.length);
     } catch (err: any) {

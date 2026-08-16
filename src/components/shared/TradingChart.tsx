@@ -80,6 +80,7 @@ const TradingChart = ({ symbol, pair, className = "h-64", theme, interval = '1h'
     const step = stepMap[interval] || 3600;
 
     let lastCandle: any = null;
+    void lastCandle;
 
     marketService.getHistoricalData(activePair, interval, 100).then((data) => {
       if (isMounted) {

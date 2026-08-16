@@ -50,3 +50,21 @@ export interface NewsItem {
   url: string;
   imageUrl?: string;
 }
+
+export interface FuturePosition {
+  id: string;
+  user_id: string;
+  pair: string;
+  amount: number;
+  margin: number;
+  leverage: number;
+  entry_price: number;
+  type: 'LONG' | 'SHORT' | string;
+  start_time: number;
+  duration_seconds: number;
+  expected_profit_percentage: number;
+  status: 'OPEN' | 'CLOSED' | string;
+  pnl: number;
+  close_price?: number | null;
+  created_at?: string | null;
+}

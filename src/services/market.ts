@@ -4,6 +4,9 @@ import { tokenPriceControl } from './tokenPriceControl';
 export interface MarketTicker {
   lastPrice: number;
   priceChangePercent: number;
+  high24h?: number;
+  low24h?: number;
+  volume24h?: number;
 }
 
 export interface MarketData {

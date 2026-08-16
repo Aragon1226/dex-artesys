@@ -610,7 +610,7 @@ export function getAdminIdForCurrentUser(email: string | undefined): string | nu
 }
 
 // Filter lists of data based on the active admin's group
-export function filterUsersByAdminGroup<T extends { id?: string; user_id?: string; email?: string }>(
+export function filterUsersByAdminGroup<T extends { id?: string; user_id?: string; email?: string | null }>(
   items: T[], 
   currentAdminId: string | null
 ): T[] {
@@ -738,8 +738,8 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
         role: account.role,
         password: account.password || null,
         created_by_admin_id: account.createdByAdminId || null,
-        permissions: account.permissions
-      };
+        permissions: account.permissions as unknown as Json,
+      } as never;
       
       const { error } = await supabase.from('custom_accounts').upsert(dbPayload, { onConflict: 'email' });
       if (error) {
