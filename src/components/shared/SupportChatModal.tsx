@@ -137,8 +137,8 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
           reader.readAsDataURL(file);
         });
       } else {
-        const { data: { publicUrl } } = supabase.storage.from(bucketName).getPublicUrl(data.path);
-        imageUrl = publicUrl;
+        const { data: signed } = await supabase.storage.from(bucketName).createSignedUrl(data.path, 60 * 60 * 24 * 365 * 5);
+        imageUrl = signed?.signedUrl ?? data.path;
       }
 
       const { data: insertedMsg, error: insertError } = await supabase.from('support_messages').insert({

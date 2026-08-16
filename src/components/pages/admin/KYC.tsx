@@ -262,16 +262,27 @@ const ImagePreview = ({ label, url, icon, onClick }: { label: string; url: strin
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    setError(false);
+
     if (url && !url.startsWith('http') && !url.startsWith('data:')) {
-      // Handle potential relative paths if they somehow got in
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      if (supabaseUrl) {
-         setImgSrc(`${supabaseUrl}/storage/v1/object/public/kyc-documents/${url}`);
-      }
+      // Stored as a bucket path — mint a temporary link for the private bucket.
+      supabase.storage
+        .from('kyc-documents')
+        .createSignedUrl(url, 60 * 60)
+        .then(({ data }) => {
+          if (active) setImgSrc(data?.signedUrl ?? null);
+        })
+        .catch(() => {
+          if (active) setImgSrc(null);
+        });
     } else {
       setImgSrc(url);
     }
-    setError(false);
+
+    return () => {
+      active = false;
+    };
   }, [url]);
 
   return (
