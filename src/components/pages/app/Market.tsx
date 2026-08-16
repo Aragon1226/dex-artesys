@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, TrendingUp, Star, ChevronDown, Filter } from 'lucide-react';
 import { marketService, MarketData } from '@/services/market';
 import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import CubeSpinner from '@/components/shared/CubeSpinner';
 import { useNavigate } from "@/lib/router-compat";
 import { useRealtimePrices } from '@/hooks/useRealtimePrices';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 const MAIN_TABS = ['Overview', 'Favorites', 'Crypto', 'Main', 'Stocks & Commodities', 'Alpha'];
 const SUB_TABS = ['Spot', 'Futures', 'Margin'];
@@ -19,24 +21,29 @@ export const Market = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [markets, setMarkets] = useState<MarketData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const rtPrices = useRealtimePrices(markets);
 
+  const fetchMarkets = useCallback(async () => {
+    try {
+      const data = await marketService.getAllMarkets();
+      setMarkets(data);
+      setLoadError(null);
+    } catch (err: any) {
+      console.error(err);
+      setLoadError(err?.message || 'Market feed unavailable.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchMarkets = async () => {
-      try {
-        const data = await marketService.getAllMarkets();
-        setMarkets(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMarkets();
     const interval = setInterval(fetchMarkets, 10000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchMarkets]);
+
 
   const filteredMarkets = markets.filter(m => {
     const symbolMatches = m.pair.toLowerCase().includes(searchQuery.toLowerCase());
@@ -152,10 +159,21 @@ export const Market = () => {
       <div className="flex-1 overflow-y-auto bg-background">
 
         {loading ? (
-          <div className="py-20 flex flex-col items-center justify-center">
-            <CubeSpinner label="Loading market data..." />
+          <div className="px-4 py-6">
+            <LoadingBlock variant="table" rows={8} label="Loading market data" />
           </div>
+        ) : loadError && markets.length === 0 ? (
+          <RetryState
+            size="lg"
+            title="Market feed unavailable"
+            description="We couldn't reach the price feed just now."
+            detail={loadError}
+            onRetry={fetchMarkets}
+            retryLabel="Reload markets"
+            secondary={{ label: 'Go to assets', to: '/app/assets' }}
+          />
         ) : (
+
           <div className="divide-y divide-border/50">
             {filteredMarkets.map(market => {
               const rtPriceData = rtPrices[market.pair];

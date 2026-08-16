@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { getFallbackUserProfile } from '@/contexts/AuthContext';
@@ -14,6 +14,9 @@ import {
 } from 'lucide-react';
 import { Logo } from '@/components/shared/Logo';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 const PAIRS = [
   { symbol: 'BTCUSDT', name: 'Bitcoin' },
@@ -66,6 +69,9 @@ const Futures = () => {
   const [leverage, setLeverage] = useState(25);
   const [marginInput, setMarginInput] = useState('');
   const [positions, setPositions] = useState<FuturePosition[]>([]);
+  const [positionsLoading, setPositionsLoading] = useState(true);
+  const [positionsError, setPositionsError] = useState<string | null>(null);
+
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [newPositionModal, setNewPositionModal] = useState<FuturePosition | null>(null);
   const [showTransferModal, setShowTransferModal] = useState(false);
@@ -94,17 +100,28 @@ const Futures = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const fetchPositions = useCallback(async () => {
+    if (!user) return;
+    setPositionsLoading(true);
+    setPositionsError(null);
+    try {
+      const { data, error } = await supabase.from('positions').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (error) throw error;
+      setPositions((data || []) as FuturePosition[]);
+    } catch (e: any) {
+      console.warn("Error fetching positions", e);
+      setPositionsError(e?.message || 'Request failed.');
+    } finally {
+      setPositionsLoading(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     if (!user) return;
     refreshProfile();
-    try {
-      supabase.from('positions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).then(({ data }) => {
-        if (data) setPositions(data as FuturePosition[]);
-      }).then(undefined, () => {});
-    } catch (e) {
-      console.warn("Error fetching positions", e);
-    }
-  }, [user, refreshProfile]);
+    fetchPositions();
+  }, [user, refreshProfile, fetchPositions]);
+
 
   useEffect(() => {
     const symbols = PAIRS.map(p => p.symbol);
@@ -285,7 +302,12 @@ const Futures = () => {
               <button onClick={() => setPositionTab('history')} className={`text-[11px] font-bold flex items-center gap-1.5 pb-2 border-b-2 transition-all ${positionTab === 'history' ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent'}`}><Clock size={14} /> History</button>
             </div>
             {positionTab === 'active' ? (
-              activePositions.length === 0 ? (
+              positionsLoading ? (
+                <LoadingBlock variant="positions" rows={3} label="Loading positions" />
+              ) : positionsError ? (
+                <RetryState size="sm" title="Couldn't load your positions" detail={positionsError} onRetry={fetchPositions} />
+              ) : activePositions.length === 0 ? (
+
                 <EmptyState size="sm" art="assets" title="No active positions"
                   description="Open a long or short from the order panel to start trading futures."
                   hint="Start with low leverage — position size and leverage together decide how fast liquidation gets close."
@@ -362,7 +384,12 @@ const Futures = () => {
                 </div>
               )
             ) : (
-              closedPositions.length === 0 ? (
+              positionsLoading ? (
+                <LoadingBlock variant="history" rows={3} label="Loading trade history" />
+              ) : positionsError ? (
+                <RetryState size="sm" title="Couldn't load trade history" detail={positionsError} onRetry={fetchPositions} />
+              ) : closedPositions.length === 0 ? (
+
                 <EmptyState size="sm" art="history" title="No trade history yet"
                   description="Closed positions and their realised PnL will show up here."
                   action={{ label: 'Browse markets', to: '/app/market' }}
@@ -484,7 +511,12 @@ const Futures = () => {
             <button onClick={() => setPositionTab('history')} className={`text-[11px] font-bold flex items-center gap-1.5 pb-2 border-b-2 transition-all ${positionTab === 'history' ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent'}`}><Clock size={14} /> History</button>
           </div>
           {positionTab === 'active' ? (
-             activePositions.length === 0 ? (
+             positionsLoading ? (
+               <LoadingBlock variant="positions" rows={3} label="Loading positions" />
+             ) : positionsError ? (
+               <RetryState size="sm" title="Couldn't load your positions" detail={positionsError} onRetry={fetchPositions} />
+             ) : activePositions.length === 0 ? (
+
                <EmptyState size="sm" art="assets" title="No active trades"
                  description="Your open futures positions will appear here."
                  action={{ label: 'Fund your account', to: '/app/assets' }}
@@ -560,7 +592,12 @@ const Futures = () => {
               </div>
              )
           ) : (
-             closedPositions.length === 0 ? (
+             positionsLoading ? (
+               <LoadingBlock variant="history" rows={3} label="Loading trade history" />
+             ) : positionsError ? (
+               <RetryState size="sm" title="Couldn't load trade history" detail={positionsError} onRetry={fetchPositions} />
+             ) : closedPositions.length === 0 ? (
+
                <EmptyState size="sm" art="history" title="No trade history yet"
                  description="Closed positions and their realised PnL will show up here."
                  action={{ label: 'Browse markets', to: '/app/market' }}

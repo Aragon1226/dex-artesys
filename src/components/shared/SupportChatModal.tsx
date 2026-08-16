@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { X, Send, HeadphonesIcon, Minus, MessageCircle, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 interface SupportChatModalProps {
   isOpen: boolean;
@@ -26,25 +29,35 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const [msgLoading, setMsgLoading] = useState(false);
+  const [msgError, setMsgError] = useState<string | null>(null);
 
 
-  useEffect(() => {
-    if (!user || !isOpen) return;
 
-    // Load initial messages
-    const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
+    if (!user) return;
+    setMsgLoading(true);
+    setMsgError(null);
+    try {
       const { data, error } = await supabase
         .from('support_messages')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: true });
-        
-      if (!error && data) {
-        setMessages(data as Message[]);
-      }
-    };
-    
+      if (error) throw error;
+      setMessages((data || []) as Message[]);
+    } catch (e: any) {
+      setMsgError(e?.message || 'Request failed.');
+    } finally {
+      setMsgLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user || !isOpen) return;
+
     loadMessages();
+
 
     // Subscribe to new messages
     const channel = supabase
@@ -206,7 +219,21 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
               </div>
             </div>
             
-            {messages.length === 0 && (
+            {msgLoading && messages.length === 0 && (
+              <LoadingBlock variant="chat" rows={4} label="Loading conversation" />
+            )}
+
+            {!msgLoading && msgError && messages.length === 0 && (
+              <RetryState
+                size="sm"
+                title="Couldn't load your conversation"
+                description="Your messages are saved — we just couldn't fetch them."
+                detail={msgError}
+                onRetry={loadMessages}
+              />
+            )}
+
+            {!msgLoading && !msgError && messages.length === 0 && (
               <EmptyState
                 size="sm"
                 art="support"
@@ -217,8 +244,8 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
                 action={{ label: 'Write a message', onClick: () => messageInputRef.current?.focus() }}
                 secondaryAction={{ label: 'Read the FAQ', to: '/app/faq', onClick: onClose }}
               />
-
             )}
+
 
             {messages.map(m => {
               const isImage = m.message.startsWith('[IMAGE]:');

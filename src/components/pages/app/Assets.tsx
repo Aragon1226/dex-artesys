@@ -13,6 +13,9 @@ import { AnimatedBalance } from '@/components/shared/AnimatedBalance';
 
 import { marketService } from '@/services/market';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 const DEPOSIT_OPTIONS = [
   { label: 'Bitcoin (BTC)', symbol: 'BTC', network: 'BTC' },
@@ -33,6 +36,9 @@ const Assets = () => {
   const [activeModal, setActiveModal] = useState<'deposit' | 'withdraw' | 'transfer' | 'history' | null>(null);
   const [historyTab, setHistoryTab] = useState<'deposits' | 'withdrawals'>('deposits');
   const [historyData, setHistoryData] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+
 
   // We should load history when modal opens.
   const [balanceHidden, setBalanceHidden] = useState(false);
@@ -140,17 +146,29 @@ const Assets = () => {
     };
   }, [user, loadData, refreshProfile]);
 
+  const fetchHistory = useCallback(async () => {
+    if (!user) return;
+    setHistoryLoading(true);
+    setHistoryError(null);
+    const table = historyTab === 'deposits' ? 'deposits' : 'withdrawals';
+    try {
+      const { data, error } = await supabase.from(table).select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (error) throw error;
+      setHistoryData(data || []);
+    } catch (e: any) {
+      setHistoryError(e?.message || 'Request failed.');
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [user, historyTab]);
+
   useEffect(() => {
     if (activeModal === 'history') {
-      const fetchHistory = async () => {
-        if (!user) return;
-        const table = historyTab === 'deposits' ? 'deposits' : 'withdrawals';
-        const { data } = await supabase.from(table).select('*').eq('user_id', user.id).order('created_at', { ascending: false });
-        setHistoryData(data || []);
-      };
+      setHistoryData([]);
       fetchHistory();
     }
-  }, [activeModal, historyTab, user]);
+  }, [activeModal, fetchHistory]);
+
 
   useEffect(() => {
     if (activeModal === 'deposit') {
@@ -453,7 +471,17 @@ const Assets = () => {
 
             <div className="p-4 flex-1 overflow-y-auto">
               <div className="space-y-3">
-                {historyData.length === 0 ? (
+                {historyLoading ? (
+                  <LoadingBlock variant="history" rows={4} label={`Loading ${historyTab}`} />
+                ) : historyError ? (
+                  <RetryState
+                    title={`Couldn't load ${historyTab}`}
+                    description="Your records are safe — the request just didn't come back."
+                    detail={historyError}
+                    onRetry={fetchHistory}
+                  />
+                ) : historyData.length === 0 ? (
+
                   <EmptyState
                     art="history"
                     title={`No ${historyTab} yet`}
