@@ -24,6 +24,7 @@ import futuresBannerImg from '@/assets/images/futures_hero_banner_1786696873345.
 import marketBannerImg from '@/assets/images/market_hero_banner_1786696884288.jpg';
 import securityBannerImg from '@/assets/images/security_hero_banner_1786696894651.jpg';
 import earnBannerImg from '@/assets/images/earn_hero_banner_1786696906104.jpg';
+import { EmptyState } from "@/components/shared/EmptyState";
 
 const TOP_SYMBOLS = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT', 'ADAUSDT'];
 
@@ -1610,13 +1611,13 @@ const UserHome = () => {
             
             <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
               {notifications.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 border border-border/50">
-                    <Bell className="text-muted-foreground" size={28} />
-                  </div>
-                  <h4 className="font-bold text-foreground text-sm">All Caught Up!</h4>
-                  <p className="text-xs text-muted-foreground mt-1 max-w-[200px] mx-auto">You have no account notifications at the moment.</p>
-                </div>
+                <EmptyState
+                  art="history"
+                  title="All caught up"
+                  description="You have no account notifications at the moment."
+                  hint="Deposit approvals, withdrawal updates and KYC results all land here first."
+                  hintIcon="info"
+                />
               ) : (
                 notifications.map((noti) => {
                   const parsed = parseNotificationMessage(noti.message);

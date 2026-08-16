@@ -5,6 +5,7 @@ import { CryptoIcon } from '@/components/shared/CryptoIcon';
 import CubeSpinner from '@/components/shared/CubeSpinner';
 import { useNavigate } from "@/lib/router-compat";
 import { useRealtimePrices } from '@/hooks/useRealtimePrices';
+import { EmptyState } from "@/components/shared/EmptyState";
 
 const MAIN_TABS = ['Overview', 'Favorites', 'Crypto', 'Main', 'Stocks & Commodities', 'Alpha'];
 const SUB_TABS = ['Spot', 'Futures', 'Margin'];
@@ -213,9 +214,12 @@ export const Market = () => {
             })}
             
             {filteredMarkets.length === 0 && (
-              <div className="py-20 text-center text-muted-foreground text-sm font-bold">
-                No markets found for this category
-              </div>
+              <EmptyState
+                art="history"
+                title="No markets in this view"
+                description="Nothing matches this category or search right now."
+                hint="Switch to the All tab, or search by ticker (BTC, ETH, SOL) to jump straight to a market."
+              />
             )}
           </div>
         )}
