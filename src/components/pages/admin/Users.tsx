@@ -465,21 +465,20 @@ const AdminUsers = () => {
 
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         {loading ? (
-          <div className="p-20 flex justify-center">
-            <CubeSpinner label="Scanning user records..." />
+          <div className="p-6">
+            <LoadingBlock variant="table" rows={6} label="Scanning user records" />
           </div>
         ) : error ? (
-          <div className="p-20 text-center">
-            <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <AlertCircle size={32} className="text-destructive" />
-            </div>
-            <h3 className="text-lg font-bold text-foreground">Database Sync Error</h3>
-            <p className="text-sm text-muted-foreground mb-6 max-w-xs mx-auto">{error}</p>
-            <button onClick={() => loadUsers()} className="flex items-center gap-2 mx-auto px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition-all">
-              <RefreshCw size={18} /> Retry Sync
-            </button>
-          </div>
+          <RetryState
+            size="lg"
+            title="Database sync error"
+            description="The user table couldn't be read. Retry the sync."
+            detail={error}
+            onRetry={() => loadUsers()}
+            retryLabel="Retry sync"
+          />
         ) : processed.length === 0 ? (
+
           <EmptyState
             art="referrals"
             size="lg"
