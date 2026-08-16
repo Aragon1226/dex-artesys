@@ -33,6 +33,9 @@ const Assets = () => {
   const [activeModal, setActiveModal] = useState<'deposit' | 'withdraw' | 'transfer' | 'history' | null>(null);
   const [historyTab, setHistoryTab] = useState<'deposits' | 'withdrawals'>('deposits');
   const [historyData, setHistoryData] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+
 
   // We should load history when modal opens.
   const [balanceHidden, setBalanceHidden] = useState(false);
