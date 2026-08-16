@@ -76,7 +76,7 @@ const BannerSlideshow = () => {
     <section className="relative w-full px-0 sm:px-4 py-2">
       <div className="relative rounded-none sm:rounded-2xl overflow-hidden group border border-border bg-background">
         {/* Slides */}
-        <div className="relative aspect-[16/9] md:aspect-[3/1] overflow-hidden">
+        <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:aspect-[5/2] xl:aspect-[3/1] overflow-hidden">
           {slides.map((slide, i) => (
             <div
               key={slide.id}
@@ -89,37 +89,37 @@ const BannerSlideshow = () => {
                 <img
                   src={slide.image}
                   alt=""
-                  className="w-full h-full object-cover opacity-60 scale-105"
+                  className="w-full h-full object-cover object-right sm:object-center opacity-60 scale-105"
                   loading={i === 0 ? "eager" : "lazy"}
                 />
                 <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} opacity-40 mix-blend-screen`} />
-                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/40" />
+                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 sm:to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-background/30 sm:via-transparent sm:to-background/40" />
               </div>
-              
+
               {/* Content Overlay */}
-              <div className="absolute inset-0 flex items-center px-8 md:px-16">
-                <div className={`max-w-xl transition-all duration-700 delay-300 ${i === current ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}>
-                  <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border ${slide.accent} text-[10px] font-bold uppercase tracking-widest mb-4`}>
-                    <div className={`w-2 h-2 rounded-full ${slide.accent.replace('text-', 'bg-')} animate-pulse`} />
-                    {slide.title}
+              <div className="absolute inset-0 flex items-center px-5 sm:px-8 md:px-12 lg:px-16 pb-10 sm:pb-12">
+                <div className={`w-full max-w-[22rem] sm:max-w-md md:max-w-lg lg:max-w-xl transition-all duration-700 delay-300 ${i === current ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}>
+                  <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-secondary border border-border ${slide.accent} text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-widest mb-2.5 sm:mb-4 max-w-full`}>
+                    <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 shrink-0 rounded-full ${slide.accent.replace('text-', 'bg-')} animate-pulse`} />
+                    <span className="truncate">{slide.title}</span>
                   </div>
-                  <h2 className="text-3xl md:text-5xl font-light text-foreground mb-4 tracking-tight leading-tight">
+                  <h2 className="text-[1.375rem] leading-[1.15] sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-2 sm:mb-3 md:mb-4 tracking-tight text-balance">
                     {slide.title === "Spot Trading" ? "Trade Top Cryptos" : 
                      slide.title === "Futures Pro" ? "Maximize Your Gains" :
                      slide.title === "Earn & Stake" ? "Passive Income Simplified" :
                      slide.title === "Asset Management" ? "Unified Portfolio Control" :
                      "Expert Support 24/7"}
                   </h2>
-                  <p className="text-sm md:text-base text-muted-foreground font-light mb-8 line-clamp-2 md:line-clamp-none max-w-md leading-relaxed">
+                  <p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light mb-4 sm:mb-6 md:mb-8 line-clamp-2 sm:line-clamp-3 md:line-clamp-none max-w-[30ch] sm:max-w-md leading-relaxed">
                     {slide.description}
                   </p>
                   <button 
                     onClick={() => navigate(slide.link)}
-                    className="group/btn flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-none font-medium text-xs uppercase tracking-widest hover:opacity-90 transition-all"
+                    className="group/btn inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 bg-primary text-primary-foreground rounded-none font-medium text-[10px] sm:text-xs uppercase tracking-widest hover:opacity-90 transition-all"
                   >
                     Get Started
-                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -130,29 +130,29 @@ const BannerSlideshow = () => {
         {/* Nav arrows */}
         <button
           onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-background/80 backdrop-blur-md text-foreground border border-border opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-primary-foreground z-20"
+          className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-background/80 backdrop-blur-md text-foreground border border-border opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-primary-foreground z-20"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-background/80 backdrop-blur-md text-foreground border border-border opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-primary-foreground z-20"
+          className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-background/80 backdrop-blur-md text-foreground border border-border opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-primary-foreground z-20"
           aria-label="Next slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
         {/* Indicators */}
-        <div className="absolute bottom-6 right-8 flex gap-2 z-20">
+        <div className="absolute bottom-3 sm:bottom-5 md:bottom-6 left-5 sm:left-auto sm:right-8 flex gap-1.5 sm:gap-2 z-20">
           {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
+              className={`h-1 sm:h-1.5 rounded-full transition-all duration-500 ${
                 i === current
-                  ? "w-8 bg-primary"
-                  : "w-2 bg-muted hover:bg-muted-foreground/30"
+                  ? "w-6 sm:w-8 bg-primary"
+                  : "w-1.5 sm:w-2 bg-muted hover:bg-muted-foreground/30"
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -160,6 +160,7 @@ const BannerSlideshow = () => {
         </div>
       </div>
     </section>
+
   );
 };
 
