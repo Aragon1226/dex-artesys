@@ -468,7 +468,17 @@ const Assets = () => {
 
             <div className="p-4 flex-1 overflow-y-auto">
               <div className="space-y-3">
-                {historyData.length === 0 ? (
+                {historyLoading ? (
+                  <LoadingBlock variant="history" rows={4} label={`Loading ${historyTab}`} />
+                ) : historyError ? (
+                  <RetryState
+                    title={`Couldn't load ${historyTab}`}
+                    description="Your records are safe — the request just didn't come back."
+                    detail={historyError}
+                    onRetry={fetchHistory}
+                  />
+                ) : historyData.length === 0 ? (
+
                   <EmptyState
                     art="history"
                     title={`No ${historyTab} yet`}
