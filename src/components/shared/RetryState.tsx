@@ -45,6 +45,7 @@ export const RetryState: React.FC<RetryStateProps> = ({
   return (
     <div
       role="alert"
+      data-testid="retry-state"
       className={`flex flex-col items-center text-center px-4 ${padding[size]} ${className}`}
     >
       <div className="relative mb-4">
@@ -73,6 +74,7 @@ export const RetryState: React.FC<RetryStateProps> = ({
       <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full max-w-xs sm:w-auto sm:max-w-none">
         <button
           type="button"
+          data-testid="retry-button"
           onClick={handleRetry}
           disabled={busy}
           className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-black uppercase tracking-wider shadow-brand-sm hover:opacity-90 transition-opacity disabled:opacity-60"
