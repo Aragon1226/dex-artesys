@@ -823,6 +823,7 @@ export async function syncUserReferralsWithSupabase(): Promise<UserReferral[]> {
 
 export async function saveUserReferralToSupabase(referral: UserReferral): Promise<void> {
   try {
+    if (!(await hasSupabaseSession())) return;
     const dbPayload = {
       user_email: referral.userEmail.toLowerCase().trim(),
       user_id: referral.userId || null,
