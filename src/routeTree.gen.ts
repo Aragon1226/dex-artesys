@@ -10,33 +10,448 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAdministratorRouteImport } from './routes/admin.administrator'
+import { Route as AdminCustomerServiceRouteImport } from './routes/admin.customer-service'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminDepositRequestsRouteImport } from './routes/admin.deposit-requests'
+import { Route as AdminFinancialStatusRouteImport } from './routes/admin.financial-status'
+import { Route as AdminFuturesRouteImport } from './routes/admin.futures'
+import { Route as AdminKycRouteImport } from './routes/admin.kyc'
+import { Route as AdminOwnershipRouteImport } from './routes/admin.ownership'
+import { Route as AdminSampleTokensRouteImport } from './routes/admin.sample-tokens'
+import { Route as AdminSpotControlRouteImport } from './routes/admin.spot-control'
+import { Route as AdminSupportRouteImport } from './routes/admin.support'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminWalletsRouteImport } from './routes/admin.wallets'
+import { Route as AdminWithdrawalsRouteImport } from './routes/admin.withdrawals'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAssetsRouteImport } from './routes/app.assets'
+import { Route as AppEarnRouteImport } from './routes/app.earn'
+import { Route as AppFaqRouteImport } from './routes/app.faq'
+import { Route as AppFuturesRouteImport } from './routes/app.futures'
+import { Route as AppHomeRouteImport } from './routes/app.home'
+import { Route as AppMarketRouteImport } from './routes/app.market'
+import { Route as AppPoliciesRouteImport } from './routes/app.policies'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppSpotRouteImport } from './routes/app.spot'
+import { Route as AppTermsRouteImport } from './routes/app.terms'
+import { Route as AppTradeFiRouteImport } from './routes/app.trade-fi'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesRoute = PoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdministratorRoute = AdminAdministratorRouteImport.update({
+  id: '/administrator',
+  path: '/administrator',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCustomerServiceRoute = AdminCustomerServiceRouteImport.update({
+  id: '/customer-service',
+  path: '/customer-service',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDepositRequestsRoute = AdminDepositRequestsRouteImport.update({
+  id: '/deposit-requests',
+  path: '/deposit-requests',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinancialStatusRoute = AdminFinancialStatusRouteImport.update({
+  id: '/financial-status',
+  path: '/financial-status',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFuturesRoute = AdminFuturesRouteImport.update({
+  id: '/futures',
+  path: '/futures',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminKycRoute = AdminKycRouteImport.update({
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOwnershipRoute = AdminOwnershipRouteImport.update({
+  id: '/ownership',
+  path: '/ownership',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSampleTokensRoute = AdminSampleTokensRouteImport.update({
+  id: '/sample-tokens',
+  path: '/sample-tokens',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSpotControlRoute = AdminSpotControlRouteImport.update({
+  id: '/spot-control',
+  path: '/spot-control',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSupportRoute = AdminSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminWalletsRoute = AdminWalletsRouteImport.update({
+  id: '/wallets',
+  path: '/wallets',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminWithdrawalsRoute = AdminWithdrawalsRouteImport.update({
+  id: '/withdrawals',
+  path: '/withdrawals',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAssetsRoute = AppAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEarnRoute = AppEarnRouteImport.update({
+  id: '/earn',
+  path: '/earn',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFaqRoute = AppFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFuturesRoute = AppFuturesRouteImport.update({
+  id: '/futures',
+  path: '/futures',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMarketRoute = AppMarketRouteImport.update({
+  id: '/market',
+  path: '/market',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPoliciesRoute = AppPoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSpotRoute = AppSpotRouteImport.update({
+  id: '/spot',
+  path: '/spot',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTermsRoute = AppTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTradeFiRoute = AppTradeFiRouteImport.update({
+  id: '/trade-fi',
+  path: '/trade-fi',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
+  '/policies': typeof PoliciesRoute
+  '/settings': typeof SettingsRoute
+  '/terms': typeof TermsRoute
+  '/admin/administrator': typeof AdminAdministratorRoute
+  '/admin/customer-service': typeof AdminCustomerServiceRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/deposit-requests': typeof AdminDepositRequestsRoute
+  '/admin/financial-status': typeof AdminFinancialStatusRoute
+  '/admin/futures': typeof AdminFuturesRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/ownership': typeof AdminOwnershipRoute
+  '/admin/sample-tokens': typeof AdminSampleTokensRoute
+  '/admin/spot-control': typeof AdminSpotControlRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/wallets': typeof AdminWalletsRoute
+  '/admin/withdrawals': typeof AdminWithdrawalsRoute
+  '/app/assets': typeof AppAssetsRoute
+  '/app/earn': typeof AppEarnRoute
+  '/app/faq': typeof AppFaqRoute
+  '/app/futures': typeof AppFuturesRoute
+  '/app/home': typeof AppHomeRoute
+  '/app/market': typeof AppMarketRoute
+  '/app/policies': typeof AppPoliciesRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/spot': typeof AppSpotRoute
+  '/app/terms': typeof AppTermsRoute
+  '/app/trade-fi': typeof AppTradeFiRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
+  '/policies': typeof PoliciesRoute
+  '/settings': typeof SettingsRoute
+  '/terms': typeof TermsRoute
+  '/admin/administrator': typeof AdminAdministratorRoute
+  '/admin/customer-service': typeof AdminCustomerServiceRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/deposit-requests': typeof AdminDepositRequestsRoute
+  '/admin/financial-status': typeof AdminFinancialStatusRoute
+  '/admin/futures': typeof AdminFuturesRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/ownership': typeof AdminOwnershipRoute
+  '/admin/sample-tokens': typeof AdminSampleTokensRoute
+  '/admin/spot-control': typeof AdminSpotControlRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/wallets': typeof AdminWalletsRoute
+  '/admin/withdrawals': typeof AdminWithdrawalsRoute
+  '/app/assets': typeof AppAssetsRoute
+  '/app/earn': typeof AppEarnRoute
+  '/app/faq': typeof AppFaqRoute
+  '/app/futures': typeof AppFuturesRoute
+  '/app/home': typeof AppHomeRoute
+  '/app/market': typeof AppMarketRoute
+  '/app/policies': typeof AppPoliciesRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/spot': typeof AppSpotRoute
+  '/app/terms': typeof AppTermsRoute
+  '/app/trade-fi': typeof AppTradeFiRoute
+  '/admin': typeof AdminIndexRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
+  '/policies': typeof PoliciesRoute
+  '/settings': typeof SettingsRoute
+  '/terms': typeof TermsRoute
+  '/admin/administrator': typeof AdminAdministratorRoute
+  '/admin/customer-service': typeof AdminCustomerServiceRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/deposit-requests': typeof AdminDepositRequestsRoute
+  '/admin/financial-status': typeof AdminFinancialStatusRoute
+  '/admin/futures': typeof AdminFuturesRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/ownership': typeof AdminOwnershipRoute
+  '/admin/sample-tokens': typeof AdminSampleTokensRoute
+  '/admin/spot-control': typeof AdminSpotControlRoute
+  '/admin/support': typeof AdminSupportRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/wallets': typeof AdminWalletsRoute
+  '/admin/withdrawals': typeof AdminWithdrawalsRoute
+  '/app/assets': typeof AppAssetsRoute
+  '/app/earn': typeof AppEarnRoute
+  '/app/faq': typeof AppFaqRoute
+  '/app/futures': typeof AppFuturesRoute
+  '/app/home': typeof AppHomeRoute
+  '/app/market': typeof AppMarketRoute
+  '/app/policies': typeof AppPoliciesRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/spot': typeof AppSpotRoute
+  '/app/terms': typeof AppTermsRoute
+  '/app/trade-fi': typeof AppTradeFiRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/auth'
+    | '/faq'
+    | '/policies'
+    | '/settings'
+    | '/terms'
+    | '/admin/administrator'
+    | '/admin/customer-service'
+    | '/admin/dashboard'
+    | '/admin/deposit-requests'
+    | '/admin/financial-status'
+    | '/admin/futures'
+    | '/admin/kyc'
+    | '/admin/ownership'
+    | '/admin/sample-tokens'
+    | '/admin/spot-control'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/wallets'
+    | '/admin/withdrawals'
+    | '/app/assets'
+    | '/app/earn'
+    | '/app/faq'
+    | '/app/futures'
+    | '/app/home'
+    | '/app/market'
+    | '/app/policies'
+    | '/app/settings'
+    | '/app/spot'
+    | '/app/terms'
+    | '/app/trade-fi'
+    | '/admin/'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/faq'
+    | '/policies'
+    | '/settings'
+    | '/terms'
+    | '/admin/administrator'
+    | '/admin/customer-service'
+    | '/admin/dashboard'
+    | '/admin/deposit-requests'
+    | '/admin/financial-status'
+    | '/admin/futures'
+    | '/admin/kyc'
+    | '/admin/ownership'
+    | '/admin/sample-tokens'
+    | '/admin/spot-control'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/wallets'
+    | '/admin/withdrawals'
+    | '/app/assets'
+    | '/app/earn'
+    | '/app/faq'
+    | '/app/futures'
+    | '/app/home'
+    | '/app/market'
+    | '/app/policies'
+    | '/app/settings'
+    | '/app/spot'
+    | '/app/terms'
+    | '/app/trade-fi'
+    | '/admin'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/auth'
+    | '/faq'
+    | '/policies'
+    | '/settings'
+    | '/terms'
+    | '/admin/administrator'
+    | '/admin/customer-service'
+    | '/admin/dashboard'
+    | '/admin/deposit-requests'
+    | '/admin/financial-status'
+    | '/admin/futures'
+    | '/admin/kyc'
+    | '/admin/ownership'
+    | '/admin/sample-tokens'
+    | '/admin/spot-control'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/wallets'
+    | '/admin/withdrawals'
+    | '/app/assets'
+    | '/app/earn'
+    | '/app/faq'
+    | '/app/futures'
+    | '/app/home'
+    | '/app/market'
+    | '/app/policies'
+    | '/app/settings'
+    | '/app/spot'
+    | '/app/terms'
+    | '/app/trade-fi'
+    | '/admin/'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  FaqRoute: typeof FaqRoute
+  PoliciesRoute: typeof PoliciesRoute
+  SettingsRoute: typeof SettingsRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +463,326 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies': {
+      id: '/policies'
+      path: '/policies'
+      fullPath: '/policies'
+      preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/administrator': {
+      id: '/admin/administrator'
+      path: '/administrator'
+      fullPath: '/admin/administrator'
+      preLoaderRoute: typeof AdminAdministratorRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/customer-service': {
+      id: '/admin/customer-service'
+      path: '/customer-service'
+      fullPath: '/admin/customer-service'
+      preLoaderRoute: typeof AdminCustomerServiceRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/deposit-requests': {
+      id: '/admin/deposit-requests'
+      path: '/deposit-requests'
+      fullPath: '/admin/deposit-requests'
+      preLoaderRoute: typeof AdminDepositRequestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/financial-status': {
+      id: '/admin/financial-status'
+      path: '/financial-status'
+      fullPath: '/admin/financial-status'
+      preLoaderRoute: typeof AdminFinancialStatusRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/futures': {
+      id: '/admin/futures'
+      path: '/futures'
+      fullPath: '/admin/futures'
+      preLoaderRoute: typeof AdminFuturesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/kyc': {
+      id: '/admin/kyc'
+      path: '/kyc'
+      fullPath: '/admin/kyc'
+      preLoaderRoute: typeof AdminKycRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/ownership': {
+      id: '/admin/ownership'
+      path: '/ownership'
+      fullPath: '/admin/ownership'
+      preLoaderRoute: typeof AdminOwnershipRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/sample-tokens': {
+      id: '/admin/sample-tokens'
+      path: '/sample-tokens'
+      fullPath: '/admin/sample-tokens'
+      preLoaderRoute: typeof AdminSampleTokensRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/spot-control': {
+      id: '/admin/spot-control'
+      path: '/spot-control'
+      fullPath: '/admin/spot-control'
+      preLoaderRoute: typeof AdminSpotControlRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/support': {
+      id: '/admin/support'
+      path: '/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/wallets': {
+      id: '/admin/wallets'
+      path: '/wallets'
+      fullPath: '/admin/wallets'
+      preLoaderRoute: typeof AdminWalletsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/withdrawals': {
+      id: '/admin/withdrawals'
+      path: '/withdrawals'
+      fullPath: '/admin/withdrawals'
+      preLoaderRoute: typeof AdminWithdrawalsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/assets': {
+      id: '/app/assets'
+      path: '/assets'
+      fullPath: '/app/assets'
+      preLoaderRoute: typeof AppAssetsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/earn': {
+      id: '/app/earn'
+      path: '/earn'
+      fullPath: '/app/earn'
+      preLoaderRoute: typeof AppEarnRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/faq': {
+      id: '/app/faq'
+      path: '/faq'
+      fullPath: '/app/faq'
+      preLoaderRoute: typeof AppFaqRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/futures': {
+      id: '/app/futures'
+      path: '/futures'
+      fullPath: '/app/futures'
+      preLoaderRoute: typeof AppFuturesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/home': {
+      id: '/app/home'
+      path: '/home'
+      fullPath: '/app/home'
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/market': {
+      id: '/app/market'
+      path: '/market'
+      fullPath: '/app/market'
+      preLoaderRoute: typeof AppMarketRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/policies': {
+      id: '/app/policies'
+      path: '/policies'
+      fullPath: '/app/policies'
+      preLoaderRoute: typeof AppPoliciesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/spot': {
+      id: '/app/spot'
+      path: '/spot'
+      fullPath: '/app/spot'
+      preLoaderRoute: typeof AppSpotRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/terms': {
+      id: '/app/terms'
+      path: '/terms'
+      fullPath: '/app/terms'
+      preLoaderRoute: typeof AppTermsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/trade-fi': {
+      id: '/app/trade-fi'
+      path: '/trade-fi'
+      fullPath: '/app/trade-fi'
+      preLoaderRoute: typeof AppTradeFiRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAdministratorRoute: typeof AdminAdministratorRoute
+  AdminCustomerServiceRoute: typeof AdminCustomerServiceRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminDepositRequestsRoute: typeof AdminDepositRequestsRoute
+  AdminFinancialStatusRoute: typeof AdminFinancialStatusRoute
+  AdminFuturesRoute: typeof AdminFuturesRoute
+  AdminKycRoute: typeof AdminKycRoute
+  AdminOwnershipRoute: typeof AdminOwnershipRoute
+  AdminSampleTokensRoute: typeof AdminSampleTokensRoute
+  AdminSpotControlRoute: typeof AdminSpotControlRoute
+  AdminSupportRoute: typeof AdminSupportRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminWalletsRoute: typeof AdminWalletsRoute
+  AdminWithdrawalsRoute: typeof AdminWithdrawalsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdministratorRoute: AdminAdministratorRoute,
+  AdminCustomerServiceRoute: AdminCustomerServiceRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminDepositRequestsRoute: AdminDepositRequestsRoute,
+  AdminFinancialStatusRoute: AdminFinancialStatusRoute,
+  AdminFuturesRoute: AdminFuturesRoute,
+  AdminKycRoute: AdminKycRoute,
+  AdminOwnershipRoute: AdminOwnershipRoute,
+  AdminSampleTokensRoute: AdminSampleTokensRoute,
+  AdminSpotControlRoute: AdminSpotControlRoute,
+  AdminSupportRoute: AdminSupportRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminWalletsRoute: AdminWalletsRoute,
+  AdminWithdrawalsRoute: AdminWithdrawalsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface AppRouteChildren {
+  AppAssetsRoute: typeof AppAssetsRoute
+  AppEarnRoute: typeof AppEarnRoute
+  AppFaqRoute: typeof AppFaqRoute
+  AppFuturesRoute: typeof AppFuturesRoute
+  AppHomeRoute: typeof AppHomeRoute
+  AppMarketRoute: typeof AppMarketRoute
+  AppPoliciesRoute: typeof AppPoliciesRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppSpotRoute: typeof AppSpotRoute
+  AppTermsRoute: typeof AppTermsRoute
+  AppTradeFiRoute: typeof AppTradeFiRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAssetsRoute: AppAssetsRoute,
+  AppEarnRoute: AppEarnRoute,
+  AppFaqRoute: AppFaqRoute,
+  AppFuturesRoute: AppFuturesRoute,
+  AppHomeRoute: AppHomeRoute,
+  AppMarketRoute: AppMarketRoute,
+  AppPoliciesRoute: AppPoliciesRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppSpotRoute: AppSpotRoute,
+  AppTermsRoute: AppTermsRoute,
+  AppTradeFiRoute: AppTradeFiRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
+  AuthRoute: AuthRoute,
+  FaqRoute: FaqRoute,
+  PoliciesRoute: PoliciesRoute,
+  SettingsRoute: SettingsRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
