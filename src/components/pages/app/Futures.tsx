@@ -14,6 +14,9 @@ import {
 } from 'lucide-react';
 import { Logo } from '@/components/shared/Logo';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 const PAIRS = [
   { symbol: 'BTCUSDT', name: 'Bitcoin' },
