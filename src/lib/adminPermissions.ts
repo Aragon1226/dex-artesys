@@ -767,8 +767,19 @@ export async function deleteCustomAccountFromSupabase(email: string): Promise<vo
   }
 }
 
+async function hasSupabaseSession(): Promise<boolean> {
+  try {
+    const { data } = await supabase.auth.getSession();
+    return !!data.session;
+  } catch {
+    return false;
+  }
+}
+
 export async function syncUserReferralsWithSupabase(): Promise<UserReferral[]> {
   try {
+    // Referral rows are readable/writable only by authenticated users (RLS).
+    if (!(await hasSupabaseSession())) return getUserReferrals();
     const { data, error } = await supabase.from('user_referrals').select('*');
     if (error) {
       console.warn("Could not load user referrals from Supabase, using local fallback.", error);
