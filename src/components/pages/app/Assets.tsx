@@ -140,17 +140,29 @@ const Assets = () => {
     };
   }, [user, loadData, refreshProfile]);
 
+  const fetchHistory = useCallback(async () => {
+    if (!user) return;
+    setHistoryLoading(true);
+    setHistoryError(null);
+    const table = historyTab === 'deposits' ? 'deposits' : 'withdrawals';
+    try {
+      const { data, error } = await supabase.from(table).select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (error) throw error;
+      setHistoryData(data || []);
+    } catch (e: any) {
+      setHistoryError(e?.message || 'Request failed.');
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [user, historyTab]);
+
   useEffect(() => {
     if (activeModal === 'history') {
-      const fetchHistory = async () => {
-        if (!user) return;
-        const table = historyTab === 'deposits' ? 'deposits' : 'withdrawals';
-        const { data } = await supabase.from(table).select('*').eq('user_id', user.id).order('created_at', { ascending: false });
-        setHistoryData(data || []);
-      };
+      setHistoryData([]);
       fetchHistory();
     }
-  }, [activeModal, historyTab, user]);
+  }, [activeModal, fetchHistory]);
+
 
   useEffect(() => {
     if (activeModal === 'deposit') {
