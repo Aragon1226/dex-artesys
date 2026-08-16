@@ -43,6 +43,15 @@
   --color-brand-primary-dark: hsl(var(--brand-primary-dark));
   --color-brand-glow: hsl(var(--brand-glow));
   --color-brand-surface: hsl(var(--brand-surface));
+  --color-success: hsl(var(--success));
+  --color-success-soft: hsl(var(--success) / 0.12);
+  --color-warning: hsl(var(--warning));
+  --color-warning-soft: hsl(var(--warning) / 0.12);
+  --color-danger: hsl(var(--danger));
+  --color-danger-soft: hsl(var(--danger) / 0.12);
+  --color-info: hsl(var(--info));
+  --color-info-soft: hsl(var(--info) / 0.12);
+
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
