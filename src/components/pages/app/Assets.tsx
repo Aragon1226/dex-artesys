@@ -464,7 +464,14 @@ const Assets = () => {
                       ? 'Deposits are credited after network confirmations — always copy the exact address and network shown on the deposit screen.'
                       : 'Withdrawals need a verified account and an approved wallet address. Complete KYC first to avoid delays.'}
                     hintIcon={historyTab === 'deposits' ? 'tip' : 'secure'}
+                    action={historyTab === 'deposits'
+                      ? { label: 'Make a deposit', onClick: () => { setDepositSuccess(false); setDepositAmount(''); setActiveModal('deposit'); } }
+                      : { label: 'Withdraw funds', onClick: () => { setWithdrawAmount(''); setWithdrawAddress(''); setWithdrawPassword(''); setActiveModal('withdraw'); } }}
+                    secondaryAction={historyTab === 'deposits'
+                      ? { label: 'Explore markets', to: '/app/market', onClick: () => setActiveModal(null) }
+                      : { label: 'Verify identity', to: '/app/home', onClick: () => setActiveModal(null) }}
                   />
+
                 ) : (
                   historyData.map(item => (
                     <div key={item.id} className="bg-muted/30 border border-border p-3 rounded-xl flex justify-between items-center">
