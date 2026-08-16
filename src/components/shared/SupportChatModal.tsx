@@ -204,7 +204,7 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
               </div>
             </div>
             
-            {messages.length === 0 && !isLoading && (
+            {messages.length === 0 && (
               <EmptyState
                 size="sm"
                 art="support"
