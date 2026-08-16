@@ -1,10 +1,11 @@
 import { useState, Suspense } from "react";
 import { Outlet, NavLink } from "@/lib/router-compat";
-import { Home, BarChart2, Zap, Gem, Wallet, ShieldAlert, Settings as SettingsIcon } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { SupportChatModal } from "@/components/shared/SupportChatModal";
 import { PageSkeleton } from "@/components/shared/PageSkeleton";
 import { PageLoadingOverlay } from "@/components/shared/PageLoadingOverlay";
+import { NavIcon, navIcons, type NavIconKey } from "@/components/shared/NavIcon";
+import { StatusDot } from "@/components/shared/StatusBadge";
 import { useAuth } from "@/hooks/useAuth";
 
 const MainLayout = () => {
@@ -12,15 +13,16 @@ const MainLayout = () => {
   const { user } = useAuth();
   const isDev = import.meta.env.DEV;
 
-  const navItems = [
-    { icon: Home, label: "Home", path: "/app/home" },
-    { icon: BarChart2, label: "Market", path: "/app/market" },
-    { icon: Zap, label: "Trade", path: "/app/trade-fi" },
-    { icon: Gem, label: "Earn", path: "/app/earn" },
-    { icon: Wallet, label: "Assets", path: "/app/assets" },
+  const navItems: { key: NavIconKey; label: string; path: string }[] = [
+    { key: "home", label: "Home", path: "/app/home" },
+    { key: "market", label: "Market", path: "/app/market" },
+    { key: "trade", label: "Trade", path: "/app/trade-fi" },
+    { key: "earn", label: "Earn", path: "/app/earn" },
+    { key: "assets", label: "Assets", path: "/app/assets" },
   ];
 
-  const adminItem = { icon: ShieldAlert, label: "Admin", path: "/admin/dashboard" };
+  const adminItem = { icon: navIcons.admin, label: "Admin", path: "/admin/dashboard" };
+
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row relative">
