@@ -41,3 +41,26 @@ The dev server must be running on `http://localhost:8080` (override with
 - `data-testid="loading-block"` (+ `data-variant`) and `data-testid="brand-loader"`
   on `LoadingBlock` / `BrandLoader`.
 - `data-testid="retry-state"` and `data-testid="retry-button"` on `RetryState`.
+
+## Visual regression snapshots
+
+```bash
+python3 tests/e2e/test_visual_regression.py                        # verify
+E2E_UPDATE_SNAPSHOTS=1 python3 tests/e2e/test_visual_regression.py # re-record
+```
+
+`visual.py` captures element-level screenshots of the branded skeleton
+(`[data-testid="loading-block"]`) and retry state (`[data-testid="retry-state"]`)
+for Market, Assets history, Futures positions/history, Support chat and
+Admin > Users — each in the **dark** and **light** theme.
+
+Determinism:
+- all CSS animations/transitions are paused before capture (shimmer + orbiting
+  loader ring would otherwise be flaky),
+- theme is forced via `emulate_media` plus the `dark`/`light` class on `<html>`,
+- only the target element is captured, so page-level layout noise is excluded.
+
+Baselines: `tests/e2e/snapshots/<theme>/<name>.png` (committed).
+Failures write `*-actual.png` and a `*-diff.png` mask to `/tmp/browser/visual-diffs`.
+A run fails when more than `E2E_MAX_DIFF_RATIO` (default 1%) of pixels differ by
+more than 12 per channel.
