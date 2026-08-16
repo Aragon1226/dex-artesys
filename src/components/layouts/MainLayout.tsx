@@ -1,5 +1,5 @@
 import { useState, Suspense } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from "@/lib/router-compat";
 import { Home, BarChart2, Zap, Gem, Wallet, ShieldAlert, Settings as SettingsIcon } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { SupportChatModal } from "@/components/shared/SupportChatModal";

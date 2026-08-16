@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "@/lib/router-compat";
 import { 
   LayoutDashboard, Users, ShieldCheck, Activity, Wallet, 
   LifeBuoy, ArrowUpCircle, LogOut, TrendingUp

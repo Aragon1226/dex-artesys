@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Link } from 'react-router-dom';
+import { Link } from "@/lib/router-compat";
 import { useAuth } from '@/hooks/useAuth';
 import { getAdminIdForCurrentUser, filterUsersByAdminGroup, syncUserReferralsWithSupabase } from '@/lib/adminPermissions';
 import { CryptoIcon } from '@/components/shared/CryptoIcon';

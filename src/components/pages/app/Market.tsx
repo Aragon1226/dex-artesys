@@ -3,7 +3,7 @@ import { Search, TrendingUp, Star, ChevronDown, Filter } from 'lucide-react';
 import { marketService, MarketData } from '@/services/market';
 import { CryptoIcon } from '@/components/shared/CryptoIcon';
 import CubeSpinner from '@/components/shared/CubeSpinner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "@/lib/router-compat";
 import { useRealtimePrices } from '@/hooks/useRealtimePrices';
 
 const MAIN_TABS = ['Overview', 'Favorites', 'Crypto', 'Main', 'Stocks & Commodities', 'Alpha'];

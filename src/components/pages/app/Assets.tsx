@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { getFallbackUserProfile } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "@/lib/router-compat";
 import { CryptoIcon } from '@/components/shared/CryptoIcon';
 import type { UserProfile, UserAsset } from '@/types';
 import { toast } from 'sonner';

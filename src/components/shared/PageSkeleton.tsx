@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "@/lib/router-compat";
 
 interface PageSkeletonProps {
   variant?: 'home' | 'market' | 'spot' | 'futures' | 'earn' | 'assets' | 'trade-fi' | 'general';

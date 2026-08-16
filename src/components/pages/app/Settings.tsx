@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from "@/lib/router-compat";
 import {
   FileText, Shield, HeadphonesIcon, HelpCircle, AlertTriangle, CheckCircle,
   ChevronRight, Lock, Eye, Bell, Globe, ArrowLeft, ExternalLink, Info,

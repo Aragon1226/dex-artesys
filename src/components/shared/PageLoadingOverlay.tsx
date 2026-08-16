@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "@/lib/router-compat";
 import { Loader2 } from 'lucide-react';
 
 interface PageLoadingOverlayProps {

@@ -11,7 +11,7 @@ import {
   TrendingUp, ArrowRightLeft, SlidersHorizontal
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "@/lib/router-compat";
 
 // Spot Components
 import { TokenPairSelector } from '@/components/spot/TokenPairSelector';

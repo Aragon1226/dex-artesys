@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { getFallbackUserProfile } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "@/lib/router-compat";
 import { toast } from 'sonner';
 import { marketService, MarketTicker } from '@/services/market';
 import { CryptoIcon } from '@/components/shared/CryptoIcon';

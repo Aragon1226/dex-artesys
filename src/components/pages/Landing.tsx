@@ -2,7 +2,7 @@ import BannerSlideshow from "@/components/BannerSlideshow";
 import FeatureCards from "@/components/FeatureCards";
 import { LiveTickerMarquee } from "@/components/LiveTickerMarquee";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { useEffect } from "react";
 import { ArrowRight, Shield, Globe, Diamond } from "lucide-react";
 import { motion } from "motion/react";

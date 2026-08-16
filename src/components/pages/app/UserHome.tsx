@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { newsService, NewsItem } from '@/services/news';
 import { marketService } from '@/services/market';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "@/lib/router-compat";
 import type { UserProfile, UserAsset } from '@/types';
 import BannerSlideshow from '@/components/BannerSlideshow';
 import CubeSpinner from '@/components/shared/CubeSpinner';
