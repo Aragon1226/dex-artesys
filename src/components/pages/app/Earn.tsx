@@ -100,16 +100,16 @@ const Earn = () => {
 
         <div onClick={() => { setStakeType('fixed'); setAmount(''); setShowStake(true); }} className="bg-orange-50 dark:bg-orange-900/10 rounded-xl p-4 border border-orange-200 dark:border-orange-800/20 cursor-pointer active:scale-[0.98] transition-transform">
           <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-800/20 text-orange-500 flex items-center justify-center"><Lock size={14} /></div><div><h3 className="text-sm font-bold text-foreground">Fixed Staking</h3><p className="text-[10px] text-muted-foreground">Higher returns, locked period</p></div></div>
+            <div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-800/20 text-warning flex items-center justify-center"><Lock size={14} /></div><div><h3 className="text-sm font-bold text-foreground">Fixed Staking</h3><p className="text-[10px] text-muted-foreground">Higher returns, locked period</p></div></div>
           </div>
-          <div className="flex justify-between items-end"><div><p className="text-[10px] text-muted-foreground">APR</p><p className="text-sm font-bold text-green-500">5%</p></div><div className="text-right"><p className="text-[10px] text-muted-foreground">Durations</p><p className="text-[11px] font-bold text-foreground">10d - 180d</p></div></div>
+          <div className="flex justify-between items-end"><div><p className="text-[10px] text-muted-foreground">APR</p><p className="text-sm font-bold text-success">5%</p></div><div className="text-right"><p className="text-[10px] text-muted-foreground">Durations</p><p className="text-[11px] font-bold text-foreground">10d - 180d</p></div></div>
         </div>
 
         <div onClick={() => { setStakeType('flexible'); setAmount(''); setShowStake(true); }} className="bg-primary/5 rounded-xl p-4 border border-primary/10 cursor-pointer active:scale-[0.98] transition-transform">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center"><Lock size={14} /></div><div><h3 className="text-sm font-bold text-foreground">Flexible Staking</h3><p className="text-[10px] text-muted-foreground">Withdraw anytime</p></div></div>
           </div>
-          <div className="flex justify-between items-end"><div><p className="text-[10px] text-muted-foreground">APR</p><p className="text-sm font-bold text-green-500">0.25%</p></div><div className="text-right"><p className="text-[10px] text-muted-foreground">Lock Period</p><p className="text-[11px] font-bold text-foreground">None</p></div></div>
+          <div className="flex justify-between items-end"><div><p className="text-[10px] text-muted-foreground">APR</p><p className="text-sm font-bold text-success">0.25%</p></div><div className="text-right"><p className="text-[10px] text-muted-foreground">Lock Period</p><p className="text-[11px] font-bold text-foreground">None</p></div></div>
         </div>
 
         <div className="bg-card rounded-xl p-6 shadow-sm border border-border text-center min-h-[160px] flex flex-col items-center justify-center">
@@ -127,7 +127,7 @@ const Earn = () => {
             </div>
             <div className="p-5 flex-1 overflow-y-auto">
               <div className={`rounded-lg p-3 mb-4 flex items-center justify-between ${stakeType === 'fixed' ? 'bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-800/20' : 'bg-primary/5 border border-primary/10'}`}>
-                <div><span className="text-[10px] font-bold text-muted-foreground uppercase block mb-0.5">APR Rate</span><span className="text-lg font-bold text-green-500">{stakeType === 'fixed' ? '5.00%' : '0.25%'}</span></div>
+                <div><span className="text-[10px] font-bold text-muted-foreground uppercase block mb-0.5">APR Rate</span><span className="text-lg font-bold text-success">{stakeType === 'fixed' ? '5.00%' : '0.25%'}</span></div>
                 <TrendingUp size={16} className="text-primary" />
               </div>
               {stakeType === 'fixed' && (

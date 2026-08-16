@@ -389,7 +389,7 @@ const AdminUsers = () => {
 
   const kycBadge = (status: string | null) => {
     switch (status) {
-      case 'VERIFIED': return 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20';
+      case 'VERIFIED': return 'bg-success/10 text-success border-success/20';
       case 'PENDING': return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20';
       case 'REJECTED': return 'bg-destructive/10 text-destructive border-destructive/20';
       default: return 'bg-muted text-muted-foreground border-border';
@@ -414,13 +414,13 @@ const AdminUsers = () => {
       </div>
 
       {hasDeveloperAccess && (
-        <div className="mb-6 flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl gap-4">
+        <div className="mb-6 flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-success/10 border border-success/20 rounded-2xl gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-success/20 text-success flex items-center justify-center shrink-0">
               <ShieldCheck size={18} />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-emerald-400">Security Audit Portal (Developer Mode Active)</h4>
+              <h4 className="text-sm font-bold text-success">Security Audit Portal (Developer Mode Active)</h4>
               <p className="text-xs text-muted-foreground">Monitoring active sessions, connection protocols, and user access IPs for all registered users.</p>
             </div>
           </div>
@@ -517,7 +517,7 @@ const AdminUsers = () => {
                           </td>
                           <td className="px-6 py-4 font-mono text-sm">
                             <div className="flex items-center gap-2 text-foreground font-bold">
-                              <Globe size={14} className="text-emerald-500/70" />
+                              <Globe size={14} className="text-success/70" />
                               {session.ip}
                             </div>
                           </td>
@@ -537,13 +537,13 @@ const AdminUsers = () => {
                           <td className="px-6 py-4 text-xs">
                             <span className={`px-2.5 py-1 rounded-full font-bold border flex items-center gap-1.5 w-fit ${
                               session.status === 'ONLINE' 
-                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                ? 'bg-success/10 text-success border-success/20'
                                 : session.status === 'IDLE'
-                                  ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+                                  ? 'bg-warning/10 text-warning border-warning/20'
                                   : 'bg-muted text-muted-foreground border-border'
                             }`}>
                               <span className={`h-1.5 w-1.5 rounded-full ${
-                                session.status === 'ONLINE' ? 'bg-emerald-400 animate-pulse' : session.status === 'IDLE' ? 'bg-amber-500' : 'bg-muted-foreground'
+                                session.status === 'ONLINE' ? 'bg-success animate-pulse' : session.status === 'IDLE' ? 'bg-warning' : 'bg-muted-foreground'
                               }`} />
                               {session.status}
                             </span>
@@ -552,7 +552,7 @@ const AdminUsers = () => {
                             {hasDeveloperAccess && (
                               <button
                                 onClick={() => setSelectedUserForDelete(user)}
-                                className="px-3 py-1.5 bg-rose-500/10 text-rose-400 hover:bg-rose-500/25 text-xs font-bold rounded-lg border border-rose-500/20 transition-all flex items-center gap-1.5"
+                                className="px-3 py-1.5 bg-danger/10 text-danger hover:bg-danger/25 text-xs font-bold rounded-lg border border-danger/20 transition-all flex items-center gap-1.5"
                                 title="Delete Account Permanently"
                               >
                                 <Trash2 size={14} />
@@ -638,9 +638,9 @@ const AdminUsers = () => {
                         <td className="px-6 py-4">
                           <div className="text-sm font-bold text-foreground font-mono">${(user.total_value ?? user.balance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}</div>
                           <div className="text-[10px] text-muted-foreground font-bold flex gap-1 items-center">
-                            <span className="text-emerald-500">S: ${(user.balance ?? 0).toFixed(0)}</span>
+                            <span className="text-success">S: ${(user.balance ?? 0).toFixed(0)}</span>
                             <span className="text-indigo-500">F: ${(user.futures_balance ?? 0).toFixed(0)}</span>
-                            <span className="text-amber-500">E: ${(user.staked_balance ?? 0).toFixed(0)}</span>
+                            <span className="text-warning">E: ${(user.staked_balance ?? 0).toFixed(0)}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
@@ -661,7 +661,7 @@ const AdminUsers = () => {
                               </button>
                               <button 
                                 onClick={() => setSelectedUserForDelete(user)}
-                                className="text-muted-foreground hover:text-rose-500 hover:bg-rose-500/10 transition-colors p-2 rounded-full"
+                                className="text-muted-foreground hover:text-danger hover:bg-danger/10 transition-colors p-2 rounded-full"
                                 title="Delete Account Permanently"
                               >
                                 <Trash2 size={16} />
@@ -809,7 +809,7 @@ const AdminUsers = () => {
               <div>
                 <span className="text-muted-foreground block font-bold uppercase text-[9px] tracking-wider mb-0.5">Active IP Endpoint</span>
                 <span className="font-mono font-bold text-foreground flex items-center gap-1">
-                  <Globe size={12} className="text-emerald-500" />
+                  <Globe size={12} className="text-success" />
                   {getStableSessionData(selectedUserForLogs.id, selectedUserForLogs.email, selectedUserForLogs.username).ip}
                 </span>
               </div>
@@ -856,9 +856,9 @@ const AdminUsers = () => {
                               log.type === 'auth' 
                                 ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
                                 : log.type === 'billing'
-                                  ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20'
+                                  ? 'bg-warning/10 text-warning border border-warning/20'
                                   : log.type === 'trade'
-                                    ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
+                                    ? 'bg-success/10 text-success border border-success/20'
                                     : 'bg-muted text-muted-foreground border border-border'
                             }`}>
                               {log.type}
@@ -886,7 +886,7 @@ const AdminUsers = () => {
             {/* Action buttons footer */}
             <div className="border-t border-border/80 pt-4 flex justify-between gap-3 bg-card flex-shrink-0">
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground border border-border px-3 py-1.5 rounded-xl bg-muted/20 font-bold">
-                <ShieldCheck size={14} className="text-emerald-400 animate-pulse" />
+                <ShieldCheck size={14} className="text-success animate-pulse" />
                 Verified Security Context
               </div>
               <button
@@ -988,7 +988,7 @@ const AdminUsers = () => {
             </button>
             
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center border border-rose-500/20">
+              <div className="w-12 h-12 bg-danger/10 text-danger rounded-2xl flex items-center justify-center border border-danger/20">
                 <Trash2 size={24} />
               </div>
               <div>
@@ -997,7 +997,7 @@ const AdminUsers = () => {
               </div>
             </div>
 
-            <div className="p-4 bg-rose-500/5 border border-rose-500/10 rounded-2xl mb-6 text-sm text-foreground/90">
+            <div className="p-4 bg-danger/5 border border-danger/10 rounded-2xl mb-6 text-sm text-foreground/90">
               <p className="font-semibold mb-2">You are about to delete:</p>
               <div className="font-mono text-xs bg-muted/60 p-3 rounded-xl border border-border">
                 <div className="flex justify-between py-1">
@@ -1030,7 +1030,7 @@ const AdminUsers = () => {
                 type="button"
                 onClick={handleDeleteUser}
                 disabled={deletingUser}
-                className="flex-1 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition-colors text-sm shadow-lg flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-danger hover:bg-rose-700 text-white font-bold rounded-xl transition-colors text-sm shadow-lg flex items-center justify-center gap-2"
               >
                 {deletingUser ? 'Purging...' : 'Yes, Delete User'}
               </button>

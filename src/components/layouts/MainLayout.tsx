@@ -64,10 +64,10 @@ const MainLayout = () => {
             <NavLink
               to={adminItem.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 mt-8 border border-dashed border-red-500/30 ${
+                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 mt-8 border border-dashed border-danger/30 ${
                   isActive
-                    ? "bg-red-500 text-white shadow-brand-sm"
-                    : "text-red-500/70 hover:bg-red-500/10 hover:text-red-500"
+                    ? "bg-danger text-white shadow-brand-sm"
+                    : "text-danger/70 hover:bg-danger/10 hover:text-danger"
                 }`
               }
             >

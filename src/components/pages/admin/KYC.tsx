@@ -164,8 +164,8 @@ const KYC = () => {
                           </div>
                           
                           {sub.admin_notes && (
-                            <div className="bg-orange-500/5 border border-orange-500/20 p-3 rounded-lg">
-                              <span className="text-[10px] font-bold text-orange-600 uppercase block mb-1">Previous Admin Notes:</span>
+                            <div className="bg-warning/5 border border-warning/20 p-3 rounded-lg">
+                              <span className="text-[10px] font-bold text-warning uppercase block mb-1">Previous Admin Notes:</span>
                               <p className="text-xs text-foreground italic">"{sub.admin_notes}"</p>
                             </div>
                           )}
@@ -198,7 +198,7 @@ const KYC = () => {
                                 <button 
                                   onClick={() => setConfirmAction({ id: sub.id, userId: sub.user_id, action: 'VERIFIED' })}
                                   disabled={!!processingId}
-                                  className="px-6 py-2 rounded-xl text-sm font-bold bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 transition-all"
+                                  className="px-6 py-2 rounded-xl text-sm font-bold bg-success text-white hover:bg-success shadow-lg shadow-success/20 transition-all"
                                 >
                                   Approve & Verify
                                 </button>
@@ -220,7 +220,7 @@ const KYC = () => {
       {confirmAction && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${confirmAction.action === 'VERIFIED' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-destructive/10 text-destructive'}`}>
+            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${confirmAction.action === 'VERIFIED' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}>
               <ShieldCheck size={32} />
             </div>
             <h3 className="text-xl font-bold text-foreground text-center mb-2">Confirm {confirmAction.action === 'VERIFIED' ? 'Approval' : 'Rejection'}</h3>
@@ -230,7 +230,7 @@ const KYC = () => {
               <button 
                 onClick={() => handleAction(confirmAction.id, confirmAction.userId, confirmAction.action as any)}
                 disabled={!!processingId}
-                className={`flex-1 py-3 rounded-2xl font-bold text-white shadow-xl transition-all ${confirmAction.action === 'VERIFIED' ? 'bg-emerald-500 shadow-emerald-500/20' : 'bg-destructive shadow-destructive/20'}`}
+                className={`flex-1 py-3 rounded-2xl font-bold text-white shadow-xl transition-all ${confirmAction.action === 'VERIFIED' ? 'bg-success shadow-success/20' : 'bg-destructive shadow-destructive/20'}`}
               >
                 {processingId ? '...' : 'Confirm'}
               </button>

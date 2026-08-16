@@ -13,8 +13,8 @@ const slides = [
     title: "Spot Trading",
     description: "Trade over 100+ crypto pairs with zero fees and lightning-fast execution.",
     iconProps: { x: 25, y: 25, scale: 180 },
-    color: "from-emerald-500/20 to-emerald-900/40",
-    accent: "text-emerald-400",
+    color: "from-success/20 to-emerald-900/40",
+    accent: "text-success",
     link: "/app/spot",
     image: slideSpot
   },
@@ -33,8 +33,8 @@ const slides = [
     title: "Earn & Stake",
     description: "Put your idle assets to work. Earn up to 14% APR with our dual staking protocols.",
     iconProps: { x: 25, y: 75, scale: 180 },
-    color: "from-blue-500/20 to-blue-900/40",
-    accent: "text-blue-400",
+    color: "from-info/20 to-blue-900/40",
+    accent: "text-info",
     link: "/app/earn",
     image: slideEarn
   },
@@ -53,8 +53,8 @@ const slides = [
     title: "24/7 Support",
     description: "Our expert team is always here to help you navigate the world of digital finance.",
     iconProps: { x: 50, y: 50, scale: 180 },
-    color: "from-rose-500/20 to-rose-900/40",
-    accent: "text-rose-400",
+    color: "from-danger/20 to-rose-900/40",
+    accent: "text-danger",
     link: "/app/home",
     image: slideSupport
   }

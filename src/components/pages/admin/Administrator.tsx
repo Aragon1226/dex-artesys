@@ -259,7 +259,7 @@ const AdminAdministrator = () => {
                   }}
                   className={`p-2.5 rounded-xl border flex items-center justify-center transition-all active:scale-95 ${
                     copied 
-                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' 
+                      ? 'bg-success/10 border-success/30 text-success' 
                       : 'bg-primary hover:bg-primary/90 border-primary text-primary-foreground shadow-sm shadow-primary/10'
                   }`}
                   title="Copy Link"

@@ -38,7 +38,7 @@ export const LiveTickerMarquee = () => {
               <div key={`${key}-${i}`} className="inline-flex items-center gap-3 px-8 border-r border-border/50 first:border-l">
                 <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">{key}</span>
                 <span className="text-sm font-bold text-foreground font-mono">${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                <span className={`text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm ${isPositive ? "bg-green-500/10 text-green-500" : "bg-destructive/10 text-destructive"}`}>
+                <span className={`text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm ${isPositive ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}>
                   {isPositive ? "↑" : "↓"} {item.change.toFixed(2)}%
                 </span>
               </div>

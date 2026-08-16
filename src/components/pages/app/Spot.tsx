@@ -758,13 +758,13 @@ const Spot = () => {
           <div className="hidden sm:flex items-center gap-4 text-xs pl-2 border-l border-border/80">
             <div>
               <div className="text-[10px] text-muted-foreground uppercase font-bold">24h Price</div>
-              <div className={`font-mono font-black ${activeTicker.priceChangePercent >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+              <div className={`font-mono font-black ${activeTicker.priceChangePercent >= 0 ? 'text-success' : 'text-danger'}`}>
                 ${activeTicker.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
             </div>
             <div>
               <div className="text-[10px] text-muted-foreground uppercase font-bold">24h Change</div>
-              <div className={`font-mono font-bold ${activeTicker.priceChangePercent >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+              <div className={`font-mono font-bold ${activeTicker.priceChangePercent >= 0 ? 'text-success' : 'text-danger'}`}>
                 {activeTicker.priceChangePercent >= 0 ? '+' : ''}{activeTicker.priceChangePercent.toFixed(2)}%
               </div>
             </div>
@@ -812,7 +812,7 @@ const Spot = () => {
                 <CryptoIcon symbol={baseSymbol} size={24} />
                 <span className="font-black text-sm text-foreground">{selectedPair}</span>
                 <span className={`text-xs font-mono font-extrabold px-2 py-0.5 rounded ${
-                  activeTicker.priceChangePercent >= 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'
+                  activeTicker.priceChangePercent >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'
                 }`}>
                   {activeTicker.priceChangePercent >= 0 ? '+' : ''}{activeTicker.priceChangePercent.toFixed(2)}%
                 </span>

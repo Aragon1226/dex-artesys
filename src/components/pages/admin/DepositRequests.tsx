@@ -194,14 +194,14 @@ const DepositRequests = () => {
                       setConfirmingAction({ deposit: dep, action: 'APPROVED' });
                     }}
                     disabled={processingId !== null}
-                    className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:bg-emerald-600 transition-all active:scale-95 disabled:opacity-50"
+                    className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-success text-white rounded-xl font-bold text-sm shadow-lg shadow-success/20 hover:bg-success transition-all active:scale-95 disabled:opacity-50"
                   >
                     <CheckCircle size={18} /> Approve
                   </button>
                   <button 
                     onClick={() => setConfirmingAction({ deposit: dep, action: 'REJECTED' })}
                     disabled={processingId !== null}
-                    className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-rose-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-rose-500/20 hover:bg-rose-600 transition-all active:scale-95 disabled:opacity-50"
+                    className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-danger text-white rounded-xl font-bold text-sm shadow-lg shadow-danger/20 hover:bg-danger transition-all active:scale-95 disabled:opacity-50"
                   >
                     <XCircle size={18} /> Reject
                   </button>
@@ -215,7 +215,7 @@ const DepositRequests = () => {
       {confirmingAction && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${confirmingAction.action === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>
+            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${confirmingAction.action === 'APPROVED' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
               {confirmingAction.action === 'APPROVED' ? <CheckCircle size={32} /> : <XCircle size={32} />}
             </div>
             <h3 className="text-xl font-bold text-foreground text-center mb-2">Confirm {confirmingAction.action}</h3>
@@ -232,7 +232,7 @@ const DepositRequests = () => {
               <button 
                 onClick={handleAction}
                 className={`flex-1 py-3 rounded-2xl font-bold text-white shadow-xl transition-all ${
-                  confirmingAction.action === 'APPROVED' ? 'bg-emerald-500 shadow-emerald-500/20 hover:bg-emerald-600' : 'bg-rose-500 shadow-rose-500/20 hover:bg-rose-600'
+                  confirmingAction.action === 'APPROVED' ? 'bg-success shadow-success/20 hover:bg-success' : 'bg-danger shadow-danger/20 hover:bg-danger'
                 }`}
               >
                 Confirm

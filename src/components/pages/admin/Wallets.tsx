@@ -229,11 +229,11 @@ const AdminWallets = () => {
                 </div>
               </div>
               {wallet.address ? (
-                <div className="text-emerald-500 bg-emerald-500/10 p-1.5 rounded-lg" title="Wallet Configured">
+                <div className="text-success bg-success/10 p-1.5 rounded-lg" title="Wallet Configured">
                   <CheckCircle size={18} />
                 </div>
               ) : (
-                <div className="text-orange-500 bg-orange-500/10 p-1.5 rounded-lg" title="Address Missing">
+                <div className="text-warning bg-warning/10 p-1.5 rounded-lg" title="Address Missing">
                   <AlertTriangle size={18} />
                 </div>
               )}
@@ -255,7 +255,7 @@ const AdminWallets = () => {
                       onClick={() => handleCopy(wallet.address)}
                       className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary transition-colors"
                     >
-                      {copyFeedback === wallet.address ? <CheckCircle size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                      {copyFeedback === wallet.address ? <CheckCircle size={14} className="text-success" /> : <Copy size={14} />}
                     </button>
                   )}
                 </div>

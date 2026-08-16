@@ -50,9 +50,9 @@ const PromoSlideshow = ({ onOpenKyc }: { onOpenKyc?: () => void }) => {
       subtitle: "Up to 100x Leverage • Ultra-Low Latency • Deep Liquidity",
       cta: "Trade Futures",
       path: "/app/futures",
-      accent: "from-emerald-500/20 via-primary/10 to-transparent",
-      badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-      btnColor: "bg-emerald-500 hover:bg-emerald-400 text-black shadow-emerald-500/20"
+      accent: "from-success/20 via-primary/10 to-transparent",
+      badgeColor: "bg-success/20 text-success border-success/30",
+      btnColor: "bg-success hover:bg-success text-black shadow-success/20"
     },
     {
       src: marketBannerImg,
@@ -61,8 +61,8 @@ const PromoSlideshow = ({ onOpenKyc }: { onOpenKyc?: () => void }) => {
       subtitle: "Trade Top Cryptos, Tech Indices & Gold with Instant Settlement",
       cta: "Explore Markets",
       path: "/app/spot",
-      accent: "from-blue-500/20 via-cyan-500/10 to-transparent",
-      badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+      accent: "from-info/20 via-cyan-500/10 to-transparent",
+      badgeColor: "bg-info/20 text-info border-info/30",
       btnColor: "bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/20"
     },
     {
@@ -84,9 +84,9 @@ const PromoSlideshow = ({ onOpenKyc }: { onOpenKyc?: () => void }) => {
       subtitle: "Earn up to 18.5% APY with flexible terms and daily payouts",
       cta: "Start Earning",
       path: "/app/earn",
-      accent: "from-amber-500/20 via-emerald-500/10 to-transparent",
-      badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-      btnColor: "bg-amber-500 hover:bg-amber-400 text-black shadow-amber-500/20"
+      accent: "from-warning/20 via-success/10 to-transparent",
+      badgeColor: "bg-warning/20 text-warning border-warning/30",
+      btnColor: "bg-warning hover:bg-warning text-black shadow-warning/20"
     }
   ];
 
@@ -766,9 +766,9 @@ const UserHome = () => {
                  <AnimatedBalance value={`$${totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} hidden={balanceHidden} />
               </h1>
               <div className="flex items-center gap-4 mt-3">
-                 <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-                    <TrendingUp size={12} className="text-emerald-500" />
-                    <span className="text-[10px] font-bold text-emerald-500">+$124.52 (4.12%)</span>
+                 <div className="flex items-center gap-1.5 px-2 py-1 bg-success/10 border border-success/20 rounded-lg">
+                    <TrendingUp size={12} className="text-success" />
+                    <span className="text-[10px] font-bold text-success">+$124.52 (4.12%)</span>
                  </div>
                  <div className="text-[10px] font-bold text-muted-foreground flex items-center gap-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
@@ -781,8 +781,8 @@ const UserHome = () => {
         {/* Quick Actions Grid */}
         <div className="grid grid-cols-4 gap-3 pt-0.5">
           {[
-            { label: 'Deposit', icon: ArrowDownToLine, color: 'text-emerald-500', action: () => navigate('/app/assets') },
-            { label: 'Withdraw', icon: ArrowUpFromLine, color: 'text-rose-500', action: () => navigate('/app/assets') },
+            { label: 'Deposit', icon: ArrowDownToLine, color: 'text-success', action: () => navigate('/app/assets') },
+            { label: 'Withdraw', icon: ArrowUpFromLine, color: 'text-danger', action: () => navigate('/app/assets') },
             { label: 'Transfer', icon: ArrowRightLeft, color: 'text-primary', action: () => navigate('/app/assets') },
             { label: 'Support', icon: HeadphonesIcon, color: 'text-muted-foreground', action: () => setIsChatOpen(true) },
           ].map((act, i) => (
@@ -844,9 +844,9 @@ const UserHome = () => {
             
             <div className="flex-1 space-y-3">
                {[
-                 { name: 'Spot', value: spotBalanceValue || 0, color: 'bg-blue-500' },
+                 { name: 'Spot', value: spotBalanceValue || 0, color: 'bg-info' },
                  { name: 'Futures', value: profile?.futures_balance || 0, color: 'bg-violet-500' },
-                 { name: 'Earn', value: profile?.staked_balance || 0, color: 'bg-emerald-500' }
+                 { name: 'Earn', value: profile?.staked_balance || 0, color: 'bg-success' }
                ].map(item => (
                  <div key={item.name} className="flex items-center justify-between">
                    <div className="flex items-center gap-2">
@@ -879,10 +879,10 @@ const UserHome = () => {
                     </div>
                     <div className="space-y-0.5">
                        <div className="font-bold text-foreground text-[13px] font-mono">{item.price.toLocaleString(undefined, { minimumFractionDigits: item.price < 1 ? 4 : 2 })}</div>
-                       <div className={`text-[9px] font-bold ${item.change >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>{item.change > 0 ? '+' : ''}{item.change}%</div>
+                       <div className={`text-[9px] font-bold ${item.change >= 0 ? 'text-success' : 'text-danger'}`}>{item.change > 0 ? '+' : ''}{item.change}%</div>
                     </div>
                   </div>
-                  <div className={`w-8 h-4 ${item.change >= 0 ? 'text-emerald-500/30' : 'text-rose-500/30'}`}>
+                  <div className={`w-8 h-4 ${item.change >= 0 ? 'text-success/30' : 'text-danger/30'}`}>
                      <TrendingUp size={18} className={`${item.change < 0 ? 'rotate-180' : ''}`} />
                   </div>
                 </div>
@@ -941,7 +941,7 @@ const UserHome = () => {
                           <div className="text-sm font-bold text-foreground font-mono">{price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                           <div className="text-[10px] text-muted-foreground font-bold font-mono">${(price * 0.999).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                        </div>
-                       <div className={`w-20 py-2 rounded-lg text-white font-bold text-xs text-center ${isUp ? 'bg-emerald-500' : 'bg-rose-500'}`}>
+                       <div className={`w-20 py-2 rounded-lg text-white font-bold text-xs text-center ${isUp ? 'bg-success' : 'bg-danger'}`}>
                           {isUp ? '+' : ''}{change}%
                        </div>
                     </div>
@@ -972,9 +972,9 @@ const UserHome = () => {
               <div className="flex items-center gap-2 relative z-10">
                 <div className="bg-black/20 backdrop-blur-sm rounded-lg px-2 py-1 text-[10px] font-mono border border-white/10">ID: {profile.ftid}</div>
                 <div className={`px-2 py-1 rounded-lg text-[10px] font-bold border flex items-center gap-1 ${
-                  profile.kyc_status === 'VERIFIED' ? 'bg-green-500/20 border-green-400/30' :
+                  profile.kyc_status === 'VERIFIED' ? 'bg-success/20 border-success/30' :
                   profile.kyc_status === 'PENDING' ? 'bg-yellow-500/20 border-yellow-400/30' :
-                  'bg-red-500/20 border-red-400/30'
+                  'bg-danger/20 border-danger/30'
                 }`}>
                   <Shield size={10} /> {profile.kyc_status}
                 </div>
@@ -1000,7 +1000,7 @@ const UserHome = () => {
               <MenuBtn icon={Lock} label="Security Center" color="text-teal-600 bg-teal-500/10" onClick={() => setActiveModal('SECURITY')} />
 
               <p className="px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 mt-6">General</p>
-              <MenuBtn icon={Settings} label="Settings" color="text-orange-600 bg-orange-500/10" onClick={() => setActiveModal('SETTINGS')} />
+              <MenuBtn icon={Settings} label="Settings" color="text-warning bg-warning/10" onClick={() => setActiveModal('SETTINGS')} />
               <MenuBtn icon={HeadphonesIcon} label="Help & Support" color="text-pink-600 bg-pink-500/10" onClick={() => setActiveModal('SUPPORT')} />
             </div>
 
@@ -1057,7 +1057,7 @@ const UserHome = () => {
 
                 <div className="p-4 bg-muted/50 rounded-xl flex items-center justify-between border border-border">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center"><Shield size={18} /></div>
+                    <div className="w-10 h-10 rounded-full bg-success/10 text-success flex items-center justify-center"><Shield size={18} /></div>
                     <div>
                       <div className="font-bold text-foreground text-sm">KYC Status</div>
                       <div className="text-xs text-muted-foreground">{profile.kyc_status || 'UNVERIFIED'}</div>
@@ -1085,7 +1085,7 @@ const UserHome = () => {
             <div className="flex-1 overflow-y-auto p-6">
               {profile.kyc_status === 'VERIFIED' ? (
                 <div className="flex flex-col items-center justify-center py-10 text-center">
-                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-4"><Shield size={40} className="text-green-500" /></div>
+                  <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mb-4"><Shield size={40} className="text-success" /></div>
                   <h4 className="text-xl font-bold text-foreground mb-2">Identity Verified</h4>
                   <p className="text-muted-foreground text-sm">Your account has been successfully verified.</p>
                 </div>
@@ -1405,7 +1405,7 @@ const UserHome = () => {
               <button onClick={() => setActiveModal('SETTINGS')} className="text-muted-foreground hover:text-foreground"><X size={24} /></button>
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-6 text-sm text-muted-foreground leading-relaxed custom-scrollbar">
-              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs leading-relaxed">
+              <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200 text-xs leading-relaxed">
                 <strong className="text-amber-300 block mb-1">Educational Sector & Demo Purpose:</strong>
                 CrypX-Pro is created exclusively for demo trading, market learning, and software evaluation purposes. It does not provide real financial services, live money transactions, or financial advice.
               </div>
@@ -1464,7 +1464,7 @@ const UserHome = () => {
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-6 text-sm text-muted-foreground leading-relaxed custom-scrollbar">
               <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive-foreground space-y-1">
-                <h4 className="font-extrabold text-red-400 text-xs flex items-center gap-1.5 uppercase tracking-wider">
+                <h4 className="font-extrabold text-danger text-xs flex items-center gap-1.5 uppercase tracking-wider">
                   Developer & Operator Exemption
                 </h4>
                 <p className="text-xs text-red-300/90 leading-relaxed">
@@ -1560,7 +1560,7 @@ const UserHome = () => {
                 Our support team is available around the clock. Inquiries sent to our official channel are addressed promptly.
               </p>
               <div className="mt-3 py-2 px-3 rounded-lg bg-background border border-border/80 text-[11px] text-muted-foreground flex items-center justify-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                 <span>Typical response time: within 24–48 hours</span>
               </div>
             </div>
@@ -1573,7 +1573,7 @@ const UserHome = () => {
             ) : (
               <div className="space-y-3 mb-6">
                 {supportInfo.telegram && <a href={supportInfo.telegram} target="_blank" rel="noreferrer" className="block w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-center shadow-brand text-xs">Telegram Support</a>}
-                {supportInfo.whatsapp && <a href={supportInfo.whatsapp} target="_blank" rel="noreferrer" className="block w-full py-3 bg-green-500 text-white font-bold rounded-xl text-center text-xs">WhatsApp Support</a>}
+                {supportInfo.whatsapp && <a href={supportInfo.whatsapp} target="_blank" rel="noreferrer" className="block w-full py-3 bg-success text-white font-bold rounded-xl text-center text-xs">WhatsApp Support</a>}
                 <a href={`mailto:${supportInfo.email || 'admin@crypxpro.com'}`} className="block w-full py-3 bg-card border border-border text-foreground font-bold rounded-xl text-center hover:bg-accent text-xs">
                   Official Email: {supportInfo.email || 'admin@crypxpro.com'}
                 </a>

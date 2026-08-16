@@ -232,7 +232,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
                         })}
                       </div>
                       <div className={`text-[10px] font-extrabold font-mono flex items-center justify-end gap-0.5 ${
-                        ticker.priceChangePercent >= 0 ? 'text-emerald-500' : 'text-rose-500'
+                        ticker.priceChangePercent >= 0 ? 'text-success' : 'text-danger'
                       }`}>
                         {ticker.priceChangePercent >= 0 ? '+' : ''}
                         {ticker.priceChangePercent.toFixed(2)}%

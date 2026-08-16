@@ -149,7 +149,7 @@ const QuickConvert = () => {
       }
 
       toast.success(`Successfully converted ${fromAmount} ${fromAsset} to ${toAmount} ${toAsset}`, {
-        icon: <CheckCircle2 className="text-green-500" />
+        icon: <CheckCircle2 className="text-success" />
       });
       
       setFromAmount('');

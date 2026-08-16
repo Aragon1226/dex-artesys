@@ -275,8 +275,8 @@ const AdminDashboard = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard title="Total Users" value={totalUsers.toString()} icon={Users} className="bg-primary/10 text-primary border-primary/20" />
-        <StatCard title="Pending KYC" value={pendingKYC.length.toString()} icon={ShieldCheck} className="bg-orange-500/10 text-orange-500 border-orange-500/20" />
-        <StatCard title="Active Wallets" value={`${walletCount}/9`} icon={Wallet} className={walletCount >= 9 ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"} />
+        <StatCard title="Pending KYC" value={pendingKYC.length.toString()} icon={ShieldCheck} className="bg-warning/10 text-warning border-warning/20" />
+        <StatCard title="Active Wallets" value={`${walletCount}/9`} icon={Wallet} className={walletCount >= 9 ? "bg-success/10 text-success border-success/20" : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"} />
         <Link to="/admin/deposit-requests" className="block transform transition-transform hover:scale-[1.02] active:scale-98">
           <StatCard title="Pending Deposits" value={deposits.length.toString()} icon={Activity} className="bg-purple-500/10 text-purple-500 border-purple-500/20" />
         </Link>
@@ -291,12 +291,12 @@ const AdminDashboard = () => {
           <div className="bg-card rounded-3xl border border-border overflow-hidden shadow-sm">
             <div className="px-8 py-5 border-b border-border flex justify-between items-center bg-muted/30">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-success/10 text-success flex items-center justify-center">
                   <TrendingUp size={20} />
                 </div>
                 <h3 className="font-black text-foreground uppercase tracking-wider text-sm">Outcome Overrides</h3>
               </div>
-              <span className="text-[10px] font-black bg-emerald-500 text-white px-2 py-0.5 rounded-full">{forcedOutcomeUsers.length}</span>
+              <span className="text-[10px] font-black bg-success text-white px-2 py-0.5 rounded-full">{forcedOutcomeUsers.length}</span>
             </div>
             
             <div className="divide-y divide-border">
@@ -306,12 +306,12 @@ const AdminDashboard = () => {
                 forcedOutcomeUsers.slice(0, 5).map(u => (
                   <div key={u.id} className="px-8 py-4 flex items-center justify-between hover:bg-muted/10 transition-colors">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs ${u.force_win ? 'bg-emerald-500/10 text-emerald-600' : u.force_loss ? 'bg-rose-500/10 text-rose-600' : 'bg-primary/10 text-primary'}`}>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs ${u.force_win ? 'bg-success/10 text-success' : u.force_loss ? 'bg-danger/10 text-danger' : 'bg-primary/10 text-primary'}`}>
                         {(u.username || 'U').charAt(0).toUpperCase()}
                       </div>
                       <div>
                         <div className="font-black text-sm text-foreground">{u.username || 'Anonymous'}</div>
-                        <div className={`text-[10px] font-bold uppercase tracking-tight ${u.force_win && !u.force_loss ? 'text-emerald-500' : u.force_win && u.force_loss ? 'text-rose-500' : 'text-muted-foreground'}`}>
+                        <div className={`text-[10px] font-bold uppercase tracking-tight ${u.force_win && !u.force_loss ? 'text-success' : u.force_win && u.force_loss ? 'text-danger' : 'text-muted-foreground'}`}>
                           {u.force_win ? (u.force_loss ? 'LOSS FORCED' : 'WIN FORCED') : 'NORMAL'}
                         </div>
                       </div>
@@ -347,7 +347,7 @@ const AdminDashboard = () => {
                     <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">{new Date(user.created_at).toLocaleDateString()}</div>
                   </div>
                   <span className={`px-2 py-0.5 rounded text-[9px] font-black border ${
-                    user.kyc_status === 'VERIFIED' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 'bg-muted text-muted-foreground border-border'
+                    user.kyc_status === 'VERIFIED' ? 'bg-success/10 text-success border-success/20' : 'bg-muted text-muted-foreground border-border'
                   }`}>
                     {user.kyc_status || 'UNVERIFIED'}
                   </span>
@@ -398,7 +398,7 @@ const AdminDashboard = () => {
                           console.log("Reject clicked for deposit:", dep.id);
                           setConfirmDeposit({ id: dep.id, action: 'REJECTED', amount: dep.amount, asset: dep.asset, userId: dep.user_id });
                         }}
-                        className="p-3 text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all active:scale-90"
+                        className="p-3 text-danger hover:bg-danger/10 rounded-xl transition-all active:scale-90"
                       >
                         <X size={18} />
                       </button>
@@ -407,7 +407,7 @@ const AdminDashboard = () => {
                           console.log("Approve clicked for deposit:", dep.id);
                           setConfirmDeposit({ id: dep.id, action: 'APPROVED', amount: dep.amount, asset: dep.asset, userId: dep.user_id });
                         }}
-                        className="p-3 text-emerald-500 hover:bg-emerald-500/10 rounded-xl transition-all active:scale-90"
+                        className="p-3 text-success hover:bg-success/10 rounded-xl transition-all active:scale-90"
                       >
                         <Check size={18} />
                       </button>
@@ -427,7 +427,7 @@ const AdminDashboard = () => {
       {confirmDeposit && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${confirmDeposit.action === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>
+            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${confirmDeposit.action === 'APPROVED' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
               {confirmDeposit.action === 'APPROVED' ? <Check size={32} /> : <X size={32} />}
             </div>
             <h3 className="text-xl font-bold text-foreground text-center mb-2">Confirm {confirmDeposit.action}</h3>
@@ -440,7 +440,7 @@ const AdminDashboard = () => {
                 onClick={handleDepositAction}
                 disabled={loadingDeposits}
                 className={`flex-1 py-3 rounded-2xl font-bold text-white shadow-xl transition-all ${
-                  confirmDeposit.action === 'APPROVED' ? 'bg-emerald-500 shadow-emerald-500/20 hover:bg-emerald-600' : 'bg-rose-500 shadow-rose-500/20 hover:bg-rose-600'
+                  confirmDeposit.action === 'APPROVED' ? 'bg-success shadow-success/20 hover:bg-success' : 'bg-danger shadow-danger/20 hover:bg-danger'
                 }`}
               >
                 {loadingDeposits ? '...' : 'Confirm'}

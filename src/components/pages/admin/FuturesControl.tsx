@@ -129,7 +129,7 @@ const FuturesControl = () => {
             <span className="px-3 text-sm text-muted-foreground font-medium">Force Win Only</span>
             <button
               onClick={() => setShowForcedOnly(!showForcedOnly)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showForcedOnly ? 'bg-emerald-500' : 'bg-muted'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showForcedOnly ? 'bg-success' : 'bg-muted'}`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${showForcedOnly ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
@@ -139,7 +139,7 @@ const FuturesControl = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <StatCard icon={TrendingUp} label="Active Overrides" value={activeOverrides.toString()} className="bg-emerald-500/10 text-emerald-500" />
+        <StatCard icon={TrendingUp} label="Active Overrides" value={activeOverrides.toString()} className="bg-success/10 text-success" />
         <StatCard icon={DollarSign} label="Total Exposure" value={`$${totalExposure.toLocaleString(undefined, { maximumFractionDigits: 0 })}`} className="bg-primary/10 text-primary" />
         <StatCard icon={Users} label="Traders w/ Balance" value={withBalance.toString()} className="bg-purple-500/10 text-purple-500" />
       </div>
@@ -187,7 +187,7 @@ const FuturesControl = () => {
                   <tr key={user.id} className={`hover:bg-muted/30 transition-colors ${user.force_win ? 'bg-primary/5' : ''}`}>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold ${user.force_win && !user.force_loss ? 'bg-emerald-500/10 text-emerald-600' : user.force_win && user.force_loss ? 'bg-rose-500/10 text-rose-600' : 'bg-primary/10 text-primary'}`}>
+                        <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold ${user.force_win && !user.force_loss ? 'bg-success/10 text-success' : user.force_win && user.force_loss ? 'bg-danger/10 text-danger' : 'bg-primary/10 text-primary'}`}>
                           {(user.username || 'U').charAt(0).toUpperCase()}
                         </div>
                         <div>
@@ -224,14 +224,14 @@ const FuturesControl = () => {
                           <button 
                             type="button"
                             onClick={(e) => handleSetOutcome(user.id, 'win', e)} 
-                            className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${user.force_win && !user.force_loss ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20' : 'text-emerald-500 hover:bg-emerald-500/10'}`}
+                            className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${user.force_win && !user.force_loss ? 'bg-success text-white shadow-md shadow-success/20' : 'text-success hover:bg-success/10'}`}
                           >
                             WIN
                           </button>
                           <button 
                             type="button"
                             onClick={(e) => handleSetOutcome(user.id, 'loss', e)} 
-                            className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${user.force_win && user.force_loss ? 'bg-rose-500 text-white shadow-md shadow-rose-500/20' : 'text-rose-500 hover:bg-rose-500/10'}`}
+                            className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${user.force_win && user.force_loss ? 'bg-danger text-white shadow-md shadow-danger/20' : 'text-danger hover:bg-danger/10'}`}
                           >
                             LOSS
                           </button>
@@ -239,7 +239,7 @@ const FuturesControl = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <span className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-tight ${user.force_win && !user.force_loss ? 'bg-emerald-500/10 text-emerald-600' : user.force_win && user.force_loss ? 'bg-rose-500/10 text-rose-600' : 'bg-muted text-muted-foreground'}`}>
+                      <span className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-tight ${user.force_win && !user.force_loss ? 'bg-success/10 text-success' : user.force_win && user.force_loss ? 'bg-danger/10 text-danger' : 'bg-muted text-muted-foreground'}`}>
                         {user.force_win ? (user.force_loss ? 'LOSS FORCED' : 'WIN FORCED') : 'Standard'}
                       </span>
                     </td>

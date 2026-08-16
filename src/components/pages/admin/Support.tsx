@@ -87,7 +87,7 @@ const AdminSupport = () => {
             </div>
             <div className="pt-4 border-t border-border flex items-center justify-end gap-4">
               {success && (
-                <span className="text-sm text-emerald-600 font-bold flex items-center gap-2">
+                <span className="text-sm text-success font-bold flex items-center gap-2">
                   <CheckCircle size={16} /> Saved Successfully
                 </span>
               )}

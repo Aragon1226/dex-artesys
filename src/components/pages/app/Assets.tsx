@@ -460,7 +460,7 @@ const Assets = () => {
                   historyData.map(item => (
                     <div key={item.id} className="bg-muted/30 border border-border p-3 rounded-xl flex justify-between items-center">
                       <div className="flex gap-3 items-center">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${historyTab === 'deposits' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-destructive/10 text-destructive'}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${historyTab === 'deposits' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}>
                           {historyTab === 'deposits' ? <ArrowDown size={14} /> : <ArrowUp size={14} />}
                         </div>
                         <div>
@@ -469,10 +469,10 @@ const Assets = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className={`text-sm font-mono font-bold ${historyTab === 'deposits' ? 'text-emerald-500' : 'text-foreground'}`}>
+                        <p className={`text-sm font-mono font-bold ${historyTab === 'deposits' ? 'text-success' : 'text-foreground'}`}>
                           {historyTab === 'deposits' ? '+' : '-'}{item.amount}
                         </p>
-                        <p className={`text-[10px] uppercase font-bold tracking-wider ${item.status === 'APPROVED' || item.status === 'SUCCESS' ? 'text-emerald-500' : item.status === 'REJECTED' || item.status === 'FAILED' ? 'text-rose-500' : 'text-amber-500'}`}>
+                        <p className={`text-[10px] uppercase font-bold tracking-wider ${item.status === 'APPROVED' || item.status === 'SUCCESS' ? 'text-success' : item.status === 'REJECTED' || item.status === 'FAILED' ? 'text-danger' : 'text-warning'}`}>
                           {item.status}
                         </p>
                       </div>
@@ -493,7 +493,7 @@ const Assets = () => {
             <div className="p-5 flex-1 overflow-y-auto">
               {depositSuccess ? (
                 <div className="flex flex-col items-center justify-center h-full py-6 text-center">
-                  <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-500 mb-4"><CheckCircle size={32} /></div>
+                  <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center text-success mb-4"><CheckCircle size={32} /></div>
                   <h3 className="text-lg font-bold text-foreground mb-2">Success</h3>
                   <p className="text-[11px] text-muted-foreground px-4 leading-normal mb-6">Deposit is being processed. Please wait for confirmation.</p>
                   <button onClick={closeDepositModal} className="w-full bg-primary text-primary-foreground font-bold py-3 rounded-xl text-sm">Done</button>
@@ -520,7 +520,7 @@ const Assets = () => {
                     <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">Address</label>
                     <div className="flex gap-2">
                       <input readOnly value={depositAddress} className="flex-1 bg-muted border border-primary/30 rounded-xl px-3 py-2.5 text-[10px] font-mono text-foreground" />
-                      <button onClick={handleCopy} className="px-3 border border-border rounded-xl hover:bg-muted text-muted-foreground">{copied ? <CheckCircle size={18} className="text-emerald-500" /> : <Copy size={18} />}</button>
+                      <button onClick={handleCopy} className="px-3 border border-border rounded-xl hover:bg-muted text-muted-foreground">{copied ? <CheckCircle size={18} className="text-success" /> : <Copy size={18} />}</button>
                     </div>
                   </div>
 
@@ -536,7 +536,7 @@ const Assets = () => {
                       {depositImage ? (
                         <div className="flex flex-col items-center">
                           <img src={depositImage} alt="Receipt" className="h-20 w-auto rounded object-cover mb-2" />
-                          <span className="text-[10px] text-emerald-500 font-bold">Image attached. Tap to change.</span>
+                          <span className="text-[10px] text-success font-bold">Image attached. Tap to change.</span>
                         </div>
                       ) : (
                         <span className="text-xs text-muted-foreground font-bold">Tap to upload receipt/screenshot</span>
@@ -549,9 +549,9 @@ const Assets = () => {
                     <input type="number" value={depositAmount} onChange={e => setDepositAmount(e.target.value)} placeholder="0.00" className="w-full bg-muted border border-border rounded-xl px-4 py-2.5 font-mono text-base text-foreground focus:ring-2 focus:ring-primary/10 focus:border-primary/50 outline-none" />
                   </div>
 
-                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-6 flex gap-2.5">
-                    <AlertTriangle className="text-amber-500 shrink-0" size={14} />
-                    <p className="text-[9px] text-amber-500 font-bold leading-tight">Send only <strong>{selectedToken.symbol} ({selectedToken.network})</strong>. Incorrect assets will be lost permanently.</p>
+                  <div className="bg-warning/10 border border-warning/20 rounded-lg p-3 mb-6 flex gap-2.5">
+                    <AlertTriangle className="text-warning shrink-0" size={14} />
+                    <p className="text-[9px] text-warning font-bold leading-tight">Send only <strong>{selectedToken.symbol} ({selectedToken.network})</strong>. Incorrect assets will be lost permanently.</p>
                   </div>
 
                   <button onClick={handleDepositSubmit} disabled={isSubmitting || !depositAmount || !depositImage} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3.5 rounded-xl shadow-sm transition-all disabled:opacity-50 text-sm">Submit Deposit Request</button>
