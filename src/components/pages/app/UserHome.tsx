@@ -584,8 +584,8 @@ const UserHome = () => {
         }
       }
 
-      const { data: { publicUrl } } = supabase.storage.from(bucketName).getPublicUrl(data.path);
-      return publicUrl;
+      const { data: signed } = await supabase.storage.from(bucketName).createSignedUrl(data.path, 60 * 60 * 24 * 365 * 5);
+      return signed?.signedUrl ?? data.path;
     } catch (err) {
       console.error('KYC Upload error:', err);
       try {
