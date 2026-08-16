@@ -29,6 +29,9 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const [msgLoading, setMsgLoading] = useState(false);
+  const [msgError, setMsgError] = useState<string | null>(null);
+
 
 
   const loadMessages = useCallback(async () => {
