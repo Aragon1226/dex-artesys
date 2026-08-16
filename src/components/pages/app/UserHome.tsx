@@ -1617,7 +1617,10 @@ const UserHome = () => {
                   description="You have no account notifications at the moment."
                   hint="Deposit approvals, withdrawal updates and KYC results all land here first."
                   hintIcon="info"
+                  action={{ label: 'Go to assets', to: '/app/assets', onClick: () => setActiveModal(null) }}
+                  secondaryAction={{ label: 'Complete KYC', onClick: () => setActiveModal('KYC') }}
                 />
+
               ) : (
                 notifications.map((noti) => {
                   const parsed = parseNotificationMessage(noti.message);

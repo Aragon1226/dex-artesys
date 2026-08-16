@@ -25,6 +25,8 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
   const [isUploading, setIsUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const messageInputRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     if (!user || !isOpen) return;
@@ -212,7 +214,10 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
                 description="Send your first message and our support desk will reply right here."
                 hint="Include your account email and, for deposits or withdrawals, the transaction reference — it gets resolved much faster."
                 hintIcon="info"
+                action={{ label: 'Write a message', onClick: () => messageInputRef.current?.focus() }}
+                secondaryAction={{ label: 'Read the FAQ', to: '/app/faq', onClick: onClose }}
               />
+
             )}
 
             {messages.map(m => {
@@ -271,11 +276,13 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
 
               <input
                 type="text"
+                ref={messageInputRef}
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
                 placeholder="Type a message..."
                 className="flex-1 bg-muted border border-border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm transition-all"
               />
+
               <button 
                 type="submit"
                 disabled={!newMessage.trim()}

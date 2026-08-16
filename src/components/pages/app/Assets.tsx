@@ -464,7 +464,14 @@ const Assets = () => {
                       ? 'Deposits are credited after network confirmations — always copy the exact address and network shown on the deposit screen.'
                       : 'Withdrawals need a verified account and an approved wallet address. Complete KYC first to avoid delays.'}
                     hintIcon={historyTab === 'deposits' ? 'tip' : 'secure'}
+                    action={historyTab === 'deposits'
+                      ? { label: 'Make a deposit', onClick: () => { setDepositSuccess(false); setDepositAmount(''); setActiveModal('deposit'); } }
+                      : { label: 'Withdraw funds', onClick: () => { setWithdrawAmount(''); setWithdrawAddress(''); setWithdrawPassword(''); setActiveModal('withdraw'); } }}
+                    secondaryAction={historyTab === 'deposits'
+                      ? { label: 'Explore markets', to: '/app/market', onClick: () => setActiveModal(null) }
+                      : { label: 'Verify identity', to: '/app/home', onClick: () => setActiveModal(null) }}
                   />
+
                 ) : (
                   historyData.map(item => (
                     <div key={item.id} className="bg-muted/30 border border-border p-3 rounded-xl flex justify-between items-center">
@@ -588,7 +595,9 @@ const Assets = () => {
                       art="assets"
                       title="No tokens match your search"
                       description="Try a different symbol, or clear the search to browse all supported assets."
+                      action={{ label: 'Clear search', onClick: () => setTokenSearchQuery('') }}
                     />
+
                   ) : filteredTokens.map((opt, idx) => (
                     <button key={idx} onClick={() => { setSelectedToken(opt); setShowTokenSelector(false); setTokenSearchQuery(''); }}
                       className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-muted mb-1 ${JSON.stringify(selectedToken) === JSON.stringify(opt) ? 'bg-primary/10 border border-primary/20' : 'border border-transparent'}`}>

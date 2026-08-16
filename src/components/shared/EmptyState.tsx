@@ -15,6 +15,12 @@ const art: Record<EmptyArt, string> = {
   referrals: emptyReferrals,
 };
 
+export interface EmptyStateAction {
+  label: string;
+  to?: string;
+  onClick?: () => void;
+}
+
 export interface EmptyStateProps {
   art?: EmptyArt;
   title: string;
@@ -22,7 +28,10 @@ export interface EmptyStateProps {
   /** Short helpful hint rendered in a callout box under the copy. */
   hint?: string;
   hintIcon?: "tip" | "info" | "secure";
-  action?: { label: string; to?: string; onClick?: () => void };
+  action?: EmptyStateAction;
+  /** Optional lower-emphasis link/button rendered next to the primary action. */
+  secondaryAction?: EmptyStateAction;
+
   size?: "sm" | "md" | "lg";
   className?: string;
 }
@@ -39,11 +48,28 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   hint,
   hintIcon = "tip",
   action,
+  secondaryAction,
   size = "md",
   className = "",
 }) => {
   const HintIcon = hintIcons[hintIcon];
   const px = imageSize[size];
+
+  const primaryClass =
+    "inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-black uppercase tracking-wider shadow-brand-sm hover:opacity-90 transition-opacity";
+  const secondaryClass =
+    "inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-muted/40 text-foreground text-xs font-bold uppercase tracking-wider hover:bg-muted transition-colors";
+
+  const renderAction = (a: EmptyStateAction, className: string) =>
+    a.to ? (
+      <Link to={a.to} onClick={a.onClick} className={className}>
+        {a.label}
+      </Link>
+    ) : (
+      <button type="button" onClick={a.onClick} className={className}>
+        {a.label}
+      </button>
+    );
 
   return (
     <div className={`flex flex-col items-center text-center px-4 ${padding[size]} ${className}`}>
@@ -78,26 +104,13 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </div>
       )}
 
-      {action && (
-        <div className="mt-4">
-          {action.to ? (
-            <Link
-              to={action.to}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-black uppercase tracking-wider shadow-brand-sm hover:opacity-90 transition-opacity"
-            >
-              {action.label}
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={action.onClick}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-black uppercase tracking-wider shadow-brand-sm hover:opacity-90 transition-opacity"
-            >
-              {action.label}
-            </button>
-          )}
+      {(action || secondaryAction) && (
+        <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full max-w-xs sm:w-auto sm:max-w-none">
+          {action && renderAction(action, primaryClass)}
+          {secondaryAction && renderAction(secondaryAction, secondaryClass)}
         </div>
       )}
+
     </div>
   );
 };

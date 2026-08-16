@@ -219,7 +219,10 @@ export const Market = () => {
                 title="No markets in this view"
                 description="Nothing matches this category or search right now."
                 hint="Switch to the All tab, or search by ticker (BTC, ETH, SOL) to jump straight to a market."
+                action={{ label: 'Show all markets', onClick: () => { setSearchQuery(''); setActiveFilter('All'); } }}
+                secondaryAction={{ label: 'Go to spot trading', to: '/app/spot' }}
               />
+
             )}
           </div>
         )}
