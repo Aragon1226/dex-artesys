@@ -487,7 +487,10 @@ const AdminUsers = () => {
             description="No accounts match the current tab, filter or search query."
             hint="Users appear here once they sign up under your referral code. Share the code from the Administrator page to start building your network."
             hintIcon="info"
+            action={{ label: 'Reset filters', onClick: () => { setSearchTerm(''); setActiveTab('users'); setCurrentPage(1); } }}
+            secondaryAction={{ label: 'Get referral code', to: '/admin/administrator' }}
           />
+
         ) : (
           <>
             <div className="overflow-x-auto">
