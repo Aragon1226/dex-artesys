@@ -22,7 +22,10 @@ export interface EmptyStateProps {
   /** Short helpful hint rendered in a callout box under the copy. */
   hint?: string;
   hintIcon?: "tip" | "info" | "secure";
-  action?: { label: string; to?: string; onClick?: () => void };
+  action?: EmptyStateAction;
+  /** Optional lower-emphasis link/button rendered next to the primary action. */
+  secondaryAction?: EmptyStateAction;
+
   size?: "sm" | "md" | "lg";
   className?: string;
 }
