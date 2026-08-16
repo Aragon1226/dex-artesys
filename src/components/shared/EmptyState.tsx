@@ -15,6 +15,12 @@ const art: Record<EmptyArt, string> = {
   referrals: emptyReferrals,
 };
 
+export interface EmptyStateAction {
+  label: string;
+  to?: string;
+  onClick?: () => void;
+}
+
 export interface EmptyStateProps {
   art?: EmptyArt;
   title: string;
