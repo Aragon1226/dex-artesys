@@ -704,7 +704,7 @@ const UserHome = () => {
   };
 
   if (loading || (!profile && user)) return <CubeSpinner fullScreen label="Initializing dashboard..." />;
-  if (!user) return null;
+  if (!user || !profile) return null;
 
   const cryptoAssetsValue = userAssets.reduce((acc, a) => {
     if (a.symbol === 'USDT') return acc;
