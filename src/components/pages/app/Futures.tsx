@@ -288,7 +288,10 @@ const Futures = () => {
               activePositions.length === 0 ? (
                 <EmptyState size="sm" art="assets" title="No active positions"
                   description="Open a long or short from the order panel to start trading futures."
-                  hint="Start with low leverage — position size and leverage together decide how fast liquidation gets close." />
+                  hint="Start with low leverage — position size and leverage together decide how fast liquidation gets close."
+                  action={{ label: 'Fund your account', to: '/app/assets' }}
+                  secondaryAction={{ label: 'Browse markets', to: '/app/market' }} />
+
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {activePositions.map(pos => {
