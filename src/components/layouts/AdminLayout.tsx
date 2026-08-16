@@ -104,23 +104,23 @@ const AdminLayout = () => {
           {navItems
             .filter((item) => hasPermissionToView(user?.email, item.path))
             .map((item) => {
-              const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all group ${
-                    isActive 
-                      ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
+                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-bold transition-all ${
+                    isActive
+                      ? 'bg-primary/10 text-primary'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
-                  <Icon size={20} className={isActive ? 'text-primary-foreground' : 'text-primary opacity-50 group-hover:opacity-100'} />
+                  <NavIcon icon={item.key} active={isActive} boxed size={18} />
                   {item.label}
                 </Link>
               );
             })}
+
         </nav>
 
         <div className="p-6 border-t border-border mt-auto bg-muted/30">
