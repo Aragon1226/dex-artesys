@@ -94,17 +94,28 @@ const Futures = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const fetchPositions = useCallback(async () => {
+    if (!user) return;
+    setPositionsLoading(true);
+    setPositionsError(null);
+    try {
+      const { data, error } = await supabase.from('positions').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (error) throw error;
+      setPositions((data || []) as FuturePosition[]);
+    } catch (e: any) {
+      console.warn("Error fetching positions", e);
+      setPositionsError(e?.message || 'Request failed.');
+    } finally {
+      setPositionsLoading(false);
+    }
+  }, [user]);
+
   useEffect(() => {
     if (!user) return;
     refreshProfile();
-    try {
-      supabase.from('positions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).then(({ data }) => {
-        if (data) setPositions(data as FuturePosition[]);
-      }).then(undefined, () => {});
-    } catch (e) {
-      console.warn("Error fetching positions", e);
-    }
-  }, [user, refreshProfile]);
+    fetchPositions();
+  }, [user, refreshProfile, fetchPositions]);
+
 
   useEffect(() => {
     const symbols = PAIRS.map(p => p.symbol);
