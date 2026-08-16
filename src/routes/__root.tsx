@@ -11,6 +11,12 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import PageNotFound from "@/components/pages/PageNotFound";
+import { marketService } from "@/services/market";
 
 function NotFoundComponent() {
   return (
