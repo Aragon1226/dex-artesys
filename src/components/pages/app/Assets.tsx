@@ -97,9 +97,9 @@ const Assets = () => {
   useEffect(() => {
     loadData();
     
-    marketService.getPrices().then(setPrices).catch(() => {});
+    marketService.getPrices().then(setPrices).then(undefined, () => {});
     const interval = setInterval(() => {
-      marketService.getPrices().then(setPrices).catch(() => {});
+      marketService.getPrices().then(setPrices).then(undefined, () => {});
     }, 3000);
 
     if (!user) return () => clearInterval(interval);
@@ -113,7 +113,7 @@ const Assets = () => {
         table: 'profiles', 
         filter: `id=eq.${user.id}` 
       }, () => {
-        refreshProfile().catch(() => {});
+        refreshProfile().then(undefined, () => {});
       })
       .subscribe();
 
@@ -128,7 +128,7 @@ const Assets = () => {
       }, () => {
         supabase.from('user_assets').select('*').eq('user_id', user.id).then(({ data }) => {
           if (data) setAssets(data as UserAsset[]);
-        }).catch(() => {});
+        }).then(undefined, () => {});
       })
       .subscribe();
 
@@ -163,7 +163,7 @@ const Assets = () => {
       } else {
         supabase.from('admin_wallets').select('address').eq('symbol', selectedToken.symbol).eq('network', selectedToken.network).single()
           .then(({ data }) => setDepositAddress(data?.address || 'Address not configured'))
-          .catch(() => setDepositAddress('Address not configured'));
+          .then(undefined, () => setDepositAddress('Address not configured'));
       }
     }
   }, [selectedToken, activeModal, user]);

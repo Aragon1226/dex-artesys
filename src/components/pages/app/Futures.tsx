@@ -99,7 +99,7 @@ const Futures = () => {
     try {
       supabase.from('positions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).then(({ data }) => {
         if (data) setPositions(data as FuturePosition[]);
-      }).catch(() => {});
+      }).then(undefined, () => {});
     } catch (e) {
       console.warn("Error fetching positions", e);
     }
