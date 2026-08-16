@@ -149,14 +149,20 @@ async def sign_up(page, email=None, password=None):
     email, password = (email, password) if email else fresh_credentials()
     await page.goto(f"{BASE_URL}/auth", wait_until="domcontentloaded")
 
-    # The form opens in sign-in mode; flip to sign-up.
-    toggle = page.get_by_role("button", name="Sign Up", exact=True)
-    if await toggle.count():
-        await toggle.first.click()
+    # The form opens in sign-in mode; flip to sign-up once React has hydrated.
+    await page.get_by_placeholder("Email Address").first.wait_for(timeout=30000)
+    create_btn = page.get_by_role("button", name="Create Account", exact=True)
+    for _ in range(10):
+        if await create_btn.count():
+            break
+        await page.get_by_role("button", name="Sign Up", exact=True).first.click()
+        try:
+            await create_btn.first.wait_for(timeout=2000)
+        except Exception:
+            continue
+    check(await create_btn.count() > 0, "could not switch the auth form into sign-up mode")
 
-    name_field = page.get_by_placeholder("Display Name")
-    if await name_field.count():
-        await name_field.first.fill("E2E Tester")
+    await page.get_by_placeholder("Display Name").first.fill("E2E Tester")
     await page.get_by_placeholder("Email Address").first.fill(email)
     await page.get_by_placeholder("Password", exact=True).first.fill(password)
 
