@@ -43,15 +43,19 @@ export function useLocation() {
   };
 }
 
-export function useSearchParams(): [URLSearchParams, (next: URLSearchParams | string) => void] {
-  const search = useLocation().search;
+type SearchParamsInit = URLSearchParams | string | Record<string, string>;
+
+export function useSearchParams(): [URLSearchParams, (next: SearchParamsInit) => void] {
+  const { search, pathname } = useLocation();
   const navigate = useNavigate();
-  const pathname = useLocation().pathname;
   const params = React.useMemo(() => new URLSearchParams(search), [search]);
 
   const setParams = React.useCallback(
-    (next: URLSearchParams | string) => {
-      const str = typeof next === "string" ? next : next.toString();
+    (next: SearchParamsInit) => {
+      const str =
+        typeof next === "string"
+          ? next.replace(/^\?/, "")
+          : new URLSearchParams(next as Record<string, string>).toString();
       navigate(str ? `${pathname}?${str}` : pathname, { replace: true });
     },
     [navigate, pathname],
