@@ -115,10 +115,10 @@ const Index = () => {
               alt="Abstract three-dimensional amber crystalline coin and geometric forms"
               width={1920}
               height={1088}
-              className="w-full h-full object-cover opacity-40 scale-105"
+              className="w-full h-full object-cover opacity-55 scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,hsl(var(--background))_75%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,hsl(var(--background))_85%)]" />
           </div>
           <div className="max-w-5xl mx-auto text-center relative z-10 px-2">
             <motion.div
