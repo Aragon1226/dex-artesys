@@ -19,24 +19,29 @@ export const Market = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [markets, setMarkets] = useState<MarketData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const rtPrices = useRealtimePrices(markets);
 
+  const fetchMarkets = useCallback(async () => {
+    try {
+      const data = await marketService.getAllMarkets();
+      setMarkets(data);
+      setLoadError(null);
+    } catch (err: any) {
+      console.error(err);
+      setLoadError(err?.message || 'Market feed unavailable.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchMarkets = async () => {
-      try {
-        const data = await marketService.getAllMarkets();
-        setMarkets(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMarkets();
     const interval = setInterval(fetchMarkets, 10000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchMarkets]);
+
 
   const filteredMarkets = markets.filter(m => {
     const symbolMatches = m.pair.toLowerCase().includes(searchQuery.toLowerCase());
