@@ -13,6 +13,9 @@ import { AnimatedBalance } from '@/components/shared/AnimatedBalance';
 
 import { marketService } from '@/services/market';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 const DEPOSIT_OPTIONS = [
   { label: 'Bitcoin (BTC)', symbol: 'BTC', network: 'BTC' },
