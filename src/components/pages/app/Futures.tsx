@@ -66,6 +66,9 @@ const Futures = () => {
   const [leverage, setLeverage] = useState(25);
   const [marginInput, setMarginInput] = useState('');
   const [positions, setPositions] = useState<FuturePosition[]>([]);
+  const [positionsLoading, setPositionsLoading] = useState(true);
+  const [positionsError, setPositionsError] = useState<string | null>(null);
+
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [newPositionModal, setNewPositionModal] = useState<FuturePosition | null>(null);
   const [showTransferModal, setShowTransferModal] = useState(false);
