@@ -574,7 +574,12 @@ const Futures = () => {
               </div>
              )
           ) : (
-             closedPositions.length === 0 ? (
+             positionsLoading ? (
+               <LoadingBlock variant="history" rows={3} label="Loading trade history" />
+             ) : positionsError ? (
+               <RetryState size="sm" title="Couldn't load trade history" detail={positionsError} onRetry={fetchPositions} />
+             ) : closedPositions.length === 0 ? (
+
                <EmptyState size="sm" art="history" title="No trade history yet"
                  description="Closed positions and their realised PnL will show up here."
                  action={{ label: 'Browse markets', to: '/app/market' }}
