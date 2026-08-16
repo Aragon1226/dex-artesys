@@ -171,7 +171,7 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
               <div>
                 <h3 className="font-bold text-sm">CrypX-Pro Support</h3>
                 <div className="text-[11px] opacity-90 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                   <span>admin@crypxpro.com</span>
                 </div>
               </div>

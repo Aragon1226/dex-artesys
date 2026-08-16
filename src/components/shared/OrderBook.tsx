@@ -68,9 +68,9 @@ export const OrderBook = ({ symbol }: { symbol: string }) => {
         {/* BIDS */}
         <div className="flex flex-col mt-1">
           {bids.map((order, i) => (
-            <div key={i} className="flex justify-between py-0.5 hover:bg-green-500/5 group relative overflow-hidden">
-               <div className="absolute right-0 top-0 bottom-0 bg-green-500/10 transition-all" style={{ width: `${Math.min(100, order.amount * 40)}%` }} />
-               <span className="text-green-500 font-bold z-10">{order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            <div key={i} className="flex justify-between py-0.5 hover:bg-success/5 group relative overflow-hidden">
+               <div className="absolute right-0 top-0 bottom-0 bg-success/10 transition-all" style={{ width: `${Math.min(100, order.amount * 40)}%` }} />
+               <span className="text-success font-bold z-10">{order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                <span className="text-foreground z-10">{order.amount.toFixed(4)}</span>
             </div>
           ))}

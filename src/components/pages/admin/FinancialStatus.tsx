@@ -277,13 +277,13 @@ const FinancialStatus = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-bold text-emerald-500 font-mono">${(user.balance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div className="text-sm font-bold text-success font-mono">${(user.balance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm font-bold text-indigo-500 font-mono">${(user.futures_balance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-bold text-amber-500 font-mono">${(user.staked_balance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div className="text-sm font-bold text-warning font-mono">${(user.staked_balance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm font-bold text-foreground font-mono">${(user.total_value ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
@@ -303,7 +303,7 @@ const FinancialStatus = () => {
                             setBalanceActionType('add');
                             setBalanceAmount('');
                           }}
-                          className="text-muted-foreground hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors p-2 rounded-full"
+                          className="text-muted-foreground hover:text-success hover:bg-success/10 transition-colors p-2 rounded-full"
                           title="Adjust Balance"
                         >
                           <Coins size={16} />
@@ -340,7 +340,7 @@ const FinancialStatus = () => {
             </button>
             
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-success/10 text-success rounded-2xl flex items-center justify-center">
                 <Coins size={24} />
               </div>
               <div>
@@ -382,8 +382,8 @@ const FinancialStatus = () => {
               <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">2. Select Operation</label>
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { id: 'add' as const, label: 'Add (Credit)', style: 'hover:border-emerald-500/50 hover:text-emerald-500 active:bg-emerald-500/10' },
-                  { id: 'deduct' as const, label: 'Deduct (Debit)', style: 'hover:border-rose-500/50 hover:text-rose-500 active:bg-rose-500/10' },
+                  { id: 'add' as const, label: 'Add (Credit)', style: 'hover:border-success/50 hover:text-success active:bg-success/10' },
+                  { id: 'deduct' as const, label: 'Deduct (Debit)', style: 'hover:border-danger/50 hover:text-danger active:bg-danger/10' },
                   { id: 'set' as const, label: 'Set (Override)', style: 'hover:border-primary/50 hover:text-primary active:bg-primary/10' },
                 ].map(op => (
                   <button
@@ -393,9 +393,9 @@ const FinancialStatus = () => {
                     className={`py-2 px-1 rounded-lg border text-xs font-bold transition-all ${
                       balanceActionType === op.id
                         ? op.id === 'add' 
-                          ? 'bg-emerald-500/10 border-emerald-500 text-emerald-600'
+                          ? 'bg-success/10 border-success text-success'
                           : op.id === 'deduct'
-                            ? 'bg-rose-500/10 border-rose-500 text-rose-600'
+                            ? 'bg-danger/10 border-danger text-danger'
                             : 'bg-primary/10 border-primary text-primary'
                         : `bg-muted/30 border-border text-muted-foreground ${op.style}`
                     }`}
@@ -438,9 +438,9 @@ const FinancialStatus = () => {
                 disabled={adjustingBalance || !balanceAmount}
                 className={`flex-1 font-bold py-3 text-sm rounded-xl text-white transition-all shadow-brand disabled:opacity-50 ${
                   balanceActionType === 'add'
-                    ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/10'
+                    ? 'bg-success hover:bg-success shadow-success/10'
                     : balanceActionType === 'deduct'
-                      ? 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/10'
+                      ? 'bg-danger hover:bg-danger shadow-danger/10'
                       : 'bg-primary hover:bg-primary/95 shadow-primary/10'
                 }`}
               >

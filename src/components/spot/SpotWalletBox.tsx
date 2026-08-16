@@ -170,7 +170,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
               <td className="py-3 px-3 text-right font-bold text-foreground">
                 ${usdtBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </td>
-              <td className="py-3 px-3 text-right font-bold text-emerald-500">+0.00%</td>
+              <td className="py-3 px-3 text-right font-bold text-success">+0.00%</td>
               <td className="py-3 px-3 text-center font-sans">
                 <button
                   type="button"
@@ -207,7 +207,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                   ${asset.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
                 <td className={`py-3 px-3 text-right font-bold ${
-                  asset.priceChangePercent >= 0 ? 'text-emerald-500' : 'text-rose-500'
+                  asset.priceChangePercent >= 0 ? 'text-success' : 'text-danger'
                 }`}>
                   {asset.priceChangePercent >= 0 ? '+' : ''}{asset.priceChangePercent.toFixed(2)}%
                 </td>
@@ -215,7 +215,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectPairToTrade(asset.pair)}
-                    className="px-2.5 py-1 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-500 hover:text-white rounded-lg text-[10px] font-bold transition-all border border-emerald-500/20 flex items-center gap-1 mx-auto"
+                    className="px-2.5 py-1 bg-success/10 hover:bg-success text-success hover:text-white rounded-lg text-[10px] font-bold transition-all border border-success/20 flex items-center gap-1 mx-auto"
                   >
                     <span>Trade</span>
                     <ArrowUpRight size={11} />

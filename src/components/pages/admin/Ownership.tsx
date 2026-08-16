@@ -279,7 +279,7 @@ const AdminOwnership = () => {
       </div>
 
       {/* Info Warning Alert */}
-      <div className="flex items-start gap-4 p-5 bg-amber-500/10 border border-amber-500/20 rounded-[24px] text-amber-500">
+      <div className="flex items-start gap-4 p-5 bg-warning/10 border border-warning/20 rounded-[24px] text-warning">
         <Shield className="w-5 h-5 flex-shrink-0 mt-0.5" />
         <div className="space-y-1">
           <h4 className="text-sm font-bold uppercase tracking-wider">Owner Credentials Active</h4>
@@ -436,7 +436,7 @@ const AdminOwnership = () => {
                       <div>
                         <h4 className="text-sm font-black flex items-center gap-1.5">
                           {admin.username}
-                          <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 text-[9px] uppercase font-bold rounded-full border border-blue-500/20">
+                          <span className="px-2 py-0.5 bg-info/10 text-info text-[9px] uppercase font-bold rounded-full border border-info/20">
                             ADMINISTRATOR
                           </span>
                           <span className="px-2 py-0.5 bg-primary/10 text-primary text-[9px] uppercase font-bold font-mono rounded-full border border-primary/20">
@@ -469,7 +469,7 @@ const AdminOwnership = () => {
                           </div>
                           <button
                             onClick={() => handleSaveNewPassword(admin.id)}
-                            className="p-2 bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-xl text-xs font-bold transition-all"
+                            className="p-2 bg-success/10 text-success hover:bg-success/20 border border-success/20 rounded-xl text-xs font-bold transition-all"
                             title="Save password"
                           >
                             <Check size={14} />

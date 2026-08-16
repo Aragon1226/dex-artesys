@@ -437,7 +437,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 space-y-5 text-xs sm:text-sm text-muted-foreground leading-relaxed custom-scrollbar">
-                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200">
+                <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200">
                   <div className="flex items-center gap-2 font-bold text-amber-300 mb-1">
                     <AlertTriangle size={16} /> Educational Demo Trading Notice
                   </div>

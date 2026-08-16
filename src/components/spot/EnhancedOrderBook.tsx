@@ -131,7 +131,7 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
                   className="absolute right-0 top-0 bottom-0 bg-destructive/10 transition-all pointer-events-none"
                   style={{ width: `${Math.min(100, order.amount * 35)}%` }}
                 />
-                <span className="text-rose-500 font-bold z-10">
+                <span className="text-danger font-bold z-10">
                   {order.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
                 <span className="text-foreground text-right z-10">{order.amount.toFixed(4)}</span>
@@ -146,7 +146,7 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
               <span className="text-sm font-black text-foreground">
                 ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
-              <span className="text-[9px] font-bold text-emerald-500 flex items-center">
+              <span className="text-[9px] font-bold text-success flex items-center">
                 <ArrowUpRight size={12} /> Live
               </span>
             </div>
@@ -161,14 +161,14 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
               <div
                 key={i}
                 onClick={() => onSelectPrice?.(order.price)}
-                className="grid grid-cols-3 py-0.5 px-1 hover:bg-emerald-500/10 cursor-pointer group relative overflow-hidden rounded transition-colors"
+                className="grid grid-cols-3 py-0.5 px-1 hover:bg-success/10 cursor-pointer group relative overflow-hidden rounded transition-colors"
                 title="Click price to populate order form"
               >
                 <div
-                  className="absolute right-0 top-0 bottom-0 bg-emerald-500/10 transition-all pointer-events-none"
+                  className="absolute right-0 top-0 bottom-0 bg-success/10 transition-all pointer-events-none"
                   style={{ width: `${Math.min(100, order.amount * 35)}%` }}
                 />
-                <span className="text-emerald-500 font-bold z-10">
+                <span className="text-success font-bold z-10">
                   {order.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
                 <span className="text-foreground text-right z-10">{order.amount.toFixed(4)}</span>
@@ -189,7 +189,7 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
           {recentTrades.map((trade) => (
             <div key={trade.id} className="grid grid-cols-3 py-1 px-1 hover:bg-muted/50 rounded">
               <span className={`font-bold flex items-center gap-0.5 ${
-                trade.side === 'BUY' ? 'text-emerald-500' : 'text-rose-500'
+                trade.side === 'BUY' ? 'text-success' : 'text-danger'
               }`}>
                 {trade.side === 'BUY' ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
                 {trade.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}

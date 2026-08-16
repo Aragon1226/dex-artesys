@@ -142,7 +142,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             }}
             className={`py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
               isBuy 
-                ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20' 
+                ? 'bg-success text-white shadow-md shadow-success/20' 
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
@@ -160,7 +160,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             }}
             className={`py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
               !isBuy 
-                ? 'bg-rose-500 text-white shadow-md shadow-rose-500/20' 
+                ? 'bg-danger text-white shadow-md shadow-danger/20' 
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
@@ -251,7 +251,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
                 }`}
               />
               {orderType === 'MARKET' && (
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-emerald-500 uppercase bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-success uppercase bg-success/10 px-1.5 py-0.5 rounded">
                   Mark Price (${ticker.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })})
                 </span>
               )}
@@ -319,8 +319,8 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             disabled={isSubmitting || amount <= 0 || (isBuy && totalUsdt > availableUsdt) || (!isBuy && amount > availableBaseAsset) || isLimitBuyOverpriced}
             className={`w-full py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all shadow-lg active:scale-98 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 ${
               isBuy 
-                ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20' 
-                : 'bg-rose-500 hover:bg-rose-600 text-white shadow-rose-500/20'
+                ? 'bg-success hover:bg-success text-white shadow-success/20' 
+                : 'bg-danger hover:bg-danger text-white shadow-danger/20'
             }`}
           >
             {isSubmitting ? (
@@ -342,7 +342,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
       {/* Security Tag */}
       <div className="pt-3 border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
         <div className="flex items-center gap-1">
-          <ShieldCheck size={12} className="text-emerald-500" />
+          <ShieldCheck size={12} className="text-success" />
           <span>Spot Matching Engine Active</span>
         </div>
         <span className="font-mono font-bold text-foreground uppercase">

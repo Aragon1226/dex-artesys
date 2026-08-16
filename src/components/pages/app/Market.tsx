@@ -165,15 +165,15 @@ export const Market = () => {
               const cleanSymbol = market.pair.replace('/USDT', '');
               
               const flashClass = direction === 'up' 
-                ? 'bg-emerald-500/10 text-emerald-500' 
+                ? 'bg-success/10 text-success' 
                 : direction === 'down' 
-                ? 'bg-rose-500/10 text-rose-500' 
+                ? 'bg-danger/10 text-danger' 
                 : 'text-foreground';
               
               return (
                 <div 
                   key={market.pair} 
-                  className={`px-4 py-4 flex items-center transition-active cursor-pointer hover:bg-muted/50 ${direction === 'up' ? 'bg-emerald-500/[0.03]' : direction === 'down' ? 'bg-rose-500/[0.03]' : ''} transition-colors duration-300`}
+                  className={`px-4 py-4 flex items-center transition-active cursor-pointer hover:bg-muted/50 ${direction === 'up' ? 'bg-success/[0.03]' : direction === 'down' ? 'bg-danger/[0.03]' : ''} transition-colors duration-300`}
                   onClick={() => navigate(activeSubTab === 'Futures' ? `/app/futures` : `/app/spot`)}
                 >
                   {/* Coin info */}
@@ -203,7 +203,7 @@ export const Market = () => {
                   {/* Change */}
                   <div className="w-[25%] flex justify-end">
                     <div className={`px-2 py-2 rounded-lg text-white font-bold text-xs min-w-[75px] text-center transition-colors duration-300 ${
-                      isUp ? 'bg-emerald-500' : 'bg-rose-500'
+                      isUp ? 'bg-success' : 'bg-danger'
                     }`}>
                       {isUp ? '+' : ''}{change24h.toFixed(2)}%
                     </div>

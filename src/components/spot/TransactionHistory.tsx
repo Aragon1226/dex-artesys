@@ -115,7 +115,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">{order.type}</td>
                     <td className="py-2.5 px-2 font-black font-sans">
                       <span className={`px-2 py-0.5 rounded text-[10px] uppercase ${
-                        order.side === 'BUY' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'
+                        order.side === 'BUY' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'
                       }`}>
                         {order.side}
                       </span>
@@ -174,9 +174,9 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="py-2.5 px-2 font-black font-sans">
                       <span className={`px-2 py-0.5 rounded text-[10px] uppercase ${
                         order.side === 'BUY' 
-                          ? 'bg-emerald-500/10 text-emerald-500' 
+                          ? 'bg-success/10 text-success' 
                           : order.side === 'SELL' 
-                            ? 'bg-rose-500/10 text-rose-500' 
+                            ? 'bg-danger/10 text-danger' 
                             : 'bg-primary/10 text-primary'
                       }`}>
                         {order.side}
@@ -190,7 +190,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="py-2.5 px-2 text-center font-sans">
                       <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
                         order.status === 'FILLED' 
-                          ? 'bg-emerald-500/10 text-emerald-500' 
+                          ? 'bg-success/10 text-success' 
                           : 'bg-muted text-muted-foreground'
                       }`}>
                         {order.status === 'FILLED' ? <CheckCircle2 size={11} /> : <XCircle size={11} />}
@@ -217,7 +217,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 <div key={order.id} className="p-2.5 bg-muted/40 border border-border/80 rounded-xl flex items-center justify-between text-xs font-mono">
                   <div className="flex items-center gap-2.5">
                     <div className={`p-2 rounded-lg ${
-                      order.side === 'BUY' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'
+                      order.side === 'BUY' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'
                     }`}>
                       {order.side === 'BUY' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                     </div>
@@ -233,7 +233,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
                   <div className="text-right">
                     <div className="font-bold text-foreground">${order.total.toFixed(2)} USDT</div>
-                    <div className="text-[10px] text-emerald-500 font-bold uppercase">Spot Settlement Executed</div>
+                    <div className="text-[10px] text-success font-bold uppercase">Spot Settlement Executed</div>
                   </div>
                 </div>
               ))}

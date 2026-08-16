@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { getAdminIdForCurrentUser, filterUsersByAdminGroup, syncUserReferralsWithSupabase } from '@/lib/adminPermissions';
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import { CryptoIcon } from '@/components/shared/CryptoIcon';
 import { ArrowUp, RefreshCw, Check, X, Filter, AlertCircle } from 'lucide-react';
 import CubeSpinner from '@/components/shared/CubeSpinner';
@@ -239,13 +240,7 @@ const AdminWithdrawals = () => {
                       <div className="text-sm font-mono font-bold text-foreground">{w.amount}</div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                        w.status === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' :
-                        w.status === 'REJECTED' ? 'bg-destructive/10 text-destructive border-destructive/20' :
-                        'bg-orange-500/10 text-orange-600 border-orange-500/20'
-                      }`}>
-                        {w.status}
-                      </span>
+                      <StatusBadge status={w.status} />
                     </td>
                     <td className="px-6 py-4 text-right">
                       {w.status === 'PENDING' ? (
@@ -261,7 +256,7 @@ const AdminWithdrawals = () => {
                           <button 
                             onClick={() => setConfirmApprove(w)}
                             disabled={!!actioningId}
-                            className="p-2 text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-all"
+                            className="p-2 text-success hover:bg-success/10 rounded-lg transition-all"
                             title="Approve Withdrawal"
                           >
                             {actioningId === w.id ? <RefreshCw size={18} className="animate-spin" /> : <Check size={18} />}
@@ -310,7 +305,7 @@ const AdminWithdrawals = () => {
       {confirmApprove && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className="w-16 h-16 rounded-full mx-auto mb-4 bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full mx-auto mb-4 bg-success/10 text-success flex items-center justify-center">
               <Check size={32} />
             </div>
             <h3 className="text-xl font-bold text-foreground text-center mb-2">Approve Withdrawal</h3>
@@ -320,7 +315,7 @@ const AdminWithdrawals = () => {
               <button 
                 onClick={() => handleApprove(confirmApprove)}
                 disabled={!!actioningId}
-                className="flex-1 py-3 rounded-2xl font-bold bg-emerald-500 text-white shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all"
+                className="flex-1 py-3 rounded-2xl font-bold bg-success text-white shadow-xl shadow-success/20 hover:bg-success transition-all"
               >
                 {actioningId ? '...' : 'Approve'}
               </button>

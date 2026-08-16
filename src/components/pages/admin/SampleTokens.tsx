@@ -227,8 +227,8 @@ export const AdminSampleTokens = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-[#111827] border border-gray-800 rounded-2xl p-6 shadow-xl">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-success/10 text-success border border-success/20 flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
               Live Price Control Engine
             </span>
             <span className="text-xs text-gray-400 font-mono">
@@ -236,7 +236,7 @@ export const AdminSampleTokens = () => {
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Sliders className="w-7 h-7 text-emerald-400" />
+            <Sliders className="w-7 h-7 text-success" />
             Spot Control
           </h1>
           <p className="text-sm text-gray-400 mt-1 max-w-2xl">
@@ -249,7 +249,7 @@ export const AdminSampleTokens = () => {
             onClick={handleResetAll}
             className="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-medium text-sm flex items-center gap-2 border border-gray-700 transition-colors"
           >
-            <RotateCcw className="w-4 h-4 text-amber-400" />
+            <RotateCcw className="w-4 h-4 text-warning" />
             Reset All
           </button>
           <button
@@ -257,7 +257,7 @@ export const AdminSampleTokens = () => {
             className="p-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 transition-colors"
             title="Refresh engine state"
           >
-            <RefreshCw className="w-4 h-4 text-emerald-400" />
+            <RefreshCw className="w-4 h-4 text-success" />
           </button>
         </div>
       </div>
@@ -267,7 +267,7 @@ export const AdminSampleTokens = () => {
         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 shadow-sm">
           <div className="flex items-center justify-between text-gray-400 text-xs font-medium">
             <span>Total Spot Tokens</span>
-            <Layers className="w-4 h-4 text-emerald-400" />
+            <Layers className="w-4 h-4 text-success" />
           </div>
           <div className="text-2xl font-bold text-white mt-2">
             {SAMPLE_TOKENS_LIST.length}
@@ -298,14 +298,14 @@ export const AdminSampleTokens = () => {
         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 shadow-sm">
           <div className="flex items-center justify-between text-gray-400 text-xs font-medium">
             <span>NAS Token Status</span>
-            <Zap className="w-4 h-4 text-amber-400" />
+            <Zap className="w-4 h-4 text-warning" />
           </div>
           <div className="text-2xl font-bold text-white mt-2 font-mono">
             ${(livePrices['NAS'] || 92.54).toFixed(2)}
           </div>
           <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
             {schedules['NAS']?.isActive ? (
-              <span className="text-rose-400 flex items-center gap-1">
+              <span className="text-danger flex items-center gap-1">
                 <TrendingDown className="w-3 h-3" />
                 Target: ${schedules['NAS'].targetPrice.toFixed(2)} (-{schedules['NAS'].changePercent}%)
               </span>
@@ -320,8 +320,8 @@ export const AdminSampleTokens = () => {
             <span>Global Market Simulation</span>
             <Sparkles className="w-4 h-4 text-purple-400" />
           </div>
-          <div className="text-2xl font-bold text-emerald-400 mt-2 flex items-center gap-1.5">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+          <div className="text-2xl font-bold text-success mt-2 flex items-center gap-1.5">
+            <CheckCircle2 className="w-5 h-5 text-success" />
             <span>Active</span>
           </div>
           <div className="text-xs text-gray-500 mt-1">
@@ -334,7 +334,7 @@ export const AdminSampleTokens = () => {
       <div className="bg-[#111827] border border-gray-800 rounded-xl p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-amber-400" />
+            <Zap className="w-4 h-4 text-warning" />
             <h3 className="text-sm font-semibold text-white">Quick Scenario Presets</h3>
           </div>
           <span className="text-xs text-gray-400">One-click preset tests</span>
@@ -343,9 +343,9 @@ export const AdminSampleTokens = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <button
             onClick={handleQuickPresetNAS20Pct1Day}
-            className="p-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-500/40 rounded-xl text-left transition-all group"
+            className="p-3 bg-danger/10 hover:bg-danger/20 border border-danger/20 hover:border-danger/40 rounded-xl text-left transition-all group"
           >
-            <div className="flex items-center justify-between text-rose-400 font-semibold text-sm">
+            <div className="flex items-center justify-between text-danger font-semibold text-sm">
               <span>📉 NAS -20% in 1 Day</span>
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
@@ -356,9 +356,9 @@ export const AdminSampleTokens = () => {
 
           <button
             onClick={handleQuickPresetNAS20Pct4Days}
-            className="p-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-500/40 rounded-xl text-left transition-all group"
+            className="p-3 bg-danger/10 hover:bg-danger/20 border border-danger/20 hover:border-danger/40 rounded-xl text-left transition-all group"
           >
-            <div className="flex items-center justify-between text-rose-400 font-semibold text-sm">
+            <div className="flex items-center justify-between text-danger font-semibold text-sm">
               <span>📉 NAS -20% in 4 Days</span>
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
@@ -379,9 +379,9 @@ export const AdminSampleTokens = () => {
               toast.success('Applied +25% rally over 2 days across Main tokens!');
               refreshData();
             }}
-            className="p-3 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 hover:border-emerald-500/40 rounded-xl text-left transition-all group"
+            className="p-3 bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/40 rounded-xl text-left transition-all group"
           >
-            <div className="flex items-center justify-between text-emerald-400 font-semibold text-sm">
+            <div className="flex items-center justify-between text-success font-semibold text-sm">
               <span>🚀 Main Rally (+25% in 2d)</span>
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
@@ -425,7 +425,7 @@ export const AdminSampleTokens = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search symbol (e.g. NAS, AEP, BOT)..."
-            className="w-full bg-gray-900 border border-gray-800 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50"
+            className="w-full bg-gray-900 border border-gray-800 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-success/50"
           />
         </div>
 
@@ -437,7 +437,7 @@ export const AdminSampleTokens = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                 selectedCategory === cat
-                  ? 'bg-emerald-500 text-black font-semibold shadow-md shadow-emerald-500/20'
+                  ? 'bg-success text-black font-semibold shadow-md shadow-success/20'
                   : 'bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-800'
               }`}
             >
@@ -505,7 +505,7 @@ export const AdminSampleTokens = () => {
                       <td className="py-4 px-4">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
                           token.category === 'Layer-2' 
-                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
+                            ? 'bg-info/10 text-info border-info/20' 
                             : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
                         }`}>
                           {token.category}
@@ -520,10 +520,10 @@ export const AdminSampleTokens = () => {
                       {/* Live Current Price */}
                       <td className="py-4 px-4 font-mono font-bold text-white">
                         <div className="flex items-center gap-2">
-                          <span className={sch?.isActive ? (isDecreasing ? 'text-rose-400' : 'text-emerald-400') : 'text-white'}>
+                          <span className={sch?.isActive ? (isDecreasing ? 'text-danger' : 'text-success') : 'text-white'}>
                             ${currentPrice.toFixed(2)}
                           </span>
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                         </div>
                       </td>
 
@@ -533,7 +533,7 @@ export const AdminSampleTokens = () => {
                           <div className="space-y-1.5 max-w-xs">
                             <div className="flex items-center justify-between text-xs">
                               <span className={`font-semibold flex items-center gap-1 ${
-                                isDecreasing ? 'text-rose-400' : 'text-emerald-400'
+                                isDecreasing ? 'text-danger' : 'text-success'
                               }`}>
                                 {isDecreasing ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
                                 {isDecreasing ? '-' : '+'}{sch.changePercent}% ({sch.durationHours >= 24 ? `${(sch.durationHours/24).toFixed(1)}d` : `${sch.durationHours}h`})
@@ -551,7 +551,7 @@ export const AdminSampleTokens = () => {
                                 <div className="space-y-1">
                                   <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div 
-                                      className={`h-full transition-all duration-500 ${isDecreasing ? 'bg-rose-500' : 'bg-emerald-500'}`}
+                                      className={`h-full transition-all duration-500 ${isDecreasing ? 'bg-danger' : 'bg-success'}`}
                                       style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }}
                                     />
                                   </div>
@@ -564,7 +564,7 @@ export const AdminSampleTokens = () => {
                             })()}
                           </div>
                         ) : hasOverride ? (
-                          <span className="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-medium">
+                          <span className="px-2.5 py-1 rounded bg-warning/10 text-warning border border-warning/20 text-xs font-medium">
                             Instant Price Override Active
                           </span>
                         ) : (
@@ -580,7 +580,7 @@ export const AdminSampleTokens = () => {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => handleOpenModal(token.symbol)}
-                            className="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                            className="px-3 py-1.5 rounded-lg bg-success/10 hover:bg-success/20 text-success border border-success/30 text-xs font-semibold flex items-center gap-1.5 transition-colors"
                           >
                             <Sliders className="w-3.5 h-3.5" />
                             Adjust Trend
@@ -589,7 +589,7 @@ export const AdminSampleTokens = () => {
                           {sch && sch.isActive && (
                             <button
                               onClick={() => handleCancelSchedule(token.symbol)}
-                              className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-colors"
+                              className="p-1.5 rounded-lg bg-danger/10 hover:bg-danger/20 text-danger border border-danger/20 transition-colors"
                               title="Stop active schedule"
                             >
                               <StopCircle className="w-4 h-4" />
@@ -620,7 +620,7 @@ export const AdminSampleTokens = () => {
       <div className="bg-[#111827] border border-gray-800 rounded-xl p-5 shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <History className="w-5 h-5 text-emerald-400" />
+            <History className="w-5 h-5 text-success" />
             <h3 className="text-base font-bold text-white">Price Control Action History</h3>
           </div>
           <span className="text-xs text-gray-400 font-mono">Last 200 Audit Events</span>
@@ -638,7 +638,7 @@ export const AdminSampleTokens = () => {
                 className="p-3 bg-gray-900/60 border border-gray-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2"
               >
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono font-bold">
+                  <span className="px-2 py-0.5 rounded bg-success/10 text-success font-mono font-bold">
                     {log.symbol}
                   </span>
                   <span className="text-gray-300 font-medium">{log.details}</span>
@@ -697,7 +697,7 @@ export const AdminSampleTokens = () => {
                       onClick={() => setAdjustType('percentage')}
                       className={`p-2.5 rounded-xl text-xs font-semibold border transition-all ${
                         adjustType === 'percentage'
-                          ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400'
+                          ? 'bg-success/20 border-success text-success'
                           : 'bg-gray-900 border-gray-800 text-gray-400 hover:text-white'
                       }`}
                     >
@@ -719,7 +719,7 @@ export const AdminSampleTokens = () => {
                       onClick={() => setAdjustType('manual_override')}
                       className={`p-2.5 rounded-xl text-xs font-semibold border transition-all ${
                         adjustType === 'manual_override'
-                          ? 'bg-amber-500/20 border-amber-500 text-amber-400'
+                          ? 'bg-warning/20 border-warning text-warning'
                           : 'bg-gray-900 border-gray-800 text-gray-400 hover:text-white'
                       }`}
                     >
@@ -741,7 +741,7 @@ export const AdminSampleTokens = () => {
                           onClick={() => setDirection('decrease')}
                           className={`p-3 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all ${
                             direction === 'decrease'
-                              ? 'bg-rose-500/20 border-rose-500 text-rose-400 shadow-lg shadow-rose-500/10'
+                              ? 'bg-danger/20 border-danger text-danger shadow-lg shadow-danger/10'
                               : 'bg-gray-900 border-gray-800 text-gray-400'
                           }`}
                         >
@@ -754,7 +754,7 @@ export const AdminSampleTokens = () => {
                           onClick={() => setDirection('increase')}
                           className={`p-3 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all ${
                             direction === 'increase'
-                              ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400 shadow-lg shadow-emerald-500/10'
+                              ? 'bg-success/20 border-success text-success shadow-lg shadow-success/10'
                               : 'bg-gray-900 border-gray-800 text-gray-400'
                           }`}
                         >
@@ -771,7 +771,7 @@ export const AdminSampleTokens = () => {
                           <label className="text-xs font-semibold text-gray-300">
                             Percentage Change (%)
                           </label>
-                          <span className="text-xs text-emerald-400 font-mono font-bold">
+                          <span className="text-xs text-success font-mono font-bold">
                             {direction === 'decrease' ? '-' : '+'}{changePercent}%
                           </span>
                         </div>
@@ -782,7 +782,7 @@ export const AdminSampleTokens = () => {
                           step="0.5"
                           value={changePercent}
                           onChange={(e) => setChangePercent(parseFloat(e.target.value) || 0)}
-                          className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+                          className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-success"
                         />
                         <div className="flex gap-2 mt-2">
                           {[5, 10, 15, 20, 25, 30, 50].map((pct) => (
@@ -792,7 +792,7 @@ export const AdminSampleTokens = () => {
                               onClick={() => setChangePercent(pct)}
                               className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${
                                 changePercent === pct
-                                  ? 'bg-emerald-500 text-black font-bold border-emerald-500'
+                                  ? 'bg-success text-black font-bold border-success'
                                   : 'bg-gray-800 text-gray-400 border-gray-700 hover:text-white'
                               }`}
                             >
@@ -829,12 +829,12 @@ export const AdminSampleTokens = () => {
                           step="0.1"
                           value={durationValue}
                           onChange={(e) => setDurationValue(parseFloat(e.target.value) || 1)}
-                          className="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
+                          className="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-success"
                         />
                         <select
                           value={durationUnit}
                           onChange={(e) => setDurationUnit(e.target.value as 'hours' | 'days')}
-                          className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+                          className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-success"
                         >
                           <option value="days">Day(s)</option>
                           <option value="hours">Hour(s)</option>
@@ -863,7 +863,7 @@ export const AdminSampleTokens = () => {
                             }}
                             className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${
                               durationValue === d.val && durationUnit === d.unit
-                                ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400 font-bold'
+                                ? 'bg-success/20 border-success text-success font-bold'
                                 : 'bg-gray-800 text-gray-400 border-gray-700 hover:text-white'
                             }`}
                           >
@@ -886,7 +886,7 @@ export const AdminSampleTokens = () => {
                       value={targetPriceInput}
                       onChange={(e) => setTargetPriceInput(e.target.value)}
                       placeholder="e.g. 88.50"
-                      className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-amber-500"
+                      className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-warning"
                     />
                     <p className="text-xs text-gray-400 mt-1">
                       Sets the token price immediately without waiting over time.
@@ -898,7 +898,7 @@ export const AdminSampleTokens = () => {
                 <div className="p-4 bg-gray-900/90 border border-gray-800 rounded-xl space-y-2 text-xs">
                   <div className="font-semibold text-gray-300 flex items-center justify-between border-b border-gray-800 pb-2">
                     <span>Live Simulation Calculation Preview</span>
-                    <span className="text-emerald-400 font-mono">Real-Time</span>
+                    <span className="text-success font-mono">Real-Time</span>
                   </div>
                   {(() => {
                     const startP = livePrices[activeSymbol] || SAMPLE_TOKENS_LIST.find(t => t.symbol === activeSymbol)?.defaultPrice || 100;
@@ -920,7 +920,7 @@ export const AdminSampleTokens = () => {
                           Current Price: <strong className="text-white">${startP.toFixed(2)}</strong>
                         </div>
                         <div>
-                          Target Price: <strong className={priceDiff < 0 ? 'text-rose-400' : 'text-emerald-400'}>
+                          Target Price: <strong className={priceDiff < 0 ? 'text-danger' : 'text-success'}>
                             ${calculatedTarget.toFixed(2)} ({priceDiff >= 0 ? '+' : ''}{(((calculatedTarget - startP) / startP) * 100).toFixed(1)}%)
                           </strong>
                         </div>
@@ -945,7 +945,7 @@ export const AdminSampleTokens = () => {
                     value={noteInput}
                     onChange={(e) => setNoteInput(e.target.value)}
                     placeholder="e.g. Advisors training scenario - NAS bearish dump"
-                    className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-success"
                   />
                 </div>
 
@@ -960,7 +960,7 @@ export const AdminSampleTokens = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold shadow-lg shadow-emerald-500/20 transition-all"
+                    className="px-5 py-2.5 rounded-xl bg-success hover:bg-success text-black text-xs font-bold shadow-lg shadow-success/20 transition-all"
                   >
                     Apply Price Trend
                   </button>

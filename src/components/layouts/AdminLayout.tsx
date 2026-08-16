@@ -1,30 +1,29 @@
 import { Outlet, Link, useLocation, useNavigate } from "@/lib/router-compat";
-import { 
-  LayoutDashboard, Users, ShieldCheck, Activity, Wallet, 
-  LifeBuoy, ArrowUpCircle, LogOut, TrendingUp
-} from "lucide-react";
+import { ShieldCheck, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Logo } from "@/components/shared/Logo";
 import { useEffect, useState } from "react";
 import CubeSpinner from "@/components/shared/CubeSpinner";
 import { hasPermissionToView, isUserAdmin, syncAdminPermissions } from "@/lib/adminPermissions";
+import { NavIcon, type NavIconKey } from "@/components/shared/NavIcon";
 import { toast } from "sonner";
 
-const navItems = [
-  { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/admin/users', label: 'Users', icon: Users },
-  { path: '/admin/financial-status', label: 'Financial Status', icon: Wallet },
-  { path: '/admin/deposit-requests', label: 'Deposits', icon: Activity },
-  { path: '/admin/withdrawals', label: 'Withdrawals', icon: ArrowUpCircle },
-  { path: '/admin/futures', label: 'Futures Control', icon: Activity },
-  { path: '/admin/spot-control', label: 'Spot Control', icon: TrendingUp },
-  { path: '/admin/kyc', label: 'KYC', icon: ShieldCheck },
-  { path: '/admin/wallets', label: 'Wallets', icon: Wallet },
-  { path: '/admin/customer-service', label: 'Support Chat', icon: LifeBuoy },
-  { path: '/admin/support', label: 'Contact Details', icon: LifeBuoy },
-  { path: '/admin/administrator', label: 'Administrator', icon: ShieldCheck },
-  { path: '/admin/ownership', label: 'Ownership', icon: ShieldCheck },
+const navItems: { path: string; label: string; key: NavIconKey }[] = [
+  { path: '/admin/dashboard', label: 'Dashboard', key: 'dashboard' },
+  { path: '/admin/users', label: 'Users', key: 'users' },
+  { path: '/admin/financial-status', label: 'Financial Status', key: 'financial' },
+  { path: '/admin/deposit-requests', label: 'Deposits', key: 'deposits' },
+  { path: '/admin/withdrawals', label: 'Withdrawals', key: 'withdrawals' },
+  { path: '/admin/futures', label: 'Futures Control', key: 'futures' },
+  { path: '/admin/spot-control', label: 'Spot Control', key: 'spot' },
+  { path: '/admin/kyc', label: 'KYC', key: 'kyc' },
+  { path: '/admin/wallets', label: 'Wallets', key: 'wallets' },
+  { path: '/admin/customer-service', label: 'Support Chat', key: 'support' },
+  { path: '/admin/support', label: 'Contact Details', key: 'support' },
+  { path: '/admin/administrator', label: 'Administrator', key: 'administrator' },
+  { path: '/admin/ownership', label: 'Ownership', key: 'ownership' },
 ];
+
 
 const AdminLayout = () => {
   const location = useLocation();
@@ -105,23 +104,23 @@ const AdminLayout = () => {
           {navItems
             .filter((item) => hasPermissionToView(user?.email, item.path))
             .map((item) => {
-              const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all group ${
-                    isActive 
-                      ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
+                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-bold transition-all ${
+                    isActive
+                      ? 'bg-primary/10 text-primary'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
-                  <Icon size={20} className={isActive ? 'text-primary-foreground' : 'text-primary opacity-50 group-hover:opacity-100'} />
+                  <NavIcon icon={item.key} active={isActive} boxed size={18} />
                   {item.label}
                 </Link>
               );
             })}
+
         </nav>
 
         <div className="p-6 border-t border-border mt-auto bg-muted/30">

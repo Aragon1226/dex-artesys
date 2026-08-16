@@ -260,7 +260,7 @@ const Futures = () => {
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-lg font-bold font-mono text-foreground">${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-                    <span className={`text-[9px] font-bold px-1 py-0.5 rounded ${activeTicker.priceChangePercent >= 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>
+                    <span className={`text-[9px] font-bold px-1 py-0.5 rounded ${activeTicker.priceChangePercent >= 0 ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
                       {activeTicker.priceChangePercent > 0 ? '+' : ''}{activeTicker.priceChangePercent.toFixed(2)}%
                     </span>
                   </div>
@@ -294,7 +294,7 @@ const Futures = () => {
                     const currentPnlAmount = basePnlAmount * (progress / 100) + (pos.margin * jitter);
                     const currentRoiPercent = (currentPnlAmount / pos.margin) * 100;
 
-                    const pnlColor = currentPnlAmount >= 0 ? 'text-emerald-500' : 'text-rose-500';
+                    const pnlColor = currentPnlAmount >= 0 ? 'text-success' : 'text-danger';
                     const posValue = pos.margin * pos.leverage;
 
                     // Calculate simulated current price based on PnL
@@ -306,7 +306,7 @@ const Futures = () => {
                     return (
                       <div key={pos.id} className="bg-muted/50 border border-border rounded-lg p-4 hover:bg-muted transition-colors">
                         <div className="flex items-center gap-2 mb-4">
-                          <div className={`w-5 h-5 flex items-center justify-center rounded text-[11px] font-bold text-white ${pos.type === 'LONG' ? 'bg-emerald-500' : 'bg-rose-500'}`}>
+                          <div className={`w-5 h-5 flex items-center justify-center rounded text-[11px] font-bold text-white ${pos.type === 'LONG' ? 'bg-success' : 'bg-danger'}`}>
                             {pos.type === 'LONG' ? 'L' : 'S'}
                           </div>
                           <span className="font-bold text-foreground text-sm">{pos.pair}</span>
@@ -369,12 +369,12 @@ const Futures = () => {
                         <div className="flex items-center gap-3">
                           <CryptoIcon symbol={pos.pair} size={20} />
                           <div>
-                            <div className="flex items-center gap-1.5 mb-0.5"><span className="font-bold text-foreground text-[11px]">{pos.pair}</span><span className={`text-[8px] font-black px-1 py-0.5 rounded ${pos.type === 'LONG' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-rose-500/10 text-rose-600'}`}>{pos.type} {pos.leverage}x</span></div>
+                            <div className="flex items-center gap-1.5 mb-0.5"><span className="font-bold text-foreground text-[11px]">{pos.pair}</span><span className={`text-[8px] font-black px-1 py-0.5 rounded ${pos.type === 'LONG' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{pos.type} {pos.leverage}x</span></div>
                             <div className="text-[9px] text-muted-foreground">{pos.created_at ? new Date(pos.created_at).toLocaleString() : ''}</div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className={`font-black text-xs ${pnl >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>{pnl >= 0 ? '+' : ''}{pnl.toFixed(2)} USDT</div>
+                          <div className={`font-black text-xs ${pnl >= 0 ? 'text-success' : 'text-danger'}`}>{pnl >= 0 ? '+' : ''}{pnl.toFixed(2)} USDT</div>
                           <div className="text-[9px] text-muted-foreground truncate max-w-[150px]">Entry: {pos.entry_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} → Close: {closePrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                         </div>
                       </div>
@@ -418,7 +418,7 @@ const Futures = () => {
               </div>
               <div className="flex justify-between items-center mt-2 px-0.5">
                 <span className="text-[9px] font-bold text-muted-foreground">Profit</span>
-                <span className="text-[10px] font-black text-emerald-500">+{LEVERAGE_CONFIG[leverage].profit * 100}%</span>
+                <span className="text-[10px] font-black text-success">+{LEVERAGE_CONFIG[leverage].profit * 100}%</span>
               </div>
             </div>
 
@@ -449,13 +449,13 @@ const Futures = () => {
             <div className="grid grid-cols-2 gap-2">
               <button 
                 onClick={() => handleOpenTrade('LONG')} 
-                className="bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-lg font-bold text-[11px] shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border-b-2 border-emerald-700"
+                className="bg-success hover:bg-success text-white py-2.5 rounded-lg font-bold text-[11px] shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border-b-2 border-success"
               >
                 <TrendingUp size={14} /> LONG
               </button>
               <button 
                 onClick={() => handleOpenTrade('SHORT')} 
-                className="bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-lg font-bold text-[11px] shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border-b-2 border-rose-700"
+                className="bg-danger hover:bg-danger text-white py-2.5 rounded-lg font-bold text-[11px] shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border-b-2 border-rose-700"
               >
                 <TrendingUp size={14} className="rotate-180" /> SHORT
               </button>
@@ -480,7 +480,7 @@ const Futures = () => {
                     const currentPnlAmount = basePnlAmount * (progress / 100) + (pos.margin * jitter);
                     const currentRoiPercent = (currentPnlAmount / pos.margin) * 100;
 
-                    const pnlColor = currentPnlAmount >= 0 ? 'text-emerald-500' : 'text-rose-500';
+                    const pnlColor = currentPnlAmount >= 0 ? 'text-success' : 'text-danger';
                     const posValue = pos.margin * pos.leverage;
 
                     // Calculate simulated current price based on PnL
@@ -492,7 +492,7 @@ const Futures = () => {
                     return (
                       <div key={pos.id} className="bg-muted border border-border rounded-lg p-4">
                         <div className="flex items-center gap-2 mb-4">
-                          <div className={`w-5 h-5 flex items-center justify-center rounded text-[11px] font-bold text-white ${pos.type === 'LONG' ? 'bg-emerald-500' : 'bg-rose-500'}`}>
+                          <div className={`w-5 h-5 flex items-center justify-center rounded text-[11px] font-bold text-white ${pos.type === 'LONG' ? 'bg-success' : 'bg-danger'}`}>
                             {pos.type === 'LONG' ? 'L' : 'S'}
                           </div>
                           <span className="font-bold text-foreground text-sm">{pos.pair}</span>
@@ -557,11 +557,11 @@ const Futures = () => {
                           <CryptoIcon symbol={pos.pair} size={20} />
                           <div>
                             <div className="font-bold text-foreground text-[11px]">{pos.pair}</div>
-                            <div className={`text-[8px] font-bold inline-block px-1 rounded ${pos.type === 'LONG' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-rose-500/10 text-rose-600'}`}>{pos.type} {pos.leverage}x</div>
+                            <div className={`text-[8px] font-bold inline-block px-1 rounded ${pos.type === 'LONG' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{pos.type} {pos.leverage}x</div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className={`text-[11px] font-bold ${pnl >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>{pnl >= 0 ? '+' : ''}{pnl.toFixed(2)} USDT</div>
+                          <div className={`text-[11px] font-bold ${pnl >= 0 ? 'text-success' : 'text-danger'}`}>{pnl >= 0 ? '+' : ''}{pnl.toFixed(2)} USDT</div>
                           <div className="text-[8px] text-muted-foreground font-bold uppercase">PNL</div>
                         </div>
                       </div>
@@ -622,7 +622,7 @@ const Futures = () => {
                 return (
                   <button key={pair.symbol} onClick={() => { setSelectedPair(pair); setShowPairSelector(false); }} className={`w-full flex items-center justify-between p-2.5 rounded-xl transition-colors hover:bg-muted ${selectedPair.symbol === pair.symbol ? 'bg-primary/10 border border-primary/30' : 'border border-transparent'}`}>
                     <div className="flex items-center gap-3"><CryptoIcon symbol={pair.symbol} size={30} /><div className="text-left"><div className="font-bold text-xs text-foreground">{pair.symbol}</div><div className="text-[10px] text-muted-foreground font-medium truncate max-w-[140px]">{pair.name}</div></div></div>
-                    <div className="text-right"><div className="font-bold text-foreground font-mono text-xs">${pt.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div><div className={`text-[10px] font-bold ${pt.priceChangePercent >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>{pt.priceChangePercent > 0 ? '+' : ''}{pt.priceChangePercent.toFixed(2)}%</div></div>
+                    <div className="text-right"><div className="font-bold text-foreground font-mono text-xs">${pt.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div><div className={`text-[10px] font-bold ${pt.priceChangePercent >= 0 ? 'text-success' : 'text-danger'}`}>{pt.priceChangePercent > 0 ? '+' : ''}{pt.priceChangePercent.toFixed(2)}%</div></div>
                   </button>
                 );
               })}
@@ -635,13 +635,13 @@ const Futures = () => {
       {newPositionModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-6 backdrop-blur-sm">
           <div className="bg-card w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center animate-scale-in">
-            <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4"><CheckCircle size={32} /></div>
+            <div className="w-16 h-16 bg-success/10 text-success rounded-full flex items-center justify-center mx-auto mb-4"><CheckCircle size={32} /></div>
             <h3 className="text-2xl font-bold text-foreground mb-2">Trade Initiated!</h3>
             <p className="text-muted-foreground mb-6">Your position is now live.</p>
             <div className="bg-muted rounded-xl p-4 mb-6 text-left border border-border">
               <div className="flex justify-between items-center mb-2"><span className="text-sm text-muted-foreground">Pair</span><span className="font-bold text-foreground">{newPositionModal.pair}</span></div>
               <div className="flex justify-between items-center mb-2"><span className="text-sm text-muted-foreground">Margin</span><span className="font-bold text-foreground">${newPositionModal.margin.toFixed(2)}</span></div>
-              <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Est. Payout</span><span className="font-bold text-green-500">+${(newPositionModal.margin * (1 + (newPositionModal.expected_profit_percentage || 0))).toFixed(2)}</span></div>
+              <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Est. Payout</span><span className="font-bold text-success">+${(newPositionModal.margin * (1 + (newPositionModal.expected_profit_percentage || 0))).toFixed(2)}</span></div>
             </div>
             <button onClick={() => setNewPositionModal(null)} className="w-full bg-foreground text-background font-bold py-3.5 rounded-xl transition-colors hover:bg-foreground/90">Close & Monitor</button>
           </div>

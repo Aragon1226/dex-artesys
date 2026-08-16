@@ -1,10 +1,11 @@
 import { useState, Suspense } from "react";
 import { Outlet, NavLink } from "@/lib/router-compat";
-import { Home, BarChart2, Zap, Gem, Wallet, ShieldAlert, Settings as SettingsIcon } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { SupportChatModal } from "@/components/shared/SupportChatModal";
 import { PageSkeleton } from "@/components/shared/PageSkeleton";
 import { PageLoadingOverlay } from "@/components/shared/PageLoadingOverlay";
+import { NavIcon, navIcons, type NavIconKey } from "@/components/shared/NavIcon";
+import { StatusDot } from "@/components/shared/StatusBadge";
 import { useAuth } from "@/hooks/useAuth";
 
 const MainLayout = () => {
@@ -12,15 +13,16 @@ const MainLayout = () => {
   const { user } = useAuth();
   const isDev = import.meta.env.DEV;
 
-  const navItems = [
-    { icon: Home, label: "Home", path: "/app/home" },
-    { icon: BarChart2, label: "Market", path: "/app/market" },
-    { icon: Zap, label: "Trade", path: "/app/trade-fi" },
-    { icon: Gem, label: "Earn", path: "/app/earn" },
-    { icon: Wallet, label: "Assets", path: "/app/assets" },
+  const navItems: { key: NavIconKey; label: string; path: string }[] = [
+    { key: "home", label: "Home", path: "/app/home" },
+    { key: "market", label: "Market", path: "/app/market" },
+    { key: "trade", label: "Trade", path: "/app/trade-fi" },
+    { key: "earn", label: "Earn", path: "/app/earn" },
+    { key: "assets", label: "Assets", path: "/app/assets" },
   ];
 
-  const adminItem = { icon: ShieldAlert, label: "Admin", path: "/admin/dashboard" };
+  const adminItem = { icon: navIcons.admin, label: "Admin", path: "/admin/dashboard" };
+
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row relative">
@@ -39,28 +41,33 @@ const MainLayout = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
+                `group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? "bg-primary text-primary-foreground shadow-brand-sm"
+                    ? "bg-primary/10 text-primary font-bold"
                     : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                 }`
               }
             >
-              <item.icon size={20} />
-              <span className="text-sm font-bold tracking-wide">
-                {item.label}
-              </span>
+              {({ isActive }) => (
+                <>
+                  <NavIcon icon={item.key} active={isActive} boxed />
+                  <span className="text-sm font-bold tracking-wide">
+                    {item.label}
+                  </span>
+                </>
+              )}
             </NavLink>
           ))}
+
 
           {isDev && (
             <NavLink
               to={adminItem.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 mt-8 border border-dashed border-red-500/30 ${
+                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 mt-8 border border-dashed border-danger/30 ${
                   isActive
-                    ? "bg-red-500 text-white shadow-brand-sm"
-                    : "text-red-500/70 hover:bg-red-500/10 hover:text-red-500"
+                    ? "bg-danger text-white shadow-brand-sm"
+                    : "text-danger/70 hover:bg-danger/10 hover:text-danger"
                 }`
               }
             >
@@ -75,8 +82,12 @@ const MainLayout = () => {
         <div className="pt-6 border-t border-border mt-auto">
            <div className="bg-primary/5 rounded-2xl p-4 border border-primary/10">
               <p className="text-[10px] uppercase font-black text-primary tracking-widest mb-1">Status</p>
-              <p className="text-xs font-bold text-foreground">Operational</p>
+              <p className="flex items-center gap-2 text-xs font-bold text-foreground">
+                <StatusDot tone="success" pulse />
+                Operational
+              </p>
            </div>
+
         </div>
       </nav>
 
@@ -108,8 +119,9 @@ const MainLayout = () => {
                 {({ isActive }) => (
                   <>
                     <div className={`p-1.5 rounded-xl transition-all duration-200 ${isActive ? 'bg-primary/15 text-primary scale-105' : 'bg-transparent'}`}>
-                      <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                      <NavIcon icon={item.key} active={isActive} size={20} />
                     </div>
+
                     <span className={`text-[10px] tracking-tight transition-all duration-200 ${isActive ? 'opacity-100 font-bold' : 'opacity-80'}`}>
                       {item.label}
                     </span>

@@ -136,7 +136,7 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
           </div>
 
           <div className="flex items-center gap-2 pl-10 sm:pl-0">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 text-success text-xs font-semibold">
               <ShieldCheck size={14} />
               Educational & Compliance Ready
             </span>
@@ -144,9 +144,9 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
         </div>
 
         {/* Educational Disclaimer Top Banner */}
-        <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200/90 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="p-5 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200/90 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="text-amber-400 shrink-0 mt-0.5" size={22} />
+            <AlertTriangle className="text-warning shrink-0 mt-0.5" size={22} />
             <div className="space-y-1">
               <h4 className="text-sm font-bold text-amber-300 uppercase tracking-wider">
                 Official Educational & Demo Trading Disclosure
@@ -202,7 +202,7 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
                       <p className="text-xs text-muted-foreground">{user?.email || 'Logged in Trader'}</p>
                     </div>
                   </div>
-                  <div className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-xl font-semibold w-fit">
+                  <div className="text-xs bg-success/10 text-success border border-success/20 px-3 py-1.5 rounded-xl font-semibold w-fit">
                     Active Demo Trading Account
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
             <div className="space-y-6 text-sm text-muted-foreground leading-relaxed">
               
               <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive-foreground space-y-2">
-                <h4 className="font-extrabold text-red-400 flex items-center gap-2">
+                <h4 className="font-extrabold text-danger flex items-center gap-2">
                   <ShieldCheck size={18} /> FULL DEVELOPER & OPERATOR LIABILITY EXEMPTION
                 </h4>
                 <p className="text-xs text-red-300/90 leading-relaxed">
