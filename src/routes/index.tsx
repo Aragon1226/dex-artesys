@@ -1,24 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import Landing from "@/components/pages/Landing";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "CrypX-Pro — Crypto Trading, Futures and Earn" },
+      { name: "description", content: "Trade spot and futures, stake for yield, and manage your crypto portfolio on CrypX-Pro." },
+      { property: "og:title", content: "CrypX-Pro — Crypto Trading, Futures and Earn" },
+      { property: "og:description", content: "Trade spot and futures, stake for yield, and manage your crypto portfolio on CrypX-Pro." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: () => <Landing />,
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
