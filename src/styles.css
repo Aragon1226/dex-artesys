@@ -92,6 +92,11 @@
   --ring: 45 100% 50%;
   --radius: 0.625rem;
 
+  --success: 152 65% 38%;
+  --warning: 32 95% 46%;
+  --danger: 0 76% 52%;
+  --info: 210 90% 50%;
+
   --sidebar-background: 45 15% 97%;
   --sidebar-foreground: 45 10% 30%;
   --sidebar-primary: 45 100% 50%;
@@ -130,6 +135,11 @@
   --border: 0 0% 15%;
   --input: 0 0% 15%;
   --ring: 45 100% 50%;
+
+  --success: 152 62% 48%;
+  --warning: 38 95% 56%;
+  --danger: 0 78% 60%;
+  --info: 208 92% 60%;
 
   --sidebar-background: 0 0% 5%;
   --sidebar-foreground: 0 0% 90%;
