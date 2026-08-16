@@ -719,11 +719,11 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
     // Try to create an actual Supabase Auth user via our new RPC
     const { error: rpcError } = await supabase.rpc('create_custom_admin', {
       p_email: account.email,
-      p_password: account.password,
+      p_password: account.password ?? "",
       p_username: account.username,
       p_custom_id: account.customId,
       p_role: account.role,
-      p_permissions: account.permissions as unknown as Record<string, unknown>
+      p_permissions: JSON.parse(JSON.stringify(account.permissions ?? {}))
     });
 
     if (rpcError) {
