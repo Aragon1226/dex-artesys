@@ -498,7 +498,12 @@ const Futures = () => {
             <button onClick={() => setPositionTab('history')} className={`text-[11px] font-bold flex items-center gap-1.5 pb-2 border-b-2 transition-all ${positionTab === 'history' ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent'}`}><Clock size={14} /> History</button>
           </div>
           {positionTab === 'active' ? (
-             activePositions.length === 0 ? (
+             positionsLoading ? (
+               <LoadingBlock variant="positions" rows={3} label="Loading positions" />
+             ) : positionsError ? (
+               <RetryState size="sm" title="Couldn't load your positions" detail={positionsError} onRetry={fetchPositions} />
+             ) : activePositions.length === 0 ? (
+
                <EmptyState size="sm" art="assets" title="No active trades"
                  description="Your open futures positions will appear here."
                  action={{ label: 'Fund your account', to: '/app/assets' }}
