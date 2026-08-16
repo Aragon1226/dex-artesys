@@ -25,6 +25,8 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
   const [isUploading, setIsUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const messageInputRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     if (!user || !isOpen) return;
