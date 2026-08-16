@@ -27,9 +27,11 @@ export const Market = () => {
 
   const fetchMarkets = useCallback(async () => {
     try {
+      throwIfFaultInjected('market', 'Market feed unavailable.');
       const data = await marketService.getAllMarkets();
       setMarkets(data);
       setLoadError(null);
+
     } catch (err: any) {
       console.error(err);
       setLoadError(err?.message || 'Market feed unavailable.');
