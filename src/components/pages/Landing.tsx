@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { ArrowRight, Shield, Globe, Diamond } from "lucide-react";
 import { motion } from "motion/react";
 import { Logo } from "@/components/shared/Logo";
+import heroAbstract from "@/assets/generated/hero-abstract.jpg";
+import securityVault from "@/assets/generated/security-vault.jpg";
 import { CryptoAuthView } from "@/components/auth/CryptoAuthView";
 import { useState } from "react";
 
@@ -106,6 +108,18 @@ const Index = () => {
 
         {/* Hero Section */}
         <section className="relative pt-16 sm:pt-32 pb-16 sm:pb-24 px-6">
+          {/* Generated 3D hero backdrop */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <img
+              src={heroAbstract}
+              alt="Abstract three-dimensional amber crystalline coin and geometric forms"
+              width={1920}
+              height={1088}
+              className="w-full h-full object-cover opacity-40 scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,hsl(var(--background))_75%)]" />
+          </div>
           <div className="max-w-5xl mx-auto text-center relative z-10 px-2">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -226,10 +240,25 @@ const Index = () => {
               </div>
               
               <div className="relative">
-                <div className="p-16 border border-border bg-card/60 backdrop-blur-xl">
+                <div className="relative mb-8 overflow-hidden border border-border">
+                  <img
+                    src={securityVault}
+                    alt="Brushed metal vault door with amber-lit cryptographic engravings"
+                    width={1024}
+                    height={1024}
+                    loading="lazy"
+                    className="w-full aspect-[4/3] object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-primary mb-2">Cold Storage Infrastructure</p>
+                    <p className="text-sm font-light text-foreground/80 leading-relaxed">98% of client assets held in geographically distributed offline vaults.</p>
+                  </div>
+                </div>
+                <div className="p-10 border border-border bg-card/60 backdrop-blur-xl">
                   <div className="text-center">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground mb-16">Trusted by Industry Partners</p>
-                    <div className="grid grid-cols-2 gap-x-12 gap-y-16 text-muted-foreground/30">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground mb-10">Trusted by Industry Partners</p>
+                    <div className="grid grid-cols-2 gap-x-10 gap-y-10 text-muted-foreground/30">
                       <div className="flex items-center justify-center font-light text-2xl tracking-widest hover:text-primary transition-colors cursor-default">BINANCE</div>
                       <div className="flex items-center justify-center font-light text-2xl tracking-widest hover:text-primary transition-colors cursor-default">COINBASE</div>
                       <div className="flex items-center justify-center font-light text-2xl tracking-widest hover:text-primary transition-colors cursor-default">KRAKEN</div>
