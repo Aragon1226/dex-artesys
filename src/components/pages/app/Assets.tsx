@@ -12,6 +12,7 @@ import { Logo } from '@/components/shared/Logo';
 import { AnimatedBalance } from '@/components/shared/AnimatedBalance';
 
 import { marketService } from '@/services/market';
+import { EmptyState } from "@/components/shared/EmptyState";
 
 const DEPOSIT_OPTIONS = [
   { label: 'Bitcoin (BTC)', symbol: 'BTC', network: 'BTC' },
@@ -453,9 +454,17 @@ const Assets = () => {
             <div className="p-4 flex-1 overflow-y-auto">
               <div className="space-y-3">
                 {historyData.length === 0 ? (
-                  <div className="py-20 text-center text-muted-foreground">
-                    <p className="text-sm font-medium">No {historyTab} found</p>
-                  </div>
+                  <EmptyState
+                    art="history"
+                    title={`No ${historyTab} yet`}
+                    description={historyTab === 'deposits'
+                      ? 'Once you fund your account, every deposit will appear here with its status.'
+                      : 'Withdrawals you request will be listed here so you can follow each payout.'}
+                    hint={historyTab === 'deposits'
+                      ? 'Deposits are credited after network confirmations — always copy the exact address and network shown on the deposit screen.'
+                      : 'Withdrawals need a verified account and an approved wallet address. Complete KYC first to avoid delays.'}
+                    hintIcon={historyTab === 'deposits' ? 'tip' : 'secure'}
+                  />
                 ) : (
                   historyData.map(item => (
                     <div key={item.id} className="bg-muted/30 border border-border p-3 rounded-xl flex justify-between items-center">
@@ -574,7 +583,12 @@ const Assets = () => {
                 </div>
                 <div className="flex-1 overflow-y-auto p-2 pb-20">
                   {filteredTokens.length === 0 ? (
-                    <div className="p-8 text-center text-muted-foreground text-xs">No tokens found</div>
+                    <EmptyState
+                      size="sm"
+                      art="assets"
+                      title="No tokens match your search"
+                      description="Try a different symbol, or clear the search to browse all supported assets."
+                    />
                   ) : filteredTokens.map((opt, idx) => (
                     <button key={idx} onClick={() => { setSelectedToken(opt); setShowTokenSelector(false); setTokenSearchQuery(''); }}
                       className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-muted mb-1 ${JSON.stringify(selectedToken) === JSON.stringify(opt) ? 'bg-primary/10 border border-primary/20' : 'border border-transparent'}`}>

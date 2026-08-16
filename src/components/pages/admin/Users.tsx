@@ -10,6 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { marketService } from '@/services/market';
 import type { UserAsset } from '@/types';
+import { EmptyState } from "@/components/shared/EmptyState";
 import { 
   getAdminIdForCurrentUser, 
   filterUsersByAdminGroup, 
@@ -479,11 +480,14 @@ const AdminUsers = () => {
             </button>
           </div>
         ) : processed.length === 0 ? (
-          <div className="p-12 text-center">
-            <UsersIcon size={32} className="mx-auto mb-4 text-muted-foreground/50" />
-            <h3 className="text-lg font-medium text-foreground">No users found</h3>
-            <p className="text-muted-foreground mt-1 text-sm">Try adjusting your search.</p>
-          </div>
+          <EmptyState
+            art="referrals"
+            size="lg"
+            title="No users in this view"
+            description="No accounts match the current tab, filter or search query."
+            hint="Users appear here once they sign up under your referral code. Share the code from the Administrator page to start building your network."
+            hintIcon="info"
+          />
         ) : (
           <>
             <div className="overflow-x-auto">

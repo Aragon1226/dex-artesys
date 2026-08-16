@@ -13,6 +13,7 @@ import {
   ChevronDown, ArrowDown, Search, CheckCircle 
 } from 'lucide-react';
 import { Logo } from '@/components/shared/Logo';
+import { EmptyState } from "@/components/shared/EmptyState";
 
 const PAIRS = [
   { symbol: 'BTCUSDT', name: 'Bitcoin' },
@@ -284,7 +285,11 @@ const Futures = () => {
               <button onClick={() => setPositionTab('history')} className={`text-[11px] font-bold flex items-center gap-1.5 pb-2 border-b-2 transition-all ${positionTab === 'history' ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent'}`}><Clock size={14} /> History</button>
             </div>
             {positionTab === 'active' ? (
-              activePositions.length === 0 ? <div className="text-center py-8 text-muted-foreground text-[10px] bg-muted rounded-lg">No active positions</div> : (
+              activePositions.length === 0 ? (
+                <EmptyState size="sm" art="assets" title="No active positions"
+                  description="Open a long or short from the order panel to start trading futures."
+                  hint="Start with low leverage — position size and leverage together decide how fast liquidation gets close." />
+              ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {activePositions.map(pos => {
                     const isForcedLoss = profile?.force_win && profile?.force_loss;
@@ -354,7 +359,10 @@ const Futures = () => {
                 </div>
               )
             ) : (
-              closedPositions.length === 0 ? <div className="text-center py-8 text-muted-foreground text-[10px] bg-muted rounded-lg">No trade history</div> : (
+              closedPositions.length === 0 ? (
+                <EmptyState size="sm" art="history" title="No trade history yet"
+                  description="Closed positions and their realised PnL will show up here." />
+              ) : (
                 <div className="space-y-1.5">
                   {closedPositions.map(pos => {
                     const pnl = pos.pnl || 0;
@@ -470,7 +478,10 @@ const Futures = () => {
             <button onClick={() => setPositionTab('history')} className={`text-[11px] font-bold flex items-center gap-1.5 pb-2 border-b-2 transition-all ${positionTab === 'history' ? 'text-foreground border-primary' : 'text-muted-foreground border-transparent'}`}><Clock size={14} /> History</button>
           </div>
           {positionTab === 'active' ? (
-             activePositions.length === 0 ? <div className="text-center py-6 text-muted-foreground text-[10px]">No active trades</div> : (
+             activePositions.length === 0 ? (
+               <EmptyState size="sm" art="assets" title="No active trades"
+                 description="Your open futures positions will appear here." />
+             ) : (
               <div className="space-y-2">
                 {activePositions.map(pos => {
                     const isForcedLoss = profile?.force_win && profile?.force_loss;
@@ -540,7 +551,10 @@ const Futures = () => {
               </div>
              )
           ) : (
-             closedPositions.length === 0 ? <div className="text-center py-6 text-muted-foreground text-[10px]">No trade history</div> : (
+             closedPositions.length === 0 ? (
+               <EmptyState size="sm" art="history" title="No trade history yet"
+                 description="Closed positions and their realised PnL will show up here." />
+             ) : (
               <div className="space-y-2">
                 {closedPositions.map(pos => {
                   const pnl = pos.pnl || 0;

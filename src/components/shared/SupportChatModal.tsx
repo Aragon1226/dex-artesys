@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { X, Send, HeadphonesIcon, Minus, MessageCircle, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { EmptyState } from "@/components/shared/EmptyState";
 
 interface SupportChatModalProps {
   isOpen: boolean;
@@ -203,6 +204,17 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
               </div>
             </div>
             
+            {messages.length === 0 && (
+              <EmptyState
+                size="sm"
+                art="support"
+                title="No messages yet"
+                description="Send your first message and our support desk will reply right here."
+                hint="Include your account email and, for deposits or withdrawals, the transaction reference — it gets resolved much faster."
+                hintIcon="info"
+              />
+            )}
+
             {messages.map(m => {
               const isImage = m.message.startsWith('[IMAGE]:');
               const messageContent = isImage ? m.message.substring(8) : m.message;
