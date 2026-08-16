@@ -562,7 +562,10 @@ const Futures = () => {
           ) : (
              closedPositions.length === 0 ? (
                <EmptyState size="sm" art="history" title="No trade history yet"
-                 description="Closed positions and their realised PnL will show up here." />
+                 description="Closed positions and their realised PnL will show up here."
+                 action={{ label: 'Browse markets', to: '/app/market' }}
+                 secondaryAction={{ label: 'View assets', to: '/app/assets' }} />
+
              ) : (
               <div className="space-y-2">
                 {closedPositions.map(pos => {
