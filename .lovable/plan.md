@@ -1,29 +1,36 @@
-# Clean-state reset of the database (schema kept)
+# Clean slate for this app — existing database left untouched
 
-You'll handle switching this project to Lovable's built-in database yourself in project settings. On the currently connected database, this plan wipes all application data back to a clean state while leaving every table, policy, function and trigger intact — so once the app points at a fresh database, the same schema can be re-applied unchanged.
+Nothing is deleted from the current database. Your live Netlify app keeps running against it exactly as it does today. Instead, this project gets pointed at a fresh, empty database and the same structure is rebuilt there from scratch.
 
-## What gets erased
+## Step 1 — You switch the connection (in the product, not by me)
 
-- All rows in every app table: profiles, user_roles, user_assets, user_referrals, positions, deposits, withdrawals, kyc_submissions, notifications, support_messages, support_config, admin_wallets, admin_wallet_configs, custom_accounts.
-- All login accounts (including admin logins). After the wipe, sign-up recreates profiles automatically via the existing new-user trigger.
-- All uploaded files in the `kyc-documents` and `support-attachments` buckets.
+The database binding is a project-level setting I can't change from chat. In project settings, disconnect the external Supabase project and enable Lovable's built-in database. That gives this project a brand-new, empty database and rewrites the connection values automatically. The old project stays live and fully intact.
 
-## What stays
+## Step 2 — I rebuild the structure, empty
 
-- Every table, column, access rule (RLS policy), database function and trigger.
-- Storage buckets themselves (emptied, not deleted).
-- All application code, routes, and UI — untouched.
+Once the new database is connected, I re-apply the app's full structure as one migration:
 
-## Local cleanup
+- All 14 tables: profiles, user_roles, user_assets, user_referrals, positions, deposits, withdrawals, kyc_submissions, notifications, support_messages, support_config, admin_wallets, admin_wallet_configs, custom_accounts.
+- The same access rules as today (users see only their own records; admins see everything; a few shared config tables readable by any signed-in user).
+- The `admin`/`user` role type plus the role-check helper, kept in a separate roles table.
+- The supporting logic: new-user setup, trade-close settlement, account-ID generation, admin account create/delete, timestamp updates.
+- The two file buckets: `kyc-documents` and `support-attachments`.
 
-The app caches session and profile data in the browser (`crypx_custom_session_v1`, `crypx_user_profile_*`, `crypx_pending_ref_v1`, Supabase `sb-*` keys). After the wipe you should sign out / clear site data in the preview, otherwise a stale cached profile can briefly render for a user that no longer exists.
+No rows are copied over. No users, no balances, no history — a genuine clean slate.
+
+## Step 3 — First admin and verification
+
+- You tell me which email should be the first admin; I wire it so signing up with that email is granted admin access, and everyone else defaults to a normal user.
+- I then sign up a throwaway account in the preview and check the dashboard, spot/futures pages and the admin area load against the new database.
 
 ## Technical notes
 
-- Single migration, one transaction: `TRUNCATE ... RESTART IDENTITY CASCADE` across all public app tables, then `DELETE FROM auth.users` (cascades to `auth.identities` and to every table with a `user_id` FK), then `DELETE FROM storage.objects WHERE bucket_id IN ('kyc-documents','support-attachments')`.
-- No DDL: no drops, no policy or function changes, no schema edits — nothing that would need re-approval later.
-- `supabase/config.toml` and `src/integrations/supabase/types.ts` remain as-is; the schema is unchanged, so the generated types stay valid after you repoint the project.
+- One migration containing DDL only, following create-table → grants → enable RLS → policies for every table, so the Data API can reach them.
+- After the migration runs, the generated Supabase types file is regenerated; I'll fix up any code that drifts (should be none, since the schema is reproduced as-is).
+- `supabase/config.toml` and `.env` are updated by the connection switch, not by hand.
+- Current admin-email allowlist in the new-user trigger will be replaced with whatever you specify in step 3 rather than carried over silently.
 
-## After you switch to the built-in database
+## What I need from you
 
-Say the word and I'll re-apply the full existing schema (tables, grants, RLS policies, the 9 trading/admin functions, the new-user trigger, and both storage buckets) to the new database as one migration, plus recreate the admin accounts if you want them back.
+1. Switch this project to the built-in database in project settings.
+2. Tell me the email(s) to treat as admin on the fresh database.
