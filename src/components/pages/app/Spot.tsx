@@ -197,7 +197,15 @@ const Spot = () => {
   const profile = authProfile || getFallbackUserProfile(user);
   const [userAssets, setUserAssets] = useState<UserAsset[]>([]);
   const [tickers, setTickers] = useState<Record<string, MarketTicker>>({});
-  const [selectedPair, setSelectedPair] = useState('BTCUSDT');
+  const [selectedPair, setSelectedPair] = useState(() => {
+    if (typeof window === 'undefined') return 'BTCUSDT';
+    return sessionStorage.getItem('spot_selected_pair') || 'BTCUSDT';
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem('spot_selected_pair', selectedPair);
+  }, [selectedPair]);
+
   const [chartInterval, setChartInterval] = useState('1m');
   const [selectedPriceOverride, setSelectedPriceOverride] = useState<number | null>(null);
 

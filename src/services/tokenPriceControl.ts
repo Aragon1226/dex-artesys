@@ -1,3 +1,5 @@
+import { supabase } from '@/integrations/supabase/client';
+
 export interface TokenPriceSchedule {
   id: string;
   symbol: string; // e.g. "NAS", "AEP", "BOT", "TTZS", "ECB", etc.
@@ -99,21 +101,137 @@ const loadFromStorage = () => {
 
 loadFromStorage();
 
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (
+      e.key === SCHEDULES_STORAGE_KEY ||
+      e.key === MANUAL_OVERRIDES_KEY ||
+      e.key === AUDIT_LOGS_KEY
+    ) {
+      loadFromStorage();
+      window.dispatchEvent(new Event('token-price-control-updated'));
+    }
+  });
+}
+
+// Supabase Realtime Broadcast and Database Syncing
+let broadcastChannel: any = null;
+
+export const loadTokenPricesFromDB = async () => {
+  try {
+    const { data, error } = await supabase.from('admin_wallet_configs')
+      .select('address')
+      .eq('admin_id', 'SYSTEM_PRICES')
+      .eq('symbol', 'CONFIG')
+      .eq('network', 'DATA')
+      .maybeSingle();
+
+    if (!error && data && data.address) {
+      const parsed = JSON.parse(data.address);
+      if (parsed.schedulesMap) schedulesMap = parsed.schedulesMap;
+      if (parsed.manualOverridesMap) manualOverridesMap = parsed.manualOverridesMap;
+      if (parsed.auditLogsList) auditLogsList = parsed.auditLogsList;
+      
+      localStorage.setItem(SCHEDULES_STORAGE_KEY, JSON.stringify(schedulesMap));
+      localStorage.setItem(MANUAL_OVERRIDES_KEY, JSON.stringify(manualOverridesMap));
+      localStorage.setItem(AUDIT_LOGS_KEY, JSON.stringify(auditLogsList));
+      window.dispatchEvent(new Event('token-price-control-updated'));
+    }
+  } catch (err) {
+    console.error("Failed to load token prices from DB:", err);
+  }
+};
+
+const saveTokenPricesToDB = async () => {
+  try {
+    const payload = JSON.stringify({
+      schedulesMap,
+      manualOverridesMap,
+      auditLogsList
+    });
+    
+    await supabase.from('admin_wallet_configs').upsert({
+      admin_id: 'SYSTEM_PRICES',
+      symbol: 'CONFIG',
+      network: 'DATA',
+      address: payload
+    }, { onConflict: 'admin_id,symbol,network' });
+  } catch (err) {
+    console.error("Failed to save token prices to DB:", err);
+  }
+};
+
+if (typeof window !== 'undefined') {
+  broadcastChannel = supabase.channel('token-prices-sync');
+  
+  broadcastChannel
+    .on('broadcast', { event: 'sync' }, (payload: any) => {
+      const { schedules, overrides, logs } = payload.payload;
+      if (schedules) schedulesMap = schedules;
+      if (overrides) manualOverridesMap = overrides;
+      if (logs) auditLogsList = logs;
+      
+      localStorage.setItem(SCHEDULES_STORAGE_KEY, JSON.stringify(schedulesMap));
+      localStorage.setItem(MANUAL_OVERRIDES_KEY, JSON.stringify(manualOverridesMap));
+      localStorage.setItem(AUDIT_LOGS_KEY, JSON.stringify(auditLogsList));
+      window.dispatchEvent(new Event('token-price-control-updated'));
+    })
+    .on('broadcast', { event: 'request_sync' }, () => {
+      // Respond to sync requests
+      if (Object.keys(schedulesMap).length > 0 || Object.keys(manualOverridesMap).length > 0) {
+        broadcastState();
+      }
+    })
+    .subscribe((status: string) => {
+      if (status === 'SUBSCRIBED') {
+        // Load from DB first when connected
+        loadTokenPricesFromDB().then(() => {
+          if (Object.keys(schedulesMap).length === 0 && Object.keys(manualOverridesMap).length === 0) {
+            broadcastChannel.send({
+              type: 'broadcast',
+              event: 'request_sync'
+            }).catch(console.error);
+          }
+        });
+      }
+    });
+}
+
+const broadcastState = () => {
+  if (broadcastChannel) {
+    broadcastChannel.send({
+      type: 'broadcast',
+      event: 'sync',
+      payload: {
+        schedules: schedulesMap,
+        overrides: manualOverridesMap,
+        logs: auditLogsList
+      }
+    }).catch(console.error);
+  }
+};
+
 const saveSchedules = () => {
   if (typeof window === 'undefined') return;
   localStorage.setItem(SCHEDULES_STORAGE_KEY, JSON.stringify(schedulesMap));
   window.dispatchEvent(new Event('token-price-control-updated'));
+  broadcastState();
+  saveTokenPricesToDB();
 };
 
 const saveOverrides = () => {
   if (typeof window === 'undefined') return;
   localStorage.setItem(MANUAL_OVERRIDES_KEY, JSON.stringify(manualOverridesMap));
   window.dispatchEvent(new Event('token-price-control-updated'));
+  broadcastState();
+  saveTokenPricesToDB();
 };
 
 const saveAuditLogs = () => {
   if (typeof window === 'undefined') return;
   localStorage.setItem(AUDIT_LOGS_KEY, JSON.stringify(auditLogsList));
+  broadcastState();
+  saveTokenPricesToDB();
 };
 
 const logAction = (symbol: string, action: string, details: string, adminEmail: string = 'admin') => {
@@ -165,6 +283,27 @@ const getUncontrolledHourlyPrice = (cleanSym: string, basePrice: number): number
 
   const finalPrice = Math.max(0.0001, basePrice + currentOffset + microNoise);
   return parseFloat(finalPrice.toFixed(4));
+};
+
+
+const isTokenLocked = (symbol: string, adminEmail: string = 'admin'): { locked: boolean; lockedBy: string } => {
+  const cleanSym = symbol.replace('USDT', '').replace('/', '').toUpperCase();
+  const schedule = schedulesMap[cleanSym];
+  if (schedule && schedule.isActive && schedule.endTime > Date.now()) {
+    const owner = schedule.createdByAdmin || 'admin';
+    // If the person trying to edit is not the owner, it's locked
+    if (owner !== adminEmail) {
+      return { locked: true, lockedBy: owner };
+    }
+  }
+  return { locked: false, lockedBy: '' };
+};
+
+const assertNotLocked = (symbol: string, adminEmail?: string) => {
+  const lock = isTokenLocked(symbol, adminEmail || 'admin');
+  if (lock.locked) {
+    throw new Error(`Token ${symbol} is locked by an ongoing adjustment from ${lock.lockedBy}.`);
+  }
 };
 
 export const tokenPriceControl = {
@@ -279,6 +418,7 @@ export const tokenPriceControl = {
     adminEmail?: string;
     note?: string;
   }): TokenPriceSchedule => {
+    assertNotLocked(params.symbol, params.adminEmail);
     const cleanSym = params.symbol.replace('USDT', '').replace('/', '').toUpperCase();
     const tokenMeta = SAMPLE_TOKENS_LIST.find(t => t.symbol === cleanSym);
     
@@ -347,6 +487,7 @@ export const tokenPriceControl = {
    * Instant direct price override
    */
   setManualOverride: (symbol: string, targetPrice: number, adminEmail?: string) => {
+    assertNotLocked(symbol, adminEmail);
     const cleanSym = symbol.replace('USDT', '').replace('/', '').toUpperCase();
     manualOverridesMap[cleanSym] = targetPrice;
     
@@ -392,6 +533,12 @@ export const tokenPriceControl = {
    * Reset all sample tokens to uncontrolled standard defaults
    */
   resetAllTokens: (adminEmail?: string) => {
+    const email = adminEmail || 'admin';
+    const lockedTokens = Object.values(schedulesMap).filter(sch => sch.isActive && sch.endTime > Date.now() && (sch.createdByAdmin || 'admin') !== email);
+    if (lockedTokens.length > 0) {
+      throw new Error(`Cannot reset all: ${lockedTokens.map(t=>t.symbol).join(', ')} are locked by other admins.`);
+    }
+
     schedulesMap = {};
     manualOverridesMap = {};
     saveSchedules();
@@ -410,6 +557,7 @@ export const tokenPriceControl = {
     adminEmail?: string;
   }) => {
     params.symbols.forEach(sym => {
+      assertNotLocked(sym, params.adminEmail);
       const cleanSym = sym.replace('USDT', '').replace('/', '').toUpperCase();
       const meta = SAMPLE_TOKENS_LIST.find(t => t.symbol === cleanSym);
       const startP = meta?.defaultPrice || 100;
