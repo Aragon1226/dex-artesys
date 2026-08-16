@@ -486,7 +486,10 @@ const Futures = () => {
           {positionTab === 'active' ? (
              activePositions.length === 0 ? (
                <EmptyState size="sm" art="assets" title="No active trades"
-                 description="Your open futures positions will appear here." />
+                 description="Your open futures positions will appear here."
+                 action={{ label: 'Fund your account', to: '/app/assets' }}
+                 secondaryAction={{ label: 'Browse markets', to: '/app/market' }} />
+
              ) : (
               <div className="space-y-2">
                 {activePositions.map(pos => {
