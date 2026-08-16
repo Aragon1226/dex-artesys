@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as BannerPreviewRouteImport } from './routes/banner-preview'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -64,11 +63,6 @@ const AppRoute = AppRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BannerPreviewRoute = BannerPreviewRouteImport.update({
-  id: '/banner-preview',
-  path: '/banner-preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -232,7 +226,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/banner-preview': typeof BannerPreviewRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
@@ -268,7 +261,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/banner-preview': typeof BannerPreviewRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
@@ -307,7 +299,6 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/banner-preview': typeof BannerPreviewRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
@@ -347,7 +338,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
-    | '/banner-preview'
     | '/faq'
     | '/policies'
     | '/settings'
@@ -383,7 +373,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/banner-preview'
     | '/faq'
     | '/policies'
     | '/settings'
@@ -421,7 +410,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
-    | '/banner-preview'
     | '/faq'
     | '/policies'
     | '/settings'
@@ -460,7 +448,6 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
-  BannerPreviewRoute: typeof BannerPreviewRoute
   FaqRoute: typeof FaqRoute
   PoliciesRoute: typeof PoliciesRoute
   SettingsRoute: typeof SettingsRoute
@@ -495,13 +482,6 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/banner-preview': {
-      id: '/banner-preview'
-      path: '/banner-preview'
-      fullPath: '/banner-preview'
-      preLoaderRoute: typeof BannerPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -799,7 +779,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
-  BannerPreviewRoute: BannerPreviewRoute,
   FaqRoute: FaqRoute,
   PoliciesRoute: PoliciesRoute,
   SettingsRoute: SettingsRoute,
