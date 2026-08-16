@@ -641,7 +641,7 @@ export const marketService = {
 
   getHistoricalData: async (pair: string, interval: string = '1h', limit: number = 100) => {
     const now = Math.floor(Date.now() / 1000);
-    const data = [];
+    const data: { time: number; open: number; high: number; low: number; close: number }[] = [];
     let price = 50000;
     
     if (pair) {

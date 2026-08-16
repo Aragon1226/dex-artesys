@@ -74,7 +74,7 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
           balance: newSpotBalance,
           futures_balance: newFuturesBalance
         })
-        .eq("id", user?.id);
+        .eq("id", user!.id);
 
       if (error) throw error;
 

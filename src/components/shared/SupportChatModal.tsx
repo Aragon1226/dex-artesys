@@ -37,7 +37,7 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
         .order('created_at', { ascending: true });
         
       if (!error && data) {
-        setMessages(data);
+        setMessages(data as Message[]);
       }
     };
     

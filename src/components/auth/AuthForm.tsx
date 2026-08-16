@@ -140,7 +140,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
         // Try authenticating with real Supabase Auth first
         let realAuthSuccess = false;
-        let authErrorMsg = null;
+        let authErrorMsg: string | null = null;
         try {
           const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
             email: normEmail,

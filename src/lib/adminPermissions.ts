@@ -619,7 +619,7 @@ export function filterUsersByAdminGroup<T extends { id?: string; user_id?: strin
   
   return items.filter(item => {
     // Determine the user identifier
-    const email = item.email;
+    const email = item.email ?? undefined;
     const userId = item.user_id || item.id;
     const referrer = getReferrerForUser(email, userId);
     if (!referrer) return false;
@@ -723,7 +723,7 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
       p_username: account.username,
       p_custom_id: account.customId,
       p_role: account.role,
-      p_permissions: account.permissions
+      p_permissions: account.permissions as unknown as Record<string, unknown>
     });
 
     if (rpcError) {
@@ -731,7 +731,7 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
       
       // Fallback
       const dbPayload = {
-        id: account.id,
+        id: account.id ?? crypto.randomUUID(),
         custom_id: account.customId,
         email: account.email,
         username: account.username,
