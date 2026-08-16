@@ -595,7 +595,9 @@ const Assets = () => {
                       art="assets"
                       title="No tokens match your search"
                       description="Try a different symbol, or clear the search to browse all supported assets."
+                      action={{ label: 'Clear search', onClick: () => setTokenSearchQuery('') }}
                     />
+
                   ) : filteredTokens.map((opt, idx) => (
                     <button key={idx} onClick={() => { setSelectedToken(opt); setShowTokenSelector(false); setTokenSearchQuery(''); }}
                       className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-muted mb-1 ${JSON.stringify(selectedToken) === JSON.stringify(opt) ? 'bg-primary/10 border border-primary/20' : 'border border-transparent'}`}>
