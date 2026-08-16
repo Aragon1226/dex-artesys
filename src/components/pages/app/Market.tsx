@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, TrendingUp, Star, ChevronDown, Filter } from 'lucide-react';
 import { marketService, MarketData } from '@/services/market';
 import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import CubeSpinner from '@/components/shared/CubeSpinner';
 import { useNavigate } from "@/lib/router-compat";
 import { useRealtimePrices } from '@/hooks/useRealtimePrices';
 import { EmptyState } from "@/components/shared/EmptyState";
+import { LoadingBlock } from "@/components/shared/BrandLoader";
+import { RetryState } from "@/components/shared/RetryState";
+
 
 const MAIN_TABS = ['Overview', 'Favorites', 'Crypto', 'Main', 'Stocks & Commodities', 'Alpha'];
 const SUB_TABS = ['Spot', 'Futures', 'Margin'];
