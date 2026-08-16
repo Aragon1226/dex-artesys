@@ -124,8 +124,8 @@ const KYC = () => {
                   <div className="px-6 py-4 flex items-center justify-between cursor-pointer" onClick={() => setExpandedId(isExpanded ? null : sub.id)}>
                     <div className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
-                        sub.status === 'VERIFIED' ? 'bg-emerald-500/10 text-emerald-600' :
-                        sub.status === 'REJECTED' ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'
+                        sub.status === 'VERIFIED' ? 'bg-success-soft text-success' :
+                        sub.status === 'REJECTED' ? 'bg-danger-soft text-danger' : 'bg-primary/10 text-primary'
                       }`}>
                         {(profile?.username || 'U').charAt(0).toUpperCase()}
                       </div>
@@ -141,8 +141,8 @@ const KYC = () => {
                         <span className="font-bold text-foreground capitalize">{sub.id_type}</span>
                       </div>
                       <div className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${
-                        sub.status === 'VERIFIED' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' :
-                        sub.status === 'REJECTED' ? 'bg-destructive/10 text-destructive border-destructive/20' : 'bg-orange-500/10 text-orange-600 border-orange-500/20'
+                        sub.status === 'VERIFIED' ? 'bg-success-soft text-success border-success/25' :
+                        sub.status === 'REJECTED' ? 'bg-danger-soft text-danger border-danger/25' : 'bg-warning-soft text-warning border-warning/25'
                       }`}>
                         {sub.status}
                       </div>

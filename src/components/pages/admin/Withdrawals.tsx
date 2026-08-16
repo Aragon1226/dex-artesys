@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { getAdminIdForCurrentUser, filterUsersByAdminGroup, syncUserReferralsWithSupabase } from '@/lib/adminPermissions';
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import { CryptoIcon } from '@/components/shared/CryptoIcon';
 import { ArrowUp, RefreshCw, Check, X, Filter, AlertCircle } from 'lucide-react';
 import CubeSpinner from '@/components/shared/CubeSpinner';
@@ -239,13 +240,7 @@ const AdminWithdrawals = () => {
                       <div className="text-sm font-mono font-bold text-foreground">{w.amount}</div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                        w.status === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' :
-                        w.status === 'REJECTED' ? 'bg-destructive/10 text-destructive border-destructive/20' :
-                        'bg-orange-500/10 text-orange-600 border-orange-500/20'
-                      }`}>
-                        {w.status}
-                      </span>
+                      <StatusBadge status={w.status} />
                     </td>
                     <td className="px-6 py-4 text-right">
                       {w.status === 'PENDING' ? (
