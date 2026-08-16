@@ -28,23 +28,30 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
   const messageInputRef = useRef<HTMLInputElement>(null);
 
 
-  useEffect(() => {
-    if (!user || !isOpen) return;
-
-    // Load initial messages
-    const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
+    if (!user) return;
+    setMsgLoading(true);
+    setMsgError(null);
+    try {
       const { data, error } = await supabase
         .from('support_messages')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: true });
-        
-      if (!error && data) {
-        setMessages(data as Message[]);
-      }
-    };
-    
+      if (error) throw error;
+      setMessages((data || []) as Message[]);
+    } catch (e: any) {
+      setMsgError(e?.message || 'Request failed.');
+    } finally {
+      setMsgLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user || !isOpen) return;
+
     loadMessages();
+
 
     // Subscribe to new messages
     const channel = supabase
