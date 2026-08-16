@@ -271,11 +271,13 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
 
               <input
                 type="text"
+                ref={messageInputRef}
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
                 placeholder="Type a message..."
                 className="flex-1 bg-muted border border-border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm transition-all"
               />
+
               <button 
                 type="submit"
                 disabled={!newMessage.trim()}
