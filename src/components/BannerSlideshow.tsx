@@ -76,7 +76,7 @@ const BannerSlideshow = () => {
     <section className="relative w-full px-0 sm:px-4 py-2">
       <div className="relative rounded-none sm:rounded-2xl overflow-hidden group border border-border bg-background">
         {/* Slides */}
-        <div className="relative aspect-[4/3] xs:aspect-[16/10] sm:aspect-[16/9] lg:aspect-[5/2] xl:aspect-[3/1] overflow-hidden">
+        <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:aspect-[5/2] xl:aspect-[3/1] overflow-hidden">
           {slides.map((slide, i) => (
             <div
               key={slide.id}
