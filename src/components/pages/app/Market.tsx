@@ -7,6 +7,8 @@ import { useRealtimePrices } from '@/hooks/useRealtimePrices';
 import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingBlock } from "@/components/shared/BrandLoader";
 import { RetryState } from "@/components/shared/RetryState";
+import { throwIfFaultInjected } from "@/lib/devFaults";
+
 
 
 const MAIN_TABS = ['Overview', 'Favorites', 'Crypto', 'Main', 'Stocks & Commodities', 'Alpha'];
