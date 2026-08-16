@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router-compat";
+import slideSpot from "@/assets/generated/slide-spot.jpg";
+import slideFutures from "@/assets/generated/slide-futures.jpg";
+import slideEarn from "@/assets/generated/slide-earn.jpg";
+import slideAssets from "@/assets/generated/slide-assets.jpg";
+import slideSupport from "@/assets/generated/slide-support.jpg";
 
 const slides = [
   {
@@ -11,7 +16,7 @@ const slides = [
     color: "from-emerald-500/20 to-emerald-900/40",
     accent: "text-emerald-400",
     link: "/app/spot",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=1200"
+    image: slideSpot
   },
   {
     id: "futures",
@@ -21,7 +26,7 @@ const slides = [
     color: "from-cyan-500/20 to-cyan-900/40",
     accent: "text-cyan-400",
     link: "/app/futures",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200"
+    image: slideFutures
   },
   {
     id: "earn",
@@ -31,7 +36,7 @@ const slides = [
     color: "from-blue-500/20 to-blue-900/40",
     accent: "text-blue-400",
     link: "/app/earn",
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&q=80&w=1200"
+    image: slideEarn
   },
   {
     id: "assets",
@@ -41,7 +46,7 @@ const slides = [
     color: "from-purple-500/20 to-purple-900/40",
     accent: "text-purple-400",
     link: "/app/assets",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200"
+    image: slideAssets
   },
   {
     id: "support",
@@ -51,7 +56,7 @@ const slides = [
     color: "from-rose-500/20 to-rose-900/40",
     accent: "text-rose-400",
     link: "/app/home",
-    image: "https://images.unsplash.com/photo-1521791136064-7986c2923216?auto=format&fit=crop&q=80&w=1200"
+    image: slideSupport
   }
 ];
 
@@ -84,11 +89,12 @@ const BannerSlideshow = () => {
                 <img
                   src={slide.image}
                   alt=""
-                  className="w-full h-full object-cover opacity-10 grayscale"
-                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover opacity-60 scale-105"
+                  loading={i === 0 ? "eager" : "lazy"}
                 />
-                <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} opacity-60`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent" />
+                <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} opacity-40 mix-blend-screen`} />
+                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/40" />
               </div>
               
               {/* Content Overlay */}
