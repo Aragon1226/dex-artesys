@@ -159,10 +159,21 @@ export const Market = () => {
       <div className="flex-1 overflow-y-auto bg-background">
 
         {loading ? (
-          <div className="py-20 flex flex-col items-center justify-center">
-            <CubeSpinner label="Loading market data..." />
+          <div className="px-4 py-6">
+            <LoadingBlock variant="table" rows={8} label="Loading market data" />
           </div>
+        ) : loadError && markets.length === 0 ? (
+          <RetryState
+            size="lg"
+            title="Market feed unavailable"
+            description="We couldn't reach the price feed just now."
+            detail={loadError}
+            onRetry={fetchMarkets}
+            retryLabel="Reload markets"
+            secondary={{ label: 'Go to assets', to: '/app/assets' }}
+          />
         ) : (
+
           <div className="divide-y divide-border/50">
             {filteredMarkets.map(market => {
               const rtPriceData = rtPrices[market.pair];
