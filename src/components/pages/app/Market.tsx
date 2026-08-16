@@ -7,6 +7,8 @@ import { useRealtimePrices } from '@/hooks/useRealtimePrices';
 import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingBlock } from "@/components/shared/BrandLoader";
 import { RetryState } from "@/components/shared/RetryState";
+import { throwIfFaultInjected } from "@/lib/devFaults";
+
 
 
 const MAIN_TABS = ['Overview', 'Favorites', 'Crypto', 'Main', 'Stocks & Commodities', 'Alpha'];
@@ -27,9 +29,11 @@ export const Market = () => {
 
   const fetchMarkets = useCallback(async () => {
     try {
+      throwIfFaultInjected('market', 'Market feed unavailable.');
       const data = await marketService.getAllMarkets();
       setMarkets(data);
       setLoadError(null);
+
     } catch (err: any) {
       console.error(err);
       setLoadError(err?.message || 'Market feed unavailable.');

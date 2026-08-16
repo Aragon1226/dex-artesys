@@ -9,7 +9,12 @@ interface BrandLoaderProps {
 
 /** Logo-derived loading mark: pulsing amber emblem with an orbiting ring. */
 export const BrandLoader: React.FC<BrandLoaderProps> = ({ size = 48, label, className = "" }) => (
-  <div className={`flex flex-col items-center justify-center gap-3 ${className}`} role="status" aria-live="polite">
+  <div
+    className={`flex flex-col items-center justify-center gap-3 ${className}`}
+    role="status"
+    aria-live="polite"
+    data-testid="brand-loader"
+  >
     <div className="relative" style={{ width: size, height: size }}>
       <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl animate-pulse" aria-hidden="true" />
       <div
@@ -65,7 +70,12 @@ export const LoadingBlock: React.FC<LoadingBlockProps> = ({
   const items = Array.from({ length: rows }, (_, i) => i);
 
   return (
-    <div className={`w-full ${className}`} aria-busy="true">
+    <div
+      className={`w-full ${className}`}
+      aria-busy="true"
+      data-testid="loading-block"
+      data-variant={variant}
+    >
       {brand && <BrandLoader size={44} label={label} className="py-5" />}
 
       <div className="space-y-2.5 select-none">
