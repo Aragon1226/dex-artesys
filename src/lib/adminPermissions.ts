@@ -738,7 +738,7 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
         role: account.role,
         password: account.password || null,
         created_by_admin_id: account.createdByAdminId || null,
-        permissions: account.permissions as unknown as Json,
+        permissions: account.permissions as unknown as Record<string, unknown>,
       } as never;
       
       const { error } = await supabase.from('custom_accounts').upsert(dbPayload, { onConflict: 'email' });
