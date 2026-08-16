@@ -214,7 +214,10 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
                 description="Send your first message and our support desk will reply right here."
                 hint="Include your account email and, for deposits or withdrawals, the transaction reference — it gets resolved much faster."
                 hintIcon="info"
+                action={{ label: 'Write a message', onClick: () => messageInputRef.current?.focus() }}
+                secondaryAction={{ label: 'Read the FAQ', to: '/app/faq', onClick: onClose }}
               />
+
             )}
 
             {messages.map(m => {
