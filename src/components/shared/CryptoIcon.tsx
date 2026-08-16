@@ -20,6 +20,20 @@ import omniLogo from '@/assets/images/omni_media_logo_1786723738247.jpg';
 import cineLogo from '@/assets/images/cine_movie_logo_1786723750188.jpg';
 import tfraLogo from '@/assets/images/tfra_agri_logo_1786723760557.jpg';
 
+// Generated 3D amber token icons (Main / Layer-2 / Stocks & Commodities)
+import cftLogo from '@/assets/images/tokens/cft.png';
+import rtvLogo from '@/assets/images/tokens/rtv.png';
+import reoLogo from '@/assets/images/tokens/reo.png';
+import bexLogo from '@/assets/images/tokens/bex.png';
+import ryrLogo from '@/assets/images/tokens/ryr.png';
+import oasLogo from '@/assets/images/tokens/oas.png';
+import jtcLogo from '@/assets/images/tokens/jtc.png';
+import goldLogo from '@/assets/images/tokens/gold.png';
+import silverLogo from '@/assets/images/tokens/silver.png';
+import oilLogo from '@/assets/images/tokens/oil.png';
+import spyLogo from '@/assets/images/tokens/spy.png';
+import vixLogo from '@/assets/images/tokens/vix.png';
+
 // Custom simulated / training token logos (strictly for app custom sample tokens, NEVER for real tokens)
 const CUSTOM_MOCK_LOGOS: Record<string, string> = {
   NAS: nasLogo,
@@ -43,7 +57,27 @@ const CUSTOM_MOCK_LOGOS: Record<string, string> = {
   OMNI: omniLogo,
   CINE: cineLogo,
   TFRA: tfraLogo,
+
+  // Generated 3D amber icons — Main / Layer-2 sample tokens
+  CFT: cftLogo,
+  RTV: rtvLogo,
+  REO: reoLogo,
+  BEX: bexLogo,
+  RYR: ryrLogo,
+  OAS: oasLogo,
+  JTC: jtcLogo,
+
+  // Commodities & index markets
+  GOLD: goldLogo,
+  XAU: goldLogo,
+  SILVER: silverLogo,
+  XAG: silverLogo,
+  OIL: oilLogo,
+  WTI: oilLogo,
+  SPY: spyLogo,
+  VIX: vixLogo,
 };
+
 
 // Official open-source repositories & CDNs (TrustWallet Assets, CoinGecko, Spothq cryptocurrency-icons)
 const OFFICIAL_OPENSOURCE_ICONS: Record<string, string[]> = {
