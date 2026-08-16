@@ -219,7 +219,21 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
               </div>
             </div>
             
-            {messages.length === 0 && (
+            {msgLoading && messages.length === 0 && (
+              <LoadingBlock variant="chat" rows={4} label="Loading conversation" />
+            )}
+
+            {!msgLoading && msgError && messages.length === 0 && (
+              <RetryState
+                size="sm"
+                title="Couldn't load your conversation"
+                description="Your messages are saved — we just couldn't fetch them."
+                detail={msgError}
+                onRetry={loadMessages}
+              />
+            )}
+
+            {!msgLoading && !msgError && messages.length === 0 && (
               <EmptyState
                 size="sm"
                 art="support"
@@ -230,8 +244,8 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
                 action={{ label: 'Write a message', onClick: () => messageInputRef.current?.focus() }}
                 secondaryAction={{ label: 'Read the FAQ', to: '/app/faq', onClick: onClose }}
               />
-
             )}
+
 
             {messages.map(m => {
               const isImage = m.message.startsWith('[IMAGE]:');
