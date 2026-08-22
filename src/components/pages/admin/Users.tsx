@@ -1384,31 +1384,73 @@ const AdminUsers = () => {
                 <Trash2 size={24} />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-foreground">Purge Registered Account</h3>
-                <p className="text-xs text-muted-foreground">Irreversible administrative override action</p>
+                <h3 className="text-lg font-bold text-foreground">Purge & Delete Account</h3>
+                <p className="text-xs text-muted-foreground">Permanent erasure of user data and credentials</p>
               </div>
             </div>
 
-            <div className="p-4 bg-danger/5 border border-danger/10 rounded-2xl mb-6 text-sm text-foreground/90">
-              <p className="font-semibold mb-2">You are about to delete:</p>
-              <div className="font-mono text-xs bg-muted/60 p-3 rounded-xl border border-border">
-                <div className="flex justify-between py-1">
+            <div className="p-4 bg-danger/5 border border-danger/15 rounded-2xl mb-6 text-sm text-foreground/90 space-y-3">
+              <div className="font-mono text-xs bg-muted/60 p-3 rounded-xl border border-border space-y-1">
+                <div className="flex justify-between py-0.5">
                   <span className="text-muted-foreground">Username:</span>
                   <span className="font-bold text-foreground">{selectedUserForDelete.username || 'N/A'}</span>
                 </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-muted-foreground">Email Address:</span>
+                <div className="flex justify-between py-0.5">
+                  <span className="text-muted-foreground">Email:</span>
                   <span className="font-bold text-foreground">{selectedUserForDelete.email || 'N/A'}</span>
                 </div>
-                <div className="flex justify-between py-1 border-t border-border/40 mt-1 pt-1">
-                  <span className="text-muted-foreground">UUID Anchor:</span>
+                <div className="flex justify-between py-0.5 border-t border-border/40 mt-1 pt-1">
+                  <span className="text-muted-foreground">User UUID:</span>
                   <span className="opacity-70 text-[10px] text-foreground">{selectedUserForDelete.id}</span>
                 </div>
               </div>
-              <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
-                Warning: This deletes all active credentials, profile logs, portfolio registries, support history, and pending deposits linked to this user's identity. This transaction cannot be undone.
-              </p>
+
+              {/* Mode Selector */}
+              <div>
+                <label className="block text-xs font-bold text-foreground mb-1.5">Deletion Request Type</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDeleteMode('client_request');
+                      setDeleteReason('Client requested permanent account closure');
+                    }}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all text-left flex flex-col gap-0.5 ${
+                      deleteMode === 'client_request'
+                        ? 'bg-primary/15 text-primary border-primary/40 ring-1 ring-primary/30'
+                        : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                    }`}
+                  >
+                    <span className="text-[11px] font-bold text-foreground">Client Request</span>
+                    <span className="text-[9px] opacity-75">Voluntary GDPR/data purge</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDeleteMode('force');
+                      setDeleteReason('Administrative enforcement & compliance deletion');
+                    }}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all text-left flex flex-col gap-0.5 ${
+                      deleteMode === 'force'
+                        ? 'bg-danger/15 text-danger border-danger/40 ring-1 ring-danger/30'
+                        : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                    }`}
+                  >
+                    <span className="text-[11px] font-bold text-foreground">Forced Purge</span>
+                    <span className="text-[9px] opacity-75">Admin forced removal</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-2.5 bg-danger/10 border border-danger/20 rounded-xl text-xs text-danger/90 leading-relaxed flex items-start gap-2">
+                <AlertTriangle size={16} className="shrink-0 mt-0.5 text-danger" />
+                <span>
+                  Permanent action: This purges user assets, ledger deposits, withdrawals, open futures positions, and auth profile records.
+                </span>
+              </div>
             </div>
+
 
             <div className="flex gap-3">
               <button
