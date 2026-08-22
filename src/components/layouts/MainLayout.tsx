@@ -61,7 +61,7 @@ const MainLayout = () => {
           ))}
 
 
-          {isDev && (
+          <AdminOnly path={adminItem.path}>
             <NavLink
               to={adminItem.path}
               className={({ isActive }) =>
@@ -77,7 +77,8 @@ const MainLayout = () => {
                 {adminItem.label}
               </span>
             </NavLink>
-          )}
+          </AdminOnly>
+
         </div>
 
         <div className="pt-6 border-t border-border mt-auto">
