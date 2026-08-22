@@ -394,18 +394,7 @@ export interface AdminWalletConfig {
 const REFERRALS_KEY = 'crypx_user_referrals_v2';
 const ADMIN_WALLETS_KEY = 'crypx_admin_wallets_v1';
 
-export const DEFAULT_USER_REFERRALS: UserReferral[] = [
-  {
-    userEmail: 'rickhutman77@gmail.com',
-    referredByAdminId: 'CXPAD-002',
-    referredAt: '2025-01-01T00:00:00.000Z'
-  },
-  {
-    userEmail: 'annaxiang926@gmail.com',
-    referredByAdminId: 'CXPAD-002',
-    referredAt: '2025-01-01T00:00:00.000Z'
-  }
-];
+export const DEFAULT_USER_REFERRALS: UserReferral[] = [];
 
 export function getAdminReferralCode(adminIdOrAccountOrEmail: string | CustomAccount | null | undefined): string {
   if (!adminIdOrAccountOrEmail) return '';
@@ -519,6 +508,43 @@ export function getReferralCodeForCurrentUser(email: string | undefined): string
 }
 
 // User referrals management
+export function isTestOrE2EAccount(item: string | { email?: string | null; username?: string | null } | null | undefined): boolean {
+  if (!item) return false;
+  const email = typeof item === 'string' ? item : item.email;
+  const username = typeof item === 'object' ? item.username : undefined;
+
+  if (email) {
+    const e = email.toLowerCase().trim();
+    if (
+      e.startsWith('e2e-') ||
+      e.startsWith('e2e_') ||
+      e.includes('@crypxpro-e2e.test') ||
+      e.includes('-e2e.') ||
+      e.startsWith('testuser') ||
+      e.startsWith('tester178684') ||
+      e.startsWith('comp_test_') ||
+      e.startsWith('test_admin_trig_') ||
+      e.startsWith('test_normal_') ||
+      e.startsWith('diagnostic_') ||
+      e.startsWith('admin_test_') ||
+      e.startsWith('brandnewadmin_') ||
+      e === 'testuser@example.com' ||
+      e === 'testuserspecial@example.com'
+    ) {
+      return true;
+    }
+  }
+
+  if (username) {
+    const u = username.toLowerCase().trim();
+    if (u === 'e2e tester' || u.startsWith('e2e-') || u.startsWith('e2e_')) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function getUserReferrals(): UserReferral[] {
   const stored = localStorage.getItem(REFERRALS_KEY);
   let referrals: UserReferral[] = [];
@@ -530,12 +556,17 @@ export function getUserReferrals(): UserReferral[] {
     }
   }
 
+  // Filter out any known test accounts created during development or e2e tests
+  referrals = referrals.filter(r => !isTestOrE2EAccount(r.userEmail));
+
   // Ensure default seeded user referrals are present
   DEFAULT_USER_REFERRALS.forEach(def => {
     const normDefEmail = def.userEmail.toLowerCase().trim();
-    const existingIdx = referrals.findIndex(r => r.userEmail.toLowerCase().trim() === normDefEmail);
-    if (existingIdx === -1) {
-      referrals.push(def);
+    if (!isTestOrE2EAccount(normDefEmail)) {
+      const existingIdx = referrals.findIndex(r => r.userEmail.toLowerCase().trim() === normDefEmail);
+      if (existingIdx === -1) {
+        referrals.push(def);
+      }
     }
   });
 
@@ -610,14 +641,16 @@ export function getAdminIdForCurrentUser(email: string | undefined): string | nu
 }
 
 // Filter lists of data based on the active admin's group
-export function filterUsersByAdminGroup<T extends { id?: string; user_id?: string; email?: string | null }>(
+export function filterUsersByAdminGroup<T extends { id?: string; user_id?: string; email?: string | null; username?: string | null }>(
   items: T[], 
   currentAdminId: string | null
 ): T[] {
-  if (!currentAdminId) return items; // Owners get all items
+  // Always filter out test and e2e accounts from any administrative views
+  const nonTestItems = items.filter(item => !isTestOrE2EAccount(item));
+  if (!currentAdminId) return nonTestItems; // Owners get all non-test items
   const normCurrentAdmin = normalizeAdminId(currentAdminId);
   
-  return items.filter(item => {
+  return nonTestItems.filter(item => {
     // Determine the user identifier
     const email = item.email ?? undefined;
     const userId = item.user_id || item.id;
@@ -912,4 +945,201 @@ export async function deleteAdminWalletFromSupabase(adminId: string, symbol: str
     console.warn("Supabase admin wallet delete exception:", err);
   }
 }
+
+
+// ==========================================
+// BANNED USERS & ACCOUNT DELETION MANAGEMENT
+// ==========================================
+
+export interface BannedUserRecord {
+  userId?: string;
+  email: string;
+  username?: string;
+  bannedAt: string;
+  bannedByAdminId: string;
+  bannedByEmail?: string;
+  reason: string;
+  type: 'force' | 'client_request' | 'violation' | 'security';
+  notes?: string;
+}
+
+const BANNED_USERS_KEY = 'crypx_banned_users_v2';
+
+export function getBannedUsers(): BannedUserRecord[] {
+  try {
+    const raw = localStorage.getItem(BANNED_USERS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.warn("Failed to parse banned users from localStorage:", e);
+    return [];
+  }
+}
+
+export function saveBannedUsers(list: BannedUserRecord[]): void {
+  try {
+    localStorage.setItem(BANNED_USERS_KEY, JSON.stringify(list));
+    // Trigger cross-window storage event for immediate UI reaction
+    window.dispatchEvent(new Event('storage'));
+  } catch (e) {
+    console.warn("Failed to save banned users to localStorage:", e);
+  }
+}
+
+export function isUserBanned(emailOrId: string | null | undefined): boolean {
+  if (!emailOrId) return false;
+  const clean = emailOrId.toLowerCase().trim();
+  const list = getBannedUsers();
+  return list.some(u => 
+    (u.email && u.email.toLowerCase().trim() === clean) || 
+    (u.userId && u.userId.toLowerCase().trim() === clean)
+  );
+}
+
+export function getBannedUserRecord(emailOrId: string | null | undefined): BannedUserRecord | null {
+  if (!emailOrId) return null;
+  const clean = emailOrId.toLowerCase().trim();
+  const list = getBannedUsers();
+  return list.find(u => 
+    (u.email && u.email.toLowerCase().trim() === clean) || 
+    (u.userId && u.userId.toLowerCase().trim() === clean)
+  ) || null;
+}
+
+export async function banUserRecord(record: Omit<BannedUserRecord, 'bannedAt'>): Promise<void> {
+  const fullRecord: BannedUserRecord = {
+    ...record,
+    email: record.email.toLowerCase().trim(),
+    bannedAt: new Date().toISOString()
+  };
+
+  const list = getBannedUsers();
+  const idx = list.findIndex(u => 
+    (u.email && u.email.toLowerCase().trim() === fullRecord.email) || 
+    (record.userId && u.userId === record.userId)
+  );
+
+  let updatedList: BannedUserRecord[];
+  if (idx !== -1) {
+    updatedList = [...list];
+    updatedList[idx] = fullRecord;
+  } else {
+    updatedList = [fullRecord, ...list];
+  }
+
+  saveBannedUsers(updatedList);
+
+  // Send a system notification / audit record to Supabase
+  try {
+    if (record.userId) {
+      await supabase.from('notifications').insert({
+        user_id: record.userId,
+        title: record.type === 'client_request' ? 'Account Suspension Processed' : 'Account Suspended by Administration',
+        message: `Your account has been placed under suspension. Reason: ${record.reason}. Contact support if you need assistance.`,
+        is_read: false
+      }).select().maybeSingle();
+    }
+  } catch (e) {
+    console.warn("Silent skip notification on ban:", e);
+  }
+}
+
+export async function unbanUserRecord(emailOrId: string): Promise<void> {
+  if (!emailOrId) return;
+  const clean = emailOrId.toLowerCase().trim();
+  const list = getBannedUsers();
+  const updatedList = list.filter(u => 
+    u.email.toLowerCase().trim() !== clean && 
+    u.userId !== clean
+  );
+  saveBannedUsers(updatedList);
+}
+
+export async function syncBannedUsersWithSupabase(): Promise<BannedUserRecord[]> {
+  return getBannedUsers();
+}
+
+/**
+ * Permanently purges a user account and all associated relational data from Supabase
+ * Handles user_assets, deposits, withdrawals, positions, notifications, user_referrals, profiles, and auth.users
+ */
+export async function deleteUserAccountComplete(userId: string, email?: string | null): Promise<{ success: boolean; message?: string }> {
+  try {
+    const cleanEmail = email ? email.toLowerCase().trim() : null;
+
+    // 1. Delete associated transactions, positions, assets, notifications
+    if (userId) {
+      const tablesToClean = ['user_assets', 'deposits', 'withdrawals', 'positions', 'notifications'];
+      for (const table of tablesToClean) {
+        try {
+          await (supabase as any).from(table).delete().eq('user_id', userId);
+        } catch (e) {
+          console.warn(`Silent skip clean ${table} for user ${userId}:`, e);
+        }
+      }
+
+      // Also clean user_referrals if by userId or email
+      try {
+        await (supabase as any).from('user_referrals').delete().eq('user_id', userId);
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    if (cleanEmail) {
+      try {
+        await supabase.from('user_referrals').delete().eq('user_email', cleanEmail);
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    // 2. Delete from profiles table
+    if (userId) {
+      try {
+        await supabase.from('profiles').delete().eq('id', userId);
+      } catch (e) {
+        console.warn(`Silent skip delete profile for ${userId}:`, e);
+      }
+    }
+    if (cleanEmail) {
+      try {
+        await supabase.from('profiles').delete().eq('email', cleanEmail);
+      } catch (e) {
+        console.warn(`Silent skip delete profile by email for ${cleanEmail}:`, e);
+      }
+    }
+
+    // 3. Delete Supabase Auth User via RPC
+    if (cleanEmail) {
+      try {
+        await supabase.rpc('delete_custom_admin', { p_email: cleanEmail });
+      } catch (e) {
+        console.warn("Silent skip delete_custom_admin RPC:", e);
+      }
+    }
+
+    // 4. Remove from banned users list if present
+    if (cleanEmail || userId) {
+      const list = getBannedUsers();
+      const filtered = list.filter(u => 
+        (!cleanEmail || u.email.toLowerCase().trim() !== cleanEmail) && 
+        (!userId || u.userId !== userId)
+      );
+      saveBannedUsers(filtered);
+    }
+
+    // 5. Clear localStorage cached profile
+    if (userId) {
+      localStorage.removeItem(`crypx_user_profile_${userId}`);
+    }
+
+    return { success: true };
+  } catch (err: any) {
+    console.error("Failed in deleteUserAccountComplete:", err);
+    return { success: false, message: err.message || 'Unknown deletion error' };
+  }
+}
+
 

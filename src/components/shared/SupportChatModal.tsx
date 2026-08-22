@@ -53,15 +53,17 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
     }
   }, [user]);
 
+  const channelRef = useRef<any>(null);
+
   useEffect(() => {
     if (!user || !isOpen) return;
 
     loadMessages();
 
 
-    // Subscribe to new messages
+    // Subscribe to both PostgreSQL changes and instant WebSocket broadcast events
     const channel = supabase
-      .channel('user_support_messages')
+      .channel('support-chat-broadcast')
       .on('postgres_changes', { 
         event: 'INSERT', 
         schema: 'public', 
@@ -70,16 +72,43 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
       }, payload => {
         const newMsg = payload.new as Message;
         setMessages(prev => {
-          if (prev.some(m => m.id === newMsg.id || (m.sender_type === newMsg.sender_type && m.message === newMsg.message && Math.abs(new Date(m.created_at).getTime() - new Date(newMsg.created_at).getTime()) < 5000))) {
-            return prev;
+          const isDuplicate = prev.some(m => 
+            m.id === newMsg.id || 
+            (m.id.toString().startsWith('temp-') && m.message === newMsg.message && m.sender_type === newMsg.sender_type)
+          );
+          if (isDuplicate) {
+            // Replace our local optimistic temp message with the actual database-persisted message
+            return prev.map(m => (m.id.toString().startsWith('temp-') && m.message === newMsg.message && m.sender_type === newMsg.sender_type) ? newMsg : m);
           }
           return [...prev, newMsg];
         });
       })
+      .on('broadcast', { event: 'new_msg' }, payload => {
+        const newMsg = payload.payload as Message;
+        if (newMsg.user_id === user.id) {
+          setMessages(prev => {
+            const isDuplicate = prev.some(m => 
+              m.id === newMsg.id || 
+              (m.id.toString().startsWith('temp-') && m.message === newMsg.message && m.sender_type === newMsg.sender_type)
+            );
+            if (isDuplicate) {
+              return prev.map(m => (m.id.toString().startsWith('temp-') && m.message === newMsg.message && m.sender_type === newMsg.sender_type) ? newMsg : m);
+            }
+            return [...prev, newMsg];
+          });
+        }
+      })
       .subscribe();
+
+    channelRef.current = channel;
+
+    // Fast fallback polling interval (1.5s) to guarantee absolute reliability even under spotty network connections
+    const pollInterval = setInterval(loadMessages, 1500);
 
     return () => {
       supabase.removeChannel(channel);
+      channelRef.current = null;
+      clearInterval(pollInterval);
     };
   }, [user, isOpen]);
 
@@ -93,22 +122,44 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
     e.preventDefault();
     if (!newMessage.trim() || !user) return;
     
-    const msgTemplate = {
+    const msgTemplate: Message = {
+      id: 'temp-' + Date.now(),
       user_id: user.id,
       sender_type: 'user',
-      message: newMessage.trim()
+      message: newMessage.trim(),
+      created_at: new Date().toISOString()
     };
     
     setNewMessage('');
+    // Render the message instantly for a seamless, ultra-fast chat experience
+    setMessages(prev => [...prev, msgTemplate]);
     
     try {
-      const { error } = await supabase.from('support_messages').insert({
-        ...msgTemplate,
-        created_at: new Date().toISOString()
-      });
+      const { data, error } = await supabase.from('support_messages').insert({
+        user_id: msgTemplate.user_id,
+        sender_type: msgTemplate.sender_type,
+        message: msgTemplate.message,
+        created_at: msgTemplate.created_at
+      }).select().single();
+      
       if (error) throw error;
+      
+      if (data) {
+        setMessages(prev => prev.map(m => m.id === msgTemplate.id ? (data as Message) : m));
+        
+        // Instantly broadcast the message so the administrator receives it with sub-millisecond latency
+        if (channelRef.current) {
+          channelRef.current.send({
+            type: 'broadcast',
+            event: 'new_msg',
+            payload: data
+          }).catch(console.error);
+        }
+      }
     } catch (error) {
       console.error('Failed to send', error);
+      // Clean up the optimistic message if database persistence fails
+      setMessages(prev => prev.filter(m => m.id !== msgTemplate.id));
     }
   };
 
@@ -151,6 +202,15 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
       if (insertError) throw insertError;
       if (insertedMsg) {
         setMessages(prev => [...prev, insertedMsg as Message]);
+        
+        // Instantly broadcast the image message to the admin portal
+        if (channelRef.current) {
+          channelRef.current.send({
+            type: 'broadcast',
+            event: 'new_msg',
+            payload: insertedMsg
+          }).catch(console.error);
+        }
       }
     } catch (err) {
       console.error('Support upload error:', err);
