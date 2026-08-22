@@ -641,14 +641,16 @@ export function getAdminIdForCurrentUser(email: string | undefined): string | nu
 }
 
 // Filter lists of data based on the active admin's group
-export function filterUsersByAdminGroup<T extends { id?: string; user_id?: string; email?: string | null }>(
+export function filterUsersByAdminGroup<T extends { id?: string; user_id?: string; email?: string | null; username?: string | null }>(
   items: T[], 
   currentAdminId: string | null
 ): T[] {
-  if (!currentAdminId) return items; // Owners get all items
+  // Always filter out test and e2e accounts from any administrative views
+  const nonTestItems = items.filter(item => !isTestOrE2EAccount(item));
+  if (!currentAdminId) return nonTestItems; // Owners get all non-test items
   const normCurrentAdmin = normalizeAdminId(currentAdminId);
   
-  return items.filter(item => {
+  return nonTestItems.filter(item => {
     // Determine the user identifier
     const email = item.email ?? undefined;
     const userId = item.user_id || item.id;
