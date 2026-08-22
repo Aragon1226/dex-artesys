@@ -695,37 +695,67 @@ const AdminUsers = () => {
                           </td>
                           <td className="px-6 py-4 text-xs">
                             <span className={`px-2.5 py-1 rounded-full font-bold border flex items-center gap-1.5 w-fit ${
-                              session.status === 'ONLINE' 
-                                ? 'bg-success/10 text-success border-success/20'
-                                : session.status === 'IDLE'
-                                  ? 'bg-warning/10 text-warning border-warning/20'
-                                  : 'bg-muted text-muted-foreground border-border'
+                              isBanned
+                                ? 'bg-danger/10 text-danger border-danger/25'
+                                : session.status === 'ONLINE' 
+                                  ? 'bg-success/10 text-success border-success/20'
+                                  : session.status === 'IDLE'
+                                    ? 'bg-warning/10 text-warning border-warning/20'
+                                    : 'bg-muted text-muted-foreground border-border'
                             }`}>
                               <span className={`h-1.5 w-1.5 rounded-full ${
-                                session.status === 'ONLINE' ? 'bg-success animate-pulse' : session.status === 'IDLE' ? 'bg-warning' : 'bg-muted-foreground'
+                                isBanned ? 'bg-danger' : session.status === 'ONLINE' ? 'bg-success animate-pulse' : session.status === 'IDLE' ? 'bg-warning' : 'bg-muted-foreground'
                               }`} />
-                              {session.status}
+                              {isBanned ? 'SUSPENDED' : session.status}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-                            {hasDeveloperAccess && (
+                          <td className="px-6 py-4 text-right flex items-center justify-end gap-1.5">
+                            {isBanned ? (
                               <button
-                                onClick={() => setSelectedUserForDelete(user)}
-                                className="px-3 py-1.5 bg-danger/10 text-danger hover:bg-danger/25 text-xs font-bold rounded-lg border border-danger/20 transition-all flex items-center gap-1.5"
-                                title="Delete Account Permanently"
+                                onClick={() => setSelectedUserForUnban(user)}
+                                className="px-2.5 py-1.5 bg-success/10 text-success hover:bg-success/25 text-xs font-bold rounded-lg border border-success/20 transition-all flex items-center gap-1.5"
+                                title="Restore & Unban Account"
                               >
-                                <Trash2 size={14} />
-                                Delete
+                                <CheckCircle size={14} />
+                                Unban
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  setSelectedUserForBan(user);
+                                  setBanType('client_request');
+                                  setBanReason('Client voluntary account suspension request');
+                                }}
+                                className="px-2.5 py-1.5 bg-warning/10 text-warning hover:bg-warning/25 text-xs font-bold rounded-lg border border-warning/20 transition-all flex items-center gap-1.5"
+                                title="Ban Account (Client Request or Forced)"
+                              >
+                                <Ban size={14} />
+                                Ban
                               </button>
                             )}
+
+                            <button
+                              onClick={() => {
+                                setSelectedUserForDelete(user);
+                                setDeleteMode('client_request');
+                              }}
+                              className="px-2.5 py-1.5 bg-danger/10 text-danger hover:bg-danger/25 text-xs font-bold rounded-lg border border-danger/20 transition-all flex items-center gap-1.5"
+                              title="Delete Account Permanently"
+                            >
+                              <Trash2 size={14} />
+                              Delete
+                            </button>
+
                             <button
                               onClick={() => handleViewUserLogs(user)}
-                              className="px-3 py-1.5 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/25 text-xs font-bold rounded-lg border border-indigo-500/20 transition-all flex items-center gap-1.5"
+                              className="px-2.5 py-1.5 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/25 text-xs font-bold rounded-lg border border-indigo-500/20 transition-all flex items-center gap-1.5"
+                              title="Audit Ledger"
                             >
                               <Terminal size={14} />
-                              Audit Ledger
+                              Audit
                             </button>
                           </td>
+
                         </tr>
                       );
                     })}
