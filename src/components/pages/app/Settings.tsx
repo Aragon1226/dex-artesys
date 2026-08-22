@@ -398,53 +398,7 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
         {/* Tab 3: User Policies & Developer Safeguards */}
         {activeTab === 'policies' && (
           <div className="bg-card border border-border rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm animate-fade-in">
-            <div className="flex items-center gap-3 border-b border-border pb-4">
-              <Scale className="text-primary" size={24} />
-              <div>
-                <h3 className="text-lg font-bold">User Policies & Developer Safeguards</h3>
-                <p className="text-xs text-muted-foreground">Privacy, Transparency, Risk Warnings & Legal Exemption</p>
-              </div>
-            </div>
-
-            <div className="space-y-6 text-sm text-muted-foreground leading-relaxed">
-              
-              <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive-foreground space-y-2">
-                <h4 className="font-extrabold text-danger flex items-center gap-2">
-                  <ShieldCheck size={18} /> FULL DEVELOPER & OPERATOR LIABILITY EXEMPTION
-                </h4>
-                <p className="text-xs text-red-300/90 leading-relaxed">
-                  <strong>IMPORTANT LEGAL NOTICE:</strong> By registering, signing up, or interacting with CrypX-Pro, the user agrees that the software development team, independent developers, software authors, and platform operators are completely exempt from any liability, claims, financial damages, legal disputes, or losses. The application does not solicit, hold, or process real money or financial assets.
-                </p>
-              </div>
-
-              <section className="space-y-2">
-                <h4 className="font-bold text-foreground text-base">1. Scamadviser & Google Play Store Compliance Declaration</h4>
-                <p>
-                  This application is published with 100% transparency. It does not engage in real financial transactions, high-yield investment programs (HYIP), automated trading advice, or gambling. All functionality is designed for educational exploration and software evaluation.
-                </p>
-              </section>
-
-              <section className="space-y-2">
-                <h4 className="font-bold text-foreground text-base">2. Privacy & Data Handling Policy</h4>
-                <p>
-                  We value user privacy. Profile credentials (such as email and display name) are stored strictly to manage user session preferences and authenticated state. No personal data is shared with third-party advertisers or sold to data brokers.
-                </p>
-              </section>
-
-              <section className="space-y-2">
-                <h4 className="font-bold text-foreground text-base">3. Simulated Identity Verification (KYC) Policy</h4>
-                <p>
-                  Identity documents uploaded in the demo KYC section are processed solely to simulate compliance workflows for educational evaluation. Users are advised not to upload sensitive unmasked personal identity documentation unless testing simulated workflows.
-                </p>
-              </section>
-
-              <section className="space-y-2">
-                <h4 className="font-bold text-foreground text-base">4. Prohibited Misuse Policy</h4>
-                <p>
-                  Users agree not to attempt to reverse engineer, misrepresent the application as a licensed financial institution, or use the platform for unlawful activities, market misrepresentation, or fraudulent claims.
-                </p>
-              </section>
-            </div>
+            <TermlyPrivacyPolicy />
           </div>
         )}
 
