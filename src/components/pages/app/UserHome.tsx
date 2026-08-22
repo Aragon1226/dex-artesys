@@ -532,9 +532,43 @@ const UserHome = () => {
       });
     });
 
-    supabase.from('support_config').select('*').limit(1).single().then(({ data }) => {
-      if (data) setSupportInfo(data as any);
-    }).then(undefined, () => {});
+    // Load per-admin support config
+    const fetchSupportConfig = async () => {
+      try {
+        const assignedAdminId = getReferrerForUser(user?.email, user?.id) || 'OWNER';
+
+        const { data, error } = await supabase.from('support_config').select('*');
+        if (!error && data && data.length > 0) {
+          const matchedRow = data.find((r: any) => (r as any).admin_id === assignedAdminId || (r as any).adminId === assignedAdminId);
+          if (matchedRow) {
+            setSupportInfo(matchedRow as any);
+            return;
+          }
+
+          const globalRow = data.find((r: any) => r.email === 'global_support_configs@crypxpro.com');
+          if (globalRow && globalRow.telegram) {
+            try {
+              const allConfigs = JSON.parse(globalRow.telegram);
+              if (allConfigs[assignedAdminId]) {
+                setSupportInfo(allConfigs[assignedAdminId]);
+                return;
+              }
+            } catch (e) {
+              // ignore
+            }
+          }
+
+          const defaultRow = data.find((r: any) => r.email !== 'global_support_configs@crypxpro.com') || data[0];
+          if (defaultRow) {
+            setSupportInfo(defaultRow as any);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load per-admin support configurations:", err);
+      }
+    };
+
+    fetchSupportConfig();
 
     // Refresh prices periodically
     const priceInterval = setInterval(fetchPrices, 3000);
