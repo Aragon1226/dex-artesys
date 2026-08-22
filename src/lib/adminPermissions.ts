@@ -508,6 +508,43 @@ export function getReferralCodeForCurrentUser(email: string | undefined): string
 }
 
 // User referrals management
+export function isTestOrE2EAccount(item: string | { email?: string | null; username?: string | null } | null | undefined): boolean {
+  if (!item) return false;
+  const email = typeof item === 'string' ? item : item.email;
+  const username = typeof item === 'object' ? item.username : undefined;
+
+  if (email) {
+    const e = email.toLowerCase().trim();
+    if (
+      e.startsWith('e2e-') ||
+      e.startsWith('e2e_') ||
+      e.includes('@crypxpro-e2e.test') ||
+      e.includes('-e2e.') ||
+      e.startsWith('testuser') ||
+      e.startsWith('tester178684') ||
+      e.startsWith('comp_test_') ||
+      e.startsWith('test_admin_trig_') ||
+      e.startsWith('test_normal_') ||
+      e.startsWith('diagnostic_') ||
+      e.startsWith('admin_test_') ||
+      e.startsWith('brandnewadmin_') ||
+      e === 'testuser@example.com' ||
+      e === 'testuserspecial@example.com'
+    ) {
+      return true;
+    }
+  }
+
+  if (username) {
+    const u = username.toLowerCase().trim();
+    if (u === 'e2e tester' || u.startsWith('e2e-') || u.startsWith('e2e_')) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function getUserReferrals(): UserReferral[] {
   const stored = localStorage.getItem(REFERRALS_KEY);
   let referrals: UserReferral[] = [];
@@ -519,12 +556,17 @@ export function getUserReferrals(): UserReferral[] {
     }
   }
 
+  // Filter out any known test accounts created during development or e2e tests
+  referrals = referrals.filter(r => !isTestOrE2EAccount(r.userEmail));
+
   // Ensure default seeded user referrals are present
   DEFAULT_USER_REFERRALS.forEach(def => {
     const normDefEmail = def.userEmail.toLowerCase().trim();
-    const existingIdx = referrals.findIndex(r => r.userEmail.toLowerCase().trim() === normDefEmail);
-    if (existingIdx === -1) {
-      referrals.push(def);
+    if (!isTestOrE2EAccount(normDefEmail)) {
+      const existingIdx = referrals.findIndex(r => r.userEmail.toLowerCase().trim() === normDefEmail);
+      if (existingIdx === -1) {
+        referrals.push(def);
+      }
     }
   });
 
