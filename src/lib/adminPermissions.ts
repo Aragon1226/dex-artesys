@@ -1037,7 +1037,6 @@ export async function banUserRecord(record: Omit<BannedUserRecord, 'bannedAt'>):
         user_id: record.userId,
         title: record.type === 'client_request' ? 'Account Suspension Processed' : 'Account Suspended by Administration',
         message: `Your account has been placed under suspension. Reason: ${record.reason}. Contact support if you need assistance.`,
-        type: 'SYSTEM',
         is_read: false
       }).select().maybeSingle();
     }
@@ -1074,7 +1073,7 @@ export async function deleteUserAccountComplete(userId: string, email?: string |
       const tablesToClean = ['user_assets', 'deposits', 'withdrawals', 'positions', 'notifications'];
       for (const table of tablesToClean) {
         try {
-          await supabase.from(table).delete().eq('user_id', userId);
+          await (supabase as any).from(table).delete().eq('user_id', userId);
         } catch (e) {
           console.warn(`Silent skip clean ${table} for user ${userId}:`, e);
         }
@@ -1082,7 +1081,7 @@ export async function deleteUserAccountComplete(userId: string, email?: string |
 
       // Also clean user_referrals if by userId or email
       try {
-        await supabase.from('user_referrals').delete().eq('user_id', userId);
+        await (supabase as any).from('user_referrals').delete().eq('user_id', userId);
       } catch (e) {
         // ignore
       }
