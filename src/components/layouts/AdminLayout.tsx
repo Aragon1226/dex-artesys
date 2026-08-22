@@ -1,12 +1,14 @@
 import { Outlet, Link, useLocation, useNavigate } from "@/lib/router-compat";
 import { ShieldCheck, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useAdminAccess } from "@/hooks/useAdminAccess";
 import { Logo } from "@/components/shared/Logo";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CubeSpinner from "@/components/shared/CubeSpinner";
-import { hasPermissionToView, isUserAdmin, syncAdminPermissions } from "@/lib/adminPermissions";
+import { hasPermissionToView } from "@/lib/adminPermissions";
 import { NavIcon, type NavIconKey } from "@/components/shared/NavIcon";
 import { toast } from "sonner";
+
 
 const navItems: { path: string; label: string; key: NavIconKey }[] = [
   { path: '/admin/dashboard', label: 'Dashboard', key: 'dashboard' },
