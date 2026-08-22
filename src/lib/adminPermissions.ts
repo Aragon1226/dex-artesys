@@ -394,18 +394,7 @@ export interface AdminWalletConfig {
 const REFERRALS_KEY = 'crypx_user_referrals_v2';
 const ADMIN_WALLETS_KEY = 'crypx_admin_wallets_v1';
 
-export const DEFAULT_USER_REFERRALS: UserReferral[] = [
-  {
-    userEmail: 'rickhutman77@gmail.com',
-    referredByAdminId: 'CXPAD-002',
-    referredAt: '2025-01-01T00:00:00.000Z'
-  },
-  {
-    userEmail: 'annaxiang926@gmail.com',
-    referredByAdminId: 'CXPAD-002',
-    referredAt: '2025-01-01T00:00:00.000Z'
-  }
-];
+export const DEFAULT_USER_REFERRALS: UserReferral[] = [];
 
 export function getAdminReferralCode(adminIdOrAccountOrEmail: string | CustomAccount | null | undefined): string {
   if (!adminIdOrAccountOrEmail) return '';
