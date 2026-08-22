@@ -640,27 +640,94 @@ export const AdminSampleTokens = () => {
                       {/* Trend & Progress */}
                       <td className="py-4 px-4">
                         {sch && sch.isActive ? (
-                          <div className="space-y-1.5 max-w-xs">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className={`font-semibold flex items-center gap-1 ${
-                                isDecreasing ? 'text-danger' : 'text-success'
-                              }`}>
-                                {isDecreasing ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
-                                {isDecreasing ? '-' : '+'}{sch.changePercent}% ({sch.durationHours >= 24 ? `${(sch.durationHours/24).toFixed(1)}d` : `${sch.durationHours}h`})
-                              </span>
-                              <span className="text-gray-400 font-mono">
-                                Target: ${sch.targetPrice.toFixed(2)}
-                              </span>
-                            </div>
+                          (() => {
+                            const controlledData = tokenPriceControl.getControlledPrice(token.symbol, currentPrice);
+                            const isReturning = controlledData.isReturning;
+                            const isIdle = controlledData.isIdleAtTarget;
+                            const progressPct = controlledData.progress ?? 0;
+                            const returnPct = controlledData.returnProgress ?? 0;
+                            const remHours = controlledData.returnTimeRemainingMs ? (controlledData.returnTimeRemainingMs / 3600000).toFixed(1) : '1-4';
 
-                            {/* Progress bar */}
-                            {(() => {
-                              const controlledData = tokenPriceControl.getControlledPrice(token.symbol, currentPrice);
-                              const progressPct = controlledData.progress ?? 0;
+                            if (isReturning) {
                               return (
+                                <div className="space-y-1.5 max-w-xs animate-fade-in">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="font-semibold flex items-center gap-1.5 text-warning">
+                                      <RotateCcw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '3s' }} />
+                                      Returning to Base ({returnPct}%)
+                                    </span>
+                                    <span className="text-gray-400 font-mono">
+                                      Base: ${token.defaultPrice.toFixed(2)}
+                                    </span>
+                                  </div>
+                                  <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-warning transition-all duration-500"
+                                      style={{ width: `${Math.min(100, Math.max(0, returnPct))}%` }}
+                                    />
+                                  </div>
+                                  <div className="text-[10px] text-gray-400 flex justify-between items-center">
+                                    <span>~{remHours}h remaining</span>
+                                    <button
+                                      onClick={() => handleCancelReturnToBase(token.symbol)}
+                                      className="text-warning/80 hover:text-warning underline"
+                                    >
+                                      Pause & Hold
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            if (isIdle) {
+                              return (
+                                <div className="space-y-2 max-w-xs">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="font-semibold flex items-center gap-1 text-info">
+                                      <Target className="w-3.5 h-3.5" />
+                                      Target Reached (100%)
+                                    </span>
+                                    <span className="text-white font-mono font-bold">
+                                      ${sch.targetPrice.toFixed(2)}
+                                    </span>
+                                  </div>
+                                  <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-info" style={{ width: '100%' }} />
+                                  </div>
+                                  <div className="flex items-center justify-between text-[11px]">
+                                    <span className="text-gray-400 flex items-center gap-1">
+                                      <Pause className="w-3 h-3 text-info" />
+                                      Idling at target
+                                    </span>
+                                    <button
+                                      onClick={() => handleStartReturnToBase(token.symbol)}
+                                      className="px-2 py-0.5 rounded bg-warning/20 hover:bg-warning/30 text-warning border border-warning/40 text-[10px] font-semibold flex items-center gap-1 transition-all"
+                                      title="Start gradual 1-4h recovery back to base price"
+                                    >
+                                      <RotateCcw className="w-2.5 h-2.5" />
+                                      Return to Base
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <div className="space-y-1.5 max-w-xs">
+                                <div className="flex items-center justify-between text-xs">
+                                  <span className={`font-semibold flex items-center gap-1 ${
+                                    isDecreasing ? 'text-danger' : 'text-success'
+                                  }`}>
+                                    {isDecreasing ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
+                                    {isDecreasing ? '-' : '+'}{sch.changePercent}% ({sch.durationHours >= 24 ? `${(sch.durationHours/24).toFixed(1)}d` : `${sch.durationHours}h`})
+                                  </span>
+                                  <span className="text-gray-400 font-mono">
+                                    Target: ${sch.targetPrice.toFixed(2)}
+                                  </span>
+                                </div>
                                 <div className="space-y-1">
                                   <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                                    <div 
+                                    <div
                                       className={`h-full transition-all duration-500 ${isDecreasing ? 'bg-danger' : 'bg-success'}`}
                                       style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }}
                                     />
@@ -684,6 +751,7 @@ export const AdminSampleTokens = () => {
                           </span>
                         )}
                       </td>
+
 
                       {/* Actions */}
                       <td className="py-4 px-4 text-right">
