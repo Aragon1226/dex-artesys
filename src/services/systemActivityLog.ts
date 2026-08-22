@@ -51,18 +51,18 @@ export interface SystemActivityLogEntry {
   metadata?: {
     oldValue?: any;
     newValue?: any;
-    symbol?: string;
-    network?: string;
+    symbol?: string | null;
+    network?: string | null;
     amount?: number;
-    userEmail?: string;
-    userId?: string;
-    walletAddress?: string;
+    userEmail?: string | null;
+    userId?: string | null;
+    walletAddress?: string | null;
     startPrice?: number;
     targetPrice?: number;
     percentage?: number;
     durationHours?: number;
-    reason?: string;
-    requestId?: string;
+    reason?: string | null;
+    requestId?: string | null;
     [key: string]: any;
   };
 }
