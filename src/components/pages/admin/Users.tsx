@@ -816,30 +816,60 @@ const AdminUsers = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${kycBadge(user.kyc_status)}`}>
-                            {user.kyc_status || 'UNVERIFIED'}
-                          </span>
+                          <div className="flex flex-col gap-1 items-start">
+                            <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${kycBadge(user.kyc_status)}`}>
+                              {user.kyc_status || 'UNVERIFIED'}
+                            </span>
+                            {isBanned && (
+                              <span className="text-[10px] font-bold text-danger flex items-center gap-1">
+                                <Ban size={10} /> Suspended
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-muted-foreground">{new Date(user.created_at).toLocaleDateString()}</td>
-                        <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-                          {hasDeveloperAccess && (
-                            <>
-                              <button 
-                                onClick={() => handleViewUserLogs(user)}
-                                className="text-muted-foreground hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors p-2 rounded-full"
-                                title="Inspect IP & Session Activity"
-                              >
-                                <Terminal size={16} />
-                              </button>
-                              <button 
-                                onClick={() => setSelectedUserForDelete(user)}
-                                className="text-muted-foreground hover:text-danger hover:bg-danger/10 transition-colors p-2 rounded-full"
-                                title="Delete Account Permanently"
-                              >
-                                <Trash2 size={16} />
-                              </button>
-                            </>
+                        <td className="px-6 py-4 text-right flex items-center justify-end gap-1">
+                          {isBanned ? (
+                            <button
+                              onClick={() => setSelectedUserForUnban(user)}
+                              className="text-success hover:bg-success/10 transition-colors p-2 rounded-full"
+                              title="Restore & Unban Account"
+                            >
+                              <CheckCircle size={16} />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setSelectedUserForBan(user);
+                                setBanType('client_request');
+                                setBanReason('Client voluntary account suspension request');
+                              }}
+                              className="text-warning hover:bg-warning/10 transition-colors p-2 rounded-full"
+                              title="Ban / Suspend Account (Client Request or Force)"
+                            >
+                              <Ban size={16} />
+                            </button>
                           )}
+
+                          <button 
+                            onClick={() => {
+                              setSelectedUserForDelete(user);
+                              setDeleteMode('client_request');
+                            }}
+                            className="text-danger hover:bg-danger/10 transition-colors p-2 rounded-full"
+                            title="Delete Account Permanently"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+
+                          <button 
+                            onClick={() => handleViewUserLogs(user)}
+                            className="text-muted-foreground hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors p-2 rounded-full"
+                            title="Inspect IP & Session Activity"
+                          >
+                            <Terminal size={16} />
+                          </button>
+
                           {isOwner && (
                             <button
                               onClick={() => {
