@@ -43,7 +43,7 @@ export interface SystemActivityLogEntry {
   category: SystemActivityCategory;
   action: SystemActivityAction;
   adminEmail: string;
-  adminId?: string;
+  adminId?: string | null;
   target: string;
   title: string;
   details: string;
