@@ -1,12 +1,14 @@
 import { Outlet, Link, useLocation, useNavigate } from "@/lib/router-compat";
 import { ShieldCheck, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useAdminAccess } from "@/hooks/useAdminAccess";
 import { Logo } from "@/components/shared/Logo";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CubeSpinner from "@/components/shared/CubeSpinner";
-import { hasPermissionToView, isUserAdmin, syncAdminPermissions } from "@/lib/adminPermissions";
+import { hasPermissionToView } from "@/lib/adminPermissions";
 import { NavIcon, type NavIconKey } from "@/components/shared/NavIcon";
 import { toast } from "sonner";
+
 
 const navItems: { path: string; label: string; key: NavIconKey }[] = [
   { path: '/admin/dashboard', label: 'Dashboard', key: 'dashboard' },
@@ -29,49 +31,22 @@ const AdminLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { signOut, user, loading } = useAuth();
-  const [isSyncing, setIsSyncing] = useState(true);
+  const { isAdmin, loading: checkingRole } = useAdminAccess();
 
   useEffect(() => {
-    let mounted = true;
-    const safetyTimer = setTimeout(() => {
-      if (mounted) setIsSyncing(false);
-    }, 2500);
+    if (loading || checkingRole) return;
 
-    const sync = async () => {
-      if (!loading && user) {
-        try {
-          await syncAdminPermissions(user.email);
-        } catch (e) {
-          console.error("Failed to sync permissions:", e);
-        } finally {
-          if (mounted) setIsSyncing(false);
-        }
-      } else if (!loading && !user) {
-        if (mounted) setIsSyncing(false);
-      }
-    };
-    sync();
-
-    return () => {
-      mounted = false;
-      clearTimeout(safetyTimer);
-    };
-  }, [user, loading]);
-
-  useEffect(() => {
-    if (!loading && !isSyncing) {
-      if (!user) {
-        sessionStorage.setItem('auth_redirect', location.pathname);
-        navigate('/auth', { replace: true });
-      } else if (!isUserAdmin(user.email)) {
-        toast.error("Unauthorized: You do not have administrator permissions.");
-        navigate('/app/home', { replace: true });
-      } else if (!hasPermissionToView(user.email, location.pathname)) {
-        toast.error("Access Denied: You do not have permission to view this page.");
-        navigate('/admin/dashboard', { replace: true });
-      }
+    if (!user) {
+      sessionStorage.setItem('auth_redirect', location.pathname);
+      navigate('/auth', { replace: true });
+    } else if (!isAdmin) {
+      toast.error("Unauthorized: You do not have administrator permissions.");
+      navigate('/app/home', { replace: true });
+    } else if (!hasPermissionToView(user.email, location.pathname)) {
+      toast.error("Access Denied: You do not have permission to view this page.");
+      navigate('/admin/dashboard', { replace: true });
     }
-  }, [user, loading, isSyncing, navigate, location.pathname]);
+  }, [user, loading, checkingRole, isAdmin, navigate, location.pathname]);
 
   const handleLogout = async () => {
     try {
@@ -84,8 +59,9 @@ const AdminLayout = () => {
     }
   };
 
-  if (loading || isSyncing) return <CubeSpinner fullScreen label="Verifying admin credentials..." />;
-  if (!user || !isUserAdmin(user.email)) return null;
+  if (loading || checkingRole) return <CubeSpinner fullScreen label="Verifying admin credentials..." />;
+  if (!user || !isAdmin) return null;
+
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">

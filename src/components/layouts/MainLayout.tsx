@@ -7,11 +7,11 @@ import { PageLoadingOverlay } from "@/components/shared/PageLoadingOverlay";
 import { NavIcon, navIcons, type NavIconKey } from "@/components/shared/NavIcon";
 import { StatusDot } from "@/components/shared/StatusBadge";
 import { useAuth } from "@/hooks/useAuth";
+import { AdminOnly } from "@/components/shared/AdminOnly";
 
 const MainLayout = () => {
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const { user } = useAuth();
-  const isDev = import.meta.env.DEV;
 
   const navItems: { key: NavIconKey; label: string; path: string }[] = [
     { key: "home", label: "Home", path: "/app/home" },
@@ -22,6 +22,7 @@ const MainLayout = () => {
   ];
 
   const adminItem = { icon: navIcons.admin, label: "Admin", path: "/admin/dashboard" };
+
 
 
   return (
@@ -60,7 +61,7 @@ const MainLayout = () => {
           ))}
 
 
-          {isDev && (
+          <AdminOnly path={adminItem.path}>
             <NavLink
               to={adminItem.path}
               className={({ isActive }) =>
@@ -76,7 +77,8 @@ const MainLayout = () => {
                 {adminItem.label}
               </span>
             </NavLink>
-          )}
+          </AdminOnly>
+
         </div>
 
         <div className="pt-6 border-t border-border mt-auto">
