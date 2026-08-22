@@ -3,7 +3,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { 
   Search, RefreshCw, Users as UsersIcon, ArrowUp, ArrowDown, 
   Settings, AlertCircle, Bell, X, Coins,
-  Activity, Globe, Laptop, Smartphone, Terminal, History, ShieldCheck, UserCheck, Trash2, Link2, Shield
+  Activity, Globe, Laptop, Smartphone, Terminal, History, ShieldCheck, UserCheck, Trash2, Link2, Shield,
+  Ban, ShieldAlert, CheckCircle, UserX, AlertTriangle
 } from 'lucide-react';
 import CubeSpinner from '@/components/shared/CubeSpinner';
 import { useAuth } from '@/hooks/useAuth';
@@ -22,7 +23,14 @@ import {
   setReferrerForUser,
   getCustomAccounts,
   getAdminReferralCode,
-  isPrimaryOwner
+  isPrimaryOwner,
+  isUserBanned,
+  getBannedUserRecord,
+  banUserRecord,
+  unbanUserRecord,
+  deleteUserAccountComplete,
+  syncBannedUsersWithSupabase,
+  type BannedUserRecord
 } from '@/lib/adminPermissions';
 
 interface ProfileRow {
@@ -211,9 +219,26 @@ const AdminUsers = () => {
   const [noticeActionUrl, setNoticeActionUrl] = useState('');
   const [sendingNotice, setSendingNotice] = useState(false);
 
-  // Developer User Deletion State
+  // User Ban / Suspension State
+  const [selectedUserForBan, setSelectedUserForBan] = useState<ProfileRow | null>(null);
+  const [banType, setBanType] = useState<'client_request' | 'force'>('client_request');
+  const [banReason, setBanReason] = useState<string>('Client voluntary account suspension request');
+  const [banCustomReason, setBanCustomReason] = useState<string>('');
+  const [banNotes, setBanNotes] = useState<string>('');
+  const [processingBan, setProcessingBan] = useState(false);
+
+  // User Unban State
+  const [selectedUserForUnban, setSelectedUserForUnban] = useState<ProfileRow | null>(null);
+  const [processingUnban, setProcessingUnban] = useState(false);
+
+  // User Deletion State
   const [selectedUserForDelete, setSelectedUserForDelete] = useState<ProfileRow | null>(null);
+  const [deleteMode, setDeleteMode] = useState<'client_request' | 'force'>('client_request');
+  const [deleteReason, setDeleteReason] = useState<string>('Client requested permanent account closure');
   const [deletingUser, setDeletingUser] = useState(false);
+  const [filterType, setFilterType] = useState<'all' | 'banned' | 'e2e'>('all');
+  const [isPurgingE2E, setIsPurgingE2E] = useState(false);
+  const [showE2EPurgeConfirm, setShowE2EPurgeConfirm] = useState(false);
 
   // Admin Group Assignment State
   const [selectedUserForAdminAssign, setSelectedUserForAdminAssign] = useState<ProfileRow | null>(null);
@@ -238,46 +263,66 @@ const AdminUsers = () => {
     }
   };
 
+  const handleBanUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedUserForBan) return;
+    setProcessingBan(true);
+    try {
+      const finalReason = banReason === 'Other (Custom Reason)' ? banCustomReason : banReason;
+      const adminId = getAdminIdForCurrentUser(currentUser?.email) || 'ADMIN';
+      await banUserRecord({
+        userId: selectedUserForBan.id,
+        email: selectedUserForBan.email || '',
+        username: selectedUserForBan.username || undefined,
+        bannedByAdminId: adminId,
+        bannedByEmail: currentUser?.email || undefined,
+        reason: finalReason || 'Account suspended by administration',
+        type: banType,
+        notes: banNotes || undefined
+      });
+      toast.success(`Account ${selectedUserForBan.email || selectedUserForBan.username} suspended (${banType === 'client_request' ? 'Client Request' : 'Forced'}).`);
+      setSelectedUserForBan(null);
+      setBanCustomReason('');
+      setBanNotes('');
+      await loadUsers(true);
+    } catch (err: any) {
+      toast.error('Failed to suspend user: ' + (err.message || 'Unknown error'));
+    } finally {
+      setProcessingBan(false);
+    }
+  };
+
+  const handleUnbanUser = async () => {
+    if (!selectedUserForUnban) return;
+    setProcessingUnban(true);
+    try {
+      await unbanUserRecord(selectedUserForUnban.email || selectedUserForUnban.id);
+      toast.success(`Account ${selectedUserForUnban.email || selectedUserForUnban.username} restored and unbanned successfully.`);
+      setSelectedUserForUnban(null);
+      await loadUsers(true);
+    } catch (err: any) {
+      toast.error('Failed to restore user: ' + (err.message || 'Unknown error'));
+    } finally {
+      setProcessingUnban(false);
+    }
+  };
+
   const handleDeleteUser = async () => {
     if (!selectedUserForDelete) return;
     setDeletingUser(true);
     try {
-      // First clean up database relations to prevent foreign key constraint issues
-      try {
-        await supabase.from('deposits').delete().eq('user_id', selectedUserForDelete.id);
-      } catch (e) {
-        console.warn('Silent skip clean deposits user:', e);
+      const res = await deleteUserAccountComplete(selectedUserForDelete.id, selectedUserForDelete.email);
+      if (!res.success) {
+        throw new Error(res.message);
       }
-      try {
-        await supabase.from('withdrawals').delete().eq('user_id', selectedUserForDelete.id);
-      } catch (e) {
-        console.warn('Silent skip clean withdrawals user:', e);
-      }
-      try {
-        await supabase.from('positions').delete().eq('user_id', selectedUserForDelete.id);
-      } catch (e) {
-        console.warn('Silent skip clean positions user:', e);
-      }
-      try {
-        await supabase.from('notifications').delete().eq('user_id', selectedUserForDelete.id);
-      } catch (e) {
-        console.warn('Silent skip clean notifications user:', e);
-      }
-
-      // Now delete the profile row
-      const { error: deleteError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', selectedUserForDelete.id);
-
-      if (deleteError) throw deleteError;
 
       // Update local state list
       setUsers(prev => prev.filter(u => u.id !== selectedUserForDelete.id));
+      toast.success(`Account ${selectedUserForDelete.email || selectedUserForDelete.username} permanently deleted (${deleteMode === 'client_request' ? 'Client Request' : 'Administrative Force'}).`);
       setSelectedUserForDelete(null);
     } catch (err: any) {
       console.error('Failed to purge user record:', err);
-      alert('Deletion error: ' + (err.message || 'database error'));
+      toast.error('Deletion error: ' + (err.message || 'database error'));
     } finally {
       setDeletingUser(false);
     }
@@ -370,12 +415,57 @@ const AdminUsers = () => {
     }
   };
 
+  const isE2EUser = (u: ProfileRow) => {
+    const un = (u.username || '').toLowerCase();
+    const em = (u.email || '').toLowerCase();
+    return un.startsWith('e2e') || em.startsWith('e2e') || em.includes('e2e_') || em.includes('e2e-');
+  };
+
+  const e2eAccounts = users.filter(isE2EUser);
+  const bannedAccounts = users.filter(u => isUserBanned(u.email || u.id));
+
+  const handlePurgeAllE2EAccounts = async () => {
+    const targets = users.filter(isE2EUser);
+    if (targets.length === 0) {
+      toast.info('No E2E test accounts detected in user registry.');
+      setShowE2EPurgeConfirm(false);
+      return;
+    }
+
+    setIsPurgingE2E(true);
+    let successCount = 0;
+    try {
+      for (const u of targets) {
+        try {
+          await deleteUserAccountComplete(u.id, u.email);
+          successCount++;
+        } catch (err) {
+          console.warn(`Failed to delete e2e user ${u.email}:`, err);
+        }
+      }
+      toast.success(`Successfully purged ${successCount} E2E test account(s) from database & auth.`);
+      setShowE2EPurgeConfirm(false);
+      await loadUsers(true);
+    } catch (err: any) {
+      toast.error('Purge error: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsPurgingE2E(false);
+    }
+  };
+
   const processed = users
-    .filter(u =>
-      (u.username || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (u.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (u.ftid || '').toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    .filter(u => {
+      if (filterType === 'banned') {
+        if (!isUserBanned(u.email || u.id)) return false;
+      } else if (filterType === 'e2e') {
+        if (!isE2EUser(u)) return false;
+      }
+      return (
+        (u.username || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (u.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (u.ftid || '').toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    })
     .sort((a, b) => {
       let res = 0;
       switch (sortField) {
@@ -453,16 +543,63 @@ const AdminUsers = () => {
         </div>
       )}
 
-      <div className="mb-6">
-        <div className="relative max-w-md">
+      <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="relative max-w-md flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
           <input
             type="text"
             placeholder="Search by name, email, or ID..."
             value={searchTerm}
             onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-            className="pl-10 pr-4 py-2.5 w-full border border-border rounded-lg bg-card text-foreground focus:ring-2 focus:ring-ring focus:border-ring outline-none transition-all"
+            className="pl-10 pr-4 py-2.5 w-full border border-border rounded-lg bg-card text-foreground focus:ring-2 focus:ring-ring focus:border-ring outline-none transition-all text-sm"
           />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex bg-muted/65 p-1 rounded-xl border border-border">
+            <button
+              onClick={() => { setFilterType('all'); setCurrentPage(1); }}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                filterType === 'all'
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              All Users ({users.length})
+            </button>
+            <button
+              onClick={() => { setFilterType('banned'); setCurrentPage(1); }}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 ${
+                filterType === 'banned'
+                  ? 'bg-amber-500 text-black shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Ban size={12} />
+              Suspended ({bannedAccounts.length})
+            </button>
+            <button
+              onClick={() => { setFilterType('e2e'); setCurrentPage(1); }}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 ${
+                filterType === 'e2e'
+                  ? 'bg-rose-500 text-white shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Terminal size={12} />
+              Test/E2E ({e2eAccounts.length})
+            </button>
+          </div>
+
+          {e2eAccounts.length > 0 && (
+            <button
+              onClick={() => setShowE2EPurgeConfirm(true)}
+              className="px-3.5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/30 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+            >
+              <Trash2 size={13} />
+              <span>Purge {e2eAccounts.length} E2E Accounts</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -511,15 +648,28 @@ const AdminUsers = () => {
                   <tbody className="divide-y divide-border">
                     {paginated.map(user => {
                       const session = getStableSessionData(user.id, user.email, user.username);
+                      const isBanned = isUserBanned(user.email || user.id);
+                      const bannedRecord = getBannedUserRecord(user.email || user.id);
                       return (
-                        <tr key={user.id} className="hover:bg-muted/30 transition-colors">
+                        <tr key={user.id} className={`hover:bg-muted/30 transition-colors ${isBanned ? 'bg-rose-500/[0.03]' : ''}`}>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <div className="h-10 w-10 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-sm border border-indigo-500/20">
+                              <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm border ${
+                                isBanned 
+                                  ? 'bg-rose-500/10 text-rose-400 border-rose-500/25'
+                                  : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+                              }`}>
                                 {(user.username || 'U').charAt(0).toUpperCase()}
                               </div>
                               <div>
-                                <div className="font-semibold text-foreground">{user.username || 'Unknown'}</div>
+                                <div className="font-semibold text-foreground flex items-center gap-1.5">
+                                  {user.username || 'Unknown'}
+                                  {isBanned && (
+                                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30" title={`Suspended: ${bannedRecord?.reason || 'Administrative Action'}`}>
+                                      Banned ({bannedRecord?.type === 'client_request' ? 'Req' : 'Force'})
+                                    </span>
+                                  )}
+                                </div>
                                 <div className="text-sm text-muted-foreground">{user.email}</div>
                               </div>
                             </div>
@@ -590,7 +740,7 @@ const AdminUsers = () => {
                         { label: 'User ID', field: null },
                         { label: 'Admin Group', field: null },
                         { label: 'Net Worth', field: 'total_value' as SortField },
-                        { label: 'KYC', field: 'kyc' as SortField },
+                        { label: 'KYC & Status', field: 'kyc' as SortField },
                         { label: 'Joined', field: 'joined' as SortField },
                       ].map((col, i) => (
                         <th
@@ -610,15 +760,28 @@ const AdminUsers = () => {
                   <tbody className="divide-y divide-border">
                     {paginated.map(user => {
                       const userReferrer = getReferrerForUser(user.email || undefined, user.id);
+                      const isBanned = isUserBanned(user.email || user.id);
+                      const bannedRecord = getBannedUserRecord(user.email || user.id);
                       return (
-                      <tr key={user.id} className="hover:bg-muted/30 transition-colors">
+                      <tr key={user.id} className={`hover:bg-muted/30 transition-colors ${isBanned ? 'bg-rose-500/[0.03]' : ''}`}>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-bold text-sm">
+                            <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm ${
+                              isBanned 
+                                ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                                : 'bg-gradient-to-br from-primary to-primary/60 text-primary-foreground'
+                            }`}>
                               {(user.username || 'U').charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <div className="font-semibold text-foreground">{user.username || 'Unknown'}</div>
+                              <div className="font-semibold text-foreground flex items-center gap-1.5">
+                                {user.username || 'Unknown'}
+                                {isBanned && (
+                                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30" title={`Suspension Reason: ${bannedRecord?.reason}`}>
+                                    Banned ({bannedRecord?.type === 'client_request' ? 'Req' : 'Force'})
+                                  </span>
+                                )}
+                              </div>
                               <div className="text-sm text-muted-foreground">{user.email}</div>
                             </div>
                           </div>
@@ -984,6 +1147,226 @@ const AdminUsers = () => {
         </div>
       )}
 
+      {/* Account Ban / Suspension Modal */}
+      {selectedUserForBan && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <form onSubmit={handleBanUser} className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-amber-500/20 animate-scale-in">
+            <button 
+              type="button" 
+              onClick={() => setSelectedUserForBan(null)} 
+              className="absolute right-4 top-4 p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center border border-amber-500/20">
+                <Ban size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Suspend / Ban User Account</h3>
+                <p className="text-xs text-muted-foreground">Restrict trading, withdrawals, and account access</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-muted/40 border border-border/80 rounded-2xl mb-5 text-sm space-y-3">
+              <div className="font-mono text-xs space-y-1">
+                <div className="flex justify-between py-1">
+                  <span className="text-muted-foreground">Client:</span>
+                  <span className="font-bold text-foreground">{selectedUserForBan.username || 'User'}</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span className="text-muted-foreground">Email:</span>
+                  <span className="font-bold text-foreground">{selectedUserForBan.email || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span className="text-muted-foreground">User FTID:</span>
+                  <span className="font-bold text-foreground">{selectedUserForBan.ftid || '—'}</span>
+                </div>
+              </div>
+
+              {/* Ban Type Selector */}
+              <div className="pt-2 border-t border-border/60">
+                <label className="block text-xs font-bold text-foreground mb-1.5">Action Basis / Authorization</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBanType('client_request');
+                      setBanReason('Client voluntary account suspension request');
+                    }}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all text-left flex flex-col gap-0.5 ${
+                      banType === 'client_request'
+                        ? 'bg-amber-500/15 text-amber-400 border-amber-500/40 ring-1 ring-amber-500/30'
+                        : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                    }`}
+                  >
+                    <span className="text-[11px] font-bold text-foreground">Client Request</span>
+                    <span className="text-[9px] opacity-75">Self-exclusion / User initiated</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBanType('force');
+                      setBanReason('Terms of Service & Platform Misuse Violation');
+                    }}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all text-left flex flex-col gap-0.5 ${
+                      banType === 'force'
+                        ? 'bg-rose-500/15 text-rose-400 border-rose-500/40 ring-1 ring-rose-500/30'
+                        : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                    }`}
+                  >
+                    <span className="text-[11px] font-bold text-foreground">Forced Suspension</span>
+                    <span className="text-[9px] opacity-75">Admin compliance override</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Ban Reason Selector */}
+              <div className="pt-1">
+                <label className="block text-xs font-bold text-foreground mb-1.5">Specified Reason</label>
+                <select
+                  value={banReason}
+                  onChange={(e) => setBanReason(e.target.value)}
+                  className="w-full bg-card border border-border rounded-xl px-3 py-2.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                >
+                  <option value="Client voluntary account suspension request">Client voluntary account suspension request</option>
+                  <option value="Temporary self-exclusion request from user">Temporary self-exclusion request from user</option>
+                  <option value="Terms of Service & Platform Misuse Violation">Terms of Service & Platform Misuse Violation</option>
+                  <option value="Suspicious Trading Activity / Arbitrage Risk">Suspicious Trading Activity / Arbitrage Risk</option>
+                  <option value="KYC Document Discrepancy & AML Flag">KYC Document Discrepancy & AML Flag</option>
+                  <option value="Account Security Quarantine & Protection">Account Security Quarantine & Protection</option>
+                  <option value="Other (Custom Reason)">Other (Custom Reason)</option>
+                </select>
+              </div>
+
+              {banReason === 'Other (Custom Reason)' && (
+                <div>
+                  <label className="block text-xs font-bold text-foreground mb-1">Custom Reason</label>
+                  <input
+                    type="text"
+                    required
+                    value={banCustomReason}
+                    onChange={(e) => setBanCustomReason(e.target.value)}
+                    placeholder="Enter reason for suspension..."
+                    className="w-full bg-card border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-bold text-foreground mb-1">Internal Admin Notes (Optional)</label>
+                <textarea
+                  rows={2}
+                  value={banNotes}
+                  onChange={(e) => setBanNotes(e.target.value)}
+                  placeholder="Additional context or support ticket reference..."
+                  className="w-full bg-card border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40 resize-none"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedUserForBan(null)}
+                className="flex-1 py-3 border border-border rounded-xl text-foreground font-bold hover:bg-muted/80 transition-colors text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={processingBan}
+                className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-black font-bold rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
+              >
+                {processingBan ? 'Suspending...' : 'Confirm Suspension'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Account Unban / Restoration Modal */}
+      {selectedUserForUnban && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <div className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-emerald-500/20 animate-scale-in">
+            <button 
+              type="button" 
+              onClick={() => setSelectedUserForUnban(null)} 
+              className="absolute right-4 top-4 p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center border border-emerald-500/20">
+                <CheckCircle size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Restore & Unban Account</h3>
+                <p className="text-xs text-muted-foreground">Lift account suspension and restore full trading privileges</p>
+              </div>
+            </div>
+
+            {(() => {
+              const bRec = getBannedUserRecord(selectedUserForUnban.email || selectedUserForUnban.id);
+              return (
+                <div className="p-4 bg-muted/40 border border-border/80 rounded-2xl mb-6 text-sm space-y-3">
+                  <div className="font-mono text-xs space-y-1">
+                    <div className="flex justify-between py-1">
+                      <span className="text-muted-foreground">Client:</span>
+                      <span className="font-bold text-foreground">{selectedUserForUnban.username || 'User'}</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-muted-foreground">Email:</span>
+                      <span className="font-bold text-foreground">{selectedUserForUnban.email || 'N/A'}</span>
+                    </div>
+                    {bRec && (
+                      <>
+                        <div className="flex justify-between py-1 border-t border-border/40 pt-2">
+                          <span className="text-muted-foreground">Suspension Type:</span>
+                          <span className="font-bold text-amber-400 capitalize">{bRec.type === 'client_request' ? 'Client Request' : 'Forced'}</span>
+                        </div>
+                        <div className="py-1">
+                          <span className="text-muted-foreground block mb-0.5">Suspension Reason:</span>
+                          <span className="font-semibold text-foreground text-xs">{bRec.reason}</span>
+                        </div>
+                        <div className="flex justify-between py-1 text-[11px] text-muted-foreground">
+                          <span>Suspended On:</span>
+                          <span>{new Date(bRec.bannedAt).toLocaleString()}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <p className="text-xs text-emerald-400/90 pt-2 border-t border-border/40">
+                    Unbanning will immediately restore full login access, wallet deposits, withdrawals, and spot/futures trading operations.
+                  </p>
+                </div>
+              );
+            })()}
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedUserForUnban(null)}
+                className="flex-1 py-3 border border-border rounded-xl text-foreground font-bold hover:bg-muted/80 transition-colors text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleUnbanUser}
+                disabled={processingUnban}
+                className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
+              >
+                {processingUnban ? 'Restoring...' : 'Restore Account Access'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Account Deletion Confirmation Modal */}
       {selectedUserForDelete && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
@@ -1041,7 +1424,70 @@ const AdminUsers = () => {
                 disabled={deletingUser}
                 className="flex-1 py-3 bg-danger hover:bg-rose-700 text-white font-bold rounded-xl transition-colors text-sm shadow-lg flex items-center justify-center gap-2"
               >
-                {deletingUser ? 'Purging...' : 'Yes, Delete User'}
+                {deletingUser ? 'Purging...' : 'Yes, Permanently Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* E2E Test Accounts Bulk Purge Modal */}
+      {showE2EPurgeConfirm && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <div className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-rose-500/20 animate-scale-in">
+            <button 
+              type="button" 
+              onClick={() => setShowE2EPurgeConfirm(false)} 
+              className="absolute right-4 top-4 p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center border border-rose-500/20">
+                <Trash2 size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Bulk Purge Test Accounts</h3>
+                <p className="text-xs text-muted-foreground">Clean up all registered e2e test users</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-rose-500/5 border border-rose-500/15 rounded-2xl mb-6 text-sm text-foreground/90 space-y-3">
+              <p className="text-xs font-semibold text-foreground">
+                Found <span className="text-rose-400 font-bold">{e2eAccounts.length}</span> account(s) starting with "e2e":
+              </p>
+              <div className="max-h-36 overflow-y-auto space-y-1 font-mono text-xs bg-muted/60 p-2.5 rounded-xl border border-border custom-scrollbar">
+                {e2eAccounts.map(u => (
+                  <div key={u.id} className="flex justify-between py-0.5 text-[11px] border-b border-border/30 last:border-0">
+                    <span className="truncate max-w-[180px] font-bold text-foreground">{u.email || u.username}</span>
+                    <span className="text-muted-foreground opacity-75">{u.ftid || u.id.substring(0, 8)}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="p-2.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-xs text-rose-400/90 leading-relaxed flex items-start gap-2">
+                <AlertTriangle size={16} className="shrink-0 mt-0.5 text-rose-400" />
+                <span>
+                  This will permanently delete all {e2eAccounts.length} test accounts, their portfolios, ledger entries, and Supabase auth records.
+                </span>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowE2EPurgeConfirm(false)}
+                className="flex-1 py-3 border border-border rounded-xl text-foreground font-bold hover:bg-muted/80 transition-colors text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handlePurgeAllE2EAccounts}
+                disabled={isPurgingE2E}
+                className="flex-1 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition-colors text-sm shadow-lg flex items-center justify-center gap-2"
+              >
+                {isPurgingE2E ? 'Purging Accounts...' : `Purge All ${e2eAccounts.length} Accounts`}
               </button>
             </div>
           </div>

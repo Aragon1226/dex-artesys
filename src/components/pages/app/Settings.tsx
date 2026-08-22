@@ -3,10 +3,14 @@ import { useSearchParams, useNavigate } from "@/lib/router-compat";
 import {
   FileText, Shield, HeadphonesIcon, HelpCircle, AlertTriangle, CheckCircle,
   ChevronRight, Lock, Eye, Bell, Globe, ArrowLeft, ExternalLink, Info,
-  Scale, BookOpen, ShieldCheck, UserCheck, Terminal, HeartHandshake, Sparkles
+  Scale, BookOpen, ShieldCheck, UserCheck, Terminal, HeartHandshake, Sparkles,
+  Trash2, AlertCircle, X, LogOut
 } from 'lucide-react';
 import { Logo } from '@/components/shared/Logo';
 import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
+import { deleteUserAccountComplete } from '@/lib/adminPermissions';
+import { TermlyPrivacyPolicy } from '@/components/shared/TermlyPrivacyPolicy';
 
 interface SettingsProps {
   initialTab?: string;
@@ -15,12 +19,44 @@ interface SettingsProps {
 export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   // Tab management: 'overview' | 'terms' | 'policies' | 'faq'
   const initialTab = searchParams.get('tab') || propInitialTab || 'overview';
   const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [faqSearch, setFaqSearch] = useState('');
+
+  // User Self Account Deletion State
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [userDeleteReason, setUserDeleteReason] = useState('No longer using the simulation platform');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleUserAccountDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+    if (deleteConfirmText.trim().toLowerCase() !== 'delete') {
+      toast.error("Please type 'DELETE' to confirm account erasure.");
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const res = await deleteUserAccountComplete(user.id, user.email || undefined);
+      if (!res.success) {
+        throw new Error(res.message);
+      }
+      toast.success("Your account and all associated data have been permanently deleted.");
+      setIsDeleteModalOpen(false);
+      await signOut();
+      navigate('/');
+    } catch (err: any) {
+      console.error("Account deletion failed:", err);
+      toast.error("Account deletion failed: " + (err.message || 'Unknown error'));
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   useEffect(() => {
     const tabFromUrl = searchParams.get('tab');
@@ -258,6 +294,35 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
                   </button>
                 </div>
               </div>
+
+              {/* Danger Zone: Account Deletion & Right to Erasure */}
+              <div className="pt-6 border-t border-border/80">
+                <div className="p-5 sm:p-6 rounded-2xl bg-rose-500/[0.04] border border-rose-500/20 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 text-rose-500 font-bold text-sm">
+                        <Trash2 size={18} />
+                        <h4>Account Erasure & Permanent Deletion</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed max-w-xl">
+                        Permanently purge your account, profile credentials, simulated trading balances, deposit/withdrawal history, and active sessions from our database (GDPR Right to Erasure).
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDeleteConfirmText('');
+                        setIsDeleteModalOpen(true);
+                      }}
+                      className="px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/30 rounded-xl text-xs font-bold transition-colors whitespace-nowrap self-start sm:self-center flex items-center gap-2"
+                    >
+                      <Trash2 size={14} />
+                      Delete Account
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -436,6 +501,89 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
         )}
 
       </div>
+
+      {/* Account Deletion Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <form onSubmit={handleUserAccountDelete} className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-rose-500/20 animate-scale-in">
+            <button 
+              type="button" 
+              onClick={() => setIsDeleteModalOpen(false)} 
+              className="absolute right-4 top-4 p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center border border-rose-500/20">
+                <Trash2 size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Delete Account Permanently</h3>
+                <p className="text-xs text-muted-foreground">Self-service GDPR data erasure</p>
+              </div>
+            </div>
+
+            <div className="space-y-4 mb-6">
+              <div className="p-4 rounded-2xl bg-muted/40 border border-border text-xs space-y-2">
+                <div className="flex justify-between font-mono">
+                  <span className="text-muted-foreground">Account Identifier:</span>
+                  <span className="font-bold text-foreground">{user?.email || 'Logged In User'}</span>
+                </div>
+                <p className="text-muted-foreground leading-relaxed pt-2 border-t border-border/40">
+                  This action is <strong className="text-rose-400 font-bold">permanent and irreversible</strong>. All your simulated spot and futures balances, order book history, deposit/withdrawal records, and preferences will be permanently wiped.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-foreground mb-1.5">Reason for Deletion (Optional)</label>
+                <select
+                  value={userDeleteReason}
+                  onChange={(e) => setUserDeleteReason(e.target.value)}
+                  className="w-full bg-card border border-border rounded-xl px-3 py-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+                >
+                  <option value="Completed demo trading curriculum">Completed demo trading curriculum</option>
+                  <option value="No longer using the simulation platform">No longer using the simulation platform</option>
+                  <option value="Switching to a different training environment">Switching to a different training environment</option>
+                  <option value="Privacy & data minimization preference">Privacy & data minimization preference</option>
+                  <option value="Other reason">Other reason</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-foreground mb-1.5">
+                  To confirm deletion, type <span className="font-mono text-rose-500 font-bold">DELETE</span> below:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={deleteConfirmText}
+                  onChange={(e) => setDeleteConfirmText(e.target.value)}
+                  placeholder="Type DELETE to confirm"
+                  className="w-full bg-card border border-border rounded-xl px-3 py-2.5 text-xs font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-rose-500/40"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="flex-1 py-3 border border-border rounded-xl text-foreground font-bold hover:bg-muted/80 transition-colors text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isDeleting || deleteConfirmText.trim().toLowerCase() !== 'delete'}
+                className="flex-1 py-3 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
+              >
+                {isDeleting ? 'Deleting...' : 'Permanently Delete'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

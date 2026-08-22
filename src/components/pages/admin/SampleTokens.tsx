@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { 
   TrendingDown, TrendingUp, Sliders, RefreshCw, AlertCircle, 
   CheckCircle2, Clock, Search, Filter, Play, StopCircle, RotateCcw, 
-  Zap, Info, Layers, Sparkles, History, ChevronRight
+  Zap, Info, Layers, Sparkles, History, ChevronRight, Target, Pause
 } from 'lucide-react';
 import { tokenPriceControl, TokenPriceSchedule, TokenPriceAuditLog, SAMPLE_TOKENS_LIST } from '@/services/tokenPriceControl';
 import { marketService } from '@/services/market';
@@ -21,7 +21,7 @@ export const AdminSampleTokens = () => {
   
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<'All' | 'Main' | 'Stocks & Commodities' | 'Controlled'>('All');
+  const [selectedCategory, setSelectedCategory] = useState<'All' | 'Main' | 'Stocks & Commodities' | 'Controlled' | 'Idle at Target'>('All');
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
   // Modal / Drawer state for configuring price trend
@@ -136,7 +136,7 @@ export const AdminSampleTokens = () => {
         });
 
         const dirStr = direction === 'decrease' ? 'decrease' : 'increase';
-        toast.success(`Scheduled ${dirStr} of ${changePercent}% over ${durationValue} ${durationUnit} for ${targetSyms.join(', ')}`);
+        toast.success(`Scheduled ${dirStr} of ${changePercent}% over ${durationValue} ${durationUnit} for ${targetSyms.join(', ')}. Once target is reached, price will idle until you click 'Return to Base'.`);
       }
     } catch (err: any) {
       toast.error(err.message || 'Operation failed due to an ongoing lock by another admin.');
@@ -145,6 +145,39 @@ export const AdminSampleTokens = () => {
 
     setIsModalOpen(false);
     refreshData();
+  };
+
+  // Trigger manual return to base
+  const handleStartReturnToBase = (symbol: string) => {
+    try {
+      tokenPriceControl.startReturnToBase(symbol, adminEmail);
+      toast.success(`Started gradual return to base for ${symbol} (1 to 4 hours random duration)`);
+      refreshData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to initiate return to base.');
+    }
+  };
+
+  // Cancel return to base and hold price
+  const handleCancelReturnToBase = (symbol: string) => {
+    try {
+      tokenPriceControl.cancelReturnToBase(symbol, adminEmail);
+      toast.info(`Paused return to base for ${symbol}; holding idle at current target price`);
+      refreshData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to cancel return to base.');
+    }
+  };
+
+  // Bulk return to base for all idle tokens
+  const handleBulkStartReturnToBase = (symbolsToReturn: string[]) => {
+    try {
+      tokenPriceControl.bulkStartReturnToBase(symbolsToReturn, adminEmail);
+      toast.success(`Initiated return to base for ${symbolsToReturn.length} token(s) (1 to 4 hours random duration)`);
+      refreshData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to start bulk return.');
+    }
   };
 
   // Cancel schedule
@@ -181,19 +214,19 @@ export const AdminSampleTokens = () => {
   // Quick Preset Handlers
   const handleQuickPresetNAS20Pct1Day = () => {
     try {
-    const sym = 'NAS';
-    const startP = livePrices[sym] || 92.54;
-    tokenPriceControl.setSchedule({
-      symbol: sym,
-      direction: 'decrease',
-      type: 'percentage',
-      changePercent: 20,
-      durationHours: 24, // 1 day
-      startPrice: startP,
-      adminEmail,
-      note: 'Quick preset: NAS -20% in 1 day'
-    });
-      toast.success('Preset Applied: NAS price will decrease 20% within 1 day');
+      const sym = 'NAS';
+      const startP = livePrices[sym] || 92.54;
+      tokenPriceControl.setSchedule({
+        symbol: sym,
+        direction: 'decrease',
+        type: 'percentage',
+        changePercent: 20,
+        durationHours: 24, // 1 day
+        startPrice: startP,
+        adminEmail,
+        note: 'Quick preset: NAS -20% in 1 day (idles at target when done)'
+      });
+      toast.success('Preset Applied: NAS price will decrease 20% within 1 day, then stay idle at target until you click Return to Base.');
       refreshData();
     } catch (err: any) {
       toast.error(err.message);
@@ -202,24 +235,32 @@ export const AdminSampleTokens = () => {
 
   const handleQuickPresetNAS20Pct4Days = () => {
     try {
-    const sym = 'NAS';
-    const startP = livePrices[sym] || 92.54;
-    tokenPriceControl.setSchedule({
-      symbol: sym,
-      direction: 'decrease',
-      type: 'percentage',
-      changePercent: 20,
-      durationHours: 96, // 4 days
-      startPrice: startP,
-      adminEmail,
-      note: 'Quick preset: NAS -20% in 4 days'
-    });
-      toast.success('Preset Applied: NAS price will decrease 20% within 4 days');
+      const sym = 'NAS';
+      const startP = livePrices[sym] || 92.54;
+      tokenPriceControl.setSchedule({
+        symbol: sym,
+        direction: 'decrease',
+        type: 'percentage',
+        changePercent: 20,
+        durationHours: 96, // 4 days
+        startPrice: startP,
+        adminEmail,
+        note: 'Quick preset: NAS -20% in 4 days (idles at target when done)'
+      });
+      toast.success('Preset Applied: NAS price will decrease 20% within 4 days, then stay idle at target until you click Return to Base.');
       refreshData();
     } catch (err: any) {
       toast.error(err.message);
     }
   };
+
+  // Find tokens that are currently idle at target (ready for manual return)
+  const idleTokens = SAMPLE_TOKENS_LIST.filter(t => {
+    const sch = schedules[t.symbol];
+    if (!sch || !sch.isActive) return false;
+    const ctrl = tokenPriceControl.getControlledPrice(t.symbol, livePrices[t.symbol] || t.defaultPrice);
+    return ctrl.isIdleAtTarget;
+  });
 
   // Filter tokens list
   const filteredTokens = SAMPLE_TOKENS_LIST.filter(t => {
@@ -234,6 +275,12 @@ export const AdminSampleTokens = () => {
       const sch = schedules[t.symbol];
       const hasOverride = tokenPriceControl.getManualOverrides()[t.symbol] !== undefined;
       return (sch && sch.isActive) || hasOverride;
+    }
+    if (selectedCategory === 'Idle at Target') {
+      const sch = schedules[t.symbol];
+      if (!sch || !sch.isActive) return false;
+      const ctrl = tokenPriceControl.getControlledPrice(t.symbol, livePrices[t.symbol] || t.defaultPrice);
+      return ctrl.isIdleAtTarget;
     }
 
     return true;
@@ -252,7 +299,7 @@ export const AdminSampleTokens = () => {
               Live Price Control Engine
             </span>
             <span className="text-xs text-gray-400 font-mono">
-              Tick Interval: 1.0s
+              Manual Return Mode Enabled
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -260,11 +307,20 @@ export const AdminSampleTokens = () => {
             Spot Control
           </h1>
           <p className="text-sm text-gray-400 mt-1 max-w-2xl">
-            Adjust prices and schedule trend factors (percentage change & duration in hours/days) for spot tokens (e.g., set NAS price to decrease by 20% over 1 or 4 days).
+            Adjust prices and schedule trend factors. Once a target price is reached (100%), the token stays idle around the target price indefinitely until you manually click <strong>Return to Base</strong> (1–4h random gradual return).
           </p>
         </div>
 
         <div className="flex items-center gap-3">
+          {idleTokens.length > 0 && (
+            <button
+              onClick={() => handleBulkStartReturnToBase(idleTokens.map(t => t.symbol))}
+              className="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-sm flex items-center gap-2 border border-amber-500/40 transition-colors shadow-lg shadow-amber-500/10"
+            >
+              <RotateCcw className="w-4 h-4 text-amber-400" />
+              Return All Idle ({idleTokens.length})
+            </button>
+          )}
           <button
             onClick={handleResetAll}
             className="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-medium text-sm flex items-center gap-2 border border-gray-700 transition-colors"
@@ -281,6 +337,35 @@ export const AdminSampleTokens = () => {
           </button>
         </div>
       </div>
+
+      {/* Alert banner if tokens are idle at target */}
+      {idleTokens.length > 0 && (
+        <div className="bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+              <Target className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <span>{idleTokens.length} Token(s) Holding Idle at Target Price</span>
+                <span className="px-2 py-0.5 rounded-full text-[11px] bg-amber-500/20 text-amber-300 font-mono">
+                  {idleTokens.map(t => t.symbol).join(', ')}
+                </span>
+              </h4>
+              <p className="text-xs text-gray-400 mt-0.5">
+                Adjustment reached 100%. Prices are idling around their target. Click &apos;Return to Base&apos; whenever you want to begin the gradual 1–4 hour recovery.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => handleBulkStartReturnToBase(idleTokens.map(t => t.symbol))}
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 whitespace-nowrap transition-all"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            Start Return for All ({idleTokens.length})
+          </button>
+        </div>
+      )}
 
       {/* Metrics Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -311,7 +396,7 @@ export const AdminSampleTokens = () => {
             )}
           </div>
           <div className="text-xs text-gray-500 mt-1">
-            Trends currently executing
+            {idleTokens.length > 0 ? `${idleTokens.length} holding at target` : 'Trends currently executing'}
           </div>
         </div>
 
@@ -357,7 +442,7 @@ export const AdminSampleTokens = () => {
             <Zap className="w-4 h-4 text-warning" />
             <h3 className="text-sm font-semibold text-white">Quick Scenario Presets</h3>
           </div>
-          <span className="text-xs text-gray-400">One-click preset tests</span>
+          <span className="text-xs text-gray-400">One-click preset tests (holds at target when finished)</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -370,7 +455,7 @@ export const AdminSampleTokens = () => {
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
             <p className="text-xs text-gray-400 mt-1">
-              $92.54 → $74.03 over 24 Hours
+              $92.54 → $74.03 over 24h &bull; Idles at target
             </p>
           </button>
 
@@ -383,7 +468,7 @@ export const AdminSampleTokens = () => {
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
             <p className="text-xs text-gray-400 mt-1">
-              $92.54 → $74.03 over 96 Hours
+              $92.54 → $74.03 over 96h &bull; Idles at target
             </p>
           </button>
 
@@ -396,7 +481,7 @@ export const AdminSampleTokens = () => {
                 durationHours: 48,
                 adminEmail
               });
-              toast.success('Applied +25% rally over 2 days across Main tokens!');
+              toast.success('Applied +25% rally over 2 days across Main tokens! They will idle at target until return button is clicked.');
               refreshData();
             }}
             className="p-3 bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/40 rounded-xl text-left transition-all group"
@@ -451,7 +536,7 @@ export const AdminSampleTokens = () => {
 
         {/* Category Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
-          {(['All', 'Main', 'Stocks & Commodities', 'Controlled'] as const).map((cat) => (
+          {(['All', 'Main', 'Stocks & Commodities', 'Controlled', 'Idle at Target'] as const).map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -465,6 +550,11 @@ export const AdminSampleTokens = () => {
                 <span className="flex items-center gap-1">
                   <Sliders className="w-3 h-3" />
                   Active Controlled ({activeSchedulesCount})
+                </span>
+              ) : cat === 'Idle at Target' ? (
+                <span className="flex items-center gap-1">
+                  <Target className="w-3 h-3" />
+                  Idle at Target ({idleTokens.length})
                 </span>
               ) : cat}
             </button>
@@ -580,9 +670,9 @@ export const AdminSampleTokens = () => {
                                     <span>{sch.note || 'Active'}</span>
                                   </div>
                                 </div>
-                              );
-                            })()}
-                          </div>
+                              </div>
+                            );
+                          })()
                         ) : hasOverride ? (
                           <span className="px-2.5 py-1 rounded bg-warning/10 text-warning border border-warning/20 text-xs font-medium">
                             Instant Price Override Active
@@ -598,6 +688,35 @@ export const AdminSampleTokens = () => {
                       {/* Actions */}
                       <td className="py-4 px-4 text-right">
                         <div className="flex items-center justify-end gap-2">
+                          {sch && sch.isActive && (() => {
+                            const ctrl = tokenPriceControl.getControlledPrice(token.symbol, currentPrice);
+                            if (ctrl.isIdleAtTarget) {
+                              return (
+                                <button
+                                  onClick={() => handleStartReturnToBase(token.symbol)}
+                                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                                  title="Start gradual 1 to 4 hour price recovery back to base baseline"
+                                >
+                                  <RotateCcw className="w-3.5 h-3.5" />
+                                  Return to Base
+                                </button>
+                              );
+                            }
+                            if (ctrl.isReturning) {
+                              return (
+                                <button
+                                  onClick={() => handleCancelReturnToBase(token.symbol)}
+                                  className="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-amber-400 border border-amber-500/30 text-xs font-medium flex items-center gap-1 transition-colors"
+                                  title="Pause return and hold price"
+                                >
+                                  <Pause className="w-3.5 h-3.5" />
+                                  Hold
+                                </button>
+                              );
+                            }
+                            return null;
+                          })()}
+
                           <button
                             onClick={() => handleOpenModal(token.symbol)}
                             className="px-3 py-1.5 rounded-lg bg-success/10 hover:bg-success/20 text-success border border-success/30 text-xs font-semibold flex items-center gap-1.5 transition-colors"
@@ -620,7 +739,7 @@ export const AdminSampleTokens = () => {
                             <button
                               onClick={() => handleResetToken(token.symbol)}
                               className="p-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white border border-gray-700 transition-colors"
-                              title="Reset to default baseline"
+                              title="Reset immediately to default baseline"
                             >
                               <RotateCcw className="w-4 h-4" />
                             </button>
@@ -692,7 +811,7 @@ export const AdminSampleTokens = () => {
                       Adjust {activeSymbol} Price Trend
                     </h3>
                     <p className="text-xs text-gray-400">
-                      Configure percentage factor and duration for sample market simulation
+                      Configure percentage factor and duration. Price stays idle at target until manual return is clicked.
                     </p>
                   </div>
                 </div>
@@ -948,7 +1067,7 @@ export const AdminSampleTokens = () => {
                           Duration: <strong className="text-white">{durationValue} {durationUnit} ({durHours}h)</strong>
                         </div>
                         <div>
-                          Rate: <strong className="text-gray-300">{(priceDiff / Math.max(1, durHours)).toFixed(3)} $/hr</strong>
+                          Behavior: <strong className="text-cyan-300">Holds idle at target until manual return</strong>
                         </div>
                       </div>
                     );
