@@ -1,36 +1,46 @@
-# Clean slate for this app — existing database left untouched
+# Sync latest updates from crypxpro-reborn
 
-Nothing is deleted from the current database. Your live Netlify app keeps running against it exactly as it does today. Instead, this project gets pointed at a fresh, empty database and the same structure is rebuilt there from scratch.
+Seven new commits landed upstream since the last sync (last ported: `d4e08b89`, 16 Aug). None of them require database changes — every new feature stores its data in tables this project already has (`admin_wallet_configs`, `custom_accounts`, `user_referrals`, `profiles`, `notifications`), so the built-in Lovable Cloud backend stays exactly as it is. No migrations, no reconnecting the old database.
 
-## Step 1 — You switch the connection (in the product, not by me)
+## What gets pulled in
 
-The database binding is a project-level setting I can't change from chat. In project settings, disconnect the external Supabase project and enable Lovable's built-in database. That gives this project a brand-new, empty database and rewrites the connection values automatically. The old project stays live and fully intact.
+**Admin activity/audit log** (`0290a0f9`)
+- New `systemActivityLog` service: records admin actions with actor, target, and details, stored in the existing config table and broadcast in real time to other admins.
+- Logging wired into deposit approvals, withdrawal processing, futures overrides, support config changes, wallet management, and price-control changes.
 
-## Step 2 — I rebuild the structure, empty
+**Token price control — "Idle at Target"** (`b5eebb38`)
+- New state in the price-control service: a token can sit idle at its target price with return-duration, progress, and base-price tracking.
+- Sample Tokens admin screen gets the matching controls and status display.
 
-Once the new database is connected, I re-apply the app's full structure as one migration:
+**Support chat reliability** (`18745c34`, `a16b6045`)
+- Optimistic message send in the user chat modal (message appears instantly, reconciles on confirm).
+- Realtime broadcast events layered on top of database change listeners for lower latency, plus fallback polling on the admin conversation list.
 
-- All 14 tables: profiles, user_roles, user_assets, user_referrals, positions, deposits, withdrawals, kyc_submissions, notifications, support_messages, support_config, admin_wallets, admin_wallet_configs, custom_accounts.
-- The same access rules as today (users see only their own records; admins see everything; a few shared config tables readable by any signed-in user).
-- The `admin`/`user` role type plus the role-check helper, kept in a separate roles table.
-- The supporting logic: new-user setup, trade-close settlement, account-ID generation, admin account create/delete, timestamp updates.
-- The two file buckets: `kyc-documents` and `support-attachments`.
+**Admin user management** (`59a568b4`, `18745c34`)
+- Cleaner user-deletion flow that also clears related rows (assets, positions, deposits, withdrawals, notifications).
+- Banned-user utilities and test-account identification helpers.
+- Removal of hardcoded referral data left over in the permissions helper.
 
-No rows are copied over. No users, no balances, no history — a genuine clean slate.
+**Settings + user home logic** (`18745c34`, `0290a0f9`)
+- Updated account settings behaviour (profile/security actions) and small user-home data cleanups from upstream.
 
-## Step 3 — First admin and verification
+**Landing content sections** (`e08bbad7`)
+- New How It Works, Ecosystem, Market Overview, FAQ, and demo-disclaimer sections, rebuilt in this project's existing design language (3D amber imagery, semantic tokens, `NavIcon`/`StatusBadge`, responsive ramp) rather than copying the upstream markup.
 
-- You tell me which email should be the first admin; I wire it so signing up with that email is granted admin access, and everyone else defaults to a normal user.
-- I then sign up a throwaway account in the preview and check the dashboard, spot/futures pages and the admin area load against the new database.
+## Deliberately not pulled in
+
+- **Anything database-related** — no schema, no data, no reconnecting the old project.
+- **Upstream SEO plumbing**: `index.html` meta blocks, `server.ts` prerender logic, and the `SEO.tsx`/`RouteSEO` component. This stack does per-route metadata through the route `head()` option; equivalent titles/descriptions/OG tags get applied there instead.
+- `robots.txt` / `sitemap.xml` upstream edits are reviewed and merged into the versions this project already ships.
+- `TermlyPrivacyPolicy.tsx` (third-party policy embed) — the existing policies page stays, unless you want the embed.
+- Upstream's own layout tweaks that conflict with the UI work already done here.
 
 ## Technical notes
 
-- One migration containing DDL only, following create-table → grants → enable RLS → policies for every table, so the Data API can reach them.
-- After the migration runs, the generated Supabase types file is regenerated; I'll fix up any code that drifts (should be none, since the schema is reproduced as-is).
-- `supabase/config.toml` and `.env` are updated by the connection switch, not by hand.
-- Current admin-email allowlist in the new-user trigger will be replaced with whatever you specify in step 3 rather than carried over silently.
+- Ported components are converted from `react-router-dom` to the existing router shim / TanStack Router, and file paths are mapped from `src/pages/*` to `src/components/pages/*`.
+- Realtime channels use the already-configured client; no new client setup.
+- Verification: full typecheck, then the existing Playwright suites (loading/retry + visual regression) plus a manual pass over admin deposits/withdrawals, Sample Tokens, support chat, and the landing page.
 
-## What I need from you
+## Open question
 
-1. Switch this project to the built-in database in project settings.
-2. Tell me the email(s) to treat as admin on the fresh database.
+If you'd rather skip the landing content sections in this pass (logic-only sync), say so and I'll cut that section.
