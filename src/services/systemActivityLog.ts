@@ -316,7 +316,7 @@ if (typeof window !== 'undefined') {
  * Record a new system activity log
  */
 export const recordActivityLog = (
-  entry: Omit<SystemActivityLogEntry, 'id' | 'timestamp'> & { timestamp?: string }
+  entry: Omit<SystemActivityLogEntry, 'id' | 'timestamp' | 'adminEmail'> & { timestamp?: string; adminEmail?: string | null }
 ): SystemActivityLogEntry => {
   const newLog: SystemActivityLogEntry = {
     id: `act_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
