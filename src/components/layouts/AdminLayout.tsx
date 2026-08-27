@@ -56,7 +56,7 @@ const AdminShell = () => {
         <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-4 px-4 opacity-50">Main Menu</p>
           {navItems
-            .filter((item) => hasPermissionToView(user?.email, item.path))
+            .filter((item) => canView(item.path))
             .map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -95,5 +95,11 @@ const AdminShell = () => {
     </div>
   );
 };
+
+const AdminLayout = () => (
+  <AdminRouteGuard>
+    <AdminShell />
+  </AdminRouteGuard>
+);
 
 export default AdminLayout;
