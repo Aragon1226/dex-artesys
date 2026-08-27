@@ -24,26 +24,11 @@ const navItems: { path: string; label: string; key: NavIconKey }[] = [
 ];
 
 
-const AdminLayout = () => {
+const AdminShell = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { signOut, user, loading } = useAuth();
-  const { isAdmin, loading: checkingRole } = useAdminAccess();
-
-  useEffect(() => {
-    if (loading || checkingRole) return;
-
-    if (!user) {
-      sessionStorage.setItem('auth_redirect', location.pathname);
-      navigate('/auth', { replace: true });
-    } else if (!isAdmin) {
-      toast.error("Unauthorized: You do not have administrator permissions.");
-      navigate('/app/home', { replace: true });
-    } else if (!hasPermissionToView(user.email, location.pathname)) {
-      toast.error("Access Denied: You do not have permission to view this page.");
-      navigate('/admin/dashboard', { replace: true });
-    }
-  }, [user, loading, checkingRole, isAdmin, navigate, location.pathname]);
+  const { signOut } = useAuth();
+  const { canView } = useAdminAccess();
 
   const handleLogout = async () => {
     try {
@@ -55,10 +40,6 @@ const AdminLayout = () => {
       window.location.href = '/auth';
     }
   };
-
-  if (loading || checkingRole) return <CubeSpinner fullScreen label="Verifying admin credentials..." />;
-  if (!user || !isAdmin) return null;
-
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
