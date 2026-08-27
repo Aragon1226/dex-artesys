@@ -67,7 +67,7 @@ export const DEFAULT_NO_ACCESS_PAGES: PagePermissions = {
 };
 
 export const PRIMARY_OWNERS = [
-  'heathercarpe34@gmail.com'
+  'arkarnaung009@gmail.com'
 ];
 
 export function isPrimaryOwner(email: string | undefined): boolean {
