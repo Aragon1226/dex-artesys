@@ -3,11 +3,8 @@ import { ShieldCheck, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdminAccess } from "@/hooks/useAdminAccess";
 import { Logo } from "@/components/shared/Logo";
-import { useEffect } from "react";
-import CubeSpinner from "@/components/shared/CubeSpinner";
-import { hasPermissionToView } from "@/lib/adminPermissions";
+import { AdminRouteGuard } from "@/components/shared/AdminRouteGuard";
 import { NavIcon, type NavIconKey } from "@/components/shared/NavIcon";
-import { toast } from "sonner";
 
 
 const navItems: { path: string; label: string; key: NavIconKey }[] = [
