@@ -122,13 +122,6 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
       } else if (isLogin) {
         const normEmail = email.toLowerCase().trim();
 
-        // Proactively sync latest custom accounts from Supabase to support login on any device
-        try {
-          await syncCustomAccountsWithSupabase();
-        } catch (syncErr) {
-          console.warn("Could not sync custom accounts before login check:", syncErr);
-        }
-
         // Check custom Admin & Staff accounts or primary owner password fallback
         const customAccounts = getCustomAccounts();
         const matchedCustom = customAccounts.find(
@@ -138,25 +131,34 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         const isPrimary = isPrimaryOwner(normEmail);
         const isPrimaryMatched = isPrimary && password === "AungMoe$357";
 
-        // Try authenticating with real Supabase Auth first
+        // Try authenticating with real Supabase Auth first (retry once on transient network errors)
         let realAuthSuccess = false;
         let authErrorMsg: string | null = null;
-        try {
-          const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
-            email: normEmail,
-            password: password
-          });
-          
-          if (!authErr && authData.session) {
-            realAuthSuccess = true;
-            // Clear any simulated session since we have a real one
-            localStorage.removeItem("crypx_custom_session_v1");
-          } else if (authErr) {
-            authErrorMsg = authErr.message;
+        for (let attempt = 0; attempt < 2; attempt++) {
+          try {
+            const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
+              email: normEmail,
+              password: password
+            });
+
+            if (!authErr && authData.session) {
+              realAuthSuccess = true;
+              authErrorMsg = null;
+              // Clear any simulated session since we have a real one
+              localStorage.removeItem("crypx_custom_session_v1");
+              break;
+            }
+            if (authErr) {
+              authErrorMsg = authErr.message;
+              // Credential/validation errors should not be retried
+              if (!/fetch|network/i.test(authErr.message)) break;
+            }
+          } catch (err: any) {
+            authErrorMsg = err?.message || "Network error";
           }
-        } catch (err: any) {
-          authErrorMsg = err.message;
+          if (attempt === 0) await new Promise(r => setTimeout(r, 800));
         }
+
 
         if (realAuthSuccess) {
           if (appMode === "ADMIN") {
