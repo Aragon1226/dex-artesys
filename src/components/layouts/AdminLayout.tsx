@@ -3,11 +3,8 @@ import { ShieldCheck, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdminAccess } from "@/hooks/useAdminAccess";
 import { Logo } from "@/components/shared/Logo";
-import { useEffect } from "react";
-import CubeSpinner from "@/components/shared/CubeSpinner";
-import { hasPermissionToView } from "@/lib/adminPermissions";
+import { AdminRouteGuard } from "@/components/shared/AdminRouteGuard";
 import { NavIcon, type NavIconKey } from "@/components/shared/NavIcon";
-import { toast } from "sonner";
 
 
 const navItems: { path: string; label: string; key: NavIconKey }[] = [
@@ -27,26 +24,11 @@ const navItems: { path: string; label: string; key: NavIconKey }[] = [
 ];
 
 
-const AdminLayout = () => {
+const AdminShell = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { signOut, user, loading } = useAuth();
-  const { isAdmin, loading: checkingRole } = useAdminAccess();
-
-  useEffect(() => {
-    if (loading || checkingRole) return;
-
-    if (!user) {
-      sessionStorage.setItem('auth_redirect', location.pathname);
-      navigate('/auth', { replace: true });
-    } else if (!isAdmin) {
-      toast.error("Unauthorized: You do not have administrator permissions.");
-      navigate('/app/home', { replace: true });
-    } else if (!hasPermissionToView(user.email, location.pathname)) {
-      toast.error("Access Denied: You do not have permission to view this page.");
-      navigate('/admin/dashboard', { replace: true });
-    }
-  }, [user, loading, checkingRole, isAdmin, navigate, location.pathname]);
+  const { signOut } = useAuth();
+  const { canView } = useAdminAccess();
 
   const handleLogout = async () => {
     try {
@@ -58,10 +40,6 @@ const AdminLayout = () => {
       window.location.href = '/auth';
     }
   };
-
-  if (loading || checkingRole) return <CubeSpinner fullScreen label="Verifying admin credentials..." />;
-  if (!user || !isAdmin) return null;
-
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
@@ -78,7 +56,7 @@ const AdminLayout = () => {
         <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-4 px-4 opacity-50">Main Menu</p>
           {navItems
-            .filter((item) => hasPermissionToView(user?.email, item.path))
+            .filter((item) => canView(item.path))
             .map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -117,5 +95,11 @@ const AdminLayout = () => {
     </div>
   );
 };
+
+const AdminLayout = () => (
+  <AdminRouteGuard>
+    <AdminShell />
+  </AdminRouteGuard>
+);
 
 export default AdminLayout;
