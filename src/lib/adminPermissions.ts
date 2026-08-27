@@ -698,13 +698,19 @@ export function getAdminWalletAddress(adminId: string, symbol: string, network: 
 
 export async function syncCustomAccountsWithSupabase(): Promise<CustomAccount[]> {
   try {
-    // Try the RPC which bypasses RLS for pre-login fetching
+    // Requires an authenticated session; anonymous visitors keep the local cache only.
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      return getCustomAccounts();
+    }
+
     let result = await supabase.rpc('get_all_custom_accounts');
-    
+
     // Fallback to normal select if RPC doesn't exist yet
     if (result.error) {
       result = await supabase.from('custom_accounts').select('*');
     }
+
 
     const { data, error } = result;
 
