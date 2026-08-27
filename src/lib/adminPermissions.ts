@@ -880,6 +880,8 @@ export async function saveUserReferralToSupabase(referral: UserReferral): Promis
 
 export async function syncAdminWalletsWithSupabase(): Promise<AdminWalletConfig[]> {
   try {
+    if (!(await hasSupabaseSession())) return getAdminWallets();
+
     const { data, error } = await supabase.from('admin_wallet_configs').select('*');
     if (error) {
       console.warn("Could not load admin wallet configs from Supabase, using local fallback.", error);

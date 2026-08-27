@@ -289,11 +289,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.warn("Could not parse referral parameter", e);
     }
 
-    // Trigger asynchronous Supabase database syncing for admin portal
-    syncCustomAccountsWithSupabase().catch(console.warn);
-    syncUserReferralsWithSupabase().catch(console.warn);
-    syncAdminWalletsWithSupabase().catch(console.warn);
   }, []);
+
+  useEffect(() => {
+    if (!session?.user) return;
+
+    // Admin data must never be requested before authentication is established.
+    Promise.all([
+      syncCustomAccountsWithSupabase(),
+      syncUserReferralsWithSupabase(),
+      syncAdminWalletsWithSupabase(),
+    ]).catch((error) => console.warn("Authenticated account sync failed:", error));
+  }, [session?.user?.id]);
 
   useEffect(() => {
     if (session?.user?.email) {
