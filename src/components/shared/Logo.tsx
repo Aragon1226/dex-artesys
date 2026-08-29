@@ -11,10 +11,11 @@ interface LogoProps {
 }
 
 /**
- * Artesys brand mark — a monolithic squared tile with the "A" cut out as
- * negative space and a single Aureus Gold ledger rule through the counter.
- * Drawn on a 100-unit grid: flat colour, one soft diagonal facet for depth,
- * no bevels and no 3D. Reads cleanly from 512px down to 16px.
+ * Artesys brand mark — an isometric geometric monolith: three shaded facets of
+ * a cube in the Artesys blue range, with the "A" projected onto the front-right
+ * plane as negative space and a single Aureus Gold ledger rule through its
+ * counter. Gold hairlines catch the top edges like machined metal.
+ * Drawn on a 100-unit grid; reads cleanly from 512px down to 16px.
  */
 export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?: boolean }> = ({
   size = 40,
@@ -22,9 +23,16 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
   accent = true,
 }) => {
   const uid = React.useId().replace(/:/g, '');
-  const tile =
-    'M26 3h48a23 23 0 0 1 23 23v48a23 23 0 0 1-23 23H26A23 23 0 0 1 3 74V26A23 23 0 0 1 26 3Z';
-  const letter = 'M50 19 L78.5 82 H64.2 L50 50 L35.8 82 H21.5 Z';
+
+  // Isometric cube vertices
+  const TOP = '50,8 92,31 50,54 8,31';
+  const LEFT = '8,31 50,54 50,92 8,69';
+  const RIGHT = '92,31 50,54 50,92 92,69';
+
+  // "A" drawn in a unit square, then projected onto the right facet plane
+  const A = 'M0.5 0.06 L0.94 0.94 L0.76 0.94 L0.5 0.42 L0.24 0.94 L0.06 0.94 Z';
+  const ATRI = 'M0.5 0.06 L0.06 0.94 L0.94 0.94 Z';
+  const project = 'matrix(0.42 -0.23 0 0.38 50 54)';
 
   return (
     <svg
@@ -36,33 +44,64 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
       className={`shrink-0 ${className}`}
     >
       <defs>
-        <clipPath id={`t-${uid}`}>
-          <path d={tile} />
-        </clipPath>
+        <linearGradient id={`top-${uid}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#5C93F5" />
+          <stop offset="100%" stopColor="#2F6FE4" />
+        </linearGradient>
+        <linearGradient id={`right-${uid}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#2360DA" />
+          <stop offset="100%" stopColor="#12419E" />
+        </linearGradient>
+        <linearGradient id={`left-${uid}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#123F9B" />
+          <stop offset="100%" stopColor="#0A2A6B" />
+        </linearGradient>
         <clipPath id={`k-${uid}`}>
-          {/* the letter's outer triangle — keeps the gold rule inside the counter */}
-          <path d="M50 19 L21.5 82 H78.5 Z" />
+          <path d={ATRI} transform={project} />
         </clipPath>
       </defs>
 
-      {/* Tile — Artesys Blue with a single diagonal facet */}
-      <g clipPath={`url(#t-${uid})`}>
-        <rect width="100" height="100" fill="currentColor" />
-        <path d="M3 26A23 23 0 0 1 26 3h48L3 74Z" fill="#FFFFFF" opacity="0.14" />
+      {/* Facets */}
+      <polygon points={LEFT} fill={`url(#left-${uid})`} />
+      <polygon points={RIGHT} fill={`url(#right-${uid})`} />
+      <polygon points={TOP} fill={`url(#top-${uid})`} />
+
+      {/* Structural seams */}
+      <g stroke="#061428" strokeOpacity="0.32" strokeWidth="1.1" fill="none" strokeLinejoin="round">
+        <path d="M8 31 L50 54 L92 31" />
+        <path d="M50 54 L50 92" />
       </g>
 
-      {/* Negative-space "A" */}
-      <path d={letter} fill="var(--logo-void, #061428)" />
+      {/* Projected negative-space "A" */}
+      <path d={A} transform={project} fill="#061428" fillOpacity="0.92" />
 
-      {/* Aureus Gold ledger rule */}
+      {/* Aureus Gold ledger rule inside the counter + machined top edges */}
       {accent && (
-        <g clipPath={`url(#k-${uid})`}>
-          <rect x="20" y="63" width="60" height="6" fill="var(--logo-accent, #E6B34A)" />
-        </g>
+        <>
+          <g clipPath={`url(#k-${uid})`}>
+            <rect
+              x="0"
+              y="0.66"
+              width="1"
+              height="0.1"
+              transform={project}
+              fill="var(--logo-accent, #E6B34A)"
+            />
+          </g>
+          <path
+            d="M8 31 L50 8 L92 31"
+            fill="none"
+            stroke="var(--logo-accent, #E6B34A)"
+            strokeWidth="1.6"
+            strokeLinejoin="round"
+            strokeOpacity="0.85"
+          />
+        </>
       )}
     </svg>
   );
 };
+
 
 
 const Wordmark: React.FC<{ size?: number; descriptor?: boolean }> = ({ size = 40, descriptor }) => (
