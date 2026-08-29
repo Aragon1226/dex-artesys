@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export const AdminSampleTokens = () => {
   const { user } = useAuth();
-  const adminEmail = user?.email || 'admin@crypx.io';
+  const adminEmail = user?.email || 'admin@artesys.io';
 
   const [schedules, setSchedules] = useState<Record<string, TokenPriceSchedule>>({});
   const [livePrices, setLivePrices] = useState<Record<string, number>>({});
@@ -315,9 +315,9 @@ export const AdminSampleTokens = () => {
           {idleTokens.length > 0 && (
             <button
               onClick={() => handleBulkStartReturnToBase(idleTokens.map(t => t.symbol))}
-              className="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-sm flex items-center gap-2 border border-amber-500/40 transition-colors shadow-lg shadow-amber-500/10"
+              className="px-4 py-2.5 rounded-xl bg-warning/20 hover:bg-warning/30 text-warning font-semibold text-sm flex items-center gap-2 border border-warning/40 transition-colors shadow-lg shadow-warning/10"
             >
-              <RotateCcw className="w-4 h-4 text-amber-400" />
+              <RotateCcw className="w-4 h-4 text-warning" />
               Return All Idle ({idleTokens.length})
             </button>
           )}
@@ -340,15 +340,15 @@ export const AdminSampleTokens = () => {
 
       {/* Alert banner if tokens are idle at target */}
       {idleTokens.length > 0 && (
-        <div className="bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+        <div className="bg-gradient-to-r from-warning/15 via-warning/10 to-transparent border border-warning/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+            <div className="p-2.5 rounded-xl bg-warning/20 text-warning border border-warning/30">
               <Target className="w-5 h-5" />
             </div>
             <div>
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <span>{idleTokens.length} Token(s) Holding Idle at Target Price</span>
-                <span className="px-2 py-0.5 rounded-full text-[11px] bg-amber-500/20 text-amber-300 font-mono">
+                <span className="px-2 py-0.5 rounded-full text-[11px] bg-warning/20 text-warning font-mono">
                   {idleTokens.map(t => t.symbol).join(', ')}
                 </span>
               </h4>
@@ -359,7 +359,7 @@ export const AdminSampleTokens = () => {
           </div>
           <button
             onClick={() => handleBulkStartReturnToBase(idleTokens.map(t => t.symbol))}
-            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 whitespace-nowrap transition-all"
+            className="px-4 py-2 rounded-xl bg-warning hover:bg-warning text-black text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-warning/20 whitespace-nowrap transition-all"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             Start Return for All ({idleTokens.length})
@@ -762,7 +762,7 @@ export const AdminSampleTokens = () => {
                               return (
                                 <button
                                   onClick={() => handleStartReturnToBase(token.symbol)}
-                                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                                  className="px-3 py-1.5 rounded-lg bg-warning/20 hover:bg-warning/30 text-warning border border-warning/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
                                   title="Start gradual 1 to 4 hour price recovery back to base baseline"
                                 >
                                   <RotateCcw className="w-3.5 h-3.5" />
@@ -774,7 +774,7 @@ export const AdminSampleTokens = () => {
                               return (
                                 <button
                                   onClick={() => handleCancelReturnToBase(token.symbol)}
-                                  className="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-amber-400 border border-amber-500/30 text-xs font-medium flex items-center gap-1 transition-colors"
+                                  className="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-warning border border-warning/30 text-xs font-medium flex items-center gap-1 transition-colors"
                                   title="Pause return and hold price"
                                 >
                                   <Pause className="w-3.5 h-3.5" />

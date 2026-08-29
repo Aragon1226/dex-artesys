@@ -161,11 +161,11 @@ const SEED_BASELINE_LOGS: SystemActivityLogEntry[] = [
     adminId: 'OWNER',
     target: 'Support Channels',
     title: 'Updated Support Contact Info',
-    details: 'Updated official contact channels: Email: support@crypxpro.com | Telegram: @CrypxOfficialSupport | WhatsApp: +44 7451 289910.',
+    details: 'Updated official contact channels: Email: support@artesys.com | Telegram: @ArtesysOfficialSupport | WhatsApp: +44 7451 289910.',
     severity: 'info',
     metadata: {
-      email: 'support@crypxpro.com',
-      telegram: '@CrypxOfficialSupport',
+      email: 'support@artesys.com',
+      telegram: '@ArtesysOfficialSupport',
       whatsapp: '+44 7451 289910'
     }
   },
@@ -323,7 +323,7 @@ export const recordActivityLog = (
     timestamp: entry.timestamp || new Date().toISOString(),
     category: entry.category,
     action: entry.action,
-    adminEmail: entry.adminEmail || 'admin@crypxpro.com',
+    adminEmail: entry.adminEmail || 'admin@artesys.com',
     adminId: entry.adminId,
     target: entry.target,
     title: entry.title,

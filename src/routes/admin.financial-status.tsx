@@ -5,9 +5,9 @@ export const Route = createFileRoute("/admin/financial-status")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Financial Status — CrypX-Pro Admin" },
+      { title: "Financial Status — Artesys Admin" },
       { name: "description", content: "Review aggregate user balances and adjust spot, futures and staked funds." },
-      { property: "og:title", content: "Financial Status — CrypX-Pro Admin" },
+      { property: "og:title", content: "Financial Status — Artesys Admin" },
       { property: "og:description", content: "Review aggregate user balances and adjust spot, futures and staked funds." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

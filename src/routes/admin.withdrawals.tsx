@@ -5,9 +5,9 @@ export const Route = createFileRoute("/admin/withdrawals")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Withdrawals — CrypX-Pro Admin" },
+      { title: "Withdrawals — Artesys Admin" },
       { name: "description", content: "Review, approve or reject pending withdrawal requests." },
-      { property: "og:title", content: "Withdrawals — CrypX-Pro Admin" },
+      { property: "og:title", content: "Withdrawals — Artesys Admin" },
       { property: "og:description", content: "Review, approve or reject pending withdrawal requests." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

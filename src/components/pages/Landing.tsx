@@ -29,7 +29,7 @@ const Index = () => {
 
   useEffect(() => {
     const hostname = window.location.hostname;
-    const isDomainAdmin = hostname === 'admin.crypxpro.com' || hostname.startsWith('admin.');
+    const isDomainAdmin = hostname === 'admin.artesys.com' || hostname.startsWith('admin.');
     const searchParams = window.location.search;
     
     if (isDomainAdmin) {
@@ -112,7 +112,7 @@ const Index = () => {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <img
               src={heroAbstract}
-              alt="Abstract three-dimensional amber crystalline coin and geometric forms"
+              alt="Abstract three-dimensional cobalt-blue crystalline coin and geometric forms"
               width={1920}
               height={1088}
               className="w-full h-full object-cover opacity-55 scale-105"
@@ -243,7 +243,7 @@ const Index = () => {
                 <div className="relative mb-8 overflow-hidden border border-border">
                   <img
                     src={securityVault}
-                    alt="Brushed metal vault door with amber-lit cryptographic engravings"
+                    alt="Brushed metal vault door with blue-lit cryptographic engravings"
                     width={1024}
                     height={1024}
                     loading="lazy"
@@ -301,7 +301,7 @@ const Index = () => {
                  <Logo size={62} variant="FULL" />
               </div>
               <p className="text-muted-foreground max-w-sm text-xs font-light leading-loose mb-6">
-                CrypX-Pro provides institutional-grade digital asset infrastructure to professional traders, wealth managers, and corporate entities globally.
+                Artesys provides institutional-grade digital asset infrastructure to professional traders, wealth managers, and corporate entities globally.
               </p>
             </div>
             
@@ -311,7 +311,7 @@ const Index = () => {
                 <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
                 <a href="/policies" className="hover:text-primary transition-colors">User Policies & Safeguards</a>
                 <a href="/faq" className="hover:text-primary transition-colors">App FAQ & Guide</a>
-                <a href="mailto:admin@crypxpro.com" className="hover:text-primary transition-colors">admin@crypxpro.com</a>
+                <a href="mailto:admin@artesys.com" className="hover:text-primary transition-colors">admin@artesys.com</a>
               </div>
             </div>
             
@@ -327,7 +327,7 @@ const Index = () => {
           </div>
           
           <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6">
-            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em]">© {new Date().getFullYear()} CrypX-Pro Holdings. All Rights Reserved.</p>
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em]">© {new Date().getFullYear()} Artesys Holdings. All Rights Reserved.</p>
             <div className="flex items-center gap-8">
                <span className="text-muted-foreground hover:text-primary transition-all cursor-pointer text-xs font-light tracking-widest uppercase">X</span>
                <span className="text-muted-foreground hover:text-primary transition-all cursor-pointer text-xs font-light tracking-widest uppercase">LinkedIn</span>

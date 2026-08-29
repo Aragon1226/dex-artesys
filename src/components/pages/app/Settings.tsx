@@ -86,15 +86,15 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
       category: "Educational Scope & Platform Nature",
       questions: [
         {
-          q: "Is CrypX-Pro a real money exchange or licensed financial institution?",
-          a: "No. CrypX-Pro is strictly an educational demo trading simulator and market analysis interface created for learning, technology evaluation, and software testing purposes within the educational sector. It does not handle real fiat or live custodial cryptocurrency funds, nor does it offer financial management or brokerage services."
+          q: "Is Artesys a real money exchange or licensed financial institution?",
+          a: "No. Artesys is strictly an educational demo trading simulator and market analysis interface created for learning, technology evaluation, and software testing purposes within the educational sector. It does not handle real fiat or live custodial cryptocurrency funds, nor does it offer financial management or brokerage services."
         },
         {
-          q: "Can I deposit or lose real fiat money on CrypX-Pro?",
+          q: "Can I deposit or lose real fiat money on Artesys?",
           a: "No. All trading balances, spot holdings, futures margin, yield earnings, and wallet figures displayed within the application are simulated paper credits designed solely to teach trading mechanics, order execution, and risk management."
         },
         {
-          q: "Does CrypX-Pro provide financial advice or market guarantees?",
+          q: "Does Artesys provide financial advice or market guarantees?",
           a: "No. None of the charts, market indicators, artificial intelligence insights, or token statistics presented in the app constitute financial, investment, legal, or tax advice. All trading decisions in the real world involve substantial risk."
         }
       ]
@@ -111,8 +111,8 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
           a: "The Futures Pro module allows users to experiment with position leverage up to 100x, isolated and cross margin simulation, stop-loss/take-profit setups, and simulated liquidation pricing to learn high-leverage risk dynamics."
         },
         {
-          q: "How does CrypX Earn & Staking work?",
-          a: "CrypX Earn simulates yield generation, staking pools, and flexible daily APYs to teach users how decentralized finance (DeFi) yields, lockup periods, and reward calculations function in Web3 environments."
+          q: "How does Artesys Earn & Staking work?",
+          a: "Artesys Earn simulates yield generation, staking pools, and flexible daily APYs to teach users how decentralized finance (DeFi) yields, lockup periods, and reward calculations function in Web3 environments."
         },
         {
           q: "Why is Identity Verification (KYC) present in a demo app?",
@@ -180,15 +180,15 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
         </div>
 
         {/* Educational Disclaimer Top Banner */}
-        <div className="p-5 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200/90 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="p-5 rounded-2xl bg-warning/10 border border-warning/20 text-warning/90 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex items-start gap-3">
             <AlertTriangle className="text-warning shrink-0 mt-0.5" size={22} />
             <div className="space-y-1">
-              <h4 className="text-sm font-bold text-amber-300 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-warning uppercase tracking-wider">
                 Official Educational & Demo Trading Disclosure
               </h4>
-              <p className="text-xs text-amber-200/80 leading-relaxed">
-                CrypX-Pro operates exclusively as an educational simulation platform. All trades, portfolio values, and yield rates are simulated paper figures for learning purposes. No real financial services or advice are provided.
+              <p className="text-xs text-warning/80 leading-relaxed">
+                Artesys operates exclusively as an educational simulation platform. All trades, portfolio values, and yield rates are simulated paper figures for learning purposes. No real financial services or advice are provided.
               </p>
             </div>
           </div>
@@ -346,21 +346,21 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
                   <Info size={16} /> 1. Educational Purpose & Non-Financial Intent
                 </h4>
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                  CrypX-Pro is explicitly designed and provided for <strong>demo trading, market simulation, technical learning, and educational purposes</strong> within the computer science and educational sector. The platform does NOT provide real-money trading, financial brokerage, asset custody, or monetary investment opportunities. All currency values (USDT, BTC, ETH, etc.) inside the app are paper units for simulation.
+                  Artesys is explicitly designed and provided for <strong>demo trading, market simulation, technical learning, and educational purposes</strong> within the computer science and educational sector. The platform does NOT provide real-money trading, financial brokerage, asset custody, or monetary investment opportunities. All currency values (USDT, BTC, ETH, etc.) inside the app are paper units for simulation.
                 </p>
               </section>
 
               <section className="space-y-2">
                 <h4 className="font-bold text-foreground text-base">2. User Agreement & Eligibility</h4>
                 <p>
-                  By creating an account or using CrypX-Pro, you acknowledge that you are using a simulation tool. You confirm that you understand no financial claims, withdrawal guarantees, or real money earnings exist. You must be legally capable of agreeing to software testing terms in your jurisdiction.
+                  By creating an account or using Artesys, you acknowledge that you are using a simulation tool. You confirm that you understand no financial claims, withdrawal guarantees, or real money earnings exist. You must be legally capable of agreeing to software testing terms in your jurisdiction.
                 </p>
               </section>
 
               <section className="space-y-2">
                 <h4 className="font-bold text-foreground text-base">3. Simulated Trading & Yield Disclaimer</h4>
                 <p>
-                  All order book executions, spot swaps, futures leverage positions, and staking yield figures displayed on the platform are software-calculated models designed to illustrate market mechanics. Past simulated performance inside CrypX-Pro does not correlate to real-world financial market outcomes.
+                  All order book executions, spot swaps, futures leverage positions, and staking yield figures displayed on the platform are software-calculated models designed to illustrate market mechanics. Past simulated performance inside Artesys does not correlate to real-world financial market outcomes.
                 </p>
               </section>
 
@@ -374,7 +374,7 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
               <section className="space-y-2">
                 <h4 className="font-bold text-foreground text-base">5. Account Registration & User Security</h4>
                 <p>
-                  Users are responsible for keeping their login credentials confidential. While CrypX-Pro implements security protocols, users acknowledge that accounts are maintained for software interaction and progress tracking within the educational environment.
+                  Users are responsible for keeping their login credentials confidential. While Artesys implements security protocols, users acknowledge that accounts are maintained for software interaction and progress tracking within the educational environment.
                 </p>
               </section>
 
@@ -410,7 +410,7 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
                 <HeadphonesIcon className="text-primary" size={24} />
                 <div>
                   <h3 className="text-lg font-bold">Frequently Asked Questions & Feature Guide</h3>
-                  <p className="text-xs text-muted-foreground">Transparent breakdown of every feature, tool, and policy inside CrypX-Pro.</p>
+                  <p className="text-xs text-muted-foreground">Transparent breakdown of every feature, tool, and policy inside Artesys.</p>
                 </div>
               </div>
 

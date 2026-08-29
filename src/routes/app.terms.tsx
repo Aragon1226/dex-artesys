@@ -5,10 +5,10 @@ export const Route = createFileRoute("/app/terms")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Terms of Service — CrypX-Pro App" },
-      { name: "description", content: "Read the CrypX-Pro terms of service covering trading, accounts and platform usage." },
-      { property: "og:title", content: "Terms of Service — CrypX-Pro App" },
-      { property: "og:description", content: "Read the CrypX-Pro terms of service covering trading, accounts and platform usage." },
+      { title: "Terms of Service — Artesys App" },
+      { name: "description", content: "Read the Artesys terms of service covering trading, accounts and platform usage." },
+      { property: "og:title", content: "Terms of Service — Artesys App" },
+      { property: "og:description", content: "Read the Artesys terms of service covering trading, accounts and platform usage." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

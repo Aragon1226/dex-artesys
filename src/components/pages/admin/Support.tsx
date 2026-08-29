@@ -73,7 +73,7 @@ const AdminSupport = () => {
           } else {
             // New admin, initialize with custom defaults
             setFormData({
-              email: `support-${adminId.toLowerCase()}@crypxpro.com`,
+              email: `support-${adminId.toLowerCase()}@artesys.com`,
               telegram: '',
               whatsapp: ''
             });
@@ -82,7 +82,7 @@ const AdminSupport = () => {
       } else {
         // No configs in table yet, create placeholder defaults
         setFormData({
-          email: 'support@crypxpro.com',
+          email: 'support@artesys.com',
           telegram: '',
           whatsapp: ''
         });
@@ -103,10 +103,10 @@ const AdminSupport = () => {
     setError(null);
     setSuccess(false);
 
-    // Enforce email domain validation: must strictly end with @crypxpro.com
+    // Enforce email domain validation: must strictly end with @artesys.com
     const emailLower = formData.email.trim().toLowerCase();
-    if (!emailLower.endsWith('@crypxpro.com')) {
-      setError("Support email must strictly belong to the @crypxpro.com domain (e.g. xxxxxxxx@crypxpro.com)");
+    if (!emailLower.endsWith('@artesys.com')) {
+      setError("Support email must strictly belong to the @artesys.com domain (e.g. xxxxxxxx@artesys.com)");
       setSaving(false);
       return;
     }
@@ -175,7 +175,7 @@ const AdminSupport = () => {
       recordActivityLog({
         category: 'SUPPORT_CONTACT',
         action: 'SUPPORT_CONTACT_UPDATED',
-        adminEmail: user.email || 'admin@crypxpro.com',
+        adminEmail: user.email || 'admin@artesys.com',
         adminId,
         target: `Support Channels (${adminId})`,
         title: 'Updated Support Contact Information',
@@ -224,7 +224,7 @@ const AdminSupport = () => {
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
                   <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })}
-                    className="pl-10 w-full border border-border rounded-lg p-2.5 bg-card text-foreground focus:ring-2 focus:ring-ring outline-none" placeholder="support@crypxpro.com" />
+                    className="pl-10 w-full border border-border rounded-lg p-2.5 bg-card text-foreground focus:ring-2 focus:ring-ring outline-none" placeholder="support@artesys.com" />
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">Direct email inquiries will be sent here.</p>
               </div>

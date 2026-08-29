@@ -115,7 +115,7 @@ const DepositRequests = () => {
 
       setDeposits(prev => prev.filter(d => d.id !== deposit.id));
 
-      const adminEmail = currentUser?.email || 'admin@crypxpro.com';
+      const adminEmail = currentUser?.email || 'admin@artesys.com';
       const adminId = getAdminIdForCurrentUser(currentUser?.email);
       const isApproved = action === 'APPROVED';
 

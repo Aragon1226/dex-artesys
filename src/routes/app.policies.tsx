@@ -5,10 +5,10 @@ export const Route = createFileRoute("/app/policies")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Policies — CrypX-Pro App" },
-      { name: "description", content: "Privacy, AML and risk policies that govern the CrypX-Pro trading platform." },
-      { property: "og:title", content: "Policies — CrypX-Pro App" },
-      { property: "og:description", content: "Privacy, AML and risk policies that govern the CrypX-Pro trading platform." },
+      { title: "Policies — Artesys App" },
+      { name: "description", content: "Privacy, AML and risk policies that govern the Artesys trading platform." },
+      { property: "og:title", content: "Policies — Artesys App" },
+      { property: "og:description", content: "Privacy, AML and risk policies that govern the Artesys trading platform." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

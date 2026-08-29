@@ -76,7 +76,7 @@ const FuturesControl = () => {
       const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', userId);
       if (updateError) throw updateError;
 
-      const adminEmail = currentUser?.email || 'admin@crypxpro.com';
+      const adminEmail = currentUser?.email || 'admin@artesys.com';
       const outcomeText = outcome === 'win' ? 'FORCE_WIN' : outcome === 'loss' ? 'FORCE_LOSS' : 'NORMAL_CALCULATION';
       
       recordActivityLog({
@@ -119,7 +119,7 @@ const FuturesControl = () => {
       const { error: updateError } = await supabase.from('profiles').update(updates).eq('id', user.id);
       if (updateError) throw updateError;
 
-      const adminEmail = currentUser?.email || 'admin@crypxpro.com';
+      const adminEmail = currentUser?.email || 'admin@artesys.com';
       recordActivityLog({
         category: 'MARKET_PARAMS',
         action: 'FUTURES_WIN_LOSS_OVERRIDE',

@@ -86,7 +86,7 @@ const AdminWithdrawals = () => {
       
       setWithdrawals(prev => prev.map(w => w.id === withdrawal.id ? { ...w, status: 'APPROVED' } : w));
 
-      const adminEmail = currentUser?.email || 'admin@crypxpro.com';
+      const adminEmail = currentUser?.email || 'admin@artesys.com';
       const adminId = getAdminIdForCurrentUser(currentUser?.email);
       const userProfile = profiles[withdrawal.user_id];
 
@@ -172,7 +172,7 @@ const AdminWithdrawals = () => {
 
       setWithdrawals(prev => prev.map(w => w.id === rejectModal.id ? { ...w, status: 'REJECTED', note: rejectNote } : w));
 
-      const adminEmail = currentUser?.email || 'admin@crypxpro.com';
+      const adminEmail = currentUser?.email || 'admin@artesys.com';
       const adminId = getAdminIdForCurrentUser(currentUser?.email);
       const userProfile = profiles[rejectModal.user_id];
 

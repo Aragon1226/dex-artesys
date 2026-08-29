@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "CrypX Pro Exchange",
-  "short_name": "CrypX Pro",
-  "description": "Professional-grade cryptocurrency trading platform with real-time analytics and portfolio management.",
+  "name": "Artesys \u2014 Crypto Exchange",
+  "short_name": "Artesys",
+  "description": "Artesys is a global cryptocurrency exchange: spot and futures trading, staking rewards and institutional-grade custody.",
   "lang": "en",
   "dir": "ltr",
   "display": "standalone",
@@ -14,8 +14,8 @@
   "orientation": "portrait-primary",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#09090b",
-  "theme_color": "#2563EB",
+  "background_color": "#061428",
+  "theme_color": "#1E5FD8",
   "categories": [
     "finance",
     "crypto",
@@ -131,7 +131,7 @@
       "type": "image/png",
       "sizes": "1280x720",
       "form_factor": "wide",
-      "label": "Market Overview - CrypX Pro"
+      "label": "Market Overview - Artesys"
     },
     {
       "src": "/herobanner/Earn.png",
@@ -143,7 +143,7 @@
   ],
   "protocol_handlers": [
     {
-      "protocol": "web+crypx",
+      "protocol": "web+artesys",
       "url": "/app/spot?query=%s"
     }
   ]

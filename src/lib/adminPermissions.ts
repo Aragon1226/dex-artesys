@@ -78,7 +78,7 @@ export function isPrimaryOwner(email: string | undefined): boolean {
 // Built-in administrative accounts
 export const DEFAULT_CUSTOM_ACCOUNTS: CustomAccount[] = [
   {
-    id: 'crypx-admin-2-account-uuid',
+    id: 'artesys-admin-2-account-uuid',
     customId: 'CXPAD-002',
     email: 'admin2@crypxpro.com',
     username: 'admin2',
