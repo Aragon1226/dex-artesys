@@ -32,7 +32,7 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
   // "A" drawn in a unit square, then projected onto the right facet plane
   const A = 'M0.5 0.06 L0.94 0.94 L0.76 0.94 L0.5 0.42 L0.24 0.94 L0.06 0.94 Z';
   const ATRI = 'M0.5 0.06 L0.06 0.94 L0.94 0.94 Z';
-  const project = 'matrix(0.42 -0.23 0 0.38 50 54)';
+  const project = 'matrix(42 -23 0 38 50 54)';
 
   return (
     <svg
