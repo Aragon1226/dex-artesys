@@ -54,8 +54,8 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
         stroke="currentColor"
         strokeWidth="6"
         strokeLinecap="butt"
-        strokeDasharray={`${gap} ${dash}`}
-        strokeDashoffset={gap / 2}
+        strokeDasharray={`${dash} ${gap}`}
+        strokeDashoffset={dash + gap / 2}
       />
 
       {/* Cardinal calibration blades, seated inside the ring apertures */}
@@ -66,10 +66,10 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
         <path d="M74 50h6" />
       </g>
 
-      {/* Aureus Gold precision arc — a single 45° reading on the upper right */}
+      {/* Aureus Gold precision arc — a single 30° reading on the upper right */}
       {accent && (
         <path
-          d="M63.85 15.35A37 37 0 0 1 84.65 36.15"
+          d="M68.5 17.96A37 37 0 0 1 82.04 31.5"
           stroke="var(--logo-accent, #E6B34A)"
           strokeWidth="6"
           strokeLinecap="butt"
