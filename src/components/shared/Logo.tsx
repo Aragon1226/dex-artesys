@@ -4,78 +4,88 @@ interface LogoProps {
   className?: string;
   size?: number;
   variant?: 'FULL' | 'SYMBOL' | 'WORDMARK';
+  /** Show the "Crypto Exchange" descriptor under the wordmark. */
+  descriptor?: boolean;
 }
 
-export const Logo: React.FC<LogoProps> = ({ 
-  className = '', 
-  size = 40, 
-  variant = 'FULL' 
-}) => {
-  const height = size;
-  // Apply CSS filter to transform black/original color to Amber Yellow (#FFBF00 / HSL 45 100 50)
-  const logoFilter = "brightness(0) saturate(100%) invert(73%) sepia(74%) saturate(2250%) hue-rotate(3deg) brightness(104%) contrast(104%)";
+/**
+ * Artesys brand mark — a triangular "A" nested inside an aperture ring.
+ * Drawn on a 100-unit grid, single color (currentColor), never gradient,
+ * never bevelled, per the Artesys Brand Guidelines v1.0.
+ */
+export const ArtesysMark: React.FC<{ size?: number; className?: string }> = ({
+  size = 40,
+  className = '',
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    fill="none"
+    role="img"
+    aria-label="Artesys symbol"
+    className={`shrink-0 ${className}`}
+  >
+    {/* Aperture ring: r=44, stroke 5 */}
+    <circle cx="50" cy="50" r="44" stroke="currentColor" strokeWidth="5" />
+    {/* Cardinal aperture ticks */}
+    <g stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
+      <path d="M50 2v12" />
+      <path d="M50 86v12" />
+      <path d="M2 50h12" />
+      <path d="M86 50h12" />
+    </g>
+    {/* Solid isoceles triangle "A" */}
+    <path d="M50 24 74 72H26L50 24Z" fill="currentColor" />
+    {/* Chart-bar crossbar (negative space) */}
+    <rect x="39" y="58" width="22" height="6" rx="1" fill="var(--logo-counter, hsl(var(--background)))" />
+    {/* Aperture pupil / decimal point */}
+    <circle cx="50" cy="50" r="3.5" fill="var(--logo-counter, hsl(var(--background)))" />
+  </svg>
+);
 
-  if (variant === 'SYMBOL') {
-    return (
-      <div 
-        className={`relative overflow-hidden shrink-0 p-1 ${className}`} 
-        style={{ width: size * 1.0, height: size }}
+const Wordmark: React.FC<{ size?: number; descriptor?: boolean }> = ({ size = 40, descriptor }) => (
+  <span className="flex flex-col justify-center leading-none">
+    <span
+      className="font-display font-semibold tracking-[-0.02em] text-current"
+      style={{ fontSize: size * 0.62 }}
+    >
+      Artesys
+    </span>
+    {descriptor && (
+      <span
+        className="uppercase text-current/70 font-medium"
+        style={{ fontSize: Math.max(7, size * 0.19), letterSpacing: '0.28em', marginTop: size * 0.11 }}
       >
-        <img 
-          src="/logo-full-highres.png" 
-          alt="CrypX Pro Symbol" 
-          className="absolute max-w-none h-[calc(100%-8px)] w-auto left-1 top-1"
-          style={{ filter: logoFilter }}
-          referrerPolicy="no-referrer"
-        />
-      </div>
-    );
+        Crypto Exchange
+      </span>
+    )}
+  </span>
+);
+
+export const Logo: React.FC<LogoProps> = ({
+  className = '',
+  size = 40,
+  variant = 'FULL',
+  descriptor = false,
+}) => {
+  if (variant === 'SYMBOL') {
+    return <ArtesysMark size={size} className={`text-primary ${className}`} />;
   }
 
   if (variant === 'WORDMARK') {
     return (
-      <div 
-        className={`relative shrink-0 flex items-center ${className}`} 
-        style={{ height: size }}
-      >
-        <img 
-          src="/logo-wordmark-highres.png" 
-          alt="CrypX Pro Wordmark" 
-          className="w-auto object-contain"
-          style={{ height: size * 2.5, filter: logoFilter }}
-          referrerPolicy="no-referrer"
-        />
-      </div>
+      <span className={`inline-flex items-center text-primary ${className}`} style={{ height: size }}>
+        <Wordmark size={size} descriptor={descriptor} />
+      </span>
     );
   }
 
-  // FULL variant: Symbol + Wordmark
   return (
-    <div className={`flex items-center gap-4 ${className}`}>
-      {/* Symbol part extracted from full logo */}
-      <div 
-        className="relative overflow-hidden shrink-0 p-1" 
-        style={{ width: height * 1.0, height: height }}
-      >
-        <img 
-          src="/logo-full-highres.png" 
-          alt="CrypX Pro Symbol" 
-          className="absolute max-w-none h-[calc(100%-8px)] w-auto left-1 top-1"
-          style={{ filter: logoFilter }}
-          referrerPolicy="no-referrer"
-        />
-      </div>
-      
-      <div className="flex items-center">
-        <img 
-          src="/logo-wordmark-highres.png" 
-          alt="CrypX Pro Wordmark" 
-          className="w-auto object-contain"
-          style={{ height: height * 2.5, filter: logoFilter }}
-          referrerPolicy="no-referrer"
-        />
-      </div>
-    </div>
+    <span className={`inline-flex items-center gap-3 text-primary ${className}`}>
+      <ArtesysMark size={size} />
+      <Wordmark size={size} descriptor={descriptor} />
+    </span>
   );
 };
 
