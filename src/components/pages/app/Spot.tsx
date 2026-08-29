@@ -154,7 +154,7 @@ const ASSET_CONFIG: Record<string, { name: string; category: string }> = {
   LYN: { name: 'Lynx', category: 'Main' },
 
   // Stocks & Commodities
-  CPX: { name: 'Crypx-PRO Inc', category: 'Stocks & Commodities' },
+  CPX: { name: 'Artesys Inc', category: 'Stocks & Commodities' },
   ARTS: { name: 'Artesys Corp', category: 'Stocks & Commodities' },
   AXG: { name: 'AeroX Global', category: 'Stocks & Commodities' },
   BGNX: { name: 'BioGenix Labs', category: 'Stocks & Commodities' },

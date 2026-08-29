@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "CrypX Pro Exchange",
-  "short_name": "CrypX Pro",
+  "name": "Artesys Exchange",
+  "short_name": "Artesys",
   "description": "Professional-grade cryptocurrency trading platform with real-time analytics and portfolio management.",
   "lang": "en",
   "dir": "ltr",
@@ -131,7 +131,7 @@
       "type": "image/png",
       "sizes": "1280x720",
       "form_factor": "wide",
-      "label": "Market Overview - CrypX Pro"
+      "label": "Market Overview - Artesys"
     },
     {
       "src": "/herobanner/Earn.png",

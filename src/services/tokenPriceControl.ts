@@ -62,7 +62,7 @@ export const SAMPLE_TOKENS_LIST = [
   { symbol: 'LYN', name: 'Lynx Protocol', category: 'Main', defaultPrice: 0.35 },
   
   // Custom Equity & Stocks
-  { symbol: 'CPX', name: 'Crypx-PRO Inc', category: 'Stocks & Commodities', defaultPrice: 285.50 },
+  { symbol: 'CPX', name: 'Artesys Inc', category: 'Stocks & Commodities', defaultPrice: 285.50 },
   { symbol: 'ARTS', name: 'Artesys Corp', category: 'Stocks & Commodities', defaultPrice: 164.20 },
   { symbol: 'AXG', name: 'AeroX Global', category: 'Stocks & Commodities', defaultPrice: 215.80 },
   { symbol: 'BGNX', name: 'BioGenix Labs', category: 'Stocks & Commodities', defaultPrice: 92.40 },

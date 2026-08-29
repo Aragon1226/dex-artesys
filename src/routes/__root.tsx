@@ -65,17 +65,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CrypX-Pro — Crypto Trading Platform" },
+      { title: "Artesys — Crypto Trading Platform" },
       {
         name: "description",
         content:
-          "CrypX-Pro is a crypto trading platform for spot orders, leveraged futures and staking rewards.",
+          "Artesys is a crypto trading platform for spot orders, leveraged futures and staking rewards.",
       },
-      { property: "og:title", content: "CrypX-Pro — Crypto Trading Platform" },
+      { property: "og:title", content: "Artesys — Crypto Trading Platform" },
       {
         property: "og:description",
         content:
-          "CrypX-Pro is a crypto trading platform for spot orders, leveraged futures and staking rewards.",
+          "Artesys is a crypto trading platform for spot orders, leveraged futures and staking rewards.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -85,7 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap",
       },
       {
         rel: "stylesheet",

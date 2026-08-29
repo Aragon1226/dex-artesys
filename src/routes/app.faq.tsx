@@ -5,10 +5,10 @@ export const Route = createFileRoute("/app/faq")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "FAQ — CrypX-Pro App" },
-      { name: "description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on CrypX-Pro." },
-      { property: "og:title", content: "FAQ — CrypX-Pro App" },
-      { property: "og:description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on CrypX-Pro." },
+      { title: "FAQ — Artesys App" },
+      { name: "description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys." },
+      { property: "og:title", content: "FAQ — Artesys App" },
+      { property: "og:description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

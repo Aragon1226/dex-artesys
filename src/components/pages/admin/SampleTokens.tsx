@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export const AdminSampleTokens = () => {
   const { user } = useAuth();
-  const adminEmail = user?.email || 'admin@crypx.io';
+  const adminEmail = user?.email || 'admin@artesys.io';
 
   const [schedules, setSchedules] = useState<Record<string, TokenPriceSchedule>>({});
   const [livePrices, setLivePrices] = useState<Record<string, number>>({});

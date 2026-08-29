@@ -5,9 +5,9 @@ export const Route = createFileRoute("/admin/dashboard")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Admin Dashboard — CrypX-Pro" },
+      { title: "Admin Dashboard — Artesys" },
       { name: "description", content: "Platform overview: users, deposits, withdrawals and wallet status." },
-      { property: "og:title", content: "Admin Dashboard — CrypX-Pro" },
+      { property: "og:title", content: "Admin Dashboard — Artesys" },
       { property: "og:description", content: "Platform overview: users, deposits, withdrawals and wallet status." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

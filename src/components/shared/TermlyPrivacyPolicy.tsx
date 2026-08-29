@@ -9,7 +9,7 @@ export const TermlyPrivacyPolicy = () => {
           <ShieldCheck size={18} /> FULL DEVELOPER & OPERATOR LIABILITY EXEMPTION
         </h4>
         <p className="text-xs text-red-400/95 leading-relaxed">
-          <strong>IMPORTANT LEGAL NOTICE:</strong> By registering, signing up, or interacting with CrypX-Pro, the user agrees that the software development team, independent developers, software authors, and platform operators are completely exempt from any liability, claims, financial damages, legal disputes, or losses. The application is a simulated crypto exchange platform for educational purposes and does not process real financial assets or payments.
+          <strong>IMPORTANT LEGAL NOTICE:</strong> By registering, signing up, or interacting with Artesys, the user agrees that the software development team, independent developers, software authors, and platform operators are completely exempt from any liability, claims, financial damages, legal disputes, or losses. The application is a simulated crypto exchange platform for educational purposes and does not process real financial assets or payments.
         </p>
       </div>
 
@@ -28,11 +28,11 @@ export const TermlyPrivacyPolicy = () => {
       {/* Intro */}
       <div className="space-y-4">
         <p className="text-foreground/90 font-medium">
-          This Privacy Notice for <strong>CrypX-PRO</strong> ("<strong>we</strong>," "<strong>us</strong>," or "<strong>our</strong>"), describes how and why we might access, collect, store, use, and/or share ("<strong>process</strong>") your personal information when you use our services ("<strong>Services</strong>"), including when you:
+          This Privacy Notice for <strong>Artesys</strong> ("<strong>we</strong>," "<strong>us</strong>," or "<strong>our</strong>"), describes how and why we might access, collect, store, use, and/or share ("<strong>process</strong>") your personal information when you use our services ("<strong>Services</strong>"), including when you:
         </p>
         <ul className="list-disc pl-6 space-y-2">
           <li>
-            Visit our website at <a href="https://crypxpro.com" target="_blank" rel="noreferrer" className="text-primary hover:underline inline-flex items-center gap-1 font-bold">https://crypxpro.com <ExternalLink size={12} /></a> or any website of ours that links to this Privacy Notice.
+            Visit our website at <a href="https://artesys.com" target="_blank" rel="noreferrer" className="text-primary hover:underline inline-flex items-center gap-1 font-bold">https://artesys.com <ExternalLink size={12} /></a> or any website of ours that links to this Privacy Notice.
           </li>
           <li>
             Use <strong>A crypto exchange platform</strong>. This site has been built to deliver a smooth and premium touch for both beginners and experienced traders trying to improve in the cryptocurrency trading field. It is a demo trading platform intended for learning and practicing daily operations in the real world later. There are <strong>no real financial assets, real payments, or live transactions included</strong>, but only premium polished designs to make everything perfect, safe, and realistic.
@@ -42,7 +42,7 @@ export const TermlyPrivacyPolicy = () => {
           </li>
         </ul>
         <p>
-          <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="mailto:admin@crypxpro.com" className="text-primary hover:underline font-bold">admin@crypxpro.com</a>.
+          <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="mailto:admin@artesys.com" className="text-primary hover:underline font-bold">admin@artesys.com</a>.
         </p>
       </div>
 
@@ -208,7 +208,7 @@ export const TermlyPrivacyPolicy = () => {
         <section id="toc-10" className="space-y-3">
           <h3 className="text-base font-bold text-foreground">10. What Are Your Privacy Rights?</h3>
           <p>
-            In certain regions, such as the European Economic Area (EEA), United Kingdom (UK), Switzerland, and Canada, you have rights that allow greater access to and control over your personal information. These include the right to request access, obtain a copy, request rectification or erasure, restrict processing, or data portability. You can make such requests at <a href="mailto:admin@crypxpro.com" className="text-primary hover:underline font-semibold">admin@crypxpro.com</a>.
+            In certain regions, such as the European Economic Area (EEA), United Kingdom (UK), Switzerland, and Canada, you have rights that allow greater access to and control over your personal information. These include the right to request access, obtain a copy, request rectification or erasure, restrict processing, or data portability. You can make such requests at <a href="mailto:admin@artesys.com" className="text-primary hover:underline font-semibold">admin@artesys.com</a>.
           </p>
         </section>
 
@@ -232,12 +232,12 @@ export const TermlyPrivacyPolicy = () => {
         <section id="toc-13" className="space-y-4">
           <h3 className="text-base font-bold text-foreground">13. How Can You Contact Us?</h3>
           <p>
-            If you have questions or comments about this notice, you may email us at <a href="mailto:admin@crypxpro.com" className="text-primary hover:underline font-semibold">admin@crypxpro.com</a> or contact us by post at:
+            If you have questions or comments about this notice, you may email us at <a href="mailto:admin@artesys.com" className="text-primary hover:underline font-semibold">admin@artesys.com</a> or contact us by post at:
           </p>
           <div className="p-4 rounded-xl bg-muted/60 border border-border flex items-start gap-3">
             <MapPin className="text-primary shrink-0 mt-0.5" size={16} />
             <div className="text-xs space-y-1">
-              <span className="font-bold text-foreground block text-sm">CrypX-PRO Headquarters</span>
+              <span className="font-bold text-foreground block text-sm">Artesys Headquarters</span>
               <span>710 County Road 3141 East</span>
               <br />
               <span>Cleveland, TX 77327</span>
@@ -251,7 +251,7 @@ export const TermlyPrivacyPolicy = () => {
         <section id="toc-14" className="space-y-3">
           <h3 className="text-base font-bold text-foreground">14. Review, Update or Delete Your Data</h3>
           <p>
-            Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. To exercise your rights, you can submit a request to <a href="mailto:admin@crypxpro.com" className="text-primary hover:underline font-semibold">admin@crypxpro.com</a>.
+            Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. To exercise your rights, you can submit a request to <a href="mailto:admin@artesys.com" className="text-primary hover:underline font-semibold">admin@artesys.com</a>.
           </p>
           <div className="text-[11px] pt-4 text-muted-foreground border-t border-border/40">
             This Privacy Policy was created and formatted in full compliance with Termly's Privacy Policy Generator guidelines.

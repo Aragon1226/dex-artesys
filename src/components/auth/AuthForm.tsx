@@ -33,7 +33,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const { toast } = useToast();
 
   const hostname = window.location.hostname;
-  const isDomainAdmin = hostname === 'admin.crypxpro.com' || hostname.startsWith('admin.');
+  const isDomainAdmin = hostname === 'admin.artesys.com' || hostname.startsWith('admin.');
   
   let envMode = 'ALL';
   try { 
@@ -250,7 +250,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     ? "Enter your email to receive a reset link"
     : isLogin
     ? "Sign in to access your dashboard"
-    : "Join CrypX-Pro and start trading";
+    : "Join Artesys and start trading";
 
   const glassInputClasses = "w-full pl-12 pr-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all backdrop-blur-sm";
 
@@ -444,7 +444,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     <AlertTriangle size={16} /> Educational Demo Trading Notice
                   </div>
                   <p className="text-xs text-amber-200/90 leading-relaxed">
-                    CrypX-Pro is strictly an educational demo trading simulator. It does not provide real financial services, real asset deposits, live money withdrawals, or financial advice. All balances are paper credits.
+                    Artesys is strictly an educational demo trading simulator. It does not provide real financial services, real asset deposits, live money withdrawals, or financial advice. All balances are paper credits.
                   </p>
                 </div>
 

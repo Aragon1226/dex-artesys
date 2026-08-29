@@ -110,7 +110,7 @@ const AdminWallets = () => {
           recordActivityLog({
             category: 'DEPOSIT_WALLET',
             action: 'DEPOSIT_WALLET_UPDATED',
-            adminEmail: user?.email || 'admin@crypxpro.com',
+            adminEmail: user?.email || 'admin@artesys.com',
             adminId,
             target: `${wallet.symbol} (${wallet.network})`,
             title: `Updated Group Deposit Wallet Address (${adminId})`,
@@ -131,7 +131,7 @@ const AdminWallets = () => {
           recordActivityLog({
             category: 'DEPOSIT_WALLET',
             action: 'DEPOSIT_WALLET_REMOVED',
-            adminEmail: user?.email || 'admin@crypxpro.com',
+            adminEmail: user?.email || 'admin@artesys.com',
             adminId,
             target: `${wallet.symbol} (${wallet.network})`,
             title: `Cleared Group Deposit Wallet Address (${adminId})`,
@@ -174,7 +174,7 @@ const AdminWallets = () => {
         recordActivityLog({
           category: 'DEPOSIT_WALLET',
           action: trimAddress ? 'DEPOSIT_WALLET_UPDATED' : 'DEPOSIT_WALLET_REMOVED',
-          adminEmail: user?.email || 'admin@crypxpro.com',
+          adminEmail: user?.email || 'admin@artesys.com',
           adminId: 'GLOBAL',
           target: `${wallet.symbol} (${wallet.network})`,
           title: trimAddress ? `Updated Global Deposit Wallet Address` : `Cleared Global Deposit Wallet Address`,

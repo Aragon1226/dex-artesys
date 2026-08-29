@@ -82,7 +82,7 @@ const PromoSlideshow = ({ onOpenKyc }: { onOpenKyc?: () => void }) => {
     {
       src: earnBannerImg,
       tag: "PASSIVE CRYPTO YIELD",
-      title: "CrypX Earn & Staking",
+      title: "Artesys Earn & Staking",
       subtitle: "Earn up to 18.5% APY with flexible terms and daily payouts",
       cta: "Start Earning",
       path: "/app/earn",
@@ -1416,12 +1416,12 @@ const UserHome = () => {
             <div className="flex-1 overflow-y-auto p-6 space-y-6 text-sm text-muted-foreground leading-relaxed custom-scrollbar">
               <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200 text-xs leading-relaxed">
                 <strong className="text-amber-300 block mb-1">Educational Sector & Demo Purpose:</strong>
-                CrypX-Pro is created exclusively for demo trading, market learning, and software evaluation purposes. It does not provide real financial services, live money transactions, or financial advice.
+                Artesys is created exclusively for demo trading, market learning, and software evaluation purposes. It does not provide real financial services, live money transactions, or financial advice.
               </div>
 
               <section>
                 <h4 className="font-bold text-foreground mb-1">1. Educational Purpose & Non-Financial Intent</h4>
-                <p>By accessing or using CrypX-Pro, you acknowledge that all trading features, spot balances, futures leverage, and yield returns are simulated paper credits designed strictly for learning and educational evaluation.</p>
+                <p>By accessing or using Artesys, you acknowledge that all trading features, spot balances, futures leverage, and yield returns are simulated paper credits designed strictly for learning and educational evaluation.</p>
               </section>
 
               <section>
@@ -1436,7 +1436,7 @@ const UserHome = () => {
 
               <section>
                 <h4 className="font-bold text-foreground mb-1">4. Trading Features & Yield Simulation</h4>
-                <p>CrypX-Pro provides simulated spot trading, futures leverage practice, and staking yield simulation. No real money deposits or guaranteed financial returns exist.</p>
+                <p>Artesys provides simulated spot trading, futures leverage practice, and staking yield simulation. No real money deposits or guaranteed financial returns exist.</p>
               </section>
 
               <section>
@@ -1477,7 +1477,7 @@ const UserHome = () => {
                   Developer & Operator Exemption
                 </h4>
                 <p className="text-xs text-red-300/90 leading-relaxed">
-                  By registering or using CrypX-Pro, the user explicitly agrees that the software developers, authors, and operators bear NO liability or responsibility after sign-up. The app is not a financial institution or financial advisory service.
+                  By registering or using Artesys, the user explicitly agrees that the software developers, authors, and operators bear NO liability or responsibility after sign-up. The app is not a financial institution or financial advisory service.
                 </p>
               </div>
 
@@ -1498,7 +1498,7 @@ const UserHome = () => {
 
               <section>
                 <h4 className="font-bold text-foreground mb-1">4. Official Inquiries & Data Deletion</h4>
-                <p>Users may request account deletion or contact platform administration directly at <span className="text-foreground font-semibold">admin@crypxpro.com</span>. Official inquiries are handled within 24–48 hours.</p>
+                <p>Users may request account deletion or contact platform administration directly at <span className="text-foreground font-semibold">admin@artesys.com</span>. Official inquiries are handled within 24–48 hours.</p>
               </section>
             </div>
 
@@ -1527,7 +1527,7 @@ const UserHome = () => {
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {[
-                { q: 'What is CrypX-Pro?', a: 'CrypX-Pro is a cryptocurrency trading platform that offers spot trading, futures trading, staking, and asset management services. Our mission is to make digital asset trading accessible to everyone.' },
+                { q: 'What is Artesys?', a: 'Artesys is a cryptocurrency trading platform that offers spot trading, futures trading, staking, and asset management services. Our mission is to make digital asset trading accessible to everyone.' },
                 { q: 'How do I create an account?', a: 'Tap "Sign Up" on the login screen, enter your email and a secure password, then verify your email address. Once verified, you can start using the platform immediately.' },
                 { q: 'What is KYC and why is it required?', a: 'KYC (Know Your Customer) is an identity verification process required by financial regulations. Completing KYC unlocks full platform features including higher withdrawal limits and futures trading.' },
                 { q: 'How do I deposit funds?', a: 'Go to the Assets page, tap "Deposit", select your preferred cryptocurrency and network, then send funds to the provided wallet address. Deposits are credited after blockchain confirmation.' },
@@ -1537,8 +1537,8 @@ const UserHome = () => {
                 { q: 'What is staking?', a: 'Staking lets you earn passive rewards by locking your tokens for a set period. Visit the Earn page to explore available staking plans and their APY rates.' },
                 { q: 'How do I convert between tokens?', a: 'Use the Quick Convert feature on the Spot page. Select the token pair, enter the amount, and confirm the conversion. The exchange rate is calculated in real-time.' },
                 { q: 'Is my account secure?', a: 'Yes. We implement industry-standard security measures including encrypted data storage, secure password authentication, and real-time session protection.' },
-                { q: 'How do I contact support?', a: 'Go to your Profile menu → Help & Support or email our official desk directly at admin@crypxpro.com. Support tickets are reviewed within 24–48 hours.' },
-                { q: 'What fees does CrypX-Pro charge?', a: 'We charge competitive trading fees on spot and futures trades. Deposit fees depend on the blockchain network. Detailed fee information is available on the platform.' },
+                { q: 'How do I contact support?', a: 'Go to your Profile menu → Help & Support or email our official desk directly at admin@artesys.com. Support tickets are reviewed within 24–48 hours.' },
+                { q: 'What fees does Artesys charge?', a: 'We charge competitive trading fees on spot and futures trades. Deposit fees depend on the blockchain network. Detailed fee information is available on the platform.' },
               ].map((faq, i) => (
                 <details key={i} className="group bg-muted/50 rounded-xl border border-border overflow-hidden">
                   <summary className="flex items-center justify-between p-4 cursor-pointer list-none">
@@ -1575,16 +1575,16 @@ const UserHome = () => {
             </div>
             {(!supportInfo || (!supportInfo.telegram && !supportInfo.whatsapp && !supportInfo.email)) ? (
               <div className="space-y-3 mb-6">
-                <a href="mailto:admin@crypxpro.com" className="block w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-center shadow-brand text-xs">
-                  Email: admin@crypxpro.com
+                <a href="mailto:admin@artesys.com" className="block w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-center shadow-brand text-xs">
+                  Email: admin@artesys.com
                 </a>
               </div>
             ) : (
               <div className="space-y-3 mb-6">
                 {supportInfo.telegram && <a href={supportInfo.telegram} target="_blank" rel="noreferrer" className="block w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-center shadow-brand text-xs">Telegram Support</a>}
                 {supportInfo.whatsapp && <a href={supportInfo.whatsapp} target="_blank" rel="noreferrer" className="block w-full py-3 bg-success text-white font-bold rounded-xl text-center text-xs">WhatsApp Support</a>}
-                <a href={`mailto:${supportInfo.email || 'admin@crypxpro.com'}`} className="block w-full py-3 bg-card border border-border text-foreground font-bold rounded-xl text-center hover:bg-accent text-xs">
-                  Official Email: {supportInfo.email || 'admin@crypxpro.com'}
+                <a href={`mailto:${supportInfo.email || 'admin@artesys.com'}`} className="block w-full py-3 bg-card border border-border text-foreground font-bold rounded-xl text-center hover:bg-accent text-xs">
+                  Official Email: {supportInfo.email || 'admin@artesys.com'}
                 </a>
               </div>
             )}

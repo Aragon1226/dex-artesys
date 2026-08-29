@@ -35,7 +35,7 @@ export const CryptoAuthView = () => {
           className="mb-8 text-center"
         >
           <Logo size={80} variant="SYMBOL" className="mb-4 mx-auto drop-shadow-[0_0_25px_rgba(255,191,0,0.2)]" />
-          <h2 className="text-foreground text-2xl font-light tracking-[0.4em] uppercase">CrypX Pro</h2>
+          <h2 className="text-foreground text-2xl font-light tracking-[0.4em] uppercase">Artesys</h2>
           <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] mt-2 font-medium">Digital Assets Elite</p>
         </motion.div>
 
