@@ -1,5 +1,5 @@
 import React from "react";
-import loaderMark from "@/assets/generated/loader-mark.png";
+import { ArtesysMark } from "@/components/shared/Logo";
 
 interface BrandLoaderProps {
   size?: number;
@@ -21,16 +21,12 @@ export const BrandLoader: React.FC<BrandLoaderProps> = ({ size = 48, label, clas
         className="absolute -inset-1.5 rounded-full border-2 border-primary/25 border-t-primary animate-spin"
         aria-hidden="true"
       />
-      <img
-        src={loaderMark}
-        alt=""
-        aria-hidden="true"
-        width={size}
-        height={size}
-        style={{ width: size, height: size }}
-        className="relative object-contain animate-pulse drop-shadow-[0_6px_20px_hsl(var(--brand-primary)/0.35)]"
+      <ArtesysMark
+        size={size}
+        className="relative animate-pulse drop-shadow-[0_6px_20px_hsl(var(--brand-primary)/0.35)]"
       />
     </div>
+
     {label && (
       <p className="text-[11px] md:text-xs font-bold uppercase tracking-wider text-muted-foreground">{label}</p>
     )}
