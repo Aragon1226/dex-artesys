@@ -11,85 +11,59 @@ interface LogoProps {
 }
 
 /**
- * Artesys brand mark — a precision aperture ring enclosing a mitred
- * triangular "A". Drawn on a 100-unit grid in a single colour
- * (currentColor) with one optional Aureus Gold hairline accent.
- * No gradients, no bevels, no 3D — per Artesys Brand Guidelines v1.0.
- *
- * Construction:
- *   r=46  outer hairline (calibration edge, 1.5u)
- *   r=37  primary aperture ring (6u) broken by four cardinal apertures
- *   r=27  inner calibration ticks
- *   A     mitred chevron, 8.5u strokes, apex on the vertical axis
+ * Artesys brand mark — a monolithic squared tile with the "A" cut out as
+ * negative space and a single Aureus Gold ledger rule through the counter.
+ * Drawn on a 100-unit grid: flat colour, one soft diagonal facet for depth,
+ * no bevels and no 3D. Reads cleanly from 512px down to 16px.
  */
 export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?: boolean }> = ({
   size = 40,
   className = '',
   accent = true,
 }) => {
-  // r=37 ring, broken by four apertures centred on the cardinal axes.
-  const C = 2 * Math.PI * 37; // 232.478
-  const seg = C / 4;
-  const gap = 13;
-  const dash = seg - gap;
+  const uid = React.useId().replace(/:/g, '');
+  const tile =
+    'M26 3h48a23 23 0 0 1 23 23v48a23 23 0 0 1-23 23H26A23 23 0 0 1 3 74V26A23 23 0 0 1 26 3Z';
+  const letter = 'M50 19 L78.5 82 H64.2 L50 50 L35.8 82 H21.5 Z';
 
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 100 100"
-      fill="none"
       role="img"
       aria-label="Artesys symbol"
       className={`shrink-0 ${className}`}
     >
-      {/* Calibration edge */}
-      <circle cx="50" cy="50" r="46" stroke="currentColor" strokeWidth="1.5" opacity="0.38" />
+      <defs>
+        <clipPath id={`t-${uid}`}>
+          <path d={tile} />
+        </clipPath>
+        <clipPath id={`k-${uid}`}>
+          {/* the letter's outer triangle — keeps the gold rule inside the counter */}
+          <path d="M50 19 L21.5 82 H78.5 Z" />
+        </clipPath>
+      </defs>
 
-      {/* Primary aperture ring — four arcs, apertures on the cardinals */}
-      <circle
-        cx="50"
-        cy="50"
-        r="37"
-        stroke="currentColor"
-        strokeWidth="6"
-        strokeLinecap="butt"
-        strokeDasharray={`${dash} ${gap}`}
-        strokeDashoffset={dash + gap / 2}
-      />
-
-      {/* Cardinal calibration blades, seated inside the ring apertures */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinecap="butt" opacity="0.85">
-        <path d="M50 20v6" />
-        <path d="M50 74v6" />
-        <path d="M20 50h6" />
-        <path d="M74 50h6" />
+      {/* Tile — Artesys Blue with a single diagonal facet */}
+      <g clipPath={`url(#t-${uid})`}>
+        <rect width="100" height="100" fill="currentColor" />
+        <path d="M3 26A23 23 0 0 1 26 3h48L3 74Z" fill="#FFFFFF" opacity="0.14" />
       </g>
 
-      {/* Aureus Gold precision arc — a single 30° reading on the upper right */}
-      {accent && (
-        <path
-          d="M68.5 17.96A37 37 0 0 1 82.04 31.5"
-          stroke="var(--logo-accent, #E6B34A)"
-          strokeWidth="6"
-          strokeLinecap="butt"
-        />
-      )}
+      {/* Negative-space "A" */}
+      <path d={letter} fill="var(--logo-void, #061428)" />
 
-      {/* Mitred triangular "A" */}
-      <path
-        d="M33.5 68 50 34 66.5 68"
-        stroke="currentColor"
-        strokeWidth="8"
-        strokeLinejoin="miter"
-        strokeLinecap="butt"
-        strokeMiterlimit="8"
-      />
-      {/* Crossbar — ledger rule through the counter */}
-      <path d="M40 58.5h20" stroke="currentColor" strokeWidth="5.5" strokeLinecap="butt" />
+      {/* Aureus Gold ledger rule */}
+      {accent && (
+        <g clipPath={`url(#k-${uid})`}>
+          <rect x="20" y="63" width="60" height="6" fill="var(--logo-accent, #E6B34A)" />
+        </g>
+      )}
     </svg>
   );
 };
+
 
 const Wordmark: React.FC<{ size?: number; descriptor?: boolean }> = ({ size = 40, descriptor }) => (
   <span className="flex flex-col justify-center leading-none">
