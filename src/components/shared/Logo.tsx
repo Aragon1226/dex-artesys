@@ -6,58 +6,110 @@ interface LogoProps {
   variant?: 'FULL' | 'SYMBOL' | 'WORDMARK';
   /** Show the "Crypto Exchange" descriptor under the wordmark. */
   descriptor?: boolean;
+  /** Aureus Gold precision accent on the aperture. Used sparingly. */
+  accent?: boolean;
 }
 
 /**
- * Artesys brand mark — a triangular "A" nested inside an aperture ring.
- * Drawn on a 100-unit grid, single color (currentColor), never gradient,
- * never bevelled, per the Artesys Brand Guidelines v1.0.
+ * Artesys brand mark — a precision aperture ring enclosing a mitred
+ * triangular "A". Drawn on a 100-unit grid in a single colour
+ * (currentColor) with one optional Aureus Gold hairline accent.
+ * No gradients, no bevels, no 3D — per Artesys Brand Guidelines v1.0.
+ *
+ * Construction:
+ *   r=46  outer hairline (calibration edge, 1.5u)
+ *   r=37  primary aperture ring (6u) broken by four cardinal apertures
+ *   r=27  inner calibration ticks
+ *   A     mitred chevron, 8.5u strokes, apex on the vertical axis
  */
-export const ArtesysMark: React.FC<{ size?: number; className?: string }> = ({
+export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?: boolean }> = ({
   size = 40,
   className = '',
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 100 100"
-    fill="none"
-    role="img"
-    aria-label="Artesys symbol"
-    className={`shrink-0 ${className}`}
-  >
-    {/* Aperture ring: r=44, stroke 5 */}
-    <circle cx="50" cy="50" r="44" stroke="currentColor" strokeWidth="5" />
-    {/* Cardinal aperture ticks */}
-    <g stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
-      <path d="M50 2v12" />
-      <path d="M50 86v12" />
-      <path d="M2 50h12" />
-      <path d="M86 50h12" />
-    </g>
-    {/* Solid isoceles triangle "A" */}
-    <path d="M50 24 74 72H26L50 24Z" fill="currentColor" />
-    {/* Chart-bar crossbar (negative space) */}
-    <rect x="39" y="58" width="22" height="6" rx="1" fill="var(--logo-counter, hsl(var(--background)))" />
-    {/* Aperture pupil / decimal point */}
-    <circle cx="50" cy="50" r="3.5" fill="var(--logo-counter, hsl(var(--background)))" />
-  </svg>
-);
+  accent = true,
+}) => {
+  // r=37 ring, broken by four apertures centred on the cardinal axes.
+  const C = 2 * Math.PI * 37; // 232.478
+  const seg = C / 4;
+  const gap = 13;
+  const dash = seg - gap;
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="none"
+      role="img"
+      aria-label="Artesys symbol"
+      className={`shrink-0 ${className}`}
+    >
+      {/* Calibration edge */}
+      <circle cx="50" cy="50" r="46" stroke="currentColor" strokeWidth="1.5" opacity="0.38" />
+
+      {/* Primary aperture ring — four arcs, apertures on the cardinals */}
+      <circle
+        cx="50"
+        cy="50"
+        r="37"
+        stroke="currentColor"
+        strokeWidth="6"
+        strokeLinecap="butt"
+        strokeDasharray={`${dash} ${gap}`}
+        strokeDashoffset={dash + gap / 2}
+      />
+
+      {/* Cardinal calibration blades, seated inside the ring apertures */}
+      <g stroke="currentColor" strokeWidth="3" strokeLinecap="butt" opacity="0.85">
+        <path d="M50 20v6" />
+        <path d="M50 74v6" />
+        <path d="M20 50h6" />
+        <path d="M74 50h6" />
+      </g>
+
+      {/* Aureus Gold precision arc — a single 30° reading on the upper right */}
+      {accent && (
+        <path
+          d="M68.5 17.96A37 37 0 0 1 82.04 31.5"
+          stroke="var(--logo-accent, #E6B34A)"
+          strokeWidth="6"
+          strokeLinecap="butt"
+        />
+      )}
+
+      {/* Mitred triangular "A" */}
+      <path
+        d="M33.5 68 50 34 66.5 68"
+        stroke="currentColor"
+        strokeWidth="8"
+        strokeLinejoin="miter"
+        strokeLinecap="butt"
+        strokeMiterlimit="8"
+      />
+      {/* Crossbar — ledger rule through the counter */}
+      <path d="M40 58.5h20" stroke="currentColor" strokeWidth="5.5" strokeLinecap="butt" />
+    </svg>
+  );
+};
 
 const Wordmark: React.FC<{ size?: number; descriptor?: boolean }> = ({ size = 40, descriptor }) => (
   <span className="flex flex-col justify-center leading-none">
     <span
-      className="font-display font-semibold tracking-[-0.02em] text-current"
-      style={{ fontSize: size * 0.62 }}
+      className="font-display font-semibold tracking-[-0.025em] text-current"
+      style={{ fontSize: size * 0.6 }}
     >
       Artesys
     </span>
     {descriptor && (
       <span
-        className="uppercase text-current/70 font-medium"
-        style={{ fontSize: Math.max(7, size * 0.19), letterSpacing: '0.28em', marginTop: size * 0.11 }}
+        className="flex items-center text-current/65 font-medium uppercase"
+        style={{ fontSize: Math.max(7, size * 0.175), marginTop: size * 0.13 }}
       >
-        Crypto Exchange
+        <span
+          aria-hidden
+          className="bg-current/40"
+          style={{ width: size * 0.18, height: 1, marginRight: size * 0.1 }}
+        />
+        <span style={{ letterSpacing: '0.3em' }}>Crypto Exchange</span>
       </span>
     )}
   </span>
@@ -68,9 +120,10 @@ export const Logo: React.FC<LogoProps> = ({
   size = 40,
   variant = 'FULL',
   descriptor = false,
+  accent = true,
 }) => {
   if (variant === 'SYMBOL') {
-    return <ArtesysMark size={size} className={`text-primary ${className}`} />;
+    return <ArtesysMark size={size} accent={accent} className={`text-primary ${className}`} />;
   }
 
   if (variant === 'WORDMARK') {
@@ -82,8 +135,8 @@ export const Logo: React.FC<LogoProps> = ({
   }
 
   return (
-    <span className={`inline-flex items-center gap-3 text-primary ${className}`}>
-      <ArtesysMark size={size} />
+    <span className={`inline-flex items-center text-primary ${className}`} style={{ gap: size * 0.3 }}>
+      <ArtesysMark size={size} accent={accent} />
       <Wordmark size={size} descriptor={descriptor} />
     </span>
   );
