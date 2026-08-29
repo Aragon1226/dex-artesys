@@ -11,10 +11,9 @@ interface LogoProps {
 }
 
 /**
- * Artesys brand mark — an isometric geometric monolith: three shaded facets of
- * a cube in the Artesys blue range, with the "A" projected onto the front-right
- * plane as negative space and a single Aureus Gold ledger rule through its
- * counter. Gold hairlines catch the top edges like machined metal.
+ * Artesys brand mark — a sculptural 3D monogram: the "A" extruded as a solid
+ * geometric prism with lit front faces, shaded side planes and a single
+ * Aureus Gold ledger beam crossing the counter. No enclosing tile or box.
  * Drawn on a 100-unit grid; reads cleanly from 512px down to 16px.
  */
 export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?: boolean }> = ({
@@ -23,16 +22,7 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
   accent = true,
 }) => {
   const uid = React.useId().replace(/:/g, '');
-
-  // Isometric cube vertices
-  const TOP = '50,8 92,31 50,54 8,31';
-  const LEFT = '8,31 50,54 50,92 8,69';
-  const RIGHT = '92,31 50,54 50,92 92,69';
-
-  // "A" drawn in a unit square, then projected onto the right facet plane
-  const A = 'M0.5 0.06 L0.94 0.94 L0.76 0.94 L0.5 0.42 L0.24 0.94 L0.06 0.94 Z';
-  const ATRI = 'M0.5 0.06 L0.06 0.94 L0.94 0.94 Z';
-  const project = 'matrix(42 -23 0 38 50 54)';
+  const FRONT = 'M50 6 L88 84 L70 84 L50 45 L30 84 L12 84 Z';
 
   return (
     <svg
@@ -44,60 +34,48 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
       className={`shrink-0 ${className}`}
     >
       <defs>
-        <linearGradient id={`top-${uid}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#5C93F5" />
-          <stop offset="100%" stopColor="#2F6FE4" />
+        <linearGradient id={`f-${uid}`} x1="0" y1="0" x2="0.6" y2="1">
+          <stop offset="0%" stopColor="#5E95F7" />
+          <stop offset="55%" stopColor="#2A67DF" />
+          <stop offset="100%" stopColor="#1B4FB8" />
         </linearGradient>
-        <linearGradient id={`right-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#2360DA" />
-          <stop offset="100%" stopColor="#12419E" />
-        </linearGradient>
-        <linearGradient id={`left-${uid}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={`s-${uid}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#123F9B" />
           <stop offset="100%" stopColor="#0A2A6B" />
         </linearGradient>
-        <clipPath id={`k-${uid}`}>
-          <path d={ATRI} transform={project} />
+        <linearGradient id={`g-${uid}`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#F2CE7A" />
+          <stop offset="100%" stopColor="#D69C31" />
+        </linearGradient>
+        <clipPath id={`tri-${uid}`}>
+          <path d="M50 6 L90 86 L10 86 Z" />
         </clipPath>
       </defs>
 
-      {/* Facets */}
-      <polygon points={LEFT} fill={`url(#left-${uid})`} />
-      <polygon points={RIGHT} fill={`url(#right-${uid})`} />
-      <polygon points={TOP} fill={`url(#top-${uid})`} />
+      <g transform="translate(-4,3)">
+        {/* Extruded body */}
+        <path d={FRONT} transform="translate(9,-5)" fill="#0A2A6B" />
 
-      {/* Structural seams */}
-      <g stroke="#061428" strokeOpacity="0.32" strokeWidth="1.1" fill="none" strokeLinejoin="round">
-        <path d="M8 31 L50 54 L92 31" />
-        <path d="M50 54 L50 92" />
-      </g>
+        {/* Shaded side planes */}
+        <polygon points="12,84 50,6 59,1 21,79" fill={`url(#s-${uid})`} />
+        <polygon points="50,6 88,84 97,79 59,1" fill={`url(#s-${uid})`} opacity="0.85" />
+        <polygon points="50,45 30,84 39,79 59,40" fill="#0E3585" />
+        <polygon points="70,84 50,45 59,40 79,79" fill="#0E3585" opacity="0.9" />
 
-      {/* Projected negative-space "A" */}
-      <path d={A} transform={project} fill="#061428" fillOpacity="0.92" />
+        {/* Lit front face */}
+        <path d={FRONT} fill={`url(#f-${uid})`} />
 
-      {/* Aureus Gold ledger rule inside the counter + machined top edges */}
-      {accent && (
-        <>
-          <g clipPath={`url(#k-${uid})`}>
-            <rect
-              x="0"
-              y="0.66"
-              width="1"
-              height="0.1"
-              transform={project}
-              fill="var(--logo-accent, #E6B34A)"
-            />
+        {/* Aureus Gold ledger beam */}
+        {accent && (
+          <g clipPath={`url(#tri-${uid})`}>
+            <polygon points="10,71 90,71 99,66 19,66" fill="#F6DDA1" />
+            <rect x="10" y="71" width="80" height="6.5" fill={`url(#g-${uid})`} />
           </g>
-          <path
-            d="M8 31 L50 8 L92 31"
-            fill="none"
-            stroke="var(--logo-accent, #E6B34A)"
-            strokeWidth="1.6"
-            strokeLinejoin="round"
-            strokeOpacity="0.85"
-          />
-        </>
-      )}
+        )}
+
+        {/* Apex highlight */}
+        <path d="M50 6 L12 84" stroke="#8FB6FA" strokeOpacity="0.5" strokeWidth="1" fill="none" />
+      </g>
     </svg>
   );
 };
