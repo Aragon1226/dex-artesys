@@ -44,7 +44,7 @@ export const PageLoadingOverlay = ({
       {showBar && (
         <div className="fixed top-0 left-0 right-0 z-[999] h-[2.5px] bg-transparent overflow-hidden pointer-events-none">
           <div
-            className="h-full bg-gradient-to-r from-warning via-primary to-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.8)] transition-all duration-300 ease-out"
+            className="h-full bg-gradient-to-r from-warning via-primary to-warning shadow-[0_0_8px_hsl(var(--brand-primary)/0.8)] transition-all duration-300 ease-out"
             style={{
               width: explicitLoading ? '85%' : `${progress}%`,
               transitionProperty: 'width, opacity',

@@ -180,14 +180,14 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
         </div>
 
         {/* Educational Disclaimer Top Banner */}
-        <div className="p-5 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200/90 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="p-5 rounded-2xl bg-warning/10 border border-warning/20 text-warning/90 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex items-start gap-3">
             <AlertTriangle className="text-warning shrink-0 mt-0.5" size={22} />
             <div className="space-y-1">
-              <h4 className="text-sm font-bold text-amber-300 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-warning uppercase tracking-wider">
                 Official Educational & Demo Trading Disclosure
               </h4>
-              <p className="text-xs text-amber-200/80 leading-relaxed">
+              <p className="text-xs text-warning/80 leading-relaxed">
                 Artesys operates exclusively as an educational simulation platform. All trades, portfolio values, and yield rates are simulated paper figures for learning purposes. No real financial services or advice are provided.
               </p>
             </div>

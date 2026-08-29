@@ -259,7 +259,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
       <div className="relative z-10 w-full mb-8">
         {!isInsideModal && (
           <div className="flex justify-center mb-12">
-            <Logo size={80} variant="SYMBOL" className="drop-shadow-[0_0_20px_rgba(255,191,0,0.2)]" />
+            <Logo size={80} variant="SYMBOL" className="drop-shadow-[0_0_20px_hsl(var(--brand-primary)/0.35)]" />
           </div>
         )}
         
@@ -403,7 +403,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold hover:scale-[1.02] hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_20px_rgba(255,191,0,0.2)] flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold hover:scale-[1.02] hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_20px_hsl(var(--brand-primary)/0.35)] flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             {loading
@@ -439,11 +439,11 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 space-y-5 text-xs sm:text-sm text-muted-foreground leading-relaxed custom-scrollbar">
-                <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200">
-                  <div className="flex items-center gap-2 font-bold text-amber-300 mb-1">
+                <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-warning">
+                  <div className="flex items-center gap-2 font-bold text-warning mb-1">
                     <AlertTriangle size={16} /> Educational Demo Trading Notice
                   </div>
-                  <p className="text-xs text-amber-200/90 leading-relaxed">
+                  <p className="text-xs text-warning/90 leading-relaxed">
                     Artesys is strictly an educational demo trading simulator. It does not provide real financial services, real asset deposits, live money withdrawals, or financial advice. All balances are paper credits.
                   </p>
                 </div>

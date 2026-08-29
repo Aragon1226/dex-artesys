@@ -112,7 +112,7 @@ const Index = () => {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <img
               src={heroAbstract}
-              alt="Abstract three-dimensional amber crystalline coin and geometric forms"
+              alt="Abstract three-dimensional cobalt-blue crystalline coin and geometric forms"
               width={1920}
               height={1088}
               className="w-full h-full object-cover opacity-55 scale-105"
@@ -243,7 +243,7 @@ const Index = () => {
                 <div className="relative mb-8 overflow-hidden border border-border">
                   <img
                     src={securityVault}
-                    alt="Brushed metal vault door with amber-lit cryptographic engravings"
+                    alt="Brushed metal vault door with blue-lit cryptographic engravings"
                     width={1024}
                     height={1024}
                     loading="lazy"

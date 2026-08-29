@@ -1414,8 +1414,8 @@ const UserHome = () => {
               <button onClick={() => setActiveModal('SETTINGS')} className="text-muted-foreground hover:text-foreground"><X size={24} /></button>
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-6 text-sm text-muted-foreground leading-relaxed custom-scrollbar">
-              <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-amber-200 text-xs leading-relaxed">
-                <strong className="text-amber-300 block mb-1">Educational Sector & Demo Purpose:</strong>
+              <div className="p-4 rounded-2xl bg-warning/10 border border-warning/20 text-warning text-xs leading-relaxed">
+                <strong className="text-warning block mb-1">Educational Sector & Demo Purpose:</strong>
                 Artesys is created exclusively for demo trading, market learning, and software evaluation purposes. It does not provide real financial services, live money transactions, or financial advice.
               </div>
 

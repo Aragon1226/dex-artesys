@@ -80,7 +80,7 @@ const Auth = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 text-center"
         >
-          <Logo size={80} variant="SYMBOL" className="mb-4 mx-auto drop-shadow-[0_0_20px_rgba(255,191,0,0.2)] transition-transform hover:scale-105 duration-500" />
+          <Logo size={80} variant="SYMBOL" className="mb-4 mx-auto drop-shadow-[0_0_20px_hsl(var(--brand-primary)/0.35)] transition-transform hover:scale-105 duration-500" />
           <h2 className="text-foreground text-2xl font-light tracking-[0.4em] uppercase">Artesys</h2>
         </motion.div>
 

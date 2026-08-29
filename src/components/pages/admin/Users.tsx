@@ -571,7 +571,7 @@ const AdminUsers = () => {
               onClick={() => { setFilterType('banned'); setCurrentPage(1); }}
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 ${
                 filterType === 'banned'
-                  ? 'bg-amber-500 text-black shadow-sm'
+                  ? 'bg-warning text-background shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -1210,7 +1210,7 @@ const AdminUsers = () => {
       {/* Account Ban / Suspension Modal */}
       {selectedUserForBan && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-          <form onSubmit={handleBanUser} className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-amber-500/20 animate-scale-in">
+          <form onSubmit={handleBanUser} className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-warning/20 animate-scale-in">
             <button 
               type="button" 
               onClick={() => setSelectedUserForBan(null)} 
@@ -1220,7 +1220,7 @@ const AdminUsers = () => {
             </button>
             
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center border border-amber-500/20">
+              <div className="w-12 h-12 bg-warning/10 text-warning rounded-2xl flex items-center justify-center border border-warning/20">
                 <Ban size={24} />
               </div>
               <div>
@@ -1257,7 +1257,7 @@ const AdminUsers = () => {
                     }}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all text-left flex flex-col gap-0.5 ${
                       banType === 'client_request'
-                        ? 'bg-amber-500/15 text-amber-400 border-amber-500/40 ring-1 ring-amber-500/30'
+                        ? 'bg-warning/15 text-warning border-warning/40 ring-1 ring-warning/30'
                         : 'bg-card text-muted-foreground border-border hover:bg-muted'
                     }`}
                   >
@@ -1289,7 +1289,7 @@ const AdminUsers = () => {
                 <select
                   value={banReason}
                   onChange={(e) => setBanReason(e.target.value)}
-                  className="w-full bg-card border border-border rounded-xl px-3 py-2.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                  className="w-full bg-card border border-border rounded-xl px-3 py-2.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-warning/40"
                 >
                   <option value="Client voluntary account suspension request">Client voluntary account suspension request</option>
                   <option value="Temporary self-exclusion request from user">Temporary self-exclusion request from user</option>
@@ -1310,7 +1310,7 @@ const AdminUsers = () => {
                     value={banCustomReason}
                     onChange={(e) => setBanCustomReason(e.target.value)}
                     placeholder="Enter reason for suspension..."
-                    className="w-full bg-card border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                    className="w-full bg-card border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-warning/40"
                   />
                 </div>
               )}
@@ -1322,7 +1322,7 @@ const AdminUsers = () => {
                   value={banNotes}
                   onChange={(e) => setBanNotes(e.target.value)}
                   placeholder="Additional context or support ticket reference..."
-                  className="w-full bg-card border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/40 resize-none"
+                  className="w-full bg-card border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-warning/40 resize-none"
                 />
               </div>
             </div>
@@ -1338,7 +1338,7 @@ const AdminUsers = () => {
               <button
                 type="submit"
                 disabled={processingBan}
-                className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-black font-bold rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-warning hover:bg-warning/90 text-background font-bold rounded-xl transition-colors text-sm shadow-md flex items-center justify-center gap-2"
               >
                 {processingBan ? 'Suspending...' : 'Confirm Suspension'}
               </button>
@@ -1386,7 +1386,7 @@ const AdminUsers = () => {
                       <>
                         <div className="flex justify-between py-1 border-t border-border/40 pt-2">
                           <span className="text-muted-foreground">Suspension Type:</span>
-                          <span className="font-bold text-amber-400 capitalize">{bRec.type === 'client_request' ? 'Client Request' : 'Forced'}</span>
+                          <span className="font-bold text-warning capitalize">{bRec.type === 'client_request' ? 'Client Request' : 'Forced'}</span>
                         </div>
                         <div className="py-1">
                           <span className="text-muted-foreground block mb-0.5">Suspension Reason:</span>

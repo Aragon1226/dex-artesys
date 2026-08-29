@@ -7,7 +7,7 @@ interface BrandLoaderProps {
   className?: string;
 }
 
-/** Logo-derived loading mark: pulsing amber emblem with an orbiting ring. */
+/** Logo-derived loading mark: pulsing Artesys emblem with an orbiting ring. */
 export const BrandLoader: React.FC<BrandLoaderProps> = ({ size = 48, label, className = "" }) => (
   <div
     className={`flex flex-col items-center justify-center gap-3 ${className}`}
