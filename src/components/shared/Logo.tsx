@@ -54,41 +54,39 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
         stroke="currentColor"
         strokeWidth="6"
         strokeLinecap="butt"
-        strokeDasharray={`${dash} ${gap}`}
+        strokeDasharray={`${gap} ${dash}`}
         strokeDashoffset={gap / 2}
       />
 
-      {/* Cardinal aperture blades, seated in the ring breaks */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinecap="butt" opacity="0.9">
-        <path d="M50 26.5v-6" />
-        <path d="M50 79.5v6" />
-        <path d="M26.5 50h-6" />
-        <path d="M79.5 50h6" />
+      {/* Cardinal calibration blades, seated inside the ring apertures */}
+      <g stroke="currentColor" strokeWidth="3" strokeLinecap="butt" opacity="0.85">
+        <path d="M50 20v6" />
+        <path d="M50 74v6" />
+        <path d="M20 50h6" />
+        <path d="M74 50h6" />
       </g>
 
-      {/* Aureus Gold precision arc — a single 44° reading on the upper right */}
+      {/* Aureus Gold precision arc — a single 45° reading on the upper right */}
       {accent && (
         <path
           d="M63.85 15.35A37 37 0 0 1 84.65 36.15"
           stroke="var(--logo-accent, #E6B34A)"
-          strokeWidth="3"
+          strokeWidth="6"
           strokeLinecap="butt"
-          transform="translate(0 0)"
-          opacity="0.95"
         />
       )}
 
       {/* Mitred triangular "A" */}
       <path
-        d="M29 72 50 29 71 72"
+        d="M33.5 68 50 34 66.5 68"
         stroke="currentColor"
-        strokeWidth="8.5"
+        strokeWidth="8"
         strokeLinejoin="miter"
         strokeLinecap="butt"
         strokeMiterlimit="8"
       />
       {/* Crossbar — ledger rule through the counter */}
-      <path d="M37.5 62.5h25" stroke="currentColor" strokeWidth="6" strokeLinecap="butt" />
+      <path d="M40 58.5h20" stroke="currentColor" strokeWidth="5.5" strokeLinecap="butt" />
     </svg>
   );
 };
