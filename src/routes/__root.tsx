@@ -69,6 +69,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "application-name", content: "Artesys" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "Artesys" },
+      { name: "google-site-verification", content: "nPBegWbFlY8JeajSuR4bu4_UKsZrHndT8zaM8xD8Wsg" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "msapplication-TileColor", content: "#061428" },
