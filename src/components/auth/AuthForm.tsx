@@ -118,6 +118,38 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     }
   };
 
+  const handleAppleSignIn = async () => {
+    setAppleLoading(true);
+    try {
+      const { lovable } = await import("@/integrations/lovable/index");
+      const result = await lovable.auth.signInWithOAuth("apple", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        toast({
+          title: "Apple sign-in failed",
+          description: result.error.message || "Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (result.redirected) return;
+
+      toast({ title: "Welcome!", description: "Signed in with Apple." });
+      onSuccess?.();
+    } catch (error: any) {
+      toast({
+        title: "Apple sign-in failed",
+        description: error?.message || "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setAppleLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
