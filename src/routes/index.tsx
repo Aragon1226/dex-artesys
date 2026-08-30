@@ -4,10 +4,10 @@ import Landing from "@/components/pages/Landing";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Artesys — Crypto Trading, Futures and Earn" },
-      { name: "description", content: "Trade spot and futures, stake for yield, and manage your crypto portfolio on Artesys." },
-      { property: "og:title", content: "Artesys — Crypto Trading, Futures and Earn" },
-      { property: "og:description", content: "Trade spot and futures, stake for yield, and manage your crypto portfolio on Artesys." },
+      { title: "Artesys — Crypto Exchange | Spot, Futures & Earn" },
+      { name: "description", content: "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders." },
+      { property: "og:title", content: "Artesys — Crypto Exchange | Spot, Futures & Earn" },
+      { property: "og:description", content: "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://cex.xn--artsys-dva.com/" },
