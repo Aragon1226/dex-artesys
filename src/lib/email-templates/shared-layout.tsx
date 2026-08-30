@@ -18,7 +18,7 @@ import {
 export const BLUE = '#1E5FD8'
 export const MIDNIGHT = '#061428'
 export const GOLD = '#E6B34A'
-export const APP_URL = 'https://cex.xn--artsys-dva.com'
+export const APP_URL = 'https://dex.xn--artsys-dva.com'
 
 export const main = {
   backgroundColor: '#ffffff',

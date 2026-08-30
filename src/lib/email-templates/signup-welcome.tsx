@@ -24,7 +24,7 @@ const MIDNIGHT = '#061428'
 const GOLD = '#E6B34A'
 
 const SignupWelcomeEmail = ({ name, appUrl }: Props) => {
-  const base = appUrl || 'https://cex.xn--artsys-dva.com'
+  const base = appUrl || 'https://dex.xn--artsys-dva.com'
   return (
     <Html lang="en" dir="ltr">
       <Head />
