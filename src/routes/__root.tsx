@@ -73,20 +73,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "msapplication-TileColor", content: "#061428" },
       { name: "msapplication-TileImage", content: "/icons/icon-144x144.png" },
-      { title: "Artesys — Crypto Trading Platform" },
-      {
-        name: "description",
-        content:
-          "Artesys is a crypto trading platform for spot orders, leveraged futures and staking rewards.",
-      },
-      { property: "og:title", content: "Artesys — Crypto Trading Platform" },
-      {
-        property: "og:description",
-        content:
-          "Artesys is a crypto trading platform for spot orders, leveraged futures and staking rewards.",
-      },
+      { property: "og:site_name", content: "Artesys" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
