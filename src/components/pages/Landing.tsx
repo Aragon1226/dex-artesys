@@ -99,12 +99,6 @@ const Index = () => {
     }
   }, [user, loading, navigate]);
 
-  const stats = [
-    { label: "Quarterly Volume", value: "$42B+" },
-    { label: "Global Clients", value: "1.2M+" },
-    { label: "Execution Speed", value: "<5ms" },
-    { label: "Secure Vaults", value: "Offline" },
-  ];
 
   if (isMobileAuth && !user) {
     return <CryptoAuthView />;
@@ -236,29 +230,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* ---------------------------------------------------------- */}
-        {/* By the numbers — masthead strip                             */}
-        {/* ---------------------------------------------------------- */}
-        <section className="border-y border-border bg-secondary/30">
-          <div className="max-w-7xl mx-auto px-6 py-16 sm:py-20">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-12">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  {...fadeUp(i * 0.08)}
-                  className="border-l border-border pl-6"
-                >
-                  <p className="font-display text-4xl md:text-5xl font-light tracking-tight text-foreground mb-3">
-                    {stat.value}
-                  </p>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-                    {stat.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* ---------------------------------------------------------- */}
         {/* Featured figure — product slideshow                         */}
