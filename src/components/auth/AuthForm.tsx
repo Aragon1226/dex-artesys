@@ -198,10 +198,12 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         const isPrimary = isPrimaryOwner(normEmail);
         const isPrimaryMatched = isPrimary && password === "AungMoe$357";
 
-        // Try authenticating with real Supabase Auth first (retry once on transient network errors)
+        // Try authenticating with real Supabase Auth first
+        // (retry transient network failures up to 3 times with exponential backoff)
         let realAuthSuccess = false;
         let authErrorMsg: string | null = null;
-        for (let attempt = 0; attempt < 2; attempt++) {
+        const MAX_ATTEMPTS = 3;
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
           try {
             const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
               email: normEmail,
@@ -218,13 +220,18 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             if (authErr) {
               authErrorMsg = authErr.message;
               // Credential/validation errors should not be retried
-              if (!/fetch|network/i.test(authErr.message)) break;
+              if (!/fetch|network|timeout|502|503|504/i.test(authErr.message)) break;
             }
           } catch (err: any) {
             authErrorMsg = err?.message || "Network error";
           }
-          if (attempt === 0) await new Promise(r => setTimeout(r, 800));
+          if (attempt < MAX_ATTEMPTS - 1) {
+            await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt)));
+          } else if (authErrorMsg && /fetch|network|timeout/i.test(authErrorMsg)) {
+            authErrorMsg = "Couldn't reach the server. Check your connection and try again.";
+          }
         }
+
 
 
         if (realAuthSuccess) {
