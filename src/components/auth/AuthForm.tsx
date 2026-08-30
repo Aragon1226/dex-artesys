@@ -31,6 +31,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
   const { toast } = useToast();
 
   const hostname = window.location.hostname;
