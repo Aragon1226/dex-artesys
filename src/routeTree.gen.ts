@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAdministratorRouteImport } from './routes/admin.administrator'
@@ -78,6 +79,11 @@ const PoliciesRoute = PoliciesRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/administrator': typeof AdminAdministratorRoute
   '/admin/customer-service': typeof AdminCustomerServiceRoute
@@ -264,6 +271,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/administrator': typeof AdminAdministratorRoute
   '/admin/customer-service': typeof AdminCustomerServiceRoute
@@ -302,6 +310,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/administrator': typeof AdminAdministratorRoute
   '/admin/customer-service': typeof AdminCustomerServiceRoute
@@ -341,6 +350,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/policies'
     | '/settings'
+    | '/sitemap.xml'
     | '/terms'
     | '/admin/administrator'
     | '/admin/customer-service'
@@ -376,6 +386,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/policies'
     | '/settings'
+    | '/sitemap.xml'
     | '/terms'
     | '/admin/administrator'
     | '/admin/customer-service'
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/policies'
     | '/settings'
+    | '/sitemap.xml'
     | '/terms'
     | '/admin/administrator'
     | '/admin/customer-service'
@@ -451,6 +463,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   PoliciesRoute: typeof PoliciesRoute
   SettingsRoute: typeof SettingsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -503,6 +516,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -782,6 +802,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   PoliciesRoute: PoliciesRoute,
   SettingsRoute: SettingsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
