@@ -11,9 +11,9 @@ export const Route = createFileRoute("/policies")({
       { property: "og:description", content: "Privacy, AML and risk policies that govern the Artesys trading platform." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://cex.xn--artsys-dva.com/policies" },
+      { property: "og:url", content: "https://dex.xn--artsys-dva.com/policies" },
     ],
-    links: [{ rel: "canonical", href: "https://cex.xn--artsys-dva.com/policies" }],
+    links: [{ rel: "canonical", href: "https://dex.xn--artsys-dva.com/policies" }],
   }),
   component: () => <Settings initialTab="policies" />,
 });
