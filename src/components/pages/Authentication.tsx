@@ -2,52 +2,67 @@ import { useNavigate } from "@/lib/router-compat";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import { motion } from "motion/react";
+import { toast } from "sonner";
+import { supabase } from "@/lib/cloudClient";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { Logo } from "@/components/shared/Logo";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { session } = useAuth();
-  
-  const hostname = window.location.hostname;
-  const isDomainAdmin = hostname === 'admin.artesys.com' || hostname.startsWith('admin.');
-  
-  let envMode = 'ALL';
-  try { 
-    envMode = import.meta.env.VITE_APP_MODE; 
-  } catch(e) {
-    // ignore
-  }
-  
-  const appMode = isDomainAdmin ? "ADMIN" : (envMode || "ALL").toUpperCase();
+  const { session, signOut } = useAuth();
 
   useEffect(() => {
-    if (session) {
+    if (!session) return;
+    let active = true;
+
+    const route = async () => {
+      // Administrator accounts are provisioned separately and may only sign in
+      // through the dedicated admin portal.
+      const userId = session.user?.id;
+      if (userId) {
+        try {
+          const { data: isAdmin } = await supabase.rpc("has_role", {
+            _user_id: userId,
+            _role: "admin",
+          });
+          if (!active) return;
+          if (isAdmin) {
+            await signOut();
+            toast.error("Administrator accounts must sign in through the admin portal.");
+            return;
+          }
+        } catch (e) {
+          console.warn("Role check failed on sign-in:", e);
+        }
+      }
+
+      if (!active) return;
+
       const pendingRedirect = sessionStorage.getItem('auth_redirect');
       if (pendingRedirect) {
         sessionStorage.removeItem('auth_redirect');
         navigate(pendingRedirect, { replace: true });
         return;
       }
-      
+
       const hash = window.location.hash || "";
       const search = window.location.search || "";
       const isRecovery = hash.includes("type=recovery") || hash.includes("access_token=") || search.includes("type=recovery");
       if (isRecovery) {
         sessionStorage.setItem("open_password_reset", "true");
+        navigate("/app/home#action=reset_password", { replace: true });
+        return;
       }
 
-      if (appMode === "ADMIN" || session.user?.email === "admin@crypx.pro") {
-        navigate("/admin/dashboard", { replace: true });
-      } else {
-        if (isRecovery) {
-          navigate("/app/home#action=reset_password", { replace: true });
-        } else {
-          navigate("/app/home", { replace: true });
-        }
-      }
-    }
-  }, [session, navigate, appMode]);
+      navigate("/app/home", { replace: true });
+    };
+
+    route();
+    return () => {
+      active = false;
+    };
+  }, [session, navigate, signOut]);
+
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-y-auto py-12 sm:py-16 px-4 text-foreground">
