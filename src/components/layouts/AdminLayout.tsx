@@ -96,10 +96,21 @@ const AdminShell = () => {
   );
 };
 
-const AdminLayout = () => (
-  <AdminRouteGuard>
-    <AdminShell />
-  </AdminRouteGuard>
-);
+const AdminLayout = () => {
+  const location = useLocation();
+
+  // The portal sign-in page lives inside the /admin tree but must render
+  // outside the guard and outside the admin chrome.
+  if (location.pathname === "/admin/login") {
+    return <Outlet />;
+  }
+
+  return (
+    <AdminRouteGuard>
+      <AdminShell />
+    </AdminRouteGuard>
+  );
+};
+
 
 export default AdminLayout;
