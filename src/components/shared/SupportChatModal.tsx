@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/cloudClient';
 import { useAuth } from '@/hooks/useAuth';
 import { X, Send, HeadphonesIcon, Minus, MessageCircle, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { EmptyState } from "@/components/shared/EmptyState";

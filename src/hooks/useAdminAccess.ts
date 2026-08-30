@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/cloudClient";
 import { useAuth } from "@/hooks/useAuth";
 import { hasPermissionToView, isUserAdmin, syncAdminPermissions } from "@/lib/adminPermissions";
 

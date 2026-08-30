@@ -1,4 +1,4 @@
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/cloudClient';
 import { recordActivityLog } from '@/services/systemActivityLog';
 
 export interface TokenPriceSchedule {

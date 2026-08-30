@@ -1,4 +1,4 @@
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/cloudClient';
 
 export const SYSTEM_LOGS_AUTHORIZED_EMAIL = 'arkarnaung009@gmail.com';
 

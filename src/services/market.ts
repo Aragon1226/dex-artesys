@@ -1,4 +1,4 @@
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/cloudClient';
 import { tokenPriceControl } from './tokenPriceControl';
 
 export interface MarketTicker {
