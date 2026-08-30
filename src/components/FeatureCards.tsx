@@ -36,14 +36,23 @@ const features = [
 
 const FeatureCards = () => {
   return (
-    <section className="py-32 px-6 max-w-6xl mx-auto">
-      <div className="text-center mb-24">
-        <h2 className="text-3xl md:text-5xl font-light text-foreground mb-6 tracking-tight">
-          Built for the <span className="text-primary italic font-medium">Next Generation</span>
-        </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-light leading-relaxed">
-          Experience the most advanced crypto exchange platform with tools designed for high-frequency trading and wealth management.
-        </p>
+    <section className="py-24 sm:py-36 px-6 max-w-6xl mx-auto">
+      <div className="border-t border-border pt-8 mb-16 md:mb-20">
+        <div className="flex items-baseline justify-between gap-6 mb-10">
+          <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-brand-gold">
+            <span className="inline-block h-px w-8 bg-brand-gold/60" />
+            Capabilities
+          </p>
+          <span className="font-mono text-xs text-muted-foreground/50 tracking-widest">03</span>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <h2 className="lg:col-span-8 font-display text-4xl md:text-6xl font-light tracking-[-0.03em] leading-[1.02] text-foreground">
+            Built for the <span className="text-primary italic font-medium">next generation</span>
+          </h2>
+          <p className="lg:col-span-4 text-sm md:text-base text-muted-foreground font-light leading-relaxed lg:pb-2">
+            The most advanced exchange platform — tooling designed for high-frequency trading and wealth management.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
