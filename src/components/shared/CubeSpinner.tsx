@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { BrandLoader } from "@/components/shared/BrandLoader";
 
 interface CubeSpinnerProps {
   fullScreen?: boolean;
@@ -6,12 +6,7 @@ interface CubeSpinnerProps {
 }
 
 const CubeSpinner = ({ fullScreen, label }: CubeSpinnerProps) => {
-  const content = (
-    <div className="flex flex-col items-center justify-center gap-2">
-      <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      {label && <p className="text-sm text-muted-foreground">{label}</p>}
-    </div>
-  );
+  const content = <BrandLoader size={fullScreen ? 64 : 40} label={label} />;
 
   if (fullScreen) {
     return (
