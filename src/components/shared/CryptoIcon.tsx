@@ -9,16 +9,17 @@ import cfrLogo from '@/assets/images/cfr_token_logo_1786716396024.jpg';
 import stcLogo from '@/assets/images/stc_token_logo_1786716408156.jpg';
 import joeLogo from '@/assets/images/joe_token_logo_1786716418145.jpg';
 
-// Custom Sample Tokens generated 3D image assets
-import voltLogo from '@/assets/images/volt_energy_logo_1786723659659.jpg';
-import cybrLogo from '@/assets/images/cybr_security_logo_1786723681318.jpg';
-import qcoreLogo from '@/assets/images/qcore_quantum_logo_1786723694282.jpg';
-import artsLogo from '@/assets/images/arts_asset_logo_1786723704071.jpg';
-import axgLogo from '@/assets/images/axg_growth_logo_1786723716168.jpg';
-import bgnxLogo from '@/assets/images/bgnx_biogen_logo_1786723727012.jpg';
-import omniLogo from '@/assets/images/omni_media_logo_1786723738247.jpg';
-import cineLogo from '@/assets/images/cine_movie_logo_1786723750188.jpg';
-import tfraLogo from '@/assets/images/tfra_agri_logo_1786723760557.jpg';
+// Brand-specific corporate token logos (each with its own palette)
+import voltLogo from '@/assets/images/tokens/volt.png';
+import cybrLogo from '@/assets/images/tokens/cybr.png';
+import qcoreLogo from '@/assets/images/tokens/qcore.png';
+import artsLogo from '@/assets/images/tokens/arts.png';
+import axgLogo from '@/assets/images/tokens/axg.png';
+import bgnxLogo from '@/assets/images/tokens/bgnx.png';
+import omniLogo from '@/assets/images/tokens/omni.png';
+import cineLogo from '@/assets/images/tokens/cine.png';
+import tfraLogo from '@/assets/images/tokens/tfra.png';
+import cpxBrandLogo from '@/assets/images/tokens/cpx.png';
 
 // Generated 3D amber token icons (Main / Layer-2 / Stocks & Commodities)
 import cftLogo from '@/assets/images/tokens/cft.png';
@@ -38,7 +39,7 @@ import vixLogo from '@/assets/images/tokens/vix.png';
 const CUSTOM_MOCK_LOGOS: Record<string, string> = {
   NAS: nasLogo,
   BOT: botLogo,
-  CPX: cpxLogo,
+  CPX: cpxBrandLogo,
   OCT: octLogo,
   AEP: aepLogo,
   TTZS: ttzsLogo,
