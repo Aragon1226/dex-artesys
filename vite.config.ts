@@ -25,7 +25,16 @@ export default defineConfig({
         "entities/lib/decode.js": path.resolve(import.meta.dirname, "node_modules/entities/lib/decode.js"),
         "entities/lib/encode.js": path.resolve(import.meta.dirname, "node_modules/entities/lib/encode.js"),
         entities: path.resolve(import.meta.dirname, "node_modules/entities"),
+        // WalletConnect relies on Node's EventEmitter/Buffer; map them to browser shims.
+        events: path.resolve(import.meta.dirname, "node_modules/events/events.js"),
+        buffer: path.resolve(import.meta.dirname, "node_modules/buffer/index.js"),
       },
+    },
+    define: {
+      global: "globalThis",
+    },
+    optimizeDeps: {
+      include: ["@walletconnect/ethereum-provider", "events", "buffer"],
     },
   },
 });
