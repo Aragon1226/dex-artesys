@@ -185,6 +185,36 @@ export type Database = {
         }
         Relationships: []
       }
+      linked_wallets: {
+        Row: {
+          address: string
+          chain: string
+          created_at: string
+          id: string
+          is_primary: boolean
+          label: string | null
+          user_id: string
+        }
+        Insert: {
+          address: string
+          chain?: string
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          label?: string | null
+          user_id: string
+        }
+        Update: {
+          address?: string
+          chain?: string
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          label?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string | null
@@ -434,6 +464,36 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      wallet_auth_challenges: {
+        Row: {
+          address: string
+          consumed: boolean
+          created_at: string
+          expires_at: string
+          id: string
+          message: string
+          nonce: string
+        }
+        Insert: {
+          address: string
+          consumed?: boolean
+          created_at?: string
+          expires_at?: string
+          id?: string
+          message: string
+          nonce: string
+        }
+        Update: {
+          address?: string
+          consumed?: boolean
+          created_at?: string
+          expires_at?: string
+          id?: string
+          message?: string
+          nonce?: string
         }
         Relationships: []
       }

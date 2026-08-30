@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, Shield, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/shared/Logo";
+import { WalletSignIn } from "@/components/auth/WalletSignIn";
 import { isUserAdmin, syncAdminPermissions, getCustomAccounts, isPrimaryOwner, normalizeAdminId } from "@/lib/adminPermissions";
 
 interface AuthFormProps {
@@ -535,6 +536,13 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               )}
               {appleLoading ? "Connecting..." : "Continue with Apple"}
             </button>
+
+            <div className="mt-6 pt-6 border-t border-border">
+              <p className="text-[10px] text-center text-muted-foreground uppercase tracking-[0.25em] mb-3 font-semibold">
+                Web3 sign-in
+              </p>
+              <WalletSignIn onSuccess={onSuccess} disabled={loading} />
+            </div>
           </div>
         )}
 
