@@ -33,13 +33,14 @@ const AdminShell = () => {
   const handleLogout = async () => {
     try {
       await signOut();
-      navigate('/auth', { replace: true });
+      navigate('/admin/login', { replace: true });
     } catch (error) {
       console.error("Logout failed", error);
       // Fallback redirect
-      window.location.href = '/auth';
+      window.location.href = '/admin/login';
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
