@@ -181,12 +181,10 @@ const Futures = () => {
 
           const profitAmt = isWin ? pos.margin * (pos.expected_profit_percentage || 0) : -pos.margin;
           try {
-            if (typeof supabase.rpc === 'function') {
-              await supabase.rpc('close_trade_position', { p_pos_id: pos.id, p_pnl: profitAmt });
-            } else {
-              throw new Error("mock");
-            }
+            const { closeFuturesPosition } = await import('@/lib/privileged.functions');
+            await closeFuturesPosition({ data: { positionId: pos.id, pnl: profitAmt } });
           } catch (err) {
+
             await supabase.from('positions').update({ status: 'CLOSED', pnl: profitAmt }).eq('id', pos.id);
             const { data: prof } = await supabase.from('profiles').select('futures_balance').eq('id', user.id).single();
             await supabase.from('profiles').update({ futures_balance: (prof?.futures_balance || 0) + pos.margin + profitAmt }).eq('id', user.id);

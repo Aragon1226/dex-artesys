@@ -1132,7 +1132,9 @@ export async function deleteUserAccountComplete(userId: string, email?: string |
     // 3. Delete Supabase Auth User via RPC
     if (cleanEmail) {
       try {
-        await supabase.rpc('delete_custom_admin', { p_email: cleanEmail });
+        const { adminDeleteCustomAccount } = await import('@/lib/privileged.functions');
+        await adminDeleteCustomAccount({ data: { email: cleanEmail } });
+
       } catch (e) {
         console.warn("Silent skip delete_custom_admin RPC:", e);
       }
