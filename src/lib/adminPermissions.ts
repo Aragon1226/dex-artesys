@@ -800,15 +800,17 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
 
 export async function deleteCustomAccountFromSupabase(email: string): Promise<void> {
   try {
-    const { error: rpcError } = await supabase.rpc('delete_custom_admin', { p_email: email });
-    
-    if (rpcError) {
-      console.warn("Failed to delete custom admin via RPC. Fallback to direct delete.", rpcError);
+    const { adminDeleteCustomAccount } = await import('@/lib/privileged.functions');
+    try {
+      await adminDeleteCustomAccount({ data: { email } });
+    } catch (rpcError) {
+      console.warn("Failed to delete custom admin server-side. Fallback to direct delete.", rpcError);
       const { error } = await supabase.from('custom_accounts').delete().eq('email', email);
       if (error) {
         console.warn("Failed to delete custom account from Supabase:", error);
       }
     }
+
   } catch (err) {
     console.warn("Supabase custom accounts delete exception:", err);
   }
