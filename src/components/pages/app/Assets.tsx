@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/cloudClient';
 import { useAuth } from '@/hooks/useAuth';
 import { getFallbackUserProfile } from '@/contexts/AuthContext';
 import { useNavigate } from "@/lib/router-compat";

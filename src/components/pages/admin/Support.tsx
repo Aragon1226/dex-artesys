@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/cloudClient';
 import { Mail, MessageCircle, Phone, CheckCircle, RefreshCw, AlertCircle } from 'lucide-react';
 import CubeSpinner from '@/components/shared/CubeSpinner';
 import { useAuth } from '@/hooks/useAuth';
