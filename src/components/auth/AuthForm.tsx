@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, Shield, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/shared/Logo";
+import { WalletSignIn } from "@/components/auth/WalletSignIn";
 import { isUserAdmin, syncAdminPermissions, getCustomAccounts, isPrimaryOwner, normalizeAdminId } from "@/lib/adminPermissions";
 
 interface AuthFormProps {
