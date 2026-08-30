@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import nasLogo from '@/assets/images/nas_token_logo_1786712749407.jpg';
 import botLogo from '@/assets/images/bot_token_logo_1786712760680.jpg';
-import cpxLogo from '@/assets/images/cpx_token_logo_1786712771148.jpg';
 import octLogo from '@/assets/images/oct_token_logo_1786712780224.jpg';
 import aepLogo from '@/assets/images/aep_token_logo_1786712790779.jpg';
 import ttzsLogo from '@/assets/images/ttzs_token_logo_1786716384227.jpg';
