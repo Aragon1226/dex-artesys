@@ -30,6 +30,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const { toast } = useToast();
 
   const hostname = window.location.hostname;
@@ -84,8 +85,41 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     };
   }, []);
 
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    try {
+      const { lovable } = await import("@/integrations/lovable/index");
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        toast({
+          title: "Google sign-in failed",
+          description: result.error.message || "Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (result.redirected) return;
+
+      toast({ title: "Welcome!", description: "Signed in with Google." });
+      onSuccess?.();
+    } catch (error: any) {
+      toast({
+        title: "Google sign-in failed",
+        description: error?.message || "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
 
     if (!isForgotPassword && !isUpdatePassword && !agreedTerms) {
       toast({
@@ -417,6 +451,35 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               : "Create Account"}
           </button>
         </form>
+
+        {appMode !== "ADMIN" && !isForgotPassword && !isUpdatePassword && (
+          <div className="mt-6">
+            <div className="flex items-center gap-4 mb-5">
+              <div className="h-px flex-1 bg-border" />
+              <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">or</span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={googleLoading || loading}
+              className="w-full py-4 rounded-2xl bg-card border border-border text-foreground font-semibold hover:bg-muted active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+            >
+              {googleLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+                  <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" />
+                  <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.34A8.99 8.99 0 0 0 9 18z" />
+                  <path fill="#FBBC05" d="M3.97 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.28-1.72V4.94H.96A8.99 8.99 0 0 0 0 9c0 1.45.35 2.83.96 4.06l3.01-2.34z" />
+                  <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A8.99 8.99 0 0 0 .96 4.94l3 2.34C4.68 5.16 6.66 3.58 9 3.58z" />
+                </svg>
+              )}
+              {googleLoading ? "Connecting..." : "Continue with Google"}
+            </button>
+          </div>
+        )}
 
         {/* Modal for Terms & Conditions and Educational Disclaimers */}
         {showTermsModal && (
