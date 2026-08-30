@@ -5,10 +5,23 @@ import { getFallbackUserProfile } from '@/contexts/AuthContext';
 import { useNavigate } from "@/lib/router-compat";
 import { toast } from 'sonner';
 import type { UserProfile } from '@/types';
-import { TrendingUp, Lock, ArrowRightLeft, Plus, X, Wallet } from 'lucide-react';
-import { Logo } from '@/components/shared/Logo';
+import { TrendingUp, Lock, ArrowRightLeft, Plus, X, Wallet, Clock, ShieldCheck, Coins, ChevronRight, Info } from 'lucide-react';
+import { CryptoIcon } from '@/components/shared/CryptoIcon';
 
-const FIXED_DURATIONS = [{ label: '10d', days: 10 }, { label: '30d', days: 30 }, { label: '90d', days: 90 }, { label: '180d', days: 180 }];
+const FIXED_DURATIONS = [{ label: '10d', days: 10, apr: 3.5 }, { label: '30d', days: 30, apr: 5 }, { label: '90d', days: 90, apr: 7.25 }, { label: '180d', days: 180, apr: 9.8 }];
+
+const EARN_PRODUCTS = [
+  { symbol: 'USDT', name: 'Tether Savings', apr: '5.00% – 9.80%', tag: 'Stable', min: '10 USDT', capacity: 82 },
+  { symbol: 'BTC', name: 'Bitcoin Vault', apr: '2.15% – 4.40%', tag: 'Blue chip', min: '0.001 BTC', capacity: 64 },
+  { symbol: 'ETH', name: 'Ethereum Staking', apr: '3.05% – 5.60%', tag: 'Proof of stake', min: '0.01 ETH', capacity: 71 },
+  { symbol: 'SOL', name: 'Solana Delegation', apr: '6.20% – 8.15%', tag: 'High yield', min: '0.5 SOL', capacity: 45 },
+];
+
+const EARN_FAQ = [
+  { q: 'When do rewards start accruing?', a: 'Interest accrues from the next settlement cycle (00:00 UTC) and is credited to your Earn balance daily.' },
+  { q: 'Can I exit a fixed plan early?', a: 'Yes. Early redemption returns your principal to Spot, but accrued interest for the current term is forfeited.' },
+  { q: 'Are staked assets insured?', a: 'Earn balances sit inside the same multi-signature custody framework as your Spot wallet, with reserves audited quarterly.' },
+];
 
 const Earn = () => {
   const { user, profile: authProfile, refreshProfile } = useAuth();
