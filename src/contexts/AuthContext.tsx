@@ -321,6 +321,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [session]);
 
+  // Send the one-time welcome email as soon as the account's email is verified.
+  useEffect(() => {
+    const user = session?.user;
+    if (!user?.id || !user.email || !user.email_confirmed_at) return;
+    if (localStorage.getItem("crypx_custom_session_v1")) return;
+
+    const localKey = `crypx_welcome_email_sent_${user.id}`;
+    if (localStorage.getItem(localKey)) return;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const { sendWelcomeEmail } = await import("@/lib/welcome-email.functions");
+        await sendWelcomeEmail();
+        if (!cancelled) localStorage.setItem(localKey, "1");
+      } catch (err) {
+        console.warn("Welcome email dispatch failed:", err);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.user?.id, session?.user?.email_confirmed_at]);
+
   const signOut = async () => {
     localStorage.removeItem("crypx_custom_session_v1");
     if (currentUser?.id) {
