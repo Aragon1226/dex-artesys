@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/faq")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "FAQ — Artesys App" },
       { name: "description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys." },
       { property: "og:title", content: "FAQ — Artesys App" },

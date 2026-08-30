@@ -5,6 +5,7 @@ export const Route = createFileRoute("/admin/spot-control")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Spot Control — Artesys Admin" },
       { name: "description", content: "Manage listed sample tokens and simulated price movements." },
       { property: "og:title", content: "Spot Control — Artesys Admin" },

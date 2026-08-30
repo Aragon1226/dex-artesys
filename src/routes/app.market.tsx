@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/market")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Markets — Artesys" },
       { name: "description", content: "Live crypto market prices, movers and pair statistics on Artesys." },
       { property: "og:title", content: "Markets — Artesys" },

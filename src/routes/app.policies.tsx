@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/policies")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Policies — Artesys App" },
       { name: "description", content: "Privacy, AML and risk policies that govern the Artesys trading platform." },
       { property: "og:title", content: "Policies — Artesys App" },

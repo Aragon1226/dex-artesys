@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/terms")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Terms of Service — Artesys App" },
       { name: "description", content: "Read the Artesys terms of service covering trading, accounts and platform usage." },
       { property: "og:title", content: "Terms of Service — Artesys App" },

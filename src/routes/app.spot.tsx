@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/spot")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Spot Trading — Artesys" },
       { name: "description", content: "Place spot buy and sell orders with live charts and order history on Artesys." },
       { property: "og:title", content: "Spot Trading — Artesys" },

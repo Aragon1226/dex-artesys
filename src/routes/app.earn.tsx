@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/earn")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Earn — Artesys" },
       { name: "description", content: "Stake your crypto in Artesys Earn products and track accrued rewards." },
       { property: "og:title", content: "Earn — Artesys" },

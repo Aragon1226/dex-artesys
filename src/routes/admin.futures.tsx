@@ -5,6 +5,7 @@ export const Route = createFileRoute("/admin/futures")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Futures Control — Artesys Admin" },
       { name: "description", content: "Configure futures outcomes and per-user trading controls." },
       { property: "og:title", content: "Futures Control — Artesys Admin" },

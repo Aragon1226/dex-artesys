@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/settings")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Account Settings — Artesys App" },
       { name: "description", content: "Manage your Artesys profile, security preferences and account settings." },
       { property: "og:title", content: "Account Settings — Artesys App" },

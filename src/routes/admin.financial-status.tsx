@@ -5,6 +5,7 @@ export const Route = createFileRoute("/admin/financial-status")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Financial Status — Artesys Admin" },
       { name: "description", content: "Review aggregate user balances and adjust spot, futures and staked funds." },
       { property: "og:title", content: "Financial Status — Artesys Admin" },

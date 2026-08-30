@@ -5,6 +5,7 @@ export const Route = createFileRoute("/admin/kyc")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "KYC Review — Artesys Admin" },
       { name: "description", content: "Approve or reject submitted identity verification documents." },
       { property: "og:title", content: "KYC Review — Artesys Admin" },
