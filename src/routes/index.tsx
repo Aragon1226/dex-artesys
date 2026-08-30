@@ -15,6 +15,30 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: "https://cex.xn--artsys-dva.com/og-artesys.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://cex.xn--artsys-dva.com/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Artesys",
+          url: "https://cex.xn--artsys-dva.com/",
+          logo: "https://cex.xn--artsys-dva.com/icons/icon-512x512.png",
+          description:
+            "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Artesys",
+          url: "https://cex.xn--artsys-dva.com/",
+          publisher: { "@type": "Organization", name: "Artesys" },
+        }),
+      },
+    ],
   }),
   component: () => <Landing />,
 });
