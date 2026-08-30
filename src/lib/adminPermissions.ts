@@ -704,12 +704,16 @@ export async function syncCustomAccountsWithSupabase(): Promise<CustomAccount[]>
       return getCustomAccounts();
     }
 
-    let result = await supabase.rpc('get_all_custom_accounts');
-
-    // Fallback to normal select if RPC doesn't exist yet
-    if (result.error) {
-      result = await supabase.from('custom_accounts').select('*');
+    const { adminListCustomAccounts } = await import('@/lib/privileged.functions');
+    let result: { data: unknown[] | null; error: unknown } = { data: null, error: null };
+    try {
+      result = { data: (await adminListCustomAccounts()) as unknown[], error: null };
+    } catch (rpcErr) {
+      // Fallback to a direct select (admins can read the table under RLS).
+      result = await supabase.from('custom_accounts').select('*') as never;
+      if (!result.data) result.error = rpcErr;
     }
+
 
 
     const { data, error } = result;
@@ -755,19 +759,22 @@ export async function syncCustomAccountsWithSupabase(): Promise<CustomAccount[]>
 
 export async function saveCustomAccountToSupabase(account: CustomAccount): Promise<void> {
   try {
-    // Try to create an actual Supabase Auth user via our new RPC
-    const { error: rpcError } = await supabase.rpc('create_custom_admin', {
-      p_email: account.email,
-      p_password: account.password ?? "",
-      p_username: account.username,
-      p_custom_id: account.customId,
-      p_role: account.role,
-      p_permissions: JSON.parse(JSON.stringify(account.permissions ?? {}))
-    });
+    // Create the account through the privileged server function (admin verified server-side).
+    const { adminSaveCustomAccount } = await import('@/lib/privileged.functions');
+    try {
+      await adminSaveCustomAccount({
+        data: {
+          email: account.email,
+          password: account.password ?? "",
+          username: account.username,
+          customId: account.customId,
+          role: account.role,
+          permissions: JSON.parse(JSON.stringify(account.permissions ?? {})),
+        },
+      });
+    } catch (rpcError) {
+      console.warn("Failed to create custom admin server-side. Fallback to direct upsert.", rpcError);
 
-    if (rpcError) {
-      console.warn("Failed to create custom admin via RPC. Ensure setup_admin_auth.sql was executed. Fallback to direct upsert.", rpcError);
-      
       // Fallback
       const dbPayload = {
         id: account.id ?? crypto.randomUUID(),
@@ -779,12 +786,13 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
         created_by_admin_id: account.createdByAdminId || null,
         permissions: account.permissions as unknown as Record<string, unknown>,
       } as never;
-      
+
       const { error } = await supabase.from('custom_accounts').upsert(dbPayload, { onConflict: 'email' });
       if (error) {
         console.warn("Failed to upsert custom account to Supabase:", error);
       }
     }
+
   } catch (err) {
     console.warn("Supabase custom accounts save exception:", err);
   }
@@ -792,15 +800,17 @@ export async function saveCustomAccountToSupabase(account: CustomAccount): Promi
 
 export async function deleteCustomAccountFromSupabase(email: string): Promise<void> {
   try {
-    const { error: rpcError } = await supabase.rpc('delete_custom_admin', { p_email: email });
-    
-    if (rpcError) {
-      console.warn("Failed to delete custom admin via RPC. Fallback to direct delete.", rpcError);
+    const { adminDeleteCustomAccount } = await import('@/lib/privileged.functions');
+    try {
+      await adminDeleteCustomAccount({ data: { email } });
+    } catch (rpcError) {
+      console.warn("Failed to delete custom admin server-side. Fallback to direct delete.", rpcError);
       const { error } = await supabase.from('custom_accounts').delete().eq('email', email);
       if (error) {
         console.warn("Failed to delete custom account from Supabase:", error);
       }
     }
+
   } catch (err) {
     console.warn("Supabase custom accounts delete exception:", err);
   }
@@ -1122,7 +1132,9 @@ export async function deleteUserAccountComplete(userId: string, email?: string |
     // 3. Delete Supabase Auth User via RPC
     if (cleanEmail) {
       try {
-        await supabase.rpc('delete_custom_admin', { p_email: cleanEmail });
+        const { adminDeleteCustomAccount } = await import('@/lib/privileged.functions');
+        await adminDeleteCustomAccount({ data: { email: cleanEmail } });
+
       } catch (e) {
         console.warn("Silent skip delete_custom_admin RPC:", e);
       }
