@@ -1,6 +1,12 @@
 import type { ComponentType } from 'react'
 
 import { template as signupWelcomeTemplate } from './signup-welcome'
+import { template as depositRequestTemplate } from './deposit-request'
+import { template as depositConfirmationTemplate } from './deposit-confirmation'
+import { template as withdrawalRequestTemplate } from './withdrawal-request'
+import { template as withdrawalConfirmationTemplate } from './withdrawal-confirmation'
+import { template as kycSubmittedTemplate } from './kyc-submitted'
+import { template as kycStatusTemplate } from './kyc-status'
 
 export interface TemplateEntry {
   component: ComponentType<any>
