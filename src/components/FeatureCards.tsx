@@ -1,36 +1,36 @@
 import { motion } from "motion/react";
-import { Logo } from "./shared/Logo";
+import { Zap, ShieldCheck, Globe2, LineChart, Layers, Headphones } from "lucide-react";
 
 const features = [
   {
     title: "Ultra-Fast Execution",
     description: "Our proprietary matching engine handles over 1 million transactions per second with <5ms latency.",
-    iconProps: { x: 25, y: 25, scale: 200 },
+    icon: Zap,
   },
   {
     title: "Bank-Grade Security",
     description: "Multi-sig cold storage and institutional-grade encryption protect your digital assets 24/7.",
-    iconProps: { x: 75, y: 25, scale: 200 },
+    icon: ShieldCheck,
   },
   {
     title: "Global Liquidity",
     description: "Deep order books and high liquidity across all top pairs ensure minimal slippage on every trade.",
-    iconProps: { x: 25, y: 75, scale: 200 },
+    icon: Globe2,
   },
   {
     title: "Advanced Trading",
     description: "Comprehensive charting tools, custom indicators, and automated trading bots via our API.",
-    iconProps: { x: 75, y: 75, scale: 200 },
+    icon: LineChart,
   },
   {
     title: "Multi-Asset Support",
     description: "Trade everything from majors like BTC and ETH to new trending ecosystem tokens.",
-    iconProps: { x: 50, y: 50, scale: 200 },
+    icon: Layers,
   },
   {
     title: "Premium Support",
     description: "Our dedicated support team is available around the clock in 15+ languages via live chat.",
-    iconProps: { x: 50, y: 50, scale: 150 },
+    icon: Headphones,
   },
 ];
 
@@ -56,8 +56,8 @@ const FeatureCards = () => {
             transition={{ delay: i * 0.1, duration: 0.8 }}
             className="p-10 bg-card border border-border hover:bg-primary/[0.02] hover:border-primary/20 transition-all group"
           >
-            <div className="mb-8 group-hover:scale-110 transition-transform duration-700">
-              <Logo size={28} variant="SYMBOL" />
+            <div className="mb-8 w-14 h-14 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/15 to-transparent text-primary flex items-center justify-center group-hover:scale-110 group-hover:border-primary/40 transition-all duration-700">
+              <feature.icon size={22} strokeWidth={1.5} />
             </div>
             <h3 className="text-lg font-medium text-foreground mb-3 tracking-wide">{feature.title}</h3>
             <p className="text-muted-foreground leading-relaxed text-sm font-light">

@@ -1,6 +1,7 @@
 import BannerSlideshow from "@/components/BannerSlideshow";
 import FeatureCards from "@/components/FeatureCards";
 import { LiveTickerMarquee } from "@/components/LiveTickerMarquee";
+import { MarketPreview } from "@/components/MarketPreview";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "@/lib/router-compat";
 import { useEffect } from "react";
@@ -200,6 +201,49 @@ const Index = () => {
                   <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{stat.label}</p>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Live Market Preview */}
+        <MarketPreview />
+
+        {/* Journey */}
+        <section className="py-24 sm:py-32 px-6 border-y border-border bg-secondary/30">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-20">
+              <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-primary mb-4">Onboarding</p>
+              <h2 className="text-3xl md:text-5xl font-light tracking-tight text-foreground">
+                Three steps to <span className="text-primary italic font-medium">your first trade</span>
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
+              {[
+                { step: "01", title: "Open your account", copy: "Register with your email and complete identity verification in minutes." },
+                { step: "02", title: "Fund your wallet", copy: "Deposit crypto to your secure custody address and see it credited on confirmation." },
+                { step: "03", title: "Trade and earn", copy: "Access spot and futures markets, or route idle balance into Earn for daily yield." },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.step}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.12, duration: 0.7 }}
+                  className="bg-card p-10"
+                >
+                  <p className="text-4xl font-light text-primary/40 font-mono mb-8">{item.step}</p>
+                  <h3 className="text-lg font-medium text-foreground mb-3 tracking-wide">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed">{item.copy}</p>
+                </motion.div>
+              ))}
+            </div>
+            <div className="flex justify-center mt-16">
+              <button
+                onClick={() => navigate("/auth")}
+                className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground rounded-2xl font-bold text-sm tracking-widest uppercase shadow-brand transition-all hover:scale-105 active:scale-95"
+              >
+                Get Started <ArrowRight size={16} />
+              </button>
             </div>
           </div>
         </section>

@@ -7,6 +7,8 @@ export function brokeredPreviewStorage() {
   const host = location.hostname;
   const PREVIEW_ZONES = ['lovableproject.com', 'lovableproject-dev.com', 'lovable.app', 'gpt-eng.com', 'gptengineer.run'];
   const onPreviewZone = PREVIEW_ZONES.some((z) => host === z || host.endsWith('.' + z));
+  // Read the id only from non-user-controlled host positions, so a user-named
+  // preview--<name> host can't smuggle another project's id.
   const UUID = '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
   const projectId = onPreviewZone
     ? (host.match(new RegExp('^(?:id-preview(?:-[a-z0-9]+)?|project)--(' + UUID + ')(?:-dev)?(?=\\.|$)', 'i'))?.[1]
@@ -15,6 +17,8 @@ export function brokeredPreviewStorage() {
   const framed = window.parent && window.parent !== window;
   if (!projectId || !framed) return localStorage;
 
+  // Post only to the real editor ancestor, validated as a Lovable origin, so the
+  // session token can never reach an untrusted embedder.
   const dev = host.endsWith('.lovableproject-dev.com') || host.endsWith('.gpt-eng.com');
   const EDITOR = dev
     ? /^https:\/\/([a-z0-9-]+\.)*(lovable\.dev|gptengineer\.app)$|^http:\/\/localhost:3000$/
@@ -32,39 +36,43 @@ export function brokeredPreviewStorage() {
       const requestId = newId();
       let done = false;
       let timer: ReturnType<typeof setTimeout>;
-      const finish = (result: { ok: boolean; value?: string | null } | null) => {
+      const finish = (r: { ok: boolean; value?: string | null } | null) => {
         if (done) return;
         done = true;
         clearTimeout(timer);
         window.removeEventListener('message', onMessage);
-        resolve(result);
+        resolve(r);
       };
-      const onMessage = (event: MessageEvent) => {
-        if (editorOrigins.indexOf(event.origin) < 0) return;
-        const data = event.data;
-        if (data && data.type === RESULT && data.requestId === requestId) finish(data);
+      const onMessage = (e: MessageEvent) => {
+        if (editorOrigins.indexOf(e.origin) < 0) return;
+        const d = e.data;
+        if (d && d.type === RESULT && d.requestId === requestId) finish(d);
       };
       window.addEventListener('message', onMessage);
-      const message: Record<string, unknown> = { type, requestId, projectId, key };
-      if (value !== undefined) message['value'] = value;
-      for (const origin of editorOrigins) window.parent.postMessage(message, origin);
+      const msg: Record<string, unknown> = { type, requestId, projectId, key };
+      if (value !== undefined) msg['value'] = value;
+      // targetOrigin per trusted editor origin, so a session token never reaches an arbitrary embedder.
+      for (const origin of editorOrigins) window.parent.postMessage(msg, origin);
       timer = setTimeout(() => finish(null), TIMEOUT);
     });
 
+  // The editor may not be listening yet at the first getItem, so retry once.
   let firstGet = true;
   const RETRY_DELAY = 250;
 
   return {
     getItem: async (key: string) => {
-      let response = await request('lovable-preview-auth:get', key);
-      if (!response && firstGet) {
-        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
-        response = await request('lovable-preview-auth:get', key);
+      let res = await request('lovable-preview-auth:get', key);
+      if (!res && firstGet) {
+        await new Promise((r) => setTimeout(r, RETRY_DELAY));
+        res = await request('lovable-preview-auth:get', key);
       }
       firstGet = false;
-      if (response && response.ok && typeof response.value === 'string') {
-        if (response.value === '') { localStorage.removeItem(key); return null; }
-        return response.value;
+      // '' is the logout tombstone: clear the local copy too so it can't resurrect if
+      // the broker later goes silent. A null reply means never-synced -> keep local.
+      if (res && res.ok && typeof res.value === 'string') {
+        if (res.value === '') { localStorage.removeItem(key); return null; }
+        return res.value;
       }
       return localStorage.getItem(key);
     },
