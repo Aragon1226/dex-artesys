@@ -31,6 +31,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
   const { toast } = useToast();
 
   const hostname = window.location.hostname;
@@ -114,6 +115,38 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
       });
     } finally {
       setGoogleLoading(false);
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    setAppleLoading(true);
+    try {
+      const { lovable } = await import("@/integrations/lovable/index");
+      const result = await lovable.auth.signInWithOAuth("apple", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        toast({
+          title: "Apple sign-in failed",
+          description: result.error.message || "Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (result.redirected) return;
+
+      toast({ title: "Welcome!", description: "Signed in with Apple." });
+      onSuccess?.();
+    } catch (error: any) {
+      toast({
+        title: "Apple sign-in failed",
+        description: error?.message || "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setAppleLoading(false);
     }
   };
 
@@ -477,6 +510,23 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                 </svg>
               )}
               {googleLoading ? "Connecting..." : "Continue with Google"}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleAppleSignIn}
+              disabled={appleLoading || loading}
+              className="w-full py-4 rounded-2xl bg-card border border-border text-foreground font-semibold hover:bg-muted active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mt-3"
+            >
+              {appleLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="currentColor">
+                  <path d="M12.55 5.48c-.04.02-.08.03-.12.03-.62 0-1.13-.5-1.13-1.13 0-.62.5-1.13 1.13-1.13.04 0 .08.01.12.02-.42.28-.7.76-.7 1.3 0 .34.12.66.32.91h.38z" />
+                  <path d="M15.18 12.47c-.27 1.04-.99 1.96-1.93 2.49-.47.25-1 .39-1.55.39-.22 0-.44-.02-.65-.07-.6-.13-1.18-.13-1.77 0-.21.05-.43.07-.65.07-.55 0-1.08-.14-1.55-.39-.94-.53-1.66-1.45-1.93-2.49-.13-.5-.18-1.02-.13-1.54.08-.86.41-1.66.95-2.3.6-.71 1.43-1.13 2.32-1.17.28-.01.56.04.83.15.4.16.82.24 1.24.24s.84-.08 1.24-.24c.27-.11.55-.16.83-.15.89.04 1.72.46 2.32 1.17.54.64.87 1.44.95 2.3.05.52 0 1.04-.13 1.54zM11.7 2.5c.04.96-.68 1.84-1.63 1.94-.04 0-.09.01-.13.01-.05 0-.09-.01-.14-.01h-.01c-.02 0-.04-.01-.06-.01-.02 0-.04.01-.06.01h-.01c-.04 0-.09-.01-.13-.01-.95-.1-1.67-.98-1.63-1.94.04-.91.78-1.67 1.69-1.73.02 0 .04-.01.06-.01.02 0 .04.01.06.01h.01c.04 0 .09-.01.13-.01.04 0 .09.01.13.01h.01c.02 0 .04-.01.06-.01.02 0 .04.01.06.01.91.06 1.65.82 1.69 1.73z" />
+                </svg>
+              )}
+              {appleLoading ? "Connecting..." : "Continue with Apple"}
             </button>
           </div>
         )}
