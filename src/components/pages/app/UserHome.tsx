@@ -741,12 +741,16 @@ const UserHome = () => {
     <>
       <div className="pb-24 relative min-h-screen bg-background overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 pt-2.5 space-y-4">
+        <h1 className="sr-only">Portfolio Overview</h1>
         {/* Top Header Icons */}
         <div className="flex items-center justify-between pt-1">
           <button 
             onClick={() => setActiveModal('MENU')}
+            aria-label="Open profile menu"
+            title="Profile menu"
             className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center border border-border text-foreground/70 active:scale-90 transition-transform"
           >
+
             <User size={20} strokeWidth={2.5} />
           </button>
           <button 
