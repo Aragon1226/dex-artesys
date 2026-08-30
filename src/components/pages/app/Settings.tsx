@@ -148,6 +148,26 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
     )
   })).filter(cat => cat.questions.length > 0);
 
+  const headings: Record<string, { title: string; subtitle: string }> = {
+    faq: {
+      title: "Artesys Help Centre & Frequently Asked Questions",
+      subtitle: "Answers on deposits, withdrawals, order types, verification and account security.",
+    },
+    terms: {
+      title: "Artesys Terms of Service",
+      subtitle: "The rules that govern your use of the Artesys platform, accounts and simulated trading features.",
+    },
+    policies: {
+      title: "Artesys Privacy & Platform Policies",
+      subtitle: "How Artesys handles your data, risk disclosures and compliance commitments.",
+    },
+    overview: {
+      title: "Account Settings & Preferences",
+      subtitle: "Manage your profile, security options, notifications and display preferences.",
+    },
+  };
+  const pageHeading = headings[activeTab] ?? headings['overview']!;
+
   return (
     <div className="min-h-screen bg-background text-foreground pb-20 pt-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
@@ -159,16 +179,17 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
               <button 
                 onClick={handleBack}
                 className="p-2 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground transition-colors mr-1"
+                aria-label="Go back to the previous page"
                 title="Go Back"
               >
                 <ArrowLeft size={20} />
               </button>
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                Settings & Legal Transparency Hub
+                {pageHeading.title}
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-muted-foreground pl-10">
-              Complete disclosure of app policies, terms of service, educational intent, and feature guide.
+              {pageHeading.subtitle}
             </p>
           </div>
 
