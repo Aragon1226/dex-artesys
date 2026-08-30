@@ -84,8 +84,41 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     };
   }, []);
 
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    try {
+      const { lovable } = await import("@/integrations/lovable/index");
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        toast({
+          title: "Google sign-in failed",
+          description: result.error.message || "Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (result.redirected) return;
+
+      toast({ title: "Welcome!", description: "Signed in with Google." });
+      onSuccess?.();
+    } catch (error: any) {
+      toast({
+        title: "Google sign-in failed",
+        description: error?.message || "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
 
     if (!isForgotPassword && !isUpdatePassword && !agreedTerms) {
       toast({
