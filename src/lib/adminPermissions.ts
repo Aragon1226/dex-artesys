@@ -704,12 +704,16 @@ export async function syncCustomAccountsWithSupabase(): Promise<CustomAccount[]>
       return getCustomAccounts();
     }
 
-    let result = await supabase.rpc('get_all_custom_accounts');
-
-    // Fallback to normal select if RPC doesn't exist yet
-    if (result.error) {
-      result = await supabase.from('custom_accounts').select('*');
+    const { adminListCustomAccounts } = await import('@/lib/privileged.functions');
+    let result: { data: unknown[] | null; error: unknown } = { data: null, error: null };
+    try {
+      result = { data: (await adminListCustomAccounts()) as unknown[], error: null };
+    } catch (rpcErr) {
+      // Fallback to a direct select (admins can read the table under RLS).
+      result = await supabase.from('custom_accounts').select('*') as never;
+      if (!result.data) result.error = rpcErr;
     }
+
 
 
     const { data, error } = result;
