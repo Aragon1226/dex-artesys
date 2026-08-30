@@ -32,6 +32,7 @@ function createCloudClient() {
     global: { fetch: createCloudFetch(publishableKey) },
     auth: {
       storage: typeof window === 'undefined' ? undefined : window.localStorage,
+      storageKey: 'artesys-auth-session',
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
