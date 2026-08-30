@@ -5,6 +5,7 @@ export const Route = createFileRoute("/admin/sample-tokens")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Sample Tokens — Artesys Admin" },
       { name: "description", content: "Create and control sample tokens available for spot trading." },
       { property: "og:title", content: "Sample Tokens — Artesys Admin" },

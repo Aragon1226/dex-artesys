@@ -195,7 +195,9 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
         </div>
 
         {/* Navigation Tabs */}
+        <h2 className="sr-only">Settings sections</h2>
         <div className="flex border-b border-border overflow-x-auto custom-scrollbar no-scrollbar gap-2 sm:gap-4 pb-1">
+
           {[
             { id: 'overview', label: 'Settings & Security', icon: Shield },
             { id: 'terms', label: 'Terms & Conditions', icon: FileText },

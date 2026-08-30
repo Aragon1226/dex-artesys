@@ -741,12 +741,16 @@ const UserHome = () => {
     <>
       <div className="pb-24 relative min-h-screen bg-background overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 pt-2.5 space-y-4">
+        <h1 className="sr-only">Portfolio Overview</h1>
         {/* Top Header Icons */}
         <div className="flex items-center justify-between pt-1">
           <button 
             onClick={() => setActiveModal('MENU')}
+            aria-label="Open profile menu"
+            title="Profile menu"
             className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center border border-border text-foreground/70 active:scale-90 transition-transform"
           >
+
             <User size={20} strokeWidth={2.5} />
           </button>
           <button 
@@ -779,15 +783,19 @@ const UserHome = () => {
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); setBalanceHidden(!balanceHidden); }}
+                aria-label={balanceHidden ? "Show portfolio balance" : "Hide portfolio balance"}
+                aria-pressed={balanceHidden}
+                title={balanceHidden ? "Show balance" : "Hide balance"}
                 className="p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
               >
                 {balanceHidden ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
            </div>
            <div className="relative z-10">
-              <h1 className="text-3xl font-black text-foreground font-mono tracking-tighter mb-1">
+              <p className="text-3xl font-black text-foreground font-mono tracking-tighter mb-1">
                  <AnimatedBalance value={`$${totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} hidden={balanceHidden} />
-              </h1>
+              </p>
+
               <div className="flex items-center gap-4 mt-3">
                  <div className="flex items-center gap-1.5 px-2 py-1 bg-success/10 border border-success/20 rounded-lg">
                     <TrendingUp size={12} className="text-success" />

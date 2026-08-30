@@ -5,6 +5,7 @@ export const Route = createFileRoute("/admin/support")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Support — Artesys Admin" },
       { name: "description", content: "Monitor support conversations raised by Artesys users." },
       { property: "og:title", content: "Support — Artesys Admin" },

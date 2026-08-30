@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/home")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Dashboard — Artesys" },
       { name: "description", content: "Your Artesys dashboard: balances, portfolio breakdown, deposits and account activity." },
       { property: "og:title", content: "Dashboard — Artesys" },

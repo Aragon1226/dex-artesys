@@ -11,7 +11,9 @@ export const Route = createFileRoute("/auth")({
       { property: "og:description", content: "Access your Artesys account to trade, deposit and manage your crypto assets securely." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://cex.xn--artsys-dva.com/auth" },
     ],
+    links: [{ rel: "canonical", href: "https://cex.xn--artsys-dva.com/auth" }],
   }),
   component: () => <Authentication />,
 });

@@ -5,6 +5,7 @@ export const Route = createFileRoute("/app/assets")({
   ssr: false,
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Assets — Artesys" },
       { name: "description", content: "View balances, deposit crypto and request withdrawals from your Artesys wallet." },
       { property: "og:title", content: "Assets — Artesys" },
