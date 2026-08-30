@@ -18,7 +18,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "Artesys-DEx"
+const SITE_NAME = "Artesys"
 const ROOT_DOMAIN = "cex.xn--artsys-dva.com"
 
 // Sample data for preview mode ONLY (not used in actual email sending).
