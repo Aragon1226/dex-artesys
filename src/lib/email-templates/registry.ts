@@ -27,4 +27,10 @@ export interface TemplateEntry {
  */
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'signup-welcome': signupWelcomeTemplate,
+  'deposit-request': depositRequestTemplate,
+  'deposit-confirmation': depositConfirmationTemplate,
+  'withdrawal-request': withdrawalRequestTemplate,
+  'withdrawal-confirmation': withdrawalConfirmationTemplate,
+  'kyc-submitted': kycSubmittedTemplate,
+  'kyc-status': kycStatusTemplate,
 }
