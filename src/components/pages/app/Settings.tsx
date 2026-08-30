@@ -159,16 +159,17 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
               <button 
                 onClick={handleBack}
                 className="p-2 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground transition-colors mr-1"
+                aria-label="Go back to the previous page"
                 title="Go Back"
               >
                 <ArrowLeft size={20} />
               </button>
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                Settings & Legal Transparency Hub
+                {pageHeading.title}
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-muted-foreground pl-10">
-              Complete disclosure of app policies, terms of service, educational intent, and feature guide.
+              {pageHeading.subtitle}
             </p>
           </div>
 
