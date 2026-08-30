@@ -783,15 +783,19 @@ const UserHome = () => {
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); setBalanceHidden(!balanceHidden); }}
+                aria-label={balanceHidden ? "Show portfolio balance" : "Hide portfolio balance"}
+                aria-pressed={balanceHidden}
+                title={balanceHidden ? "Show balance" : "Hide balance"}
                 className="p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
               >
                 {balanceHidden ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
            </div>
            <div className="relative z-10">
-              <h1 className="text-3xl font-black text-foreground font-mono tracking-tighter mb-1">
+              <p className="text-3xl font-black text-foreground font-mono tracking-tighter mb-1">
                  <AnimatedBalance value={`$${totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} hidden={balanceHidden} />
-              </h1>
+              </p>
+
               <div className="flex items-center gap-4 mt-3">
                  <div className="flex items-center gap-1.5 px-2 py-1 bg-success/10 border border-success/20 rounded-lg">
                     <TrendingUp size={12} className="text-success" />
