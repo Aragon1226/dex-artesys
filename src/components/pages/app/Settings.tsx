@@ -326,6 +326,8 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
                 </div>
               </div>
             </div>
+
+            <LinkedWalletsCard />
           </div>
         )}
 
