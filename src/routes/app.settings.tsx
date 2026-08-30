@@ -7,9 +7,9 @@ export const Route = createFileRoute("/app/settings")({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
       { title: "Account Settings — Artesys App" },
-      { name: "description", content: "Manage your Artesys profile, security preferences and account settings." },
+      { name: "description", content: "Update your signed-in Artesys account: profile details, security options and session preferences." },
       { property: "og:title", content: "Account Settings — Artesys App" },
-      { property: "og:description", content: "Manage your Artesys profile, security preferences and account settings." },
+      { property: "og:description", content: "Update your signed-in Artesys account: profile details, security options and session preferences." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
