@@ -7,10 +7,9 @@ import CubeSpinner from "@/components/shared/CubeSpinner";
 
 interface AdminRouteGuardProps {
   children: ReactNode;
-  /** Where to send signed-out visitors */
+  /** Where to send signed-out visitors (the admin portal sign-in) */
   signInPath?: string;
-  /** Where to send signed-in non-admins */
-  fallbackPath?: string;
+
   /** Where to send admins lacking per-page permission */
   deniedPath?: string;
 }
@@ -29,13 +28,12 @@ interface AdminRouteGuardProps {
  */
 export const AdminRouteGuard = ({
   children,
-  signInPath = "/auth",
-  fallbackPath = "/app/home",
+  signInPath = "/admin/login",
   deniedPath = "/admin/dashboard",
 }: AdminRouteGuardProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const { isAdmin, canView, loading: checkingRole } = useAdminAccess();
 
   const pathname = location.pathname;
@@ -45,11 +43,13 @@ export const AdminRouteGuard = ({
     if (loading || checkingRole) return;
 
     if (!user) {
-      sessionStorage.setItem("auth_redirect", pathname);
+      sessionStorage.setItem("admin_redirect", pathname);
       navigate(signInPath, { replace: true });
     } else if (!isAdmin) {
-      toast.error("Unauthorized: You do not have administrator permissions.");
-      navigate(fallbackPath, { replace: true });
+      // Admin-only credentials: a non-admin session has no place in this
+      // portal, so it is signed out rather than handed off to the user app.
+      toast.error("This account is not authorized for the administrator portal.");
+      void signOut().finally(() => navigate(signInPath, { replace: true }));
     } else if (!canView(pathname)) {
       if (pathname !== deniedPath) {
         toast.error("Access Denied: You do not have permission to view this page.");
@@ -65,9 +65,10 @@ export const AdminRouteGuard = ({
     navigate,
     pathname,
     signInPath,
-    fallbackPath,
     deniedPath,
+    signOut,
   ]);
+
 
   if (loading || checkingRole) {
     return <CubeSpinner fullScreen label="Verifying admin credentials..." />;

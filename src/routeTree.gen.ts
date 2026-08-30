@@ -26,6 +26,7 @@ import { Route as AdminDepositRequestsRouteImport } from './routes/admin.deposit
 import { Route as AdminFinancialStatusRouteImport } from './routes/admin.financial-status'
 import { Route as AdminFuturesRouteImport } from './routes/admin.futures'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminOwnershipRouteImport } from './routes/admin.ownership'
 import { Route as AdminSampleTokensRouteImport } from './routes/admin.sample-tokens'
 import { Route as AdminSpotControlRouteImport } from './routes/admin.spot-control'
@@ -129,6 +130,11 @@ const AdminFuturesRoute = AdminFuturesRouteImport.update({
 const AdminKycRoute = AdminKycRouteImport.update({
   id: '/kyc',
   path: '/kyc',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminOwnershipRoute = AdminOwnershipRouteImport.update({
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/admin/financial-status': typeof AdminFinancialStatusRoute
   '/admin/futures': typeof AdminFuturesRoute
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/ownership': typeof AdminOwnershipRoute
   '/admin/sample-tokens': typeof AdminSampleTokensRoute
   '/admin/spot-control': typeof AdminSpotControlRoute
@@ -280,6 +287,7 @@ export interface FileRoutesByTo {
   '/admin/financial-status': typeof AdminFinancialStatusRoute
   '/admin/futures': typeof AdminFuturesRoute
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/ownership': typeof AdminOwnershipRoute
   '/admin/sample-tokens': typeof AdminSampleTokensRoute
   '/admin/spot-control': typeof AdminSpotControlRoute
@@ -319,6 +327,7 @@ export interface FileRoutesById {
   '/admin/financial-status': typeof AdminFinancialStatusRoute
   '/admin/futures': typeof AdminFuturesRoute
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/ownership': typeof AdminOwnershipRoute
   '/admin/sample-tokens': typeof AdminSampleTokensRoute
   '/admin/spot-control': typeof AdminSpotControlRoute
@@ -359,6 +368,7 @@ export interface FileRouteTypes {
     | '/admin/financial-status'
     | '/admin/futures'
     | '/admin/kyc'
+    | '/admin/login'
     | '/admin/ownership'
     | '/admin/sample-tokens'
     | '/admin/spot-control'
@@ -395,6 +405,7 @@ export interface FileRouteTypes {
     | '/admin/financial-status'
     | '/admin/futures'
     | '/admin/kyc'
+    | '/admin/login'
     | '/admin/ownership'
     | '/admin/sample-tokens'
     | '/admin/spot-control'
@@ -433,6 +444,7 @@ export interface FileRouteTypes {
     | '/admin/financial-status'
     | '/admin/futures'
     | '/admin/kyc'
+    | '/admin/login'
     | '/admin/ownership'
     | '/admin/sample-tokens'
     | '/admin/spot-control'
@@ -588,6 +600,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminKycRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/ownership': {
       id: '/admin/ownership'
       path: '/ownership'
@@ -732,6 +751,7 @@ interface AdminRouteChildren {
   AdminFinancialStatusRoute: typeof AdminFinancialStatusRoute
   AdminFuturesRoute: typeof AdminFuturesRoute
   AdminKycRoute: typeof AdminKycRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AdminOwnershipRoute: typeof AdminOwnershipRoute
   AdminSampleTokensRoute: typeof AdminSampleTokensRoute
   AdminSpotControlRoute: typeof AdminSpotControlRoute
@@ -750,6 +770,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminFinancialStatusRoute: AdminFinancialStatusRoute,
   AdminFuturesRoute: AdminFuturesRoute,
   AdminKycRoute: AdminKycRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AdminOwnershipRoute: AdminOwnershipRoute,
   AdminSampleTokensRoute: AdminSampleTokensRoute,
   AdminSpotControlRoute: AdminSpotControlRoute,

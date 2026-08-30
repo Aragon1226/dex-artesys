@@ -33,13 +33,14 @@ const AdminShell = () => {
   const handleLogout = async () => {
     try {
       await signOut();
-      navigate('/auth', { replace: true });
+      navigate('/admin/login', { replace: true });
     } catch (error) {
       console.error("Logout failed", error);
       // Fallback redirect
-      window.location.href = '/auth';
+      window.location.href = '/admin/login';
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
@@ -96,10 +97,21 @@ const AdminShell = () => {
   );
 };
 
-const AdminLayout = () => (
-  <AdminRouteGuard>
-    <AdminShell />
-  </AdminRouteGuard>
-);
+const AdminLayout = () => {
+  const location = useLocation();
+
+  // The portal sign-in page lives inside the /admin tree but must render
+  // outside the guard and outside the admin chrome.
+  if (location.pathname === "/admin/login") {
+    return <Outlet />;
+  }
+
+  return (
+    <AdminRouteGuard>
+      <AdminShell />
+    </AdminRouteGuard>
+  );
+};
+
 
 export default AdminLayout;

@@ -4,10 +4,9 @@ import { Logo } from "@/components/shared/Logo";
 import { SupportChatModal } from "@/components/shared/SupportChatModal";
 import { PageSkeleton } from "@/components/shared/PageSkeleton";
 import { PageLoadingOverlay } from "@/components/shared/PageLoadingOverlay";
-import { NavIcon, navIcons, type NavIconKey } from "@/components/shared/NavIcon";
+import { NavIcon, type NavIconKey } from "@/components/shared/NavIcon";
 import { StatusDot } from "@/components/shared/StatusBadge";
 import { useAuth } from "@/hooks/useAuth";
-import { AdminOnly } from "@/components/shared/AdminOnly";
 
 const MainLayout = () => {
   const [isSupportOpen, setIsSupportOpen] = useState(false);
@@ -20,9 +19,6 @@ const MainLayout = () => {
     { key: "earn", label: "Earn", path: "/app/earn" },
     { key: "assets", label: "Assets", path: "/app/assets" },
   ];
-
-  const adminItem = { icon: navIcons.admin, label: "Admin", path: "/admin/dashboard" };
-
 
 
   return (
@@ -61,23 +57,6 @@ const MainLayout = () => {
           ))}
 
 
-          <AdminOnly path={adminItem.path}>
-            <NavLink
-              to={adminItem.path}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 mt-8 border border-dashed border-danger/30 ${
-                  isActive
-                    ? "bg-danger text-white shadow-brand-sm"
-                    : "text-danger/70 hover:bg-danger/10 hover:text-danger"
-                }`
-              }
-            >
-              <adminItem.icon size={20} />
-              <span className="text-sm font-bold tracking-wide">
-                {adminItem.label}
-              </span>
-            </NavLink>
-          </AdminOnly>
 
         </div>
 
