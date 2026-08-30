@@ -535,6 +535,13 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               )}
               {appleLoading ? "Connecting..." : "Continue with Apple"}
             </button>
+
+            <div className="mt-6 pt-6 border-t border-border">
+              <p className="text-[10px] text-center text-muted-foreground uppercase tracking-[0.25em] mb-3 font-semibold">
+                Web3 sign-in
+              </p>
+              <WalletSignIn onSuccess={onSuccess} disabled={loading} />
+            </div>
           </div>
         )}
 
