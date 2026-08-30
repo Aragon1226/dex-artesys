@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { deleteUserAccountComplete } from '@/lib/adminPermissions';
 import { TermlyPrivacyPolicy } from '@/components/shared/TermlyPrivacyPolicy';
+import { LinkedWalletsCard } from '@/components/settings/LinkedWalletsCard';
 
 interface SettingsProps {
   initialTab?: string;
