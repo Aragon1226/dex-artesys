@@ -15,5 +15,5 @@ Allow: /
 Disallow: /app/
 Disallow: /admin/
 
-Sitemap: https://cex.xn--artsys-dva.com/sitemap.xml
+Sitemap: https://dex.xn--artsys-dva.com/sitemap.xml
 
