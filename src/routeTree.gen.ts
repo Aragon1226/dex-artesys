@@ -46,6 +46,7 @@ import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppSpotRouteImport } from './routes/app.spot'
 import { Route as AppTermsRouteImport } from './routes/app.terms'
 import { Route as AppTradeFiRouteImport } from './routes/app.trade-fi'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -232,6 +233,12 @@ const AppTradeFiRoute = AppTradeFiRouteImport.update({
   path: '/trade-fi',
   getParentRoute: () => AppRoute,
 } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -271,6 +278,7 @@ export interface FileRoutesByFullPath {
   '/app/trade-fi': typeof AppTradeFiRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -308,6 +316,7 @@ export interface FileRoutesByTo {
   '/app/trade-fi': typeof AppTradeFiRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -348,6 +357,7 @@ export interface FileRoutesById {
   '/app/trade-fi': typeof AppTradeFiRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -389,6 +399,7 @@ export interface FileRouteTypes {
     | '/app/trade-fi'
     | '/admin/'
     | '/app/'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -426,6 +437,7 @@ export interface FileRouteTypes {
     | '/app/trade-fi'
     | '/admin'
     | '/app'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -465,6 +477,7 @@ export interface FileRouteTypes {
     | '/app/trade-fi'
     | '/admin/'
     | '/app/'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -477,6 +490,7 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -740,6 +754,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTradeFiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -825,6 +846,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
