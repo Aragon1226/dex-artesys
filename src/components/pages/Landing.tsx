@@ -99,12 +99,6 @@ const Index = () => {
     }
   }, [user, loading, navigate]);
 
-  const stats = [
-    { label: "Quarterly Volume", value: "$42B+" },
-    { label: "Global Clients", value: "1.2M+" },
-    { label: "Execution Speed", value: "<5ms" },
-    { label: "Secure Vaults", value: "Offline" },
-  ];
 
   if (isMobileAuth && !user) {
     return <CryptoAuthView />;
