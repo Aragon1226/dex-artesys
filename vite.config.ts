@@ -13,6 +13,28 @@ import { loadEnv } from "vite";
 const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", process.cwd(), "");
 Object.assign(process.env, serverEnv);
 
+const EVENTS_SHIM = path.resolve(import.meta.dirname, "src/lib/shims/events.ts");
+const BUFFER_SHIM = path.resolve(import.meta.dirname, "node_modules/buffer/index.js");
+
+/**
+ * The client build stubs Node builtins (`events`, `buffer`) to an empty module, which
+ * breaks WalletConnect at runtime ("EventEmitter is not a constructor"). A plain
+ * resolve.alias loses to that stub, so resolve them here with `enforce: "pre"`.
+ */
+function nodeShimsForBrowser() {
+  return {
+    name: "artesys-node-shims-browser",
+    enforce: "pre" as const,
+    resolveId(id: string) {
+      const isClient = (this as { environment?: { name?: string } }).environment?.name === "client";
+      if (!isClient) return null;
+      if (id === "events" || id === "node:events") return EVENTS_SHIM;
+      if (id === "buffer" || id === "node:buffer") return BUFFER_SHIM;
+      return null;
+    },
+  };
+}
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -20,21 +42,19 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    plugins: [nodeShimsForBrowser()],
     resolve: {
-      alias: {
-        "entities/lib/decode.js": path.resolve(import.meta.dirname, "node_modules/entities/lib/decode.js"),
-        "entities/lib/encode.js": path.resolve(import.meta.dirname, "node_modules/entities/lib/encode.js"),
-        entities: path.resolve(import.meta.dirname, "node_modules/entities"),
-        // WalletConnect relies on Node's EventEmitter/Buffer; map them to browser shims.
-        events: path.resolve(import.meta.dirname, "node_modules/events/events.js"),
-        buffer: path.resolve(import.meta.dirname, "node_modules/buffer/index.js"),
-      },
+      alias: [
+        { find: "entities/lib/decode.js", replacement: path.resolve(import.meta.dirname, "node_modules/entities/lib/decode.js") },
+        { find: "entities/lib/encode.js", replacement: path.resolve(import.meta.dirname, "node_modules/entities/lib/encode.js") },
+        { find: /^entities$/, replacement: path.resolve(import.meta.dirname, "node_modules/entities") },
+      ],
     },
     define: {
       global: "globalThis",
     },
     optimizeDeps: {
-      include: ["@walletconnect/ethereum-provider", "events", "buffer"],
+      include: ["@walletconnect/ethereum-provider", "buffer"],
     },
   },
 });
