@@ -16,7 +16,7 @@ export const requestWalletChallenge = createServerFn({ method: 'POST' })
   .inputValidator((input: unknown) => addressInput.parse(input))
   .handler(async ({ data }) => {
     const { createChallenge } = await import('@/lib/wallet-auth.server')
-    return createChallenge(data.address, 'dex.xn--artsys-dva.com')
+    return createChallenge(data.address, 'xn--artsys-dva.com')
   })
 
 /** Verifies the signature and returns a one-time token the client exchanges for a session. */

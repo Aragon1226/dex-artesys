@@ -15,5 +15,5 @@ Allow: /
 Disallow: /app/
 Disallow: /admin/
 
-Sitemap: https://dex.xn--artsys-dva.com/sitemap.xml
+Sitemap: https://xn--artsys-dva.com/sitemap.xml
 
