@@ -74,7 +74,7 @@ export const template = {
   component: SignupWelcomeEmail,
   subject: 'Welcome to Artesys — your account is verified',
   displayName: 'Sign-up welcome',
-  previewData: { name: 'Aung', appUrl: 'https://cex.xn--artsys-dva.com' },
+  previewData: { name: 'Aung', appUrl: 'https://dex.xn--artsys-dva.com' },
 } satisfies TemplateEntry
 
 const main = {

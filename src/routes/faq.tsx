@@ -11,9 +11,9 @@ export const Route = createFileRoute("/faq")({
       { property: "og:description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://cex.xn--artsys-dva.com/faq" },
+      { property: "og:url", content: "https://dex.xn--artsys-dva.com/faq" },
     ],
-    links: [{ rel: "canonical", href: "https://cex.xn--artsys-dva.com/faq" }],
+    links: [{ rel: "canonical", href: "https://dex.xn--artsys-dva.com/faq" }],
   }),
   component: () => <Settings initialTab="faq" />,
 });
