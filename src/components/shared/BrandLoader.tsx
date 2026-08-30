@@ -7,7 +7,12 @@ interface BrandLoaderProps {
   className?: string;
 }
 
-/** Logo-derived loading mark: pulsing Artesys emblem with an orbiting ring. */
+/**
+ * Logo-derived 3D loading mark: the extruded Artesys prism rotates in real
+ * perspective, floating over a soft brand glow with an orbiting gold ring.
+ * Theme-safe — every color comes from design tokens, so it reads on both the
+ * light surface and the midnight dark background.
+ */
 export const BrandLoader: React.FC<BrandLoaderProps> = ({ size = 48, label, className = "" }) => (
   <div
     className={`flex flex-col items-center justify-center gap-3 ${className}`}
@@ -15,16 +20,33 @@ export const BrandLoader: React.FC<BrandLoaderProps> = ({ size = 48, label, clas
     aria-live="polite"
     data-testid="brand-loader"
   >
-    <div className="relative" style={{ width: size, height: size }}>
-      <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl animate-pulse" aria-hidden="true" />
+    <div
+      className="relative grid place-items-center logo3d-scene"
+      style={{ width: size * 1.5, height: size * 1.5 }}
+    >
+      {/* Brand glow bed */}
       <div
-        className="absolute -inset-1.5 rounded-full border-2 border-primary/25 border-t-primary animate-spin"
+        className="absolute inset-0 rounded-full bg-brand-primary/15 dark:bg-brand-primary/25 blur-2xl animate-[logo3d-glow_2.4s_ease-in-out_infinite]"
         aria-hidden="true"
       />
-      <ArtesysMark
-        size={size}
-        className="relative animate-pulse drop-shadow-[0_6px_20px_hsl(var(--brand-primary)/0.35)]"
+
+      {/* Orbiting rings — tilted into the same 3D plane as the mark */}
+      <div
+        className="absolute inset-[6%] rounded-full border border-brand-primary/30 border-t-brand-primary animate-[logo3d-orbit_1.9s_linear_infinite] logo3d-ring"
+        aria-hidden="true"
       />
+      <div
+        className="absolute inset-[16%] rounded-full border border-brand-gold/30 border-b-brand-gold/80 animate-[logo3d-orbit-rev_2.8s_linear_infinite] logo3d-ring"
+        aria-hidden="true"
+      />
+
+      {/* The mark itself, spinning on its own Y axis with a gentle float */}
+      <div className="logo3d-stage animate-[logo3d-float_3.2s_ease-in-out_infinite]">
+        <ArtesysMark
+          size={size}
+          className="logo3d-mark animate-[logo3d-spin_3.4s_cubic-bezier(0.65,0,0.35,1)_infinite] drop-shadow-[0_8px_22px_hsl(var(--brand-primary)/0.4)]"
+        />
+      </div>
     </div>
 
     {label && (

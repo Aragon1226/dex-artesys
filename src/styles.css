@@ -201,6 +201,52 @@
   0% { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+/* ---- Animated 3D logo loader ---- */
+.logo3d-scene {
+  perspective: 420px;
+  perspective-origin: 50% 45%;
+}
+.logo3d-stage {
+  transform-style: preserve-3d;
+}
+.logo3d-mark {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.logo3d-ring {
+  transform: rotateX(62deg);
+}
+
+@keyframes logo3d-spin {
+  0% { transform: rotateY(-24deg) rotateX(8deg); }
+  50% { transform: rotateY(204deg) rotateX(-6deg); }
+  100% { transform: rotateY(336deg) rotateX(8deg); }
+}
+@keyframes logo3d-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6%) scale(1.04); }
+}
+@keyframes logo3d-glow {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+@keyframes logo3d-orbit {
+  0% { transform: rotateX(62deg) rotateZ(0deg); }
+  100% { transform: rotateX(62deg) rotateZ(360deg); }
+}
+@keyframes logo3d-orbit-rev {
+  0% { transform: rotateX(62deg) rotateZ(360deg); }
+  100% { transform: rotateX(62deg) rotateZ(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo3d-scene *,
+  .logo3d-mark {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 @keyframes hero-cube-fadein {
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
