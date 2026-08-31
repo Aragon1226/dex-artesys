@@ -13,19 +13,10 @@ import {
   getMarketName,
 } from "./marketCatalog";
 
-export interface PublicMarket {
-  symbol: string;
-  pair: string;
-  name: string;
-  kind: "crypto" | "alpha" | "tradfi";
-  price: number;
-  change24h: number;
-  high24h: number;
-  low24h: number;
-  volume24h: number;
-  categories: string[];
-  live: boolean;
-}
+import type { PublicMarket } from "./publicMarkets.types";
+
+export type { PublicMarket };
+
 
 /** Stable pseudo-volume so SSR and client render identical markup. */
 const baselineVolume = (symbol: string, price: number): number => {
