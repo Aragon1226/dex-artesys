@@ -21,7 +21,7 @@ export async function dispatchWelcomeEmail(userId: string, claims: Claims) {
     idempotencyKey: `signup-welcome-${userId}`,
     templateData: {
       name: displayName,
-      appUrl: process.env['APP_URL'] || 'https://xn--artsys-dva.com',
+      appUrl: process.env['APP_URL'] || 'https://www.xn--artsys-dva.com',
     },
   })
 

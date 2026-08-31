@@ -7,7 +7,7 @@ import { Column, Hr, Img, Link, Row, Section, Text } from '@react-email/componen
  * (auth emails and transactional emails alike).
  */
 
-export const APP_URL = 'https://xn--artsys-dva.com'
+export const APP_URL = 'https://www.xn--artsys-dva.com'
 export const LOGO_URL = `${APP_URL}/email/logo-mark.png`
 
 // Palette
