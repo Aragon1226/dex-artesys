@@ -48,6 +48,10 @@ import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppSpotRouteImport } from './routes/app.spot'
 import { Route as AppTermsRouteImport } from './routes/app.terms'
 import { Route as AppTradeFiRouteImport } from './routes/app.trade-fi'
+import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as GuidesFeesRouteImport } from './routes/guides.fees'
+import { Route as GuidesGettingStartedRouteImport } from './routes/guides.getting-started'
+import { Route as GuidesSecurityRouteImport } from './routes/guides.security'
 import { Route as MarketsIndexRouteImport } from './routes/markets.index'
 import { Route as MarketsSymbolRouteImport } from './routes/markets.$symbol'
 import { Route as TradingIndexRouteImport } from './routes/trading.index'
@@ -252,6 +256,26 @@ const AppTradeFiRoute = AppTradeFiRouteImport.update({
   path: '/trade-fi',
   getParentRoute: () => AppRoute,
 } as any)
+const GuidesIndexRoute = GuidesIndexRouteImport.update({
+  id: '/guides/',
+  path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesFeesRoute = GuidesFeesRouteImport.update({
+  id: '/guides/fees',
+  path: '/guides/fees',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesGettingStartedRoute = GuidesGettingStartedRouteImport.update({
+  id: '/guides/getting-started',
+  path: '/guides/getting-started',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesSecurityRoute = GuidesSecurityRouteImport.update({
+  id: '/guides/security',
+  path: '/guides/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketsIndexRoute = MarketsIndexRouteImport.update({
   id: '/markets/',
   path: '/markets/',
@@ -332,11 +356,15 @@ export interface FileRoutesByFullPath {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/guides/fees': typeof GuidesFeesRoute
+  '/guides/getting-started': typeof GuidesGettingStartedRoute
+  '/guides/security': typeof GuidesSecurityRoute
   '/markets/$symbol': typeof MarketsSymbolRoute
   '/trading/futures': typeof TradingFuturesRoute
   '/trading/spot': typeof TradingSpotRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/guides/': typeof GuidesIndexRoute
   '/markets/': typeof MarketsIndexRoute
   '/trading/': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -379,11 +407,15 @@ export interface FileRoutesByTo {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/guides/fees': typeof GuidesFeesRoute
+  '/guides/getting-started': typeof GuidesGettingStartedRoute
+  '/guides/security': typeof GuidesSecurityRoute
   '/markets/$symbol': typeof MarketsSymbolRoute
   '/trading/futures': typeof TradingFuturesRoute
   '/trading/spot': typeof TradingSpotRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/guides': typeof GuidesIndexRoute
   '/markets': typeof MarketsIndexRoute
   '/trading': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -429,11 +461,15 @@ export interface FileRoutesById {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/guides/fees': typeof GuidesFeesRoute
+  '/guides/getting-started': typeof GuidesGettingStartedRoute
+  '/guides/security': typeof GuidesSecurityRoute
   '/markets/$symbol': typeof MarketsSymbolRoute
   '/trading/futures': typeof TradingFuturesRoute
   '/trading/spot': typeof TradingSpotRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/guides/': typeof GuidesIndexRoute
   '/markets/': typeof MarketsIndexRoute
   '/trading/': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -480,11 +516,15 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/guides/fees'
+    | '/guides/getting-started'
+    | '/guides/security'
     | '/markets/$symbol'
     | '/trading/futures'
     | '/trading/spot'
     | '/admin/'
     | '/app/'
+    | '/guides/'
     | '/markets/'
     | '/trading/'
     | '/lovable/email/auth/preview'
@@ -527,11 +567,15 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/guides/fees'
+    | '/guides/getting-started'
+    | '/guides/security'
     | '/markets/$symbol'
     | '/trading/futures'
     | '/trading/spot'
     | '/admin'
     | '/app'
+    | '/guides'
     | '/markets'
     | '/trading'
     | '/lovable/email/auth/preview'
@@ -576,11 +620,15 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/guides/fees'
+    | '/guides/getting-started'
+    | '/guides/security'
     | '/markets/$symbol'
     | '/trading/futures'
     | '/trading/spot'
     | '/admin/'
     | '/app/'
+    | '/guides/'
     | '/markets/'
     | '/trading/'
     | '/lovable/email/auth/preview'
@@ -600,9 +648,13 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  GuidesFeesRoute: typeof GuidesFeesRoute
+  GuidesGettingStartedRoute: typeof GuidesGettingStartedRoute
+  GuidesSecurityRoute: typeof GuidesSecurityRoute
   MarketsSymbolRoute: typeof MarketsSymbolRoute
   TradingFuturesRoute: typeof TradingFuturesRoute
   TradingSpotRoute: typeof TradingSpotRoute
+  GuidesIndexRoute: typeof GuidesIndexRoute
   MarketsIndexRoute: typeof MarketsIndexRoute
   TradingIndexRoute: typeof TradingIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -885,6 +937,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTradeFiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/guides/': {
+      id: '/guides/'
+      path: '/guides'
+      fullPath: '/guides/'
+      preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/fees': {
+      id: '/guides/fees'
+      path: '/guides/fees'
+      fullPath: '/guides/fees'
+      preLoaderRoute: typeof GuidesFeesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/getting-started': {
+      id: '/guides/getting-started'
+      path: '/guides/getting-started'
+      fullPath: '/guides/getting-started'
+      preLoaderRoute: typeof GuidesGettingStartedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/security': {
+      id: '/guides/security'
+      path: '/guides/security'
+      fullPath: '/guides/security'
+      preLoaderRoute: typeof GuidesSecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/markets/': {
       id: '/markets/'
       path: '/markets'
@@ -1028,9 +1108,13 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  GuidesFeesRoute: GuidesFeesRoute,
+  GuidesGettingStartedRoute: GuidesGettingStartedRoute,
+  GuidesSecurityRoute: GuidesSecurityRoute,
   MarketsSymbolRoute: MarketsSymbolRoute,
   TradingFuturesRoute: TradingFuturesRoute,
   TradingSpotRoute: TradingSpotRoute,
+  GuidesIndexRoute: GuidesIndexRoute,
   MarketsIndexRoute: MarketsIndexRoute,
   TradingIndexRoute: TradingIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
