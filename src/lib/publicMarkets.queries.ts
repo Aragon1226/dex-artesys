@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { getPublicMarkets } from "./publicMarkets.functions";
-import type { PublicMarket } from "./publicMarkets.server";
+import type { PublicMarket } from "./publicMarkets.types";
 
 export type { PublicMarket };
 
