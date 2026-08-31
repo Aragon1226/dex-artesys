@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountsRouteImport } from './routes/accounts'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PoliciesRouteImport } from './routes/policies'
@@ -46,6 +48,11 @@ import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppSpotRouteImport } from './routes/app.spot'
 import { Route as AppTermsRouteImport } from './routes/app.terms'
 import { Route as AppTradeFiRouteImport } from './routes/app.trade-fi'
+import { Route as MarketsIndexRouteImport } from './routes/markets.index'
+import { Route as MarketsSymbolRouteImport } from './routes/markets.$symbol'
+import { Route as TradingIndexRouteImport } from './routes/trading.index'
+import { Route as TradingFuturesRouteImport } from './routes/trading.futures'
+import { Route as TradingSpotRouteImport } from './routes/trading.spot'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -53,6 +60,11 @@ import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/l
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsRoute = AccountsRouteImport.update({
+  id: '/accounts',
+  path: '/accounts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -63,6 +75,11 @@ const AdminRoute = AdminRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetsRoute = AssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -235,6 +252,31 @@ const AppTradeFiRoute = AppTradeFiRouteImport.update({
   path: '/trade-fi',
   getParentRoute: () => AppRoute,
 } as any)
+const MarketsIndexRoute = MarketsIndexRouteImport.update({
+  id: '/markets/',
+  path: '/markets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsSymbolRoute = MarketsSymbolRouteImport.update({
+  id: '/markets/$symbol',
+  path: '/markets/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradingIndexRoute = TradingIndexRouteImport.update({
+  id: '/trading/',
+  path: '/trading/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradingFuturesRoute = TradingFuturesRouteImport.update({
+  id: '/trading/futures',
+  path: '/trading/futures',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradingSpotRoute = TradingSpotRouteImport.update({
+  id: '/trading/spot',
+  path: '/trading/spot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -254,8 +296,10 @@ const LovableEmailTransactionalPreviewRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accounts': typeof AccountsRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
@@ -288,14 +332,21 @@ export interface FileRoutesByFullPath {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/markets/$symbol': typeof MarketsSymbolRoute
+  '/trading/futures': typeof TradingFuturesRoute
+  '/trading/spot': typeof TradingSpotRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/markets/': typeof MarketsIndexRoute
+  '/trading/': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accounts': typeof AccountsRoute
+  '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
@@ -328,8 +379,13 @@ export interface FileRoutesByTo {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/markets/$symbol': typeof MarketsSymbolRoute
+  '/trading/futures': typeof TradingFuturesRoute
+  '/trading/spot': typeof TradingSpotRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/markets': typeof MarketsIndexRoute
+  '/trading': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -337,8 +393,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accounts': typeof AccountsRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
@@ -371,8 +429,13 @@ export interface FileRoutesById {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/markets/$symbol': typeof MarketsSymbolRoute
+  '/trading/futures': typeof TradingFuturesRoute
+  '/trading/spot': typeof TradingSpotRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/markets/': typeof MarketsIndexRoute
+  '/trading/': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -381,8 +444,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/accounts'
     | '/admin'
     | '/app'
+    | '/assets'
     | '/auth'
     | '/faq'
     | '/policies'
@@ -415,14 +480,21 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/markets/$symbol'
+    | '/trading/futures'
+    | '/trading/spot'
     | '/admin/'
     | '/app/'
+    | '/markets/'
+    | '/trading/'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/accounts'
+    | '/assets'
     | '/auth'
     | '/faq'
     | '/policies'
@@ -455,16 +527,23 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/markets/$symbol'
+    | '/trading/futures'
+    | '/trading/spot'
     | '/admin'
     | '/app'
+    | '/markets'
+    | '/trading'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
+    | '/accounts'
     | '/admin'
     | '/app'
+    | '/assets'
     | '/auth'
     | '/faq'
     | '/policies'
@@ -497,8 +576,13 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/markets/$symbol'
+    | '/trading/futures'
+    | '/trading/spot'
     | '/admin/'
     | '/app/'
+    | '/markets/'
+    | '/trading/'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -506,14 +590,21 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountsRoute: typeof AccountsRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
+  AssetsRoute: typeof AssetsRoute
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   PoliciesRoute: typeof PoliciesRoute
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  MarketsSymbolRoute: typeof MarketsSymbolRoute
+  TradingFuturesRoute: typeof TradingFuturesRoute
+  TradingSpotRoute: typeof TradingSpotRoute
+  MarketsIndexRoute: typeof MarketsIndexRoute
+  TradingIndexRoute: typeof TradingIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -528,6 +619,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/accounts': {
+      id: '/accounts'
+      path: '/accounts'
+      fullPath: '/accounts'
+      preLoaderRoute: typeof AccountsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -540,6 +638,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assets': {
+      id: '/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof AssetsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -780,6 +885,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTradeFiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/markets/': {
+      id: '/markets/'
+      path: '/markets'
+      fullPath: '/markets/'
+      preLoaderRoute: typeof MarketsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/markets/$symbol': {
+      id: '/markets/$symbol'
+      path: '/markets/$symbol'
+      fullPath: '/markets/$symbol'
+      preLoaderRoute: typeof MarketsSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trading/': {
+      id: '/trading/'
+      path: '/trading'
+      fullPath: '/trading/'
+      preLoaderRoute: typeof TradingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trading/futures': {
+      id: '/trading/futures'
+      path: '/trading/futures'
+      fullPath: '/trading/futures'
+      preLoaderRoute: typeof TradingFuturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trading/spot': {
+      id: '/trading/spot'
+      path: '/trading/spot'
+      fullPath: '/trading/spot'
+      preLoaderRoute: typeof TradingSpotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -878,14 +1018,21 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountsRoute: AccountsRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
+  AssetsRoute: AssetsRoute,
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   PoliciesRoute: PoliciesRoute,
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  MarketsSymbolRoute: MarketsSymbolRoute,
+  TradingFuturesRoute: TradingFuturesRoute,
+  TradingSpotRoute: TradingSpotRoute,
+  MarketsIndexRoute: MarketsIndexRoute,
+  TradingIndexRoute: TradingIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
