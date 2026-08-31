@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PoliciesRouteImport } from './routes/policies'
@@ -68,6 +69,11 @@ const AdminRoute = AdminRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetsRoute = AssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -286,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
@@ -331,6 +338,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
@@ -379,6 +387,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
+  '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/policies': typeof PoliciesRoute
@@ -428,6 +437,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
+    | '/assets'
     | '/auth'
     | '/faq'
     | '/policies'
@@ -473,6 +483,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assets'
     | '/auth'
     | '/faq'
     | '/policies'
@@ -520,6 +531,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/app'
+    | '/assets'
     | '/auth'
     | '/faq'
     | '/policies'
@@ -568,6 +580,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
+  AssetsRoute: typeof AssetsRoute
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   PoliciesRoute: typeof PoliciesRoute
@@ -605,6 +618,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assets': {
+      id: '/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof AssetsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -980,6 +1000,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
+  AssetsRoute: AssetsRoute,
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   PoliciesRoute: PoliciesRoute,
