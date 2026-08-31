@@ -47,6 +47,7 @@ import { Route as AppSpotRouteImport } from './routes/app.spot'
 import { Route as AppTermsRouteImport } from './routes/app.terms'
 import { Route as AppTradeFiRouteImport } from './routes/app.trade-fi'
 import { Route as MarketsIndexRouteImport } from './routes/markets.index'
+import { Route as MarketsSymbolRouteImport } from './routes/markets.$symbol'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -241,6 +242,11 @@ const MarketsIndexRoute = MarketsIndexRouteImport.update({
   path: '/markets/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketsSymbolRoute = MarketsSymbolRouteImport.update({
+  id: '/markets/$symbol',
+  path: '/markets/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -294,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/markets/$symbol': typeof MarketsSymbolRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/markets/': typeof MarketsIndexRoute
@@ -335,6 +342,7 @@ export interface FileRoutesByTo {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/markets/$symbol': typeof MarketsSymbolRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/markets': typeof MarketsIndexRoute
@@ -379,6 +387,7 @@ export interface FileRoutesById {
   '/app/spot': typeof AppSpotRoute
   '/app/terms': typeof AppTermsRoute
   '/app/trade-fi': typeof AppTradeFiRoute
+  '/markets/$symbol': typeof MarketsSymbolRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/markets/': typeof MarketsIndexRoute
@@ -424,6 +433,7 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/markets/$symbol'
     | '/admin/'
     | '/app/'
     | '/markets/'
@@ -465,6 +475,7 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/markets/$symbol'
     | '/admin'
     | '/app'
     | '/markets'
@@ -508,6 +519,7 @@ export interface FileRouteTypes {
     | '/app/spot'
     | '/app/terms'
     | '/app/trade-fi'
+    | '/markets/$symbol'
     | '/admin/'
     | '/app/'
     | '/markets/'
@@ -526,6 +538,7 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  MarketsSymbolRoute: typeof MarketsSymbolRoute
   MarketsIndexRoute: typeof MarketsIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -800,6 +813,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/markets/$symbol': {
+      id: '/markets/$symbol'
+      path: '/markets/$symbol'
+      fullPath: '/markets/$symbol'
+      preLoaderRoute: typeof MarketsSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -906,6 +926,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  MarketsSymbolRoute: MarketsSymbolRoute,
   MarketsIndexRoute: MarketsIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
