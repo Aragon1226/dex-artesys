@@ -48,6 +48,7 @@ import { Route as AppTermsRouteImport } from './routes/app.terms'
 import { Route as AppTradeFiRouteImport } from './routes/app.trade-fi'
 import { Route as MarketsIndexRouteImport } from './routes/markets.index'
 import { Route as MarketsSymbolRouteImport } from './routes/markets.$symbol'
+import { Route as TradingIndexRouteImport } from './routes/trading.index'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -247,6 +248,11 @@ const MarketsSymbolRoute = MarketsSymbolRouteImport.update({
   path: '/markets/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TradingIndexRoute = TradingIndexRouteImport.update({
+  id: '/trading/',
+  path: '/trading/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -304,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/markets/': typeof MarketsIndexRoute
+  '/trading/': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -346,6 +353,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/markets': typeof MarketsIndexRoute
+  '/trading': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -391,6 +399,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/markets/': typeof MarketsIndexRoute
+  '/trading/': typeof TradingIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -437,6 +446,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/markets/'
+    | '/trading/'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -479,6 +489,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/markets'
+    | '/trading'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -523,6 +534,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/markets/'
+    | '/trading/'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -540,6 +552,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   MarketsSymbolRoute: typeof MarketsSymbolRoute
   MarketsIndexRoute: typeof MarketsIndexRoute
+  TradingIndexRoute: typeof TradingIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -820,6 +833,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketsSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/trading/': {
+      id: '/trading/'
+      path: '/trading'
+      fullPath: '/trading/'
+      preLoaderRoute: typeof TradingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -928,6 +948,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   MarketsSymbolRoute: MarketsSymbolRoute,
   MarketsIndexRoute: MarketsIndexRoute,
+  TradingIndexRoute: TradingIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
