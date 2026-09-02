@@ -65,7 +65,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#1E5FD8" },
+      { name: "theme-color", content: "#191970" },
       { name: "application-name", content: "Artesys" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "Artesys" },
@@ -90,7 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", href: "/favicon.png", sizes: "any" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/icons/icon-32x32.png" },
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/icons/icon-16x16.png" },
       { rel: "icon", type: "image/png", sizes: "192x192", href: "/icons/icon-192x192.png" },

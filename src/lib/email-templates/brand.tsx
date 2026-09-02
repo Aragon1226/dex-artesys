@@ -11,8 +11,8 @@ export const APP_URL = 'https://www.xn--artsys-dva.com'
 export const LOGO_URL = `${APP_URL}/email/logo-mark.png`
 
 // Palette
-export const BLUE = '#1E5FD8'
-export const BLUE_DEEP = '#123F9B'
+export const BLUE = '#191970'
+export const BLUE_DEEP = '#0F0F4C'
 export const MIDNIGHT = '#061428'
 export const GOLD = '#E6B34A'
 export const SUCCESS = '#16A34A'
