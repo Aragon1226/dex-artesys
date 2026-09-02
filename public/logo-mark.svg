@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512">
 <defs>
-<linearGradient id="f" x1="0.1" y1="0" x2="0.75" y2="1"><stop offset="0%" stop-color="#4A4AC4"/><stop offset="45%" stop-color="#2A2A93"/><stop offset="100%" stop-color="#191970"/></linearGradient>
-<linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#191970"/><stop offset="100%" stop-color="#0B0B38"/></linearGradient>
+<linearGradient id="f" x1="0.1" y1="0" x2="0.75" y2="1"><stop offset="0%" stop-color="#4C7CFF"/><stop offset="45%" stop-color="#2A55E8"/><stop offset="100%" stop-color="#1E3FD8"/></linearGradient>
+<linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E3FD8"/><stop offset="100%" stop-color="#050510"/></linearGradient>
 <linearGradient id="g" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#C98A22"/><stop offset="45%" stop-color="#F4D488"/><stop offset="100%" stop-color="#D9A63A"/></linearGradient>
 </defs>
 <g transform="translate(-3,2)">

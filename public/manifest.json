@@ -14,8 +14,8 @@
   "orientation": "portrait-primary",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#0B0B38",
-  "theme_color": "#191970",
+  "background_color": "#050510",
+  "theme_color": "#1E3FD8",
   "categories": [
     "finance",
     "crypto",
