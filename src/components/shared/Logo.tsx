@@ -11,10 +11,11 @@ interface LogoProps {
 }
 
 /**
- * Artesys brand mark — a sculptural 3D monogram: the "A" extruded as a solid
- * geometric prism with lit front faces, shaded side planes and a single
- * Aureus Gold ledger beam crossing the counter. No enclosing tile or box.
- * Drawn on a 100-unit grid; reads cleanly from 512px down to 16px.
+ * Artesys brand mark — the social-share sculpture reduced to a scalable mark:
+ * a solid, extruded midnight-blue "A" prism with lit front faces, deep shaded
+ * side planes and a single tapered Aureus Gold blade slicing across the
+ * counter. No enclosing tile or box. Drawn on a 100-unit grid; reads cleanly
+ * from 512px down to 16px.
  */
 export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?: boolean }> = ({
   size = 40,
@@ -22,7 +23,7 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
   accent = true,
 }) => {
   const uid = React.useId().replace(/:/g, '');
-  const FRONT = 'M50 6 L88 84 L70 84 L50 45 L30 84 L12 84 Z';
+  const FRONT = 'M50 5 L90 87 L71 87 L50 43 L29 87 L10 87 Z';
 
   return (
     <svg
@@ -34,47 +35,47 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
       className={`shrink-0 ${className}`}
     >
       <defs>
-        <linearGradient id={`f-${uid}`} x1="0" y1="0" x2="0.6" y2="1">
-          <stop offset="0%" stopColor="#5E95F7" />
-          <stop offset="55%" stopColor="#2A67DF" />
-          <stop offset="100%" stopColor="#1B4FB8" />
+        {/* Lit front face — midnight blue #191970 family */}
+        <linearGradient id={`f-${uid}`} x1="0.1" y1="0" x2="0.75" y2="1">
+          <stop offset="0%" stopColor="#4A4AC4" />
+          <stop offset="45%" stopColor="#2A2A93" />
+          <stop offset="100%" stopColor="#191970" />
         </linearGradient>
+        {/* Shaded extrusion planes */}
         <linearGradient id={`s-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#123F9B" />
-          <stop offset="100%" stopColor="#0A2A6B" />
+          <stop offset="0%" stopColor="#191970" />
+          <stop offset="100%" stopColor="#0B0B38" />
         </linearGradient>
-        <linearGradient id={`g-${uid}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#F2CE7A" />
-          <stop offset="100%" stopColor="#D69C31" />
+        <linearGradient id={`g-${uid}`} x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stopColor="#C98A22" />
+          <stop offset="45%" stopColor="#F4D488" />
+          <stop offset="100%" stopColor="#D9A63A" />
         </linearGradient>
-        <clipPath id={`tri-${uid}`}>
-          <path d="M50 6 L90 86 L10 86 Z" />
-        </clipPath>
       </defs>
 
-      <g transform="translate(-4,3)">
-        {/* Extruded body */}
-        <path d={FRONT} transform="translate(9,-5)" fill="#0A2A6B" />
+      <g transform="translate(-3,2)">
+        {/* Deep extruded body */}
+        <path d={FRONT} transform="translate(9,-5)" fill="#080830" />
 
-        {/* Shaded side planes */}
-        <polygon points="12,84 50,6 59,1 21,79" fill={`url(#s-${uid})`} />
-        <polygon points="50,6 88,84 97,79 59,1" fill={`url(#s-${uid})`} opacity="0.85" />
-        <polygon points="50,45 30,84 39,79 59,40" fill="#0E3585" />
-        <polygon points="70,84 50,45 59,40 79,79" fill="#0E3585" opacity="0.9" />
+        {/* Side planes */}
+        <polygon points="10,87 50,5 59,0 19,82" fill={`url(#s-${uid})`} />
+        <polygon points="50,5 90,87 99,82 59,0" fill={`url(#s-${uid})`} opacity="0.9" />
+        <polygon points="50,43 29,87 38,82 59,38" fill="#101052" />
+        <polygon points="71,87 50,43 59,38 80,82" fill="#101052" opacity="0.9" />
 
         {/* Lit front face */}
         <path d={FRONT} fill={`url(#f-${uid})`} />
 
-        {/* Aureus Gold ledger beam */}
+        {/* Aureus Gold blade — tapered, slicing across the counter */}
         {accent && (
-          <g clipPath={`url(#tri-${uid})`}>
-            <polygon points="10,71 90,71 99,66 19,66" fill="#F6DDA1" />
-            <rect x="10" y="71" width="80" height="6.5" fill={`url(#g-${uid})`} />
+          <g>
+            <polygon points="2,73 84,57 86,60 4,77" fill={`url(#g-${uid})`} />
+            <polygon points="2,73 84,57 84,58.4 2,74.4" fill="#F8E6B4" opacity="0.85" />
           </g>
         )}
 
         {/* Apex highlight */}
-        <path d="M50 6 L12 84" stroke="#8FB6FA" strokeOpacity="0.5" strokeWidth="1" fill="none" />
+        <path d="M50 5 L10 87" stroke="#8A8AE8" strokeOpacity="0.45" strokeWidth="1" fill="none" />
       </g>
     </svg>
   );

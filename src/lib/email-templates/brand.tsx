@@ -11,9 +11,9 @@ export const APP_URL = 'https://www.xn--artsys-dva.com'
 export const LOGO_URL = `${APP_URL}/email/logo-mark.png`
 
 // Palette
-export const BLUE = '#1E5FD8'
-export const BLUE_DEEP = '#123F9B'
-export const MIDNIGHT = '#061428'
+export const BLUE = '#191970'
+export const BLUE_DEEP = '#0F0F4C'
+export const MIDNIGHT = '#0B0B38'
 export const GOLD = '#E6B34A'
 export const SUCCESS = '#16A34A'
 export const WARNING = '#D97706'
@@ -72,10 +72,10 @@ export const urlNote = {
 // Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
 export const darkModeCss = `
   @media (prefers-color-scheme: dark) {
-    .dm-btn { background-color: #E6B34A !important; color: #061428 !important; }
+    .dm-btn { background-color: #E6B34A !important; color: #0B0B38 !important; }
   }
-  [data-ogsc] .dm-btn { background-color: #E6B34A !important; color: #061428 !important; }
-  [data-ogsb] .dm-btn { background-color: #E6B34A !important; color: #061428 !important; }
+  [data-ogsc] .dm-btn { background-color: #E6B34A !important; color: #0B0B38 !important; }
+  [data-ogsb] .dm-btn { background-color: #E6B34A !important; color: #0B0B38 !important; }
 `
 
 /** Thin brand rule: blue-to-gold gradient hairline with a solid fallback. */
