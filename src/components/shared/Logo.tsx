@@ -35,16 +35,16 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
       className={`shrink-0 ${className}`}
     >
       <defs>
-        {/* Lit front face — midnight blue #191970 family */}
+        {/* Lit front face — midnight blue #1E3FD8 family */}
         <linearGradient id={`f-${uid}`} x1="0.1" y1="0" x2="0.75" y2="1">
-          <stop offset="0%" stopColor="#4A4AC4" />
-          <stop offset="45%" stopColor="#2A2A93" />
-          <stop offset="100%" stopColor="#191970" />
+          <stop offset="0%" stopColor="#4C7CFF" />
+          <stop offset="45%" stopColor="#2A55E8" />
+          <stop offset="100%" stopColor="#1E3FD8" />
         </linearGradient>
         {/* Shaded extrusion planes */}
         <linearGradient id={`s-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#191970" />
-          <stop offset="100%" stopColor="#0B0B38" />
+          <stop offset="0%" stopColor="#1E3FD8" />
+          <stop offset="100%" stopColor="#050510" />
         </linearGradient>
         <linearGradient id={`g-${uid}`} x1="0" y1="1" x2="1" y2="0">
           <stop offset="0%" stopColor="#C98A22" />
