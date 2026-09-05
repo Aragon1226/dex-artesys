@@ -488,11 +488,13 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
           <form onSubmit={handleUserAccountDelete} className="bg-card w-full max-w-md rounded-[28px] p-6 shadow-2xl relative border border-rose-500/20 animate-scale-in">
             <button 
               type="button" 
+              aria-label="Close"
               onClick={() => setIsDeleteModalOpen(false)} 
               className="absolute right-4 top-4 p-2 hover:bg-muted rounded-full text-muted-foreground transition-colors"
             >
-              <X size={20} />
+              <X size={20} aria-hidden="true" />
             </button>
+
             
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center border border-rose-500/20">
