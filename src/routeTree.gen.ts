@@ -57,6 +57,7 @@ import { Route as MarketsSymbolRouteImport } from './routes/markets.$symbol'
 import { Route as TradingIndexRouteImport } from './routes/trading.index'
 import { Route as TradingFuturesRouteImport } from './routes/trading.futures'
 import { Route as TradingSpotRouteImport } from './routes/trading.spot'
+import { Route as ApiPublicAdminRegisterRouteImport } from './routes/api/public/admin.register'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -301,6 +302,11 @@ const TradingSpotRoute = TradingSpotRouteImport.update({
   path: '/trading/spot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAdminRegisterRoute = ApiPublicAdminRegisterRouteImport.update({
+  id: '/api/public/admin/register',
+  path: '/api/public/admin/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -367,6 +373,7 @@ export interface FileRoutesByFullPath {
   '/guides/': typeof GuidesIndexRoute
   '/markets/': typeof MarketsIndexRoute
   '/trading/': typeof TradingIndexRoute
+  '/api/public/admin/register': typeof ApiPublicAdminRegisterRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -418,6 +425,7 @@ export interface FileRoutesByTo {
   '/guides': typeof GuidesIndexRoute
   '/markets': typeof MarketsIndexRoute
   '/trading': typeof TradingIndexRoute
+  '/api/public/admin/register': typeof ApiPublicAdminRegisterRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -472,6 +480,7 @@ export interface FileRoutesById {
   '/guides/': typeof GuidesIndexRoute
   '/markets/': typeof MarketsIndexRoute
   '/trading/': typeof TradingIndexRoute
+  '/api/public/admin/register': typeof ApiPublicAdminRegisterRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -527,6 +536,7 @@ export interface FileRouteTypes {
     | '/guides/'
     | '/markets/'
     | '/trading/'
+    | '/api/public/admin/register'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -578,6 +588,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/markets'
     | '/trading'
+    | '/api/public/admin/register'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -631,6 +642,7 @@ export interface FileRouteTypes {
     | '/guides/'
     | '/markets/'
     | '/trading/'
+    | '/api/public/admin/register'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -657,6 +669,7 @@ export interface RootRouteChildren {
   GuidesIndexRoute: typeof GuidesIndexRoute
   MarketsIndexRoute: typeof MarketsIndexRoute
   TradingIndexRoute: typeof TradingIndexRoute
+  ApiPublicAdminRegisterRoute: typeof ApiPublicAdminRegisterRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -1000,6 +1013,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TradingSpotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/admin/register': {
+      id: '/api/public/admin/register'
+      path: '/api/public/admin/register'
+      fullPath: '/api/public/admin/register'
+      preLoaderRoute: typeof ApiPublicAdminRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -1117,6 +1137,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesIndexRoute: GuidesIndexRoute,
   MarketsIndexRoute: MarketsIndexRoute,
   TradingIndexRoute: TradingIndexRoute,
+  ApiPublicAdminRegisterRoute: ApiPublicAdminRegisterRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,

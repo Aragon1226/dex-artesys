@@ -72,7 +72,7 @@ export const Route = createFileRoute('/api/public/admin/register')({
 
         const roleInsert = await supabaseAdmin
           .from('user_roles')
-          .insert({ user_id: userId, role: parsed.role === 'admin' ? 'admin' : 'moderator' })
+          .insert({ user_id: userId, role: parsed.role === 'admin' ? 'admin' : 'user' })
         if (roleInsert.error) {
           await supabaseAdmin.auth.admin.deleteUser(userId)
           return Response.json({ error: roleInsert.error.message }, { status: 500 })
