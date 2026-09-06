@@ -289,27 +289,59 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         if (referralCode.trim()) {
           localStorage.setItem('crypx_pending_ref_v1', referralCode.trim());
         }
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { 
-              display_name: displayName || "Crypto Trader",
-              referral_code: referralCode.trim() || undefined
-            },
-            emailRedirectTo: window.location.origin,
-          },
-        });
-        if (error) throw error;
-        toast({ title: "Account created!", description: email === "admin@crypx.pro" ? "Admin account registered!" : "Please check your email to verify your account." });
-        if (onSuccess && !error) onSuccess();
+
+        const normEmail = email.toLowerCase().trim();
+        const MAX_ATTEMPTS = 3;
+        let signUpError: string | null = null;
+        let created = false;
+
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+          try {
+            const { error } = await supabase.auth.signUp({
+              email: normEmail,
+              password,
+              options: {
+                data: {
+                  display_name: displayName || "Crypto Trader",
+                  referral_code: referralCode.trim() || undefined,
+                },
+                emailRedirectTo: `${window.location.origin}/auth`,
+              },
+            });
+
+            if (!error) {
+              created = true;
+              signUpError = null;
+              break;
+            }
+
+            signUpError = describeAuthError(error.message);
+            // Only transient transport failures are worth retrying
+            if (!isTransientAuthError(error.message)) break;
+          } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : "Network error";
+            signUpError = describeAuthError(message);
+            if (!isTransientAuthError(message)) break;
+          }
+
+          if (attempt < MAX_ATTEMPTS - 1) {
+            await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt)));
+          }
+        }
+
+        if (!created) throw new Error(signUpError || "We couldn't create your account. Please try again.");
+
+        toast({ title: "Account created!", description: "Please check your email to confirm your account before signing in." });
+        onSuccess?.();
       }
-    } catch (error: any) {
-      toast({ title: "Auth Error", description: error.message, variant: "destructive" });
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      toast({ title: "Sign-up couldn't be completed", description: describeAuthError(message), variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
+
 
   const title = isUpdatePassword
     ? "Set New Password"
