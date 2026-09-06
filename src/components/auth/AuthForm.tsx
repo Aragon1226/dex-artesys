@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/cloudClient";
 import { useAuth } from "@/hooks/useAuth";
-import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, Shield, AlertTriangle } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/shared/Logo";
 import { WalletSignIn } from "@/components/auth/WalletSignIn";
-import { isUserAdmin, syncAdminPermissions, getCustomAccounts, isPrimaryOwner, normalizeAdminId } from "@/lib/adminPermissions";
+import { isUserAdmin, syncAdminPermissions, getCustomAccounts, isPrimaryOwner } from "@/lib/adminPermissions";
 
 // Step 1: Translate raw auth/network errors into friendly, actionable wording.
 function describeAuthError(message: string): string {
   const msg = (message || "").toLowerCase();
-  if (msg.includes("failed to fetch") || msg.includes("networkerror") || msg.includes("network request failed") || msg.includes("fetcherror") || msg.includes("load failed")) {
+  if (
+    msg.includes("failed to fetch") ||
+    msg.includes("networkerror") ||
+    msg.includes("network request failed") ||
+    msg.includes("fetcherror") ||
+    msg.includes("load failed")
+  ) {
     return "Connection hiccup — please check your internet connection and try again.";
   }
   if (msg.includes("email not confirmed")) {
@@ -40,7 +46,14 @@ function describeAuthError(message: string): string {
 // Step 1: True only for transient transport failures worth retrying automatically.
 function isTransientAuthError(message: string): boolean {
   const msg = (message || "").toLowerCase();
-  return msg.includes("failed to fetch") || msg.includes("networkerror") || msg.includes("network request failed") || msg.includes("fetcherror") || msg.includes("load failed") || msg.includes("timeout");
+  return (
+    msg.includes("failed to fetch") ||
+    msg.includes("networkerror") ||
+    msg.includes("network request failed") ||
+    msg.includes("fetcherror") ||
+    msg.includes("load failed") ||
+    msg.includes("timeout")
+  );
 }
 
 interface AuthFormProps {
@@ -52,18 +65,18 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [isUpdatePassword, setIsUpdatePassword] = useState(false);
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [referralCode, setReferralCode] = useState("");
-  
+
   const [agreedTerms, setAgreedTerms] = useState(true);
   const [showTermsModal, setShowTermsModal] = useState(false);
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -72,15 +85,15 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const { toast } = useToast();
 
   const hostname = window.location.hostname;
-  const isDomainAdmin = hostname === 'admin.artesys.com' || hostname.startsWith('admin.');
-  
-  let envMode = 'ALL';
-  try { 
-    envMode = import.meta.env.VITE_APP_MODE; 
-  } catch(e) {
+  const isDomainAdmin = hostname === "admin.artesys.com" || hostname.startsWith("admin.");
+
+  let envMode = "ALL";
+  try {
+    envMode = import.meta.env.VITE_APP_MODE;
+  } catch (e) {
     // ignore
   }
-  
+
   const appMode = isDomainAdmin ? "ADMIN" : (envMode || "ALL").toUpperCase();
 
   useEffect(() => {
@@ -103,16 +116,18 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     if (urlRef) {
       setIsLogin(false);
       setReferralCode(urlRef);
-      localStorage.setItem('crypx_pending_ref_v1', urlRef);
+      localStorage.setItem("crypx_pending_ref_v1", urlRef);
     } else {
-      const storedRef = localStorage.getItem('crypx_pending_ref_v1');
+      const storedRef = localStorage.getItem("crypx_pending_ref_v1");
       if (storedRef) {
         setReferralCode(storedRef);
       }
     }
 
     // Subscribe to password recovery session events
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
         setIsUpdatePassword(true);
       }
@@ -206,10 +221,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         if (newPassword !== confirmNewPassword) {
           throw new Error("New passwords do not match.");
         }
-        
+
         const { error } = await supabase.auth.updateUser({ password: newPassword });
         if (error) throw error;
-        
+
         toast({ title: "Success!", description: "Your password has been reset successfully." });
         setIsUpdatePassword(false);
         setIsLogin(true);
@@ -228,7 +243,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         // Check custom Admin & Staff accounts or primary owner password fallback
         const customAccounts = getCustomAccounts();
         const matchedCustom = customAccounts.find(
-          a => a.email.toLowerCase().trim() === normEmail && a.password === password
+          (a) => a.email.toLowerCase().trim() === normEmail && a.password === password,
         );
 
         const isPrimary = isPrimaryOwner(normEmail);
@@ -242,7 +257,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           try {
             const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
               email: normEmail,
-              password: password
+              password: password,
             });
 
             if (!authErr && authData.session) {
@@ -261,7 +276,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             authErrorMsg = err?.message || "Network error";
           }
           if (attempt < MAX_ATTEMPTS - 1) {
-            await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt)));
+            await new Promise((r) => setTimeout(r, 600 * Math.pow(2, attempt)));
           } else if (authErrorMsg && /fetch|network|timeout/i.test(authErrorMsg)) {
             authErrorMsg = "Couldn't reach the server. Check your connection and try again.";
           }
@@ -280,43 +295,53 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           return;
         } else if (matchedCustom || isPrimaryMatched) {
           try {
-             const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({
-               email: normEmail,
-               password: password,
-               options: {
-                 data: { 
-                   display_name: matchedCustom ? matchedCustom.username : "Platform Owner",
-                   username: matchedCustom ? matchedCustom.username : "Owner",
-                   custom_id: matchedCustom ? matchedCustom.customId : "OWNER",
-                   role: matchedCustom ? matchedCustom.role : "owner"
-                 }
-               }
-             });
-             
-             if (!signUpErr && signUpData.session) {
-               localStorage.removeItem("crypx_custom_session_v1");
-               toast({ title: "Welcome!", description: "Account synchronized and logged in." });
-               onSuccess?.();
-               return;
-             } else if (signUpErr && signUpErr.message.toLowerCase().includes("already registered")) {
-               throw new Error("This admin email is already registered on the platform. Please use your original password you signed up with, or register a different admin email in the portal.");
-             } else if (signUpErr) {
-               throw signUpErr;
-             }
+            const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({
+              email: normEmail,
+              password: password,
+              options: {
+                data: {
+                  display_name: matchedCustom ? matchedCustom.username : "Platform Owner",
+                  username: matchedCustom ? matchedCustom.username : "Owner",
+                  custom_id: matchedCustom ? matchedCustom.customId : "OWNER",
+                  role: matchedCustom ? matchedCustom.role : "owner",
+                },
+              },
+            });
+
+            if (!signUpErr && signUpData.session) {
+              localStorage.removeItem("crypx_custom_session_v1");
+              toast({ title: "Welcome!", description: "Account synchronized and logged in." });
+              onSuccess?.();
+              return;
+            } else if (signUpErr && signUpErr.message.toLowerCase().includes("already registered")) {
+              throw new Error(
+                "This admin email is already registered on the platform. Please use your original password you signed up with, or register a different admin email in the portal.",
+              );
+            } else if (signUpErr) {
+              throw signUpErr;
+            }
           } catch (e: any) {
-             console.warn("Seamless signup failed", e);
-             toast({ title: "Authentication Failed", description: e.message || "Failed to synchronize admin account.", variant: "destructive" });
-             return;
+            console.warn("Seamless signup failed", e);
+            toast({
+              title: "Authentication Failed",
+              description: e.message || "Failed to synchronize admin account.",
+              variant: "destructive",
+            });
+            return;
           }
-          
-          toast({ title: "Error", description: "Could not establish a secure database session. Please check your credentials.", variant: "destructive" });
+
+          toast({
+            title: "Error",
+            description: "Could not establish a secure database session. Please check your credentials.",
+            variant: "destructive",
+          });
           return;
         } else {
           throw new Error(authErrorMsg || "Invalid login credentials");
         }
       } else {
         if (referralCode.trim()) {
-          localStorage.setItem('crypx_pending_ref_v1', referralCode.trim());
+          localStorage.setItem("crypx_pending_ref_v1", referralCode.trim());
         }
 
         // Step 3: Replace the sign-up block with retry optimization
@@ -355,19 +380,29 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           }
 
           if (attempt < MAX_ATTEMPTS - 1) {
-            await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt)));
+            await new Promise((r) => setTimeout(r, 600 * Math.pow(2, attempt)));
           }
         }
 
         if (!created) throw new Error(signUpError || "We couldn't create your account. Please try again.");
 
-        toast({ title: "Account created!", description: "Please check your email to confirm your account before signing in." });
+        toast({
+          title: "Account created!",
+          description: "Please check your email to confirm your account before signing in.",
+        });
         onSuccess?.();
       }
-    // Step 4: Final customized catch error processing block
+      // Step 4: Final customized catch error processing block
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Something went wrong. Please try again.";
-      toast({ title: "Sign-up couldn't be completed", description: describeAuthError(message), variant: "destructive" });
+      const failTitle = isUpdatePassword
+        ? "Couldn't update password"
+        : isForgotPassword
+          ? "Couldn't send reset email"
+          : isLogin
+            ? "Sign-in failed"
+            : "Sign-up couldn't be completed";
+      toast({ title: failTitle, description: describeAuthError(message), variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -376,33 +411,32 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const title = isUpdatePassword
     ? "Set New Password"
     : isForgotPassword
-    ? "Reset Password"
-    : isLogin
-    ? "Welcome Back"
-    : "Create Account";
+      ? "Reset Password"
+      : isLogin
+        ? "Welcome Back"
+        : "Create Account";
 
   const subtitle = isUpdatePassword
     ? "Enter and confirm your new secure password"
     : isForgotPassword
-    ? "Enter your email to receive a reset link"
-    : isLogin
-    ? "Sign in to access your dashboard"
-    : "Join Artesys and start trading";
+      ? "Enter your email to receive a reset link"
+      : isLogin
+        ? "Sign in to access your dashboard"
+        : "Join Artesys and start trading";
 
-  const glassInputClasses = "w-full pl-12 pr-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all backdrop-blur-sm";
+  const glassInputClasses =
+    "w-full pl-12 pr-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all backdrop-blur-sm";
 
   return (
-    <div className={`w-full ${isInsideModal ? '' : 'max-w-md'}`}>
+    <div className={`w-full ${isInsideModal ? "" : "max-w-md"}`}>
       <div className="relative z-10 w-full mb-8">
         {!isInsideModal && (
           <div className="flex justify-center mb-12">
             <Logo size={80} variant="SYMBOL" className="drop-shadow-[0_0_20px_hsl(var(--brand-primary)/0.35)]" />
           </div>
         )}
-        
-        <h1 className="text-3xl font-bold text-center mb-3 text-foreground tracking-tight">
-          {title}
-        </h1>
+
+        <h1 className="text-3xl font-bold text-center mb-3 text-foreground tracking-tight">{title}</h1>
         <p className="text-sm text-muted-foreground text-center mb-10 font-medium font-sans animate-pulse">
           {subtitle}
         </p>
@@ -458,7 +492,9 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     required
                     aria-required="true"
                   />
-                  <p className="mt-1.5 text-xs text-muted-foreground pl-1">Required — this is the name shown on your account.</p>
+                  <p className="mt-1.5 text-xs text-muted-foreground pl-1">
+                    Required — this is the name shown on your account.
+                  </p>
                 </div>
               )}
 
@@ -491,7 +527,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
-            className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               )}
@@ -519,7 +555,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                 onChange={(e) => setAgreedTerms(e.target.checked)}
                 className="mt-0.5 w-4 h-4 rounded accent-primary border-border cursor-pointer shrink-0"
               />
-              <label htmlFor="auth-terms-checkbox" className="text-muted-foreground cursor-pointer select-none leading-tight">
+              <label
+                htmlFor="auth-terms-checkbox"
+                className="text-muted-foreground cursor-pointer select-none leading-tight"
+              >
                 I do AGREE the{" "}
                 <button
                   type="button"
@@ -527,8 +566,8 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                   className="text-primary font-bold hover:underline"
                 >
                   terms & conditions
-                </button>
-                {" "}and{" "}
+                </button>{" "}
+                and{" "}
                 <button
                   type="button"
                   onClick={() => setShowTermsModal(true)}
@@ -549,12 +588,12 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             {loading
               ? "Processing..."
               : isUpdatePassword
-              ? "Update Password"
-              : isForgotPassword
-              ? "Send Reset Link"
-              : isLogin
-              ? "Sign In"
-              : "Create Account"}
+                ? "Update Password"
+                : isForgotPassword
+                  ? "Send Reset Link"
+                  : isLogin
+                    ? "Sign In"
+                    : "Create Account"}
           </button>
         </form>
 
@@ -576,10 +615,22 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
                 <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-                  <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" />
-                  <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.34A8.99 8.99 0 0 0 9 18z" />
-                  <path fill="#FBBC05" d="M3.97 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.28-1.72V4.94H.96A8.99 8.99 0 0 0 0 9c0 1.45.35 2.83.96 4.06l3.01-2.34z" />
-                  <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A8.99 8.99 0 0 0 .96 4.94l3 2.34C4.68 5.16 6.66 3.58 9 3.58z" />
+                  <path
+                    fill="#4285F4"
+                    d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.34A8.99 8.99 0 0 0 9 18z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M3.97 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.28-1.72V4.94H.96A8.99 8.99 0 0 0 0 9c0 1.45.35 2.83.96 4.06l3.01-2.34z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A8.99 8.99 0 0 0 .96 4.94l3 2.34C4.68 5.16 6.66 3.58 9 3.58z"
+                  />
                 </svg>
               )}
               {googleLoading ? "Connecting..." : "Continue with Google"}
@@ -623,7 +674,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     <p className="text-xs text-muted-foreground">Educational & Demo Platform Agreement</p>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => setShowTermsModal(false)}
                   className="p-2 hover:bg-muted rounded-full text-muted-foreground hover:text-foreground transition-colors"
                 >
@@ -637,35 +688,42 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     <AlertTriangle size={16} /> Educational Demo Trading Notice
                   </div>
                   <p className="text-xs text-warning/90 leading-relaxed">
-                    Artesys is strictly an educational demo trading simulator. It does not provide real financial services, real asset deposits, live money withdrawals, or financial advice. All balances are paper credits.
+                    Artesys is strictly an educational demo trading simulator. It does not provide real financial
+                    services, real asset deposits, live money withdrawals, or financial advice. All balances are paper
+                    credits.
                   </p>
                 </div>
 
                 <section className="space-y-1.5">
                   <h4 className="font-bold text-foreground text-sm">1. Non-Financial Purpose & Educational Scope</h4>
                   <p>
-                    This platform is built for software testing, educational evaluation, and demo trading practice in Web3 mechanics. No real fiat or cryptocurrency transactions occur on this platform.
+                    This platform is built for software testing, educational evaluation, and demo trading practice in
+                    Web3 mechanics. No real fiat or cryptocurrency transactions occur on this platform.
                   </p>
                 </section>
 
                 <section className="space-y-1.5">
                   <h4 className="font-bold text-foreground text-sm">2. Complete Exemption of Developer Liability</h4>
                   <p>
-                    By signing up or logging in, the user agrees that the development teams, individual developers, software authors, and platform operators shall bear ZERO legal liability or financial responsibility for any user actions or decisions.
+                    By signing up or logging in, the user agrees that the development teams, individual developers,
+                    software authors, and platform operators shall bear ZERO legal liability or financial responsibility
+                    for any user actions or decisions.
                   </p>
                 </section>
 
                 <section className="space-y-1.5">
                   <h4 className="font-bold text-foreground text-sm">3. Transparent Platform Capabilities</h4>
                   <p>
-                    Spot trading, futures leverage, staking yield, identity verification, and asset portfolio tracking are simulated software features designed to teach users trading mechanics safely.
+                    Spot trading, futures leverage, staking yield, identity verification, and asset portfolio tracking
+                    are simulated software features designed to teach users trading mechanics safely.
                   </p>
                 </section>
 
                 <section className="space-y-1.5">
                   <h4 className="font-bold text-foreground text-sm">4. Privacy & Compliance</h4>
                   <p>
-                    User account data is stored securely using encrypted database connections for session state management. We do not sell user data or engage in predatory practices.
+                    User account data is stored securely using encrypted database connections for session state
+                    management. We do not sell user data or engage in predatory practices.
                   </p>
                 </section>
               </div>
@@ -687,20 +745,14 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
         {isUpdatePassword ? (
           <p className="text-center text-sm text-muted-foreground mt-8">
-            <button
-              onClick={() => setIsUpdatePassword(false)}
-              className="text-primary font-bold hover:underline"
-            >
+            <button onClick={() => setIsUpdatePassword(false)} className="text-primary font-bold hover:underline">
               Cancel Reset
             </button>
           </p>
         ) : isForgotPassword ? (
           <div className="space-y-4 mt-8">
             <p className="text-center text-sm text-muted-foreground">
-              <button
-                onClick={() => setIsForgotPassword(false)}
-                className="text-primary font-bold hover:underline"
-              >
+              <button onClick={() => setIsForgotPassword(false)} className="text-primary font-bold hover:underline">
                 Back to Sign In
               </button>
             </p>
@@ -710,10 +762,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             <span className="text-muted-foreground">
               {isLogin ? "Don't have an account?" : "Already have an account?"}
             </span>{" "}
-            <button
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-primary font-bold hover:underline"
-            >
+            <button onClick={() => setIsLogin(!isLogin)} className="text-primary font-bold hover:underline">
               {isLogin ? "Sign Up" : "Sign In"}
             </button>
           </p>
