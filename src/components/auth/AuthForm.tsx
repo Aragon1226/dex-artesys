@@ -7,6 +7,42 @@ import { Logo } from "@/components/shared/Logo";
 import { WalletSignIn } from "@/components/auth/WalletSignIn";
 import { isUserAdmin, syncAdminPermissions, getCustomAccounts, isPrimaryOwner, normalizeAdminId } from "@/lib/adminPermissions";
 
+// Step 1: Translate raw auth/network errors into friendly, actionable wording.
+function describeAuthError(message: string): string {
+  const msg = (message || "").toLowerCase();
+  if (msg.includes("failed to fetch") || msg.includes("networkerror") || msg.includes("network request failed") || msg.includes("fetcherror") || msg.includes("load failed")) {
+    return "Connection hiccup — please check your internet connection and try again.";
+  }
+  if (msg.includes("email not confirmed")) {
+    return "Please check your email and click the confirmation link before signing in.";
+  }
+  if (msg.includes("invalid login credentials")) {
+    return "Incorrect email or password. Please try again or reset your password.";
+  }
+  if (msg.includes("user already registered") || msg.includes("already been registered")) {
+    return "An account with this email already exists. Try signing in instead.";
+  }
+  if (msg.includes("password") && (msg.includes("weak") || msg.includes("at least") || msg.includes("too short"))) {
+    return "That password is too weak — please use at least 6 characters with a mix of letters and numbers.";
+  }
+  if (msg.includes("pwned") || msg.includes("compromised") || msg.includes("breach")) {
+    return "This password has appeared in a known data breach — please choose a different one.";
+  }
+  if (msg.includes("rate limit") || msg.includes("too many requests")) {
+    return "Too many attempts — please wait a minute and try again.";
+  }
+  if (msg.includes("invalid email")) {
+    return "Please enter a valid email address.";
+  }
+  return message;
+}
+
+// Step 1: True only for transient transport failures worth retrying automatically.
+function isTransientAuthError(message: string): boolean {
+  const msg = (message || "").toLowerCase();
+  return msg.includes("failed to fetch") || msg.includes("networkerror") || msg.includes("network request failed") || msg.includes("fetcherror") || msg.includes("load failed") || msg.includes("timeout");
+}
+
 interface AuthFormProps {
   onSuccess?: () => void;
   isInsideModal?: boolean;
@@ -154,7 +190,6 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-
     if (!isForgotPassword && !isUpdatePassword && !agreedTerms) {
       toast({
         title: "Terms Agreement Required",
@@ -199,8 +234,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         const isPrimary = isPrimaryOwner(normEmail);
         const isPrimaryMatched = isPrimary && password === "AungMoe$357";
 
-        // Try authenticating with real Supabase Auth first
-        // (retry transient network failures up to 3 times with exponential backoff)
+        // Step 2: Try authenticating with real Supabase Auth first with retry logic
         let realAuthSuccess = false;
         let authErrorMsg: string | null = null;
         const MAX_ATTEMPTS = 3;
@@ -232,8 +266,6 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             authErrorMsg = "Couldn't reach the server. Check your connection and try again.";
           }
         }
-
-
 
         if (realAuthSuccess) {
           if (appMode === "ADMIN") {
@@ -277,12 +309,9 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
              return;
           }
           
-          // We only reach here if something bizarre happened, but we shouldn't create a fake session anymore
-          // because fake sessions cannot read from the database due to RLS.
           toast({ title: "Error", description: "Could not establish a secure database session. Please check your credentials.", variant: "destructive" });
           return;
         } else {
-          // If we are here, it means neither realAuthSuccess nor fallback succeeded
           throw new Error(authErrorMsg || "Invalid login credentials");
         }
       } else {
@@ -290,6 +319,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           localStorage.setItem('crypx_pending_ref_v1', referralCode.trim());
         }
 
+        // Step 3: Replace the sign-up block with retry optimization
         const normEmail = email.toLowerCase().trim();
         const MAX_ATTEMPTS = 3;
         let signUpError: string | null = null;
@@ -334,6 +364,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         toast({ title: "Account created!", description: "Please check your email to confirm your account before signing in." });
         onSuccess?.();
       }
+    // Step 4: Final customized catch error processing block
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Something went wrong. Please try again.";
       toast({ title: "Sign-up couldn't be completed", description: describeAuthError(message), variant: "destructive" });
@@ -341,7 +372,6 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
       setLoading(false);
     }
   };
-
 
   const title = isUpdatePassword
     ? "Set New Password"
@@ -416,6 +446,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           ) : (
             <>
               {!isLogin && !isForgotPassword && (
+                // Step 5: Updated Display Name input wrapper with requirement guidelines
                 <div className="relative group">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                   <input
@@ -425,7 +456,9 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     onChange={(e) => setDisplayName(e.target.value)}
                     className={glassInputClasses}
                     required
+                    aria-required="true"
                   />
+                  <p className="mt-1.5 text-xs text-muted-foreground pl-1">Required — this is the name shown on your account.</p>
                 </div>
               )}
 
@@ -458,7 +491,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               )}
