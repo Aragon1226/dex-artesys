@@ -171,10 +171,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
       toast({ title: "Welcome!", description: "Signed in with Google." });
       onSuccess?.();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Google sign-in failed",
-        description: error?.message || "Please try again.",
+        description: error instanceof Error ? error.message : "Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -203,10 +203,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
       toast({ title: "Welcome!", description: "Signed in with Apple." });
       onSuccess?.();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Apple sign-in failed",
-        description: error?.message || "Please try again.",
+        description: error instanceof Error ? error.message : "Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -284,8 +284,8 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               // Credential/validation errors should not be retried
               if (!/fetch|network|timeout|502|503|504/i.test(authErr.message)) break;
             }
-          } catch (err: any) {
-            authErrorMsg = err?.message || "Network error";
+          } catch (err: unknown) {
+            authErrorMsg = err instanceof Error ? err.message : "Network error";
           }
           if (attempt < MAX_ATTEMPTS - 1) {
             await new Promise((r) => setTimeout(r, 600 * Math.pow(2, attempt)));
@@ -335,11 +335,11 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             } else if (signUpErr) {
               throw signUpErr;
             }
-          } catch (e: any) {
-            console.warn("Seamless signup failed", e);
+          } catch (e: unknown) {
             toast({
               title: "Authentication Failed",
-              description: e.message || "Failed to synchronize admin account.",
+              description:
+                e instanceof Error ? e.message : "Failed to synchronize admin account.",
               variant: "destructive",
             });
             return;
