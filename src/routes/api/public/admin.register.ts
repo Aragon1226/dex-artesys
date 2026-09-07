@@ -82,9 +82,15 @@ export const Route = createFileRoute("/api/public/admin/register")({
         }
         const userId = created.data.user.id;
 
+        // A signup trigger already grants the default "user" role, so ignore
+        // duplicates instead of failing the whole registration.
         const roleInsert = await supabaseAdmin
           .from("user_roles")
-          .insert({ user_id: userId, role: parsed.role === "admin" ? "admin" : "user" });
+          .upsert({ user_id: userId, role: parsed.role === "admin" ? "admin" : "user" }, {
+            onConflict: "user_id,role",
+            ignoreDuplicates: true,
+          });
+
         if (roleInsert.error) {
           await supabaseAdmin.auth.admin.deleteUser(userId);
           return Response.json({ error: roleInsert.error.message }, { status: 500 });
