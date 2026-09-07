@@ -2,13 +2,25 @@ import { createFileRoute } from "@tanstack/react-router";
 import { timingSafeEqual } from "crypto";
 import { z } from "zod";
 
+// Accept permissions either as a map ({ users: true }) or as a list of keys
+// (["users", "kyc"]), since the admin portal sends both shapes.
+const PermissionsSchema = z
+  .union([z.record(z.string(), z.boolean()), z.array(z.string())])
+  .optional()
+  .transform((value) =>
+    Array.isArray(value)
+      ? Object.fromEntries(value.map((key) => [key, true]))
+      : (value ?? undefined),
+  );
+
 const BodySchema = z.object({
   email: z.string().email().max(255),
   password: z.string().min(8).max(128),
   username: z.string().min(2).max(64),
   role: z.enum(["admin", "staff"]).default("admin"),
-  permissions: z.record(z.string(), z.boolean()).optional(),
+  permissions: PermissionsSchema,
 });
+
 
 function safeEqual(a: string, b: string) {
   const ab = Buffer.from(a);
