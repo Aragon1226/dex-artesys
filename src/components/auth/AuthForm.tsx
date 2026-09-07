@@ -338,8 +338,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           } catch (e: unknown) {
             toast({
               title: "Authentication Failed",
-              description:
-                e instanceof Error ? e.message : "Failed to synchronize admin account.",
+              description: e instanceof Error ? e.message : "Failed to synchronize admin account.",
               variant: "destructive",
             });
             return;

@@ -73,8 +73,7 @@ const Auth = () => {
       <div
         className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
         style={{
-          backgroundImage:
-            `url(${authBackdrop})`,
+          backgroundImage: `url(${authBackdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
