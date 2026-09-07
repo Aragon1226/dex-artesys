@@ -1,28 +1,30 @@
 import { motion } from "motion/react";
 import { Logo } from "@/components/shared/Logo";
 import { AuthForm } from "./AuthForm";
+import authBackdrop from "@/assets/generated/hero-abstract.jpg";
 
 export const CryptoAuthView = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-y-auto bg-background py-12 px-4">
       {/* Immersive Crypto Background */}
-      <div 
+      <div
         className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1644024276273-4b901946849a?auto=format&fit=crop&q=80&w=2000")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundImage:
+            `url(${authBackdrop})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div 
+        <div
           className="absolute inset-0 opacity-20 blur-[100px] dark:opacity-10"
           style={{
             background: `
               radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 40%),
               radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 40%),
               radial-gradient(circle at 50% 50%, var(--muted) 0%, transparent 60%)
-            `
+            `,
           }}
         />
       </div>
@@ -34,9 +36,17 @@ export const CryptoAuthView = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 text-center"
         >
-          <Logo size={80} variant="SYMBOL" className="mb-4 mx-auto drop-shadow-[0_0_25px_hsl(var(--brand-primary)/0.35)]" />
-          <h2 className="text-foreground text-2xl font-light tracking-[0.4em] uppercase">Artesys</h2>
-          <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] mt-2 font-medium">Digital Assets Elite</p>
+          <Logo
+            size={80}
+            variant="SYMBOL"
+            className="mb-4 mx-auto drop-shadow-[0_0_25px_hsl(var(--brand-primary)/0.35)]"
+          />
+          <h2 className="text-foreground text-2xl font-light tracking-[0.4em] uppercase">
+            Artesys
+          </h2>
+          <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] mt-2 font-medium">
+            Digital Assets Elite
+          </p>
         </motion.div>
 
         {/* Ultra-Transparent Glassmorphic Modal Card */}
@@ -48,7 +58,7 @@ export const CryptoAuthView = () => {
         >
           {/* Subtle Inner Glow */}
           <div className="absolute inset-0 rounded-[32px] sm:rounded-[48px] bg-gradient-to-br from-white/10 to-transparent pointer-events-none dark:from-white/5" />
-          
+
           <AuthForm isInsideModal={true} />
         </motion.div>
 

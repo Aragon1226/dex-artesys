@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useLocation } from "@/lib/router-compat";
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from "lucide-react";
 
 interface PageLoadingOverlayProps {
   isLoading?: boolean;
@@ -46,8 +46,8 @@ export const PageLoadingOverlay = ({
           <div
             className="h-full bg-gradient-to-r from-warning via-primary to-warning shadow-[0_0_8px_hsl(var(--brand-primary)/0.8)] transition-all duration-300 ease-out"
             style={{
-              width: explicitLoading ? '85%' : `${progress}%`,
-              transitionProperty: 'width, opacity',
+              width: explicitLoading ? "85%" : `${progress}%`,
+              transitionProperty: "width, opacity",
             }}
           />
         </div>
@@ -58,7 +58,9 @@ export const PageLoadingOverlay = ({
         <div className="fixed inset-0 z-[100] bg-background/40 backdrop-blur-[2px] flex items-center justify-center pointer-events-none transition-all duration-200">
           <div className="bg-card/95 border border-border/80 shadow-2xl rounded-2xl px-5 py-3.5 flex items-center gap-3 animate-in fade-in zoom-in-95 duration-200">
             <Loader2 className="w-5 h-5 animate-spin text-primary shrink-0" />
-            <span className="text-xs font-semibold tracking-wide text-foreground/90">{message}</span>
+            <span className="text-xs font-semibold tracking-wide text-foreground/90">
+              {message}
+            </span>
           </div>
         </div>
       )}

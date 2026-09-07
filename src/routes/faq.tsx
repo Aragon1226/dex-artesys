@@ -6,9 +6,17 @@ export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
       { title: "FAQ — Artesys" },
-      { name: "description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys." },
+      {
+        name: "description",
+        content:
+          "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys.",
+      },
       { property: "og:title", content: "FAQ — Artesys" },
-      { property: "og:description", content: "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys." },
+      {
+        property: "og:description",
+        content:
+          "Answers to common questions about deposits, withdrawals, KYC and trading on Artesys.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://xn--artsys-dva.com/faq" },

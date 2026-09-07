@@ -13,7 +13,7 @@ export function isFaultInjected(scope: string): boolean {
   if (!raw) return false;
   return raw
     .split(",")
-    .map(s => s.trim().toLowerCase())
+    .map((s) => s.trim().toLowerCase())
     .includes(scope.toLowerCase());
 }
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 import {
   Body,
   Button,
@@ -10,7 +10,7 @@ import {
   Preview,
   Section,
   Text,
-} from '@react-email/components'
+} from "@react-email/components";
 import {
   BrandFooter,
   BrandHeader,
@@ -28,20 +28,20 @@ import {
   BLUE,
   GOLD,
   MIDNIGHT,
-} from './brand'
+} from "./brand";
 
 // Re-exported so existing auth templates keep importing styles from here.
-export { button, codeStyle, container, darkModeCss, h1, hr, link, main, muted, text, urlNote }
-export { BLUE, GOLD, MIDNIGHT }
+export { button, codeStyle, container, darkModeCss, h1, hr, link, main, muted, text, urlNote };
+export { BLUE, GOLD, MIDNIGHT };
 
 interface AuthShellProps {
-  preview: string
-  heading: string
-  children: React.ReactNode
-  ctaLabel?: string
-  ctaHref?: string
-  footerNote?: string
-  siteName?: string
+  preview: string;
+  heading: string;
+  children: React.ReactNode;
+  ctaLabel?: string;
+  ctaHref?: string;
+  footerNote?: string;
+  siteName?: string;
 }
 
 export const AuthShell = ({
@@ -65,7 +65,7 @@ export const AuthShell = ({
         {children}
 
         {ctaLabel && ctaHref ? (
-          <Section style={{ textAlign: 'center', margin: '24px 0 10px' }}>
+          <Section style={{ textAlign: "center", margin: "24px 0 10px" }}>
             <Button className="dm-btn" href={ctaHref} style={button}>
               {ctaLabel}
             </Button>
@@ -74,7 +74,7 @@ export const AuthShell = ({
 
         {ctaHref ? (
           <Text style={urlNote}>
-            Button not working? Paste this link into your browser:{' '}
+            Button not working? Paste this link into your browser:{" "}
             <Link href={ctaHref} style={link}>
               {ctaHref}
             </Link>
@@ -85,4 +85,4 @@ export const AuthShell = ({
       </Container>
     </Body>
   </Html>
-)
+);

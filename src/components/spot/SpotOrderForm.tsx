@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowDownUp, DollarSign, Wallet, ShieldCheck, Zap } from 'lucide-react';
-import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import type { MarketTicker } from '@/services/market';
-import { toast } from 'sonner';
+import React, { useState, useEffect } from "react";
+import { ArrowDownUp, DollarSign, Wallet, ShieldCheck, Zap } from "lucide-react";
+import { CryptoIcon } from "@/components/shared/CryptoIcon";
+import type { MarketTicker } from "@/services/market";
+import { toast } from "sonner";
 
 interface SpotOrderFormProps {
   symbol: string; // e.g. "BTC"
-  pair: string;   // e.g. "BTCUSDT"
+  pair: string; // e.g. "BTCUSDT"
   ticker: MarketTicker;
   availableUsdt: number;
   availableBaseAsset: number;
   onExecuteTrade: (trade: {
-    side: 'BUY' | 'SELL';
-    type: 'LIMIT' | 'MARKET';
+    side: "BUY" | "SELL";
+    type: "LIMIT" | "MARKET";
     price: number;
     amount: number;
     total: number;
@@ -27,23 +27,23 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
   availableUsdt,
   availableBaseAsset,
   onExecuteTrade,
-  selectedPriceOverride
+  selectedPriceOverride,
 }) => {
-  const [side, setSide] = useState<'BUY' | 'SELL'>('BUY');
-  const [orderType, setOrderType] = useState<'LIMIT' | 'MARKET'>('MARKET');
-  const [priceInput, setPriceInput] = useState<string>('');
-  const [amountInput, setAmountInput] = useState<string>('');
-  const [totalInput, setTotalInput] = useState<string>('');
+  const [side, setSide] = useState<"BUY" | "SELL">("BUY");
+  const [orderType, setOrderType] = useState<"LIMIT" | "MARKET">("MARKET");
+  const [priceInput, setPriceInput] = useState<string>("");
+  const [amountInput, setAmountInput] = useState<string>("");
+  const [totalInput, setTotalInput] = useState<string>("");
   const [percentage, setPercentage] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lastEditedField, setLastEditedField] = useState<'AMOUNT' | 'TOTAL'>('AMOUNT');
+  const [lastEditedField, setLastEditedField] = useState<"AMOUNT" | "TOTAL">("AMOUNT");
 
   // Sync initial price or override from order book click
   useEffect(() => {
     if (selectedPriceOverride && selectedPriceOverride > 0) {
       setPriceInput(selectedPriceOverride.toString());
     } else if (ticker.lastPrice > 0) {
-      if (orderType === 'MARKET') {
+      if (orderType === "MARKET") {
         setPriceInput(ticker.lastPrice.toString());
       } else if (!priceInput) {
         setPriceInput(ticker.lastPrice.toString());
@@ -51,13 +51,14 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
     }
   }, [ticker.lastPrice, selectedPriceOverride, orderType, pair, side, priceInput]);
 
-  const currentPrice = orderType === 'MARKET' ? ticker.lastPrice : (parseFloat(priceInput) || ticker.lastPrice || 1);
+  const currentPrice =
+    orderType === "MARKET" ? ticker.lastPrice : parseFloat(priceInput) || ticker.lastPrice || 1;
 
   // Recalculate amount based on percentage of available balance
   const handlePercentageChange = (pct: number) => {
     setPercentage(pct);
-    setLastEditedField('AMOUNT');
-    if (side === 'BUY') {
+    setLastEditedField("AMOUNT");
+    if (side === "BUY") {
       const totalUsdtToUse = availableUsdt * (pct / 100);
       setTotalInput(totalUsdtToUse.toFixed(2));
       if (currentPrice > 0) {
@@ -75,12 +76,12 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
     }
   };
 
-  const amount = lastEditedField === 'TOTAL' 
-    ? (parseFloat(totalInput) || 0) / currentPrice 
-    : (parseFloat(amountInput) || 0);
-  const totalUsdt = lastEditedField === 'AMOUNT'
-    ? amount * currentPrice
-    : (parseFloat(totalInput) || 0);
+  const amount =
+    lastEditedField === "TOTAL"
+      ? (parseFloat(totalInput) || 0) / currentPrice
+      : parseFloat(amountInput) || 0;
+  const totalUsdt =
+    lastEditedField === "AMOUNT" ? amount * currentPrice : parseFloat(totalInput) || 0;
 
   // Form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -93,7 +94,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
     let finalAmount = amount;
     let finalTotal = totalUsdt;
 
-    if (side === 'SELL') {
+    if (side === "SELL") {
       // If the user wants to sell their entire holdings (percentage === 100 or amount >= 99.9% of full balance)
       // we anonymously deduct a tiny reserve cushion (0.15%) in the background to handle price feed delays and precision variances
       if (percentage === 100 || amount >= availableBaseAsset * 0.999) {
@@ -111,21 +112,21 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
       await onExecuteTrade({
         side,
         type: orderType,
-        price: orderType === 'MARKET' ? ticker.lastPrice : currentPrice,
+        price: orderType === "MARKET" ? ticker.lastPrice : currentPrice,
         amount: finalAmount,
-        total: finalTotal
+        total: finalTotal,
       });
 
       // Reset inputs after trade
-      setAmountInput('');
-      setTotalInput('');
+      setAmountInput("");
+      setTotalInput("");
       setPercentage(0);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const isBuy = side === 'BUY';
+  const isBuy = side === "BUY";
 
   return (
     <div className="bg-card border border-border rounded-2xl p-4 shadow-sm flex flex-col justify-between h-full">
@@ -135,18 +136,18 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
           <button
             type="button"
             onClick={() => {
-              setSide('BUY');
+              setSide("BUY");
               setPercentage(0);
-              setAmountInput('');
-              setTotalInput('');
-              if (orderType === 'LIMIT' && ticker.lastPrice > 0) {
+              setAmountInput("");
+              setTotalInput("");
+              if (orderType === "LIMIT" && ticker.lastPrice > 0) {
                 setPriceInput(ticker.lastPrice.toString());
               }
             }}
             className={`py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
-              isBuy 
-                ? 'bg-success text-white shadow-md shadow-success/20' 
-                : 'text-muted-foreground hover:text-foreground'
+              isBuy
+                ? "bg-success text-white shadow-md shadow-success/20"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Buy {symbol}
@@ -154,18 +155,18 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
           <button
             type="button"
             onClick={() => {
-              setSide('SELL');
+              setSide("SELL");
               setPercentage(0);
-              setAmountInput('');
-              setTotalInput('');
-              if (orderType === 'LIMIT' && ticker.lastPrice > 0) {
+              setAmountInput("");
+              setTotalInput("");
+              if (orderType === "LIMIT" && ticker.lastPrice > 0) {
                 setPriceInput(ticker.lastPrice.toString());
               }
             }}
             className={`py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
-              !isBuy 
-                ? 'bg-danger text-white shadow-md shadow-danger/20' 
-                : 'text-muted-foreground hover:text-foreground'
+              !isBuy
+                ? "bg-danger text-white shadow-md shadow-danger/20"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Sell {symbol}
@@ -178,15 +179,15 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             <button
               type="button"
               onClick={() => {
-                setOrderType('MARKET');
+                setOrderType("MARKET");
                 if (ticker.lastPrice > 0) {
                   setPriceInput(ticker.lastPrice.toString());
                 }
               }}
               className={`text-xs font-bold transition-colors ${
-                orderType === 'MARKET' 
-                  ? 'text-primary border-b-2 border-primary pb-1' 
-                  : 'text-muted-foreground hover:text-foreground pb-1'
+                orderType === "MARKET"
+                  ? "text-primary border-b-2 border-primary pb-1"
+                  : "text-muted-foreground hover:text-foreground pb-1"
               }`}
             >
               Market Order
@@ -194,15 +195,15 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             <button
               type="button"
               onClick={() => {
-                setOrderType('LIMIT');
+                setOrderType("LIMIT");
                 if (ticker.lastPrice > 0) {
                   setPriceInput(ticker.lastPrice.toString());
                 }
               }}
               className={`text-xs font-bold transition-colors ${
-                orderType === 'LIMIT' 
-                  ? 'text-primary border-b-2 border-primary pb-1' 
-                  : 'text-muted-foreground hover:text-foreground pb-1'
+                orderType === "LIMIT"
+                  ? "text-primary border-b-2 border-primary pb-1"
+                  : "text-muted-foreground hover:text-foreground pb-1"
               }`}
             >
               Limit Order
@@ -213,7 +214,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             <Wallet size={12} className="text-primary" />
             <span>Avail:</span>
             <span className="font-mono text-foreground">
-              {isBuy 
+              {isBuy
                 ? `$${availableUsdt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                 : `${availableBaseAsset.toFixed(4)} ${symbol}`}
             </span>
@@ -226,7 +227,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
           <div className="space-y-1">
             <div className="flex items-center justify-between">
               <label className="text-[10px] font-extrabold uppercase text-muted-foreground tracking-wider flex items-center gap-1.5">
-                <span>{orderType === 'MARKET' ? 'Mark Price' : 'Limit Price'}</span>
+                <span>{orderType === "MARKET" ? "Mark Price" : "Limit Price"}</span>
               </label>
               <span className="text-foreground font-mono text-[10px]">USDT</span>
             </div>
@@ -235,23 +236,24 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
               <input
                 type="number"
                 step="any"
-                disabled={orderType === 'MARKET'}
-                value={orderType === 'MARKET' ? ticker.lastPrice || '' : priceInput}
+                disabled={orderType === "MARKET"}
+                value={orderType === "MARKET" ? ticker.lastPrice || "" : priceInput}
                 onChange={(e) => setPriceInput(e.target.value)}
                 placeholder="0.00"
                 className={`w-full bg-muted border border-border focus:border-primary/50 rounded-xl px-3 py-2 text-xs font-mono font-bold text-foreground focus:outline-none ${
-                  orderType === 'MARKET' ? 'opacity-90 bg-muted/40 cursor-not-allowed' : ''
+                  orderType === "MARKET" ? "opacity-90 bg-muted/40 cursor-not-allowed" : ""
                 }`}
               />
-              {orderType === 'MARKET' && (
+              {orderType === "MARKET" && (
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-success uppercase bg-success/10 px-1.5 py-0.5 rounded">
-                  Mark Price (${ticker.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })})
+                  Mark Price ($
+                  {ticker.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })})
                 </span>
               )}
             </div>
           </div>
 
-                    {/* Amount Input */}
+          {/* Amount Input */}
           <div className="space-y-1">
             <label className="text-[10px] font-extrabold uppercase text-muted-foreground tracking-wider flex justify-between">
               <span>Amount</span>
@@ -260,10 +262,18 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             <input
               type="number"
               step="any"
-              value={lastEditedField === 'AMOUNT' ? amountInput : (totalInput ? ((parseFloat(totalInput) || 0) / currentPrice).toFixed(6).replace(/\.?0+$/, '') : '')}
+              value={
+                lastEditedField === "AMOUNT"
+                  ? amountInput
+                  : totalInput
+                    ? ((parseFloat(totalInput) || 0) / currentPrice)
+                        .toFixed(6)
+                        .replace(/\.?0+$/, "")
+                    : ""
+              }
               onChange={(e) => {
                 setAmountInput(e.target.value);
-                setLastEditedField('AMOUNT');
+                setLastEditedField("AMOUNT");
                 setPercentage(0);
               }}
               placeholder="0.00"
@@ -280,8 +290,8 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
                 onClick={() => handlePercentageChange(pct)}
                 className={`py-1 rounded-lg text-[10px] font-black transition-all border ${
                   percentage === pct
-                    ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                    : 'bg-muted/50 border-border text-muted-foreground hover:bg-muted hover:text-foreground'
+                    ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                    : "bg-muted/50 border-border text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
                 {pct}%
@@ -298,10 +308,16 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             <input
               type="number"
               step="any"
-              value={lastEditedField === 'TOTAL' ? totalInput : (amountInput ? (parseFloat(amountInput) * currentPrice).toFixed(2).replace(/\.00$/, '') : '')}
+              value={
+                lastEditedField === "TOTAL"
+                  ? totalInput
+                  : amountInput
+                    ? (parseFloat(amountInput) * currentPrice).toFixed(2).replace(/\.00$/, "")
+                    : ""
+              }
               onChange={(e) => {
                 setTotalInput(e.target.value);
-                setLastEditedField('TOTAL');
+                setLastEditedField("TOTAL");
                 setPercentage(0);
               }}
               placeholder="0.00"
@@ -311,11 +327,16 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
           {/* Execution Button */}
           <button
             type="submit"
-            disabled={isSubmitting || amount <= 0 || (isBuy && totalUsdt > availableUsdt) || (!isBuy && amount > availableBaseAsset)}
+            disabled={
+              isSubmitting ||
+              amount <= 0 ||
+              (isBuy && totalUsdt > availableUsdt) ||
+              (!isBuy && amount > availableBaseAsset)
+            }
             className={`w-full py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all shadow-lg active:scale-98 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2 ${
-              isBuy 
-                ? 'bg-success hover:bg-success text-white shadow-success/20' 
-                : 'bg-danger hover:bg-danger text-white shadow-danger/20'
+              isBuy
+                ? "bg-success hover:bg-success text-white shadow-success/20"
+                : "bg-danger hover:bg-danger text-white shadow-danger/20"
             }`}
           >
             {isSubmitting ? (
@@ -324,9 +345,13 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
               <>
                 <Zap size={14} />
                 <span>
-                  {orderType === 'MARKET' 
-                    ? (isBuy ? `Market Buy ${symbol} @ Mark Price` : `Market Sell ${symbol} @ Mark Price`)
-                    : (isBuy ? `Place Limit Buy (${symbol})` : `Place Limit Sell (${symbol})`)}
+                  {orderType === "MARKET"
+                    ? isBuy
+                      ? `Market Buy ${symbol} @ Mark Price`
+                      : `Market Sell ${symbol} @ Mark Price`
+                    : isBuy
+                      ? `Place Limit Buy (${symbol})`
+                      : `Place Limit Sell (${symbol})`}
                 </span>
               </>
             )}
@@ -341,11 +366,9 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
           <span>Spot Matching Engine Active</span>
         </div>
         <span className="font-mono font-bold text-foreground uppercase">
-          {orderType === 'MARKET' ? 'Instant Settlement' : 'Open Order Escrow'}
+          {orderType === "MARKET" ? "Instant Settlement" : "Open Order Escrow"}
         </span>
       </div>
     </div>
   );
 };
-
-

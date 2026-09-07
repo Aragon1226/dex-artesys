@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { MarketData, marketService } from '@/services/market';
+import { useState, useEffect, useRef } from "react";
+import { MarketData, marketService } from "@/services/market";
 
 export interface RealtimePrice {
   price: number;
-  direction: 'up' | 'down' | null;
+  direction: "up" | "down" | null;
   change24h?: number;
   high24h?: number;
   low24h?: number;
@@ -18,27 +18,30 @@ export const useRealtimePrices = (initialMarkets: MarketData[]) => {
   // Seed with initial markets
   useEffect(() => {
     if (!initialMarkets || initialMarkets.length === 0) return;
-    
-    setPrices(prev => {
+
+    setPrices((prev) => {
       const next = { ...prev };
       let changed = false;
-      
-      initialMarkets.forEach(m => {
+
+      initialMarkets.forEach((m) => {
         const oldPrice = prevPricesRef.current[m.pair] ?? prev[m.pair]?.price;
         prevPricesRef.current[m.pair] = m.price;
-        
+
         if (!next[m.pair] || next[m.pair].price !== m.price) {
-          const dir = oldPrice !== undefined && oldPrice !== m.price 
-            ? (m.price > oldPrice ? 'up' : 'down') 
-            : (prev[m.pair]?.direction ?? null);
-            
-          next[m.pair] = { 
-            price: m.price, 
+          const dir =
+            oldPrice !== undefined && oldPrice !== m.price
+              ? m.price > oldPrice
+                ? "up"
+                : "down"
+              : (prev[m.pair]?.direction ?? null);
+
+          next[m.pair] = {
+            price: m.price,
             direction: dir,
             change24h: m.change24h,
             high24h: m.high24h,
             low24h: m.low24h,
-            volume24h: m.volume24h
+            volume24h: m.volume24h,
           };
           changed = true;
         }
@@ -52,17 +55,18 @@ export const useRealtimePrices = (initialMarkets: MarketData[]) => {
     marketService.init();
 
     const unsubscribe = marketService.subscribeToAllTickers((liveUpdates) => {
-      setPrices(prev => {
+      setPrices((prev) => {
         let changed = false;
         const next = { ...prev };
 
         Object.entries(liveUpdates).forEach(([pair, update]) => {
           const oldPrice = prevPricesRef.current[pair] ?? prev[pair]?.price;
-          
+
           if (oldPrice !== update.price) {
             prevPricesRef.current[pair] = update.price;
-            const direction: 'up' | 'down' = oldPrice !== undefined && update.price > oldPrice ? 'up' : 'down';
-            
+            const direction: "up" | "down" =
+              oldPrice !== undefined && update.price > oldPrice ? "up" : "down";
+
             next[pair] = {
               price: update.price,
               direction,
@@ -78,7 +82,7 @@ export const useRealtimePrices = (initialMarkets: MarketData[]) => {
               clearTimeout(timeoutRefs.current[pair]);
             }
             timeoutRefs.current[pair] = setTimeout(() => {
-              setPrices(p => {
+              setPrices((p) => {
                 if (p[pair] && p[pair].direction !== null) {
                   return { ...p, [pair]: { ...p[pair], direction: null } };
                 }

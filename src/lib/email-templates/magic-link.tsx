@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { Text } from '@react-email/components'
-import { AuthShell, text } from './auth-shell'
+import * as React from "react";
+import { Text } from "@react-email/components";
+import { AuthShell, text } from "./auth-shell";
 
 interface MagicLinkEmailProps {
-  siteName: string
-  confirmationUrl: string
+  siteName: string;
+  confirmationUrl: string;
 }
 
 export const MagicLinkEmail = ({ siteName, confirmationUrl }: MagicLinkEmailProps) => (
@@ -19,6 +19,6 @@ export const MagicLinkEmail = ({ siteName, confirmationUrl }: MagicLinkEmailProp
       Tap the button below to sign in to your {siteName} account — no password needed.
     </Text>
   </AuthShell>
-)
+);
 
-export default MagicLinkEmail
+export default MagicLinkEmail;

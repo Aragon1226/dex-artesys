@@ -20,7 +20,6 @@ const MainLayout = () => {
     { key: "assets", label: "Assets", path: "/app/assets" },
   ];
 
-
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row relative">
       {/* Global Route Loading Progress Bar & Overlay */}
@@ -31,7 +30,7 @@ const MainLayout = () => {
         <div className="px-4 mb-10">
           <Logo size={52} variant="FULL" />
         </div>
-        
+
         <div className="flex-1 space-y-2">
           {navItems.map((item) => (
             <NavLink
@@ -48,27 +47,23 @@ const MainLayout = () => {
               {({ isActive }) => (
                 <>
                   <NavIcon icon={item.key} active={isActive} boxed />
-                  <span className="text-sm font-bold tracking-wide">
-                    {item.label}
-                  </span>
+                  <span className="text-sm font-bold tracking-wide">{item.label}</span>
                 </>
               )}
             </NavLink>
           ))}
-
-
-
         </div>
 
         <div className="pt-6 border-t border-border mt-auto">
-           <div className="bg-primary/5 rounded-2xl p-4 border border-primary/10">
-              <p className="text-[10px] uppercase font-black text-primary tracking-widest mb-1">Status</p>
-              <p className="flex items-center gap-2 text-xs font-bold text-foreground">
-                <StatusDot tone="success" pulse />
-                Operational
-              </p>
-           </div>
-
+          <div className="bg-primary/5 rounded-2xl p-4 border border-primary/10">
+            <p className="text-[10px] uppercase font-black text-primary tracking-widest mb-1">
+              Status
+            </p>
+            <p className="flex items-center gap-2 text-xs font-bold text-foreground">
+              <StatusDot tone="success" pulse />
+              Operational
+            </p>
+          </div>
         </div>
       </nav>
 
@@ -99,11 +94,15 @@ const MainLayout = () => {
               >
                 {({ isActive }) => (
                   <>
-                    <div className={`p-1.5 rounded-xl transition-all duration-200 ${isActive ? 'bg-primary/15 text-primary scale-105' : 'bg-transparent'}`}>
+                    <div
+                      className={`p-1.5 rounded-xl transition-all duration-200 ${isActive ? "bg-primary/15 text-primary scale-105" : "bg-transparent"}`}
+                    >
                       <NavIcon icon={item.key} active={isActive} size={20} />
                     </div>
 
-                    <span className={`text-[10px] tracking-tight transition-all duration-200 ${isActive ? 'opacity-100 font-bold' : 'opacity-80'}`}>
+                    <span
+                      className={`text-[10px] tracking-tight transition-all duration-200 ${isActive ? "opacity-100 font-bold" : "opacity-80"}`}
+                    >
                       {item.label}
                     </span>
                     {isActive && (

@@ -68,8 +68,8 @@ function TradingPage() {
             than the exact level.
           </Card>
           <Card title="0.15% fee">
-            A single flat trading fee applies to spot execution. It is calculated on the order
-            total and displayed before you confirm.
+            A single flat trading fee applies to spot execution. It is calculated on the order total
+            and displayed before you confirm.
           </Card>
         </CardGrid>
         <div className="mt-6">
@@ -91,8 +91,8 @@ function TradingPage() {
             the profit or loss posts to your futures balance.
           </Card>
           <Card title="Margin and leverage">
-            Leverage multiplies the position size relative to the margin you commit, which
-            magnifies both gains and losses.
+            Leverage multiplies the position size relative to the margin you commit, which magnifies
+            both gains and losses.
           </Card>
         </CardGrid>
         <div className="mt-6">

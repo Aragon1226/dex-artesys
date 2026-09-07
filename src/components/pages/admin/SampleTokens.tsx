@@ -1,41 +1,67 @@
-import { useState, useEffect, useCallback } from 'react';
-import { 
-  TrendingDown, TrendingUp, Sliders, RefreshCw, AlertCircle, 
-  CheckCircle2, Clock, Search, Filter, Play, StopCircle, RotateCcw, 
-  Zap, Info, Layers, Sparkles, History, ChevronRight, Target, Pause
-} from 'lucide-react';
-import { tokenPriceControl, TokenPriceSchedule, TokenPriceAuditLog, SAMPLE_TOKENS_LIST } from '@/services/tokenPriceControl';
-import { marketService } from '@/services/market';
-import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import { toast } from 'sonner';
-import { useAuth } from '@/hooks/useAuth';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useCallback } from "react";
+import {
+  TrendingDown,
+  TrendingUp,
+  Sliders,
+  RefreshCw,
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  Search,
+  Filter,
+  Play,
+  StopCircle,
+  RotateCcw,
+  Zap,
+  Info,
+  Layers,
+  Sparkles,
+  History,
+  ChevronRight,
+  Target,
+  Pause,
+} from "lucide-react";
+import {
+  tokenPriceControl,
+  TokenPriceSchedule,
+  TokenPriceAuditLog,
+  SAMPLE_TOKENS_LIST,
+} from "@/services/tokenPriceControl";
+import { marketService } from "@/services/market";
+import { CryptoIcon } from "@/components/shared/CryptoIcon";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { motion, AnimatePresence } from "motion/react";
 
 export const AdminSampleTokens = () => {
   const { user } = useAuth();
-  const adminEmail = user?.email || 'admin@artesys.io';
+  const adminEmail = user?.email || "admin@artesys.io";
 
   const [schedules, setSchedules] = useState<Record<string, TokenPriceSchedule>>({});
   const [livePrices, setLivePrices] = useState<Record<string, number>>({});
   const [auditLogs, setAuditLogs] = useState<TokenPriceAuditLog[]>([]);
-  
+
   // Search & Filter state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<'All' | 'Main' | 'Stocks & Commodities' | 'Controlled' | 'Idle at Target'>('All');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<
+    "All" | "Main" | "Stocks & Commodities" | "Controlled" | "Idle at Target"
+  >("All");
   const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
 
   // Modal / Drawer state for configuring price trend
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeSymbol, setActiveSymbol] = useState<string>('NAS');
-  
+  const [activeSymbol, setActiveSymbol] = useState<string>("NAS");
+
   // Form parameters
-  const [adjustType, setAdjustType] = useState<'percentage' | 'fixed_target' | 'manual_override'>('percentage');
-  const [direction, setDirection] = useState<'decrease' | 'increase'>('decrease');
+  const [adjustType, setAdjustType] = useState<"percentage" | "fixed_target" | "manual_override">(
+    "percentage",
+  );
+  const [direction, setDirection] = useState<"decrease" | "increase">("decrease");
   const [changePercent, setChangePercent] = useState<number>(20);
-  const [targetPriceInput, setTargetPriceInput] = useState<string>('');
+  const [targetPriceInput, setTargetPriceInput] = useState<string>("");
   const [durationValue, setDurationValue] = useState<number>(24); // in hours
-  const [durationUnit, setDurationUnit] = useState<'hours' | 'days'>('days');
-  const [noteInput, setNoteInput] = useState<string>('');
+  const [durationUnit, setDurationUnit] = useState<"hours" | "days">("days");
+  const [noteInput, setNoteInput] = useState<string>("");
 
   // Refresh interval for live tick updates
   const refreshData = useCallback(() => {
@@ -44,7 +70,7 @@ export const AdminSampleTokens = () => {
 
     // Fetch current prices
     const prices: Record<string, number> = {};
-    SAMPLE_TOKENS_LIST.forEach(t => {
+    SAMPLE_TOKENS_LIST.forEach((t) => {
       prices[t.symbol] = marketService.getCurrentPrice(t.symbol) || t.defaultPrice;
     });
     setLivePrices(prices);
@@ -57,37 +83,41 @@ export const AdminSampleTokens = () => {
     }, 1000);
 
     const handleStorageEvent = () => refreshData();
-    window.addEventListener('token-price-control-updated', handleStorageEvent);
+    window.addEventListener("token-price-control-updated", handleStorageEvent);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('token-price-control-updated', handleStorageEvent);
+      window.removeEventListener("token-price-control-updated", handleStorageEvent);
     };
   }, [refreshData]);
 
   // Handle open modal for single token
   const handleOpenModal = (symbol: string) => {
     setActiveSymbol(symbol);
-    const meta = SAMPLE_TOKENS_LIST.find(t => t.symbol === symbol);
+    const meta = SAMPLE_TOKENS_LIST.find((t) => t.symbol === symbol);
     const currentPrice = livePrices[symbol] || meta?.defaultPrice || 100;
     const existingSchedule = schedules[symbol];
 
     if (existingSchedule && existingSchedule.isActive) {
       setAdjustType(existingSchedule.type);
-      setDirection(existingSchedule.direction === 'decrease' ? 'decrease' : 'increase');
+      setDirection(existingSchedule.direction === "decrease" ? "decrease" : "increase");
       setChangePercent(existingSchedule.changePercent || 20);
       setTargetPriceInput(existingSchedule.targetPrice.toString());
-      setDurationValue(existingSchedule.durationHours >= 24 ? existingSchedule.durationHours / 24 : existingSchedule.durationHours);
-      setDurationUnit(existingSchedule.durationHours >= 24 ? 'days' : 'hours');
-      setNoteInput(existingSchedule.note || '');
+      setDurationValue(
+        existingSchedule.durationHours >= 24
+          ? existingSchedule.durationHours / 24
+          : existingSchedule.durationHours,
+      );
+      setDurationUnit(existingSchedule.durationHours >= 24 ? "days" : "hours");
+      setNoteInput(existingSchedule.note || "");
     } else {
-      setAdjustType('percentage');
-      setDirection('decrease');
+      setAdjustType("percentage");
+      setDirection("decrease");
       setChangePercent(20);
       setTargetPriceInput((currentPrice * 0.8).toFixed(2));
       setDurationValue(1);
-      setDurationUnit('days');
-      setNoteInput('');
+      setDurationUnit("days");
+      setNoteInput("");
     }
 
     setIsModalOpen(true);
@@ -97,49 +127,56 @@ export const AdminSampleTokens = () => {
   const handleApplyAdjustment = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
-    const durationHoursTotal = durationUnit === 'days' ? durationValue * 24 : durationValue;
-    if (adjustType !== 'manual_override' && durationHoursTotal < 1) {
-      toast.error('Minimum duration for manual setup is 1 hour (60 minutes)');
+    const durationHoursTotal = durationUnit === "days" ? durationValue * 24 : durationValue;
+    if (adjustType !== "manual_override" && durationHoursTotal < 1) {
+      toast.error("Minimum duration for manual setup is 1 hour (60 minutes)");
       return;
     }
 
-    const targetSyms = selectedTokens.length > 0 && selectedTokens.includes(activeSymbol)
-      ? selectedTokens
-      : [activeSymbol];
+    const targetSyms =
+      selectedTokens.length > 0 && selectedTokens.includes(activeSymbol)
+        ? selectedTokens
+        : [activeSymbol];
     try {
-      if (adjustType === 'manual_override') {
+      if (adjustType === "manual_override") {
         const numPrice = parseFloat(targetPriceInput);
         if (isNaN(numPrice) || numPrice <= 0) {
-          toast.error('Please specify a valid price greater than 0');
+          toast.error("Please specify a valid price greater than 0");
           return;
         }
-        targetSyms.forEach(sym => {
+        targetSyms.forEach((sym) => {
           tokenPriceControl.setManualOverride(sym, numPrice, adminEmail);
         });
-        toast.success(`Set manual override price to $${numPrice.toFixed(2)} for ${targetSyms.join(', ')}`);
+        toast.success(
+          `Set manual override price to $${numPrice.toFixed(2)} for ${targetSyms.join(", ")}`,
+        );
       } else {
-        targetSyms.forEach(sym => {
-          const tokenMeta = SAMPLE_TOKENS_LIST.find(t => t.symbol === sym);
+        targetSyms.forEach((sym) => {
+          const tokenMeta = SAMPLE_TOKENS_LIST.find((t) => t.symbol === sym);
           const startP = livePrices[sym] || tokenMeta?.defaultPrice || 100;
 
           tokenPriceControl.setSchedule({
             symbol: sym,
             direction: direction,
             type: adjustType,
-            changePercent: adjustType === 'percentage' ? changePercent : undefined,
-            targetPrice: adjustType === 'fixed_target' ? parseFloat(targetPriceInput) : undefined,
+            changePercent: adjustType === "percentage" ? changePercent : undefined,
+            targetPrice: adjustType === "fixed_target" ? parseFloat(targetPriceInput) : undefined,
             durationHours: durationHoursTotal,
             startPrice: startP,
             adminEmail,
-            note: noteInput || `Admin adjustment (${direction} by ${changePercent}% in ${durationValue} ${durationUnit})`
+            note:
+              noteInput ||
+              `Admin adjustment (${direction} by ${changePercent}% in ${durationValue} ${durationUnit})`,
           });
         });
 
-        const dirStr = direction === 'decrease' ? 'decrease' : 'increase';
-        toast.success(`Scheduled ${dirStr} of ${changePercent}% over ${durationValue} ${durationUnit} for ${targetSyms.join(', ')}. Once target is reached, price will idle until you click 'Return to Base'.`);
+        const dirStr = direction === "decrease" ? "decrease" : "increase";
+        toast.success(
+          `Scheduled ${dirStr} of ${changePercent}% over ${durationValue} ${durationUnit} for ${targetSyms.join(", ")}. Once target is reached, price will idle until you click 'Return to Base'.`,
+        );
       }
     } catch (err: any) {
-      toast.error(err.message || 'Operation failed due to an ongoing lock by another admin.');
+      toast.error(err.message || "Operation failed due to an ongoing lock by another admin.");
       return;
     }
 
@@ -154,7 +191,7 @@ export const AdminSampleTokens = () => {
       toast.success(`Started gradual return to base for ${symbol} (1 to 4 hours random duration)`);
       refreshData();
     } catch (err: any) {
-      toast.error(err.message || 'Failed to initiate return to base.');
+      toast.error(err.message || "Failed to initiate return to base.");
     }
   };
 
@@ -165,7 +202,7 @@ export const AdminSampleTokens = () => {
       toast.info(`Paused return to base for ${symbol}; holding idle at current target price`);
       refreshData();
     } catch (err: any) {
-      toast.error(err.message || 'Failed to cancel return to base.');
+      toast.error(err.message || "Failed to cancel return to base.");
     }
   };
 
@@ -173,10 +210,12 @@ export const AdminSampleTokens = () => {
   const handleBulkStartReturnToBase = (symbolsToReturn: string[]) => {
     try {
       tokenPriceControl.bulkStartReturnToBase(symbolsToReturn, adminEmail);
-      toast.success(`Initiated return to base for ${symbolsToReturn.length} token(s) (1 to 4 hours random duration)`);
+      toast.success(
+        `Initiated return to base for ${symbolsToReturn.length} token(s) (1 to 4 hours random duration)`,
+      );
       refreshData();
     } catch (err: any) {
-      toast.error(err.message || 'Failed to start bulk return.');
+      toast.error(err.message || "Failed to start bulk return.");
     }
   };
 
@@ -194,19 +233,23 @@ export const AdminSampleTokens = () => {
       toast.success(`Reset ${symbol} back to default baseline`);
       refreshData();
     } catch (err: any) {
-      toast.error(err.message || 'Operation failed.');
+      toast.error(err.message || "Operation failed.");
     }
   };
 
   // Reset all tokens
   const handleResetAll = () => {
-    if (window.confirm('Are you sure you want to reset ALL sample tokens to their standard default baselines? All active schedules will be permanently cleared.')) {
+    if (
+      window.confirm(
+        "Are you sure you want to reset ALL sample tokens to their standard default baselines? All active schedules will be permanently cleared.",
+      )
+    ) {
       try {
         tokenPriceControl.resetAllTokens(adminEmail);
-        toast.success('Reset all sample tokens to default baseline prices');
+        toast.success("Reset all sample tokens to default baseline prices");
         refreshData();
       } catch (err: any) {
-        toast.error(err.message || 'Operation failed.');
+        toast.error(err.message || "Operation failed.");
       }
     }
   };
@@ -214,19 +257,21 @@ export const AdminSampleTokens = () => {
   // Quick Preset Handlers
   const handleQuickPresetNAS20Pct1Day = () => {
     try {
-      const sym = 'NAS';
+      const sym = "NAS";
       const startP = livePrices[sym] || 92.54;
       tokenPriceControl.setSchedule({
         symbol: sym,
-        direction: 'decrease',
-        type: 'percentage',
+        direction: "decrease",
+        type: "percentage",
         changePercent: 20,
         durationHours: 24, // 1 day
         startPrice: startP,
         adminEmail,
-        note: 'Quick preset: NAS -20% in 1 day (idles at target when done)'
+        note: "Quick preset: NAS -20% in 1 day (idles at target when done)",
       });
-      toast.success('Preset Applied: NAS price will decrease 20% within 1 day, then stay idle at target until you click Return to Base.');
+      toast.success(
+        "Preset Applied: NAS price will decrease 20% within 1 day, then stay idle at target until you click Return to Base.",
+      );
       refreshData();
     } catch (err: any) {
       toast.error(err.message);
@@ -235,19 +280,21 @@ export const AdminSampleTokens = () => {
 
   const handleQuickPresetNAS20Pct4Days = () => {
     try {
-      const sym = 'NAS';
+      const sym = "NAS";
       const startP = livePrices[sym] || 92.54;
       tokenPriceControl.setSchedule({
         symbol: sym,
-        direction: 'decrease',
-        type: 'percentage',
+        direction: "decrease",
+        type: "percentage",
         changePercent: 20,
         durationHours: 96, // 4 days
         startPrice: startP,
         adminEmail,
-        note: 'Quick preset: NAS -20% in 4 days (idles at target when done)'
+        note: "Quick preset: NAS -20% in 4 days (idles at target when done)",
       });
-      toast.success('Preset Applied: NAS price will decrease 20% within 4 days, then stay idle at target until you click Return to Base.');
+      toast.success(
+        "Preset Applied: NAS price will decrease 20% within 4 days, then stay idle at target until you click Return to Base.",
+      );
       refreshData();
     } catch (err: any) {
       toast.error(err.message);
@@ -255,38 +302,45 @@ export const AdminSampleTokens = () => {
   };
 
   // Find tokens that are currently idle at target (ready for manual return)
-  const idleTokens = SAMPLE_TOKENS_LIST.filter(t => {
+  const idleTokens = SAMPLE_TOKENS_LIST.filter((t) => {
     const sch = schedules[t.symbol];
     if (!sch || !sch.isActive) return false;
-    const ctrl = tokenPriceControl.getControlledPrice(t.symbol, livePrices[t.symbol] || t.defaultPrice);
+    const ctrl = tokenPriceControl.getControlledPrice(
+      t.symbol,
+      livePrices[t.symbol] || t.defaultPrice,
+    );
     return ctrl.isIdleAtTarget;
   });
 
   // Filter tokens list
-  const filteredTokens = SAMPLE_TOKENS_LIST.filter(t => {
-    const matchesSearch = t.symbol.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          t.name.toLowerCase().includes(searchQuery.toLowerCase());
-    
+  const filteredTokens = SAMPLE_TOKENS_LIST.filter((t) => {
+    const matchesSearch =
+      t.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.name.toLowerCase().includes(searchQuery.toLowerCase());
+
     if (!matchesSearch) return false;
 
-    if (selectedCategory === 'Main') return t.category === 'Main';
-    if (selectedCategory === 'Stocks & Commodities') return t.category === 'Stocks & Commodities';
-    if (selectedCategory === 'Controlled') {
+    if (selectedCategory === "Main") return t.category === "Main";
+    if (selectedCategory === "Stocks & Commodities") return t.category === "Stocks & Commodities";
+    if (selectedCategory === "Controlled") {
       const sch = schedules[t.symbol];
       const hasOverride = tokenPriceControl.getManualOverrides()[t.symbol] !== undefined;
       return (sch && sch.isActive) || hasOverride;
     }
-    if (selectedCategory === 'Idle at Target') {
+    if (selectedCategory === "Idle at Target") {
       const sch = schedules[t.symbol];
       if (!sch || !sch.isActive) return false;
-      const ctrl = tokenPriceControl.getControlledPrice(t.symbol, livePrices[t.symbol] || t.defaultPrice);
+      const ctrl = tokenPriceControl.getControlledPrice(
+        t.symbol,
+        livePrices[t.symbol] || t.defaultPrice,
+      );
       return ctrl.isIdleAtTarget;
     }
 
     return true;
   });
 
-  const activeSchedulesCount = Object.values(schedules).filter(s => s.isActive).length;
+  const activeSchedulesCount = Object.values(schedules).filter((s) => s.isActive).length;
 
   return (
     <div className="space-y-6">
@@ -298,23 +352,23 @@ export const AdminSampleTokens = () => {
               <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
               Live Price Control Engine
             </span>
-            <span className="text-xs text-gray-400 font-mono">
-              Manual Return Mode Enabled
-            </span>
+            <span className="text-xs text-gray-400 font-mono">Manual Return Mode Enabled</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-2">
             <Sliders className="w-7 h-7 text-success" />
             Spot Control
           </h1>
           <p className="text-sm text-gray-400 mt-1 max-w-2xl">
-            Adjust prices and schedule trend factors. Once a target price is reached (100%), the token stays idle around the target price indefinitely until you manually click <strong>Return to Base</strong> (1–4h random gradual return).
+            Adjust prices and schedule trend factors. Once a target price is reached (100%), the
+            token stays idle around the target price indefinitely until you manually click{" "}
+            <strong>Return to Base</strong> (1–4h random gradual return).
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {idleTokens.length > 0 && (
             <button
-              onClick={() => handleBulkStartReturnToBase(idleTokens.map(t => t.symbol))}
+              onClick={() => handleBulkStartReturnToBase(idleTokens.map((t) => t.symbol))}
               className="px-4 py-2.5 rounded-xl bg-warning/20 hover:bg-warning/30 text-warning font-semibold text-sm flex items-center gap-2 border border-warning/40 transition-colors shadow-lg shadow-warning/10"
             >
               <RotateCcw className="w-4 h-4 text-warning" />
@@ -349,16 +403,17 @@ export const AdminSampleTokens = () => {
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <span>{idleTokens.length} Token(s) Holding Idle at Target Price</span>
                 <span className="px-2 py-0.5 rounded-full text-[11px] bg-warning/20 text-warning font-mono">
-                  {idleTokens.map(t => t.symbol).join(', ')}
+                  {idleTokens.map((t) => t.symbol).join(", ")}
                 </span>
               </h4>
               <p className="text-xs text-gray-400 mt-0.5">
-                Adjustment reached 100%. Prices are idling around their target. Click &apos;Return to Base&apos; whenever you want to begin the gradual 1–4 hour recovery.
+                Adjustment reached 100%. Prices are idling around their target. Click &apos;Return
+                to Base&apos; whenever you want to begin the gradual 1–4 hour recovery.
               </p>
             </div>
           </div>
           <button
-            onClick={() => handleBulkStartReturnToBase(idleTokens.map(t => t.symbol))}
+            onClick={() => handleBulkStartReturnToBase(idleTokens.map((t) => t.symbol))}
             className="px-4 py-2 rounded-xl bg-warning hover:bg-warning text-black text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-warning/20 whitespace-nowrap transition-all"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -374,12 +429,8 @@ export const AdminSampleTokens = () => {
             <span>Total Spot Tokens</span>
             <Layers className="w-4 h-4 text-success" />
           </div>
-          <div className="text-2xl font-bold text-white mt-2">
-            {SAMPLE_TOKENS_LIST.length}
-          </div>
-          <div className="text-xs text-gray-500 mt-1">
-            Main Spot Section Tokens
-          </div>
+          <div className="text-2xl font-bold text-white mt-2">{SAMPLE_TOKENS_LIST.length}</div>
+          <div className="text-xs text-gray-500 mt-1">Main Spot Section Tokens</div>
         </div>
 
         <div className="bg-[#111827] border border-gray-800 rounded-xl p-4 shadow-sm">
@@ -396,7 +447,9 @@ export const AdminSampleTokens = () => {
             )}
           </div>
           <div className="text-xs text-gray-500 mt-1">
-            {idleTokens.length > 0 ? `${idleTokens.length} holding at target` : 'Trends currently executing'}
+            {idleTokens.length > 0
+              ? `${idleTokens.length} holding at target`
+              : "Trends currently executing"}
           </div>
         </div>
 
@@ -406,13 +459,14 @@ export const AdminSampleTokens = () => {
             <Zap className="w-4 h-4 text-warning" />
           </div>
           <div className="text-2xl font-bold text-white mt-2 font-mono">
-            ${(livePrices['NAS'] || 92.54).toFixed(2)}
+            ${(livePrices["NAS"] || 92.54).toFixed(2)}
           </div>
           <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-            {schedules['NAS']?.isActive ? (
+            {schedules["NAS"]?.isActive ? (
               <span className="text-danger flex items-center gap-1">
                 <TrendingDown className="w-3 h-3" />
-                Target: ${schedules['NAS'].targetPrice.toFixed(2)} (-{schedules['NAS'].changePercent}%)
+                Target: ${schedules["NAS"].targetPrice.toFixed(2)} (-
+                {schedules["NAS"].changePercent}%)
               </span>
             ) : (
               <span className="text-gray-500">Uncontrolled Baseline</span>
@@ -429,9 +483,7 @@ export const AdminSampleTokens = () => {
             <CheckCircle2 className="w-5 h-5 text-success" />
             <span>Active</span>
           </div>
-          <div className="text-xs text-gray-500 mt-1">
-            Real-time WS Broadcast Enabled
-          </div>
+          <div className="text-xs text-gray-500 mt-1">Real-time WS Broadcast Enabled</div>
         </div>
       </div>
 
@@ -442,7 +494,9 @@ export const AdminSampleTokens = () => {
             <Zap className="w-4 h-4 text-warning" />
             <h3 className="text-sm font-semibold text-white">Quick Scenario Presets</h3>
           </div>
-          <span className="text-xs text-gray-400">One-click preset tests (holds at target when finished)</span>
+          <span className="text-xs text-gray-400">
+            One-click preset tests (holds at target when finished)
+          </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -475,13 +529,15 @@ export const AdminSampleTokens = () => {
           <button
             onClick={() => {
               tokenPriceControl.bulkSetSchedule({
-                symbols: ['NAS', 'AEP', 'ECB', 'BOT', 'OCT'],
-                direction: 'increase',
+                symbols: ["NAS", "AEP", "ECB", "BOT", "OCT"],
+                direction: "increase",
                 changePercent: 25,
                 durationHours: 48,
-                adminEmail
+                adminEmail,
               });
-              toast.success('Applied +25% rally over 2 days across Main tokens! They will idle at target until return button is clicked.');
+              toast.success(
+                "Applied +25% rally over 2 days across Main tokens! They will idle at target until return button is clicked.",
+              );
               refreshData();
             }}
             className="p-3 bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/40 rounded-xl text-left transition-all group"
@@ -490,21 +546,19 @@ export const AdminSampleTokens = () => {
               <span>🚀 Main Rally (+25% in 2d)</span>
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
-            <p className="text-xs text-gray-400 mt-1">
-              Boost NAS, AEP, ECB, BOT, OCT over 48h
-            </p>
+            <p className="text-xs text-gray-400 mt-1">Boost NAS, AEP, ECB, BOT, OCT over 48h</p>
           </button>
 
           <button
             onClick={() => {
               tokenPriceControl.bulkSetSchedule({
-                symbols: ['TTZS', 'CFR', 'STC', 'CFT', 'JOE', 'REO'],
-                direction: 'decrease',
+                symbols: ["TTZS", "CFR", "STC", "CFT", "JOE", "REO"],
+                direction: "decrease",
                 changePercent: 30,
                 durationHours: 72,
-                adminEmail
+                adminEmail,
               });
-              toast.success('Applied -30% market dip over 3 days across Main tokens!');
+              toast.success("Applied -30% market dip over 3 days across Main tokens!");
               refreshData();
             }}
             className="p-3 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 hover:border-purple-500/40 rounded-xl text-left transition-all group"
@@ -513,9 +567,7 @@ export const AdminSampleTokens = () => {
               <span>🔻 Main Tokens Dip (-30% in 3d)</span>
               <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
             </div>
-            <p className="text-xs text-gray-400 mt-1">
-              Gradual correction across Main tokens list
-            </p>
+            <p className="text-xs text-gray-400 mt-1">Gradual correction across Main tokens list</p>
           </button>
         </div>
       </div>
@@ -536,29 +588,33 @@ export const AdminSampleTokens = () => {
 
         {/* Category Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
-          {(['All', 'Main', 'Stocks & Commodities', 'Controlled', 'Idle at Target'] as const).map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
-                selectedCategory === cat
-                  ? 'bg-success text-black font-semibold shadow-md shadow-success/20'
-                  : 'bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-800'
-              }`}
-            >
-              {cat === 'Controlled' ? (
-                <span className="flex items-center gap-1">
-                  <Sliders className="w-3 h-3" />
-                  Active Controlled ({activeSchedulesCount})
-                </span>
-              ) : cat === 'Idle at Target' ? (
-                <span className="flex items-center gap-1">
-                  <Target className="w-3 h-3" />
-                  Idle at Target ({idleTokens.length})
-                </span>
-              ) : cat}
-            </button>
-          ))}
+          {(["All", "Main", "Stocks & Commodities", "Controlled", "Idle at Target"] as const).map(
+            (cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                  selectedCategory === cat
+                    ? "bg-success text-black font-semibold shadow-md shadow-success/20"
+                    : "bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-800"
+                }`}
+              >
+                {cat === "Controlled" ? (
+                  <span className="flex items-center gap-1">
+                    <Sliders className="w-3 h-3" />
+                    Active Controlled ({activeSchedulesCount})
+                  </span>
+                ) : cat === "Idle at Target" ? (
+                  <span className="flex items-center gap-1">
+                    <Target className="w-3 h-3" />
+                    Idle at Target ({idleTokens.length})
+                  </span>
+                ) : (
+                  cat
+                )}
+              </button>
+            ),
+          )}
         </div>
       </div>
 
@@ -587,23 +643,23 @@ export const AdminSampleTokens = () => {
                 filteredTokens.map((token) => {
                   const currentPrice = livePrices[token.symbol] || token.defaultPrice;
                   const sch = schedules[token.symbol];
-                  const hasOverride = tokenPriceControl.getManualOverrides()[token.symbol] !== undefined;
+                  const hasOverride =
+                    tokenPriceControl.getManualOverrides()[token.symbol] !== undefined;
 
-                  const isDecreasing = sch?.direction === 'decrease';
-                  const isIncreasing = sch?.direction === 'increase';
+                  const isDecreasing = sch?.direction === "decrease";
+                  const isIncreasing = sch?.direction === "increase";
 
                   return (
-                    <tr 
-                      key={token.symbol}
-                      className="hover:bg-gray-800/40 transition-colors group"
-                    >
+                    <tr key={token.symbol} className="hover:bg-gray-800/40 transition-colors group">
                       {/* Token Pair */}
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
                           <CryptoIcon symbol={token.symbol} className="w-9 h-9" />
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-white tracking-wide">{token.symbol}</span>
+                              <span className="font-bold text-white tracking-wide">
+                                {token.symbol}
+                              </span>
                               <span className="text-xs text-gray-400 font-mono">/USDT</span>
                             </div>
                             <div className="text-xs text-gray-400 font-normal">{token.name}</div>
@@ -613,11 +669,13 @@ export const AdminSampleTokens = () => {
 
                       {/* Category */}
                       <td className="py-4 px-4">
-                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
-                          token.category === 'Layer-2' 
-                            ? 'bg-info/10 text-info border-info/20' 
-                            : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
-                        }`}>
+                        <span
+                          className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                            token.category === "Layer-2"
+                              ? "bg-info/10 text-info border-info/20"
+                              : "bg-purple-500/10 text-purple-400 border-purple-500/20"
+                          }`}
+                        >
                           {token.category}
                         </span>
                       </td>
@@ -630,7 +688,15 @@ export const AdminSampleTokens = () => {
                       {/* Live Current Price */}
                       <td className="py-4 px-4 font-mono font-bold text-white">
                         <div className="flex items-center gap-2">
-                          <span className={sch?.isActive ? (isDecreasing ? 'text-danger' : 'text-success') : 'text-white'}>
+                          <span
+                            className={
+                              sch?.isActive
+                                ? isDecreasing
+                                  ? "text-danger"
+                                  : "text-success"
+                                : "text-white"
+                            }
+                          >
                             ${currentPrice.toFixed(2)}
                           </span>
                           <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
@@ -641,19 +707,27 @@ export const AdminSampleTokens = () => {
                       <td className="py-4 px-4">
                         {sch && sch.isActive ? (
                           (() => {
-                            const controlledData = tokenPriceControl.getControlledPrice(token.symbol, currentPrice);
+                            const controlledData = tokenPriceControl.getControlledPrice(
+                              token.symbol,
+                              currentPrice,
+                            );
                             const isReturning = controlledData.isReturning;
                             const isIdle = controlledData.isIdleAtTarget;
                             const progressPct = controlledData.progress ?? 0;
                             const returnPct = controlledData.returnProgress ?? 0;
-                            const remHours = controlledData.returnTimeRemainingMs ? (controlledData.returnTimeRemainingMs / 3600000).toFixed(1) : '1-4';
+                            const remHours = controlledData.returnTimeRemainingMs
+                              ? (controlledData.returnTimeRemainingMs / 3600000).toFixed(1)
+                              : "1-4";
 
                             if (isReturning) {
                               return (
                                 <div className="space-y-1.5 max-w-xs animate-fade-in">
                                   <div className="flex items-center justify-between text-xs">
                                     <span className="font-semibold flex items-center gap-1.5 text-warning">
-                                      <RotateCcw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '3s' }} />
+                                      <RotateCcw
+                                        className="w-3.5 h-3.5 animate-spin"
+                                        style={{ animationDuration: "3s" }}
+                                      />
                                       Returning to Base ({returnPct}%)
                                     </span>
                                     <span className="text-gray-400 font-mono">
@@ -692,7 +766,7 @@ export const AdminSampleTokens = () => {
                                     </span>
                                   </div>
                                   <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-info" style={{ width: '100%' }} />
+                                    <div className="h-full bg-info" style={{ width: "100%" }} />
                                   </div>
                                   <div className="flex items-center justify-between text-[11px]">
                                     <span className="text-gray-400 flex items-center gap-1">
@@ -715,11 +789,22 @@ export const AdminSampleTokens = () => {
                             return (
                               <div className="space-y-1.5 max-w-xs">
                                 <div className="flex items-center justify-between text-xs">
-                                  <span className={`font-semibold flex items-center gap-1 ${
-                                    isDecreasing ? 'text-danger' : 'text-success'
-                                  }`}>
-                                    {isDecreasing ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
-                                    {isDecreasing ? '-' : '+'}{sch.changePercent}% ({sch.durationHours >= 24 ? `${(sch.durationHours/24).toFixed(1)}d` : `${sch.durationHours}h`})
+                                  <span
+                                    className={`font-semibold flex items-center gap-1 ${
+                                      isDecreasing ? "text-danger" : "text-success"
+                                    }`}
+                                  >
+                                    {isDecreasing ? (
+                                      <TrendingDown className="w-3.5 h-3.5" />
+                                    ) : (
+                                      <TrendingUp className="w-3.5 h-3.5" />
+                                    )}
+                                    {isDecreasing ? "-" : "+"}
+                                    {sch.changePercent}% (
+                                    {sch.durationHours >= 24
+                                      ? `${(sch.durationHours / 24).toFixed(1)}d`
+                                      : `${sch.durationHours}h`}
+                                    )
                                   </span>
                                   <span className="text-gray-400 font-mono">
                                     Target: ${sch.targetPrice.toFixed(2)}
@@ -728,13 +813,15 @@ export const AdminSampleTokens = () => {
                                 <div className="space-y-1">
                                   <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div
-                                      className={`h-full transition-all duration-500 ${isDecreasing ? 'bg-danger' : 'bg-success'}`}
-                                      style={{ width: `${Math.min(100, Math.max(0, progressPct))}%` }}
+                                      className={`h-full transition-all duration-500 ${isDecreasing ? "bg-danger" : "bg-success"}`}
+                                      style={{
+                                        width: `${Math.min(100, Math.max(0, progressPct))}%`,
+                                      }}
                                     />
                                   </div>
                                   <div className="text-[10px] text-gray-400 flex justify-between">
                                     <span>{progressPct}% completed</span>
-                                    <span>{sch.note || 'Active'}</span>
+                                    <span>{sch.note || "Active"}</span>
                                   </div>
                                 </div>
                               </div>
@@ -752,38 +839,42 @@ export const AdminSampleTokens = () => {
                         )}
                       </td>
 
-
                       {/* Actions */}
                       <td className="py-4 px-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {sch && sch.isActive && (() => {
-                            const ctrl = tokenPriceControl.getControlledPrice(token.symbol, currentPrice);
-                            if (ctrl.isIdleAtTarget) {
-                              return (
-                                <button
-                                  onClick={() => handleStartReturnToBase(token.symbol)}
-                                  className="px-3 py-1.5 rounded-lg bg-warning/20 hover:bg-warning/30 text-warning border border-warning/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
-                                  title="Start gradual 1 to 4 hour price recovery back to base baseline"
-                                >
-                                  <RotateCcw className="w-3.5 h-3.5" />
-                                  Return to Base
-                                </button>
+                          {sch &&
+                            sch.isActive &&
+                            (() => {
+                              const ctrl = tokenPriceControl.getControlledPrice(
+                                token.symbol,
+                                currentPrice,
                               );
-                            }
-                            if (ctrl.isReturning) {
-                              return (
-                                <button
-                                  onClick={() => handleCancelReturnToBase(token.symbol)}
-                                  className="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-warning border border-warning/30 text-xs font-medium flex items-center gap-1 transition-colors"
-                                  title="Pause return and hold price"
-                                >
-                                  <Pause className="w-3.5 h-3.5" />
-                                  Hold
-                                </button>
-                              );
-                            }
-                            return null;
-                          })()}
+                              if (ctrl.isIdleAtTarget) {
+                                return (
+                                  <button
+                                    onClick={() => handleStartReturnToBase(token.symbol)}
+                                    className="px-3 py-1.5 rounded-lg bg-warning/20 hover:bg-warning/30 text-warning border border-warning/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                                    title="Start gradual 1 to 4 hour price recovery back to base baseline"
+                                  >
+                                    <RotateCcw className="w-3.5 h-3.5" />
+                                    Return to Base
+                                  </button>
+                                );
+                              }
+                              if (ctrl.isReturning) {
+                                return (
+                                  <button
+                                    onClick={() => handleCancelReturnToBase(token.symbol)}
+                                    className="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-warning border border-warning/30 text-xs font-medium flex items-center gap-1 transition-colors"
+                                    title="Pause return and hold price"
+                                  >
+                                    <Pause className="w-3.5 h-3.5" />
+                                    Hold
+                                  </button>
+                                );
+                              }
+                              return null;
+                            })()}
 
                           <button
                             onClick={() => handleOpenModal(token.symbol)}
@@ -840,8 +931,8 @@ export const AdminSampleTokens = () => {
             </div>
           ) : (
             auditLogs.map((log) => (
-              <div 
-                key={log.id} 
+              <div
+                key={log.id}
                 className="p-3 bg-gray-900/60 border border-gray-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2"
               >
                 <div className="flex items-center gap-2.5">
@@ -851,7 +942,9 @@ export const AdminSampleTokens = () => {
                   <span className="text-gray-300 font-medium">{log.details}</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-400 text-[11px]">
-                  <span>By: <strong className="text-gray-300">{log.adminEmail}</strong></span>
+                  <span>
+                    By: <strong className="text-gray-300">{log.adminEmail}</strong>
+                  </span>
                   <span className="font-mono">{new Date(log.timestamp).toLocaleTimeString()}</span>
                 </div>
               </div>
@@ -879,7 +972,8 @@ export const AdminSampleTokens = () => {
                       Adjust {activeSymbol} Price Trend
                     </h3>
                     <p className="text-xs text-gray-400">
-                      Configure percentage factor and duration. Price stays idle at target until manual return is clicked.
+                      Configure percentage factor and duration. Price stays idle at target until
+                      manual return is clicked.
                     </p>
                   </div>
                 </div>
@@ -901,33 +995,33 @@ export const AdminSampleTokens = () => {
                   <div className="grid grid-cols-3 gap-2">
                     <button
                       type="button"
-                      onClick={() => setAdjustType('percentage')}
+                      onClick={() => setAdjustType("percentage")}
                       className={`p-2.5 rounded-xl text-xs font-semibold border transition-all ${
-                        adjustType === 'percentage'
-                          ? 'bg-success/20 border-success text-success'
-                          : 'bg-gray-900 border-gray-800 text-gray-400 hover:text-white'
+                        adjustType === "percentage"
+                          ? "bg-success/20 border-success text-success"
+                          : "bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
                       }`}
                     >
                       Percentage (%)
                     </button>
                     <button
                       type="button"
-                      onClick={() => setAdjustType('fixed_target')}
+                      onClick={() => setAdjustType("fixed_target")}
                       className={`p-2.5 rounded-xl text-xs font-semibold border transition-all ${
-                        adjustType === 'fixed_target'
-                          ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400'
-                          : 'bg-gray-900 border-gray-800 text-gray-400 hover:text-white'
+                        adjustType === "fixed_target"
+                          ? "bg-cyan-500/20 border-cyan-500 text-cyan-400"
+                          : "bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
                       }`}
                     >
                       Target Price ($)
                     </button>
                     <button
                       type="button"
-                      onClick={() => setAdjustType('manual_override')}
+                      onClick={() => setAdjustType("manual_override")}
                       className={`p-2.5 rounded-xl text-xs font-semibold border transition-all ${
-                        adjustType === 'manual_override'
-                          ? 'bg-warning/20 border-warning text-warning'
-                          : 'bg-gray-900 border-gray-800 text-gray-400 hover:text-white'
+                        adjustType === "manual_override"
+                          ? "bg-warning/20 border-warning text-warning"
+                          : "bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
                       }`}
                     >
                       Instant Override
@@ -935,7 +1029,7 @@ export const AdminSampleTokens = () => {
                   </div>
                 </div>
 
-                {adjustType !== 'manual_override' && (
+                {adjustType !== "manual_override" && (
                   <>
                     {/* Direction */}
                     <div>
@@ -945,11 +1039,11 @@ export const AdminSampleTokens = () => {
                       <div className="grid grid-cols-2 gap-3">
                         <button
                           type="button"
-                          onClick={() => setDirection('decrease')}
+                          onClick={() => setDirection("decrease")}
                           className={`p-3 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all ${
-                            direction === 'decrease'
-                              ? 'bg-danger/20 border-danger text-danger shadow-lg shadow-danger/10'
-                              : 'bg-gray-900 border-gray-800 text-gray-400'
+                            direction === "decrease"
+                              ? "bg-danger/20 border-danger text-danger shadow-lg shadow-danger/10"
+                              : "bg-gray-900 border-gray-800 text-gray-400"
                           }`}
                         >
                           <TrendingDown className="w-4 h-4" />
@@ -958,11 +1052,11 @@ export const AdminSampleTokens = () => {
 
                         <button
                           type="button"
-                          onClick={() => setDirection('increase')}
+                          onClick={() => setDirection("increase")}
                           className={`p-3 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all ${
-                            direction === 'increase'
-                              ? 'bg-success/20 border-success text-success shadow-lg shadow-success/10'
-                              : 'bg-gray-900 border-gray-800 text-gray-400'
+                            direction === "increase"
+                              ? "bg-success/20 border-success text-success shadow-lg shadow-success/10"
+                              : "bg-gray-900 border-gray-800 text-gray-400"
                           }`}
                         >
                           <TrendingUp className="w-4 h-4" />
@@ -972,14 +1066,15 @@ export const AdminSampleTokens = () => {
                     </div>
 
                     {/* Percentage or Fixed Target */}
-                    {adjustType === 'percentage' ? (
+                    {adjustType === "percentage" ? (
                       <div>
                         <div className="flex items-center justify-between mb-1.5">
                           <label className="text-xs font-semibold text-gray-300">
                             Percentage Change (%)
                           </label>
                           <span className="text-xs text-success font-mono font-bold">
-                            {direction === 'decrease' ? '-' : '+'}{changePercent}%
+                            {direction === "decrease" ? "-" : "+"}
+                            {changePercent}%
                           </span>
                         </div>
                         <input
@@ -999,8 +1094,8 @@ export const AdminSampleTokens = () => {
                               onClick={() => setChangePercent(pct)}
                               className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${
                                 changePercent === pct
-                                  ? 'bg-success text-black font-bold border-success'
-                                  : 'bg-gray-800 text-gray-400 border-gray-700 hover:text-white'
+                                  ? "bg-success text-black font-bold border-success"
+                                  : "bg-gray-800 text-gray-400 border-gray-700 hover:text-white"
                               }`}
                             >
                               {pct}%
@@ -1040,7 +1135,7 @@ export const AdminSampleTokens = () => {
                         />
                         <select
                           value={durationUnit}
-                          onChange={(e) => setDurationUnit(e.target.value as 'hours' | 'days')}
+                          onChange={(e) => setDurationUnit(e.target.value as "hours" | "days")}
                           className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-success"
                         >
                           <option value="days">Day(s)</option>
@@ -1051,27 +1146,27 @@ export const AdminSampleTokens = () => {
                       {/* Quick Duration Buttons */}
                       <div className="flex flex-wrap gap-2">
                         {[
-                          { label: '1 Hour (60m)', val: 1, unit: 'hours' },
-                          { label: '2 Hours', val: 2, unit: 'hours' },
-                          { label: '6 Hours', val: 6, unit: 'hours' },
-                          { label: '12 Hours', val: 12, unit: 'hours' },
-                          { label: '1 Day (24h)', val: 1, unit: 'days' },
-                          { label: '2 Days', val: 2, unit: 'days' },
-                          { label: '3 Days', val: 3, unit: 'days' },
-                          { label: '4 Days', val: 4, unit: 'days' },
-                          { label: '7 Days', val: 7, unit: 'days' }
+                          { label: "1 Hour (60m)", val: 1, unit: "hours" },
+                          { label: "2 Hours", val: 2, unit: "hours" },
+                          { label: "6 Hours", val: 6, unit: "hours" },
+                          { label: "12 Hours", val: 12, unit: "hours" },
+                          { label: "1 Day (24h)", val: 1, unit: "days" },
+                          { label: "2 Days", val: 2, unit: "days" },
+                          { label: "3 Days", val: 3, unit: "days" },
+                          { label: "4 Days", val: 4, unit: "days" },
+                          { label: "7 Days", val: 7, unit: "days" },
                         ].map((d) => (
                           <button
                             key={d.label}
                             type="button"
                             onClick={() => {
                               setDurationValue(d.val);
-                              setDurationUnit(d.unit as 'hours' | 'days');
+                              setDurationUnit(d.unit as "hours" | "days");
                             }}
                             className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${
                               durationValue === d.val && durationUnit === d.unit
-                                ? 'bg-success/20 border-success text-success font-bold'
-                                : 'bg-gray-800 text-gray-400 border-gray-700 hover:text-white'
+                                ? "bg-success/20 border-success text-success font-bold"
+                                : "bg-gray-800 text-gray-400 border-gray-700 hover:text-white"
                             }`}
                           >
                             {d.label}
@@ -1082,7 +1177,7 @@ export const AdminSampleTokens = () => {
                   </>
                 )}
 
-                {adjustType === 'manual_override' && (
+                {adjustType === "manual_override" && (
                   <div>
                     <label className="text-xs font-semibold text-gray-300 block mb-1.5">
                       Instant Price Override ($)
@@ -1108,34 +1203,47 @@ export const AdminSampleTokens = () => {
                     <span className="text-success font-mono">Real-Time</span>
                   </div>
                   {(() => {
-                    const startP = livePrices[activeSymbol] || SAMPLE_TOKENS_LIST.find(t => t.symbol === activeSymbol)?.defaultPrice || 100;
+                    const startP =
+                      livePrices[activeSymbol] ||
+                      SAMPLE_TOKENS_LIST.find((t) => t.symbol === activeSymbol)?.defaultPrice ||
+                      100;
                     let calculatedTarget = startP;
 
-                    if (adjustType === 'percentage') {
+                    if (adjustType === "percentage") {
                       const pct = changePercent / 100;
-                      calculatedTarget = direction === 'decrease' ? startP * (1 - pct) : startP * (1 + pct);
-                    } else if (adjustType === 'fixed_target' || adjustType === 'manual_override') {
+                      calculatedTarget =
+                        direction === "decrease" ? startP * (1 - pct) : startP * (1 + pct);
+                    } else if (adjustType === "fixed_target" || adjustType === "manual_override") {
                       calculatedTarget = parseFloat(targetPriceInput) || startP;
                     }
 
-                    const durHours = durationUnit === 'days' ? durationValue * 24 : durationValue;
+                    const durHours = durationUnit === "days" ? durationValue * 24 : durationValue;
                     const priceDiff = calculatedTarget - startP;
 
                     return (
                       <div className="grid grid-cols-2 gap-2 text-gray-400 font-mono">
                         <div>
-                          Current Price: <strong className="text-white">${startP.toFixed(2)}</strong>
+                          Current Price:{" "}
+                          <strong className="text-white">${startP.toFixed(2)}</strong>
                         </div>
                         <div>
-                          Target Price: <strong className={priceDiff < 0 ? 'text-danger' : 'text-success'}>
-                            ${calculatedTarget.toFixed(2)} ({priceDiff >= 0 ? '+' : ''}{(((calculatedTarget - startP) / startP) * 100).toFixed(1)}%)
+                          Target Price:{" "}
+                          <strong className={priceDiff < 0 ? "text-danger" : "text-success"}>
+                            ${calculatedTarget.toFixed(2)} ({priceDiff >= 0 ? "+" : ""}
+                            {(((calculatedTarget - startP) / startP) * 100).toFixed(1)}%)
                           </strong>
                         </div>
                         <div>
-                          Duration: <strong className="text-white">{durationValue} {durationUnit} ({durHours}h)</strong>
+                          Duration:{" "}
+                          <strong className="text-white">
+                            {durationValue} {durationUnit} ({durHours}h)
+                          </strong>
                         </div>
                         <div>
-                          Behavior: <strong className="text-cyan-300">Holds idle at target until manual return</strong>
+                          Behavior:{" "}
+                          <strong className="text-cyan-300">
+                            Holds idle at target until manual return
+                          </strong>
                         </div>
                       </div>
                     );

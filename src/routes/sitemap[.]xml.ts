@@ -34,7 +34,6 @@ const entries: SitemapEntry[] = [
   })),
 ];
 
-
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {

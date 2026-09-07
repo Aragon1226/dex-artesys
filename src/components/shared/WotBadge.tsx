@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 interface WotBadgeProps {
   id?: string;
   className?: string;
-  variant?: 'white' | 'dark';
+  variant?: "white" | "dark";
 }
 
 export const WotBadge: React.FC<WotBadgeProps> = ({
-  id = 'wot-badge0',
-  className = '',
-  variant = 'white',
+  id = "wot-badge0",
+  className = "",
+  variant = "white",
 }) => {
   return (
     <a

@@ -1,12 +1,16 @@
-import { useEffect, useState, useCallback } from 'react';
-import { supabase } from '@/lib/cloudClient';
-import { useAuth } from '@/hooks/useAuth';
-import { getAdminIdForCurrentUser, filterUsersByAdminGroup, syncUserReferralsWithSupabase } from '@/lib/adminPermissions';
-import { recordActivityLog } from '@/services/systemActivityLog';
+import { useEffect, useState, useCallback } from "react";
+import { supabase } from "@/lib/cloudClient";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  getAdminIdForCurrentUser,
+  filterUsersByAdminGroup,
+  syncUserReferralsWithSupabase,
+} from "@/lib/adminPermissions";
+import { recordActivityLog } from "@/services/systemActivityLog";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import { ArrowUp, RefreshCw, Check, X, Filter, AlertCircle } from 'lucide-react';
-import CubeSpinner from '@/components/shared/CubeSpinner';
+import { CryptoIcon } from "@/components/shared/CryptoIcon";
+import { ArrowUp, RefreshCw, Check, X, Filter, AlertCircle } from "lucide-react";
+import CubeSpinner from "@/components/shared/CubeSpinner";
 
 interface WithdrawalRow {
   id: string;
@@ -27,8 +31,8 @@ interface ProfileLite {
   balance: number | null;
 }
 
-const STATUS_FILTERS = ['PENDING', 'APPROVED', 'REJECTED', 'ALL'] as const;
-type StatusFilter = typeof STATUS_FILTERS[number];
+const STATUS_FILTERS = ["PENDING", "APPROVED", "REJECTED", "ALL"] as const;
+type StatusFilter = (typeof STATUS_FILTERS)[number];
 
 const AdminWithdrawals = () => {
   const { user: currentUser } = useAuth();
@@ -37,32 +41,40 @@ const AdminWithdrawals = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actioningId, setActioningId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<StatusFilter>('PENDING');
+  const [filter, setFilter] = useState<StatusFilter>("PENDING");
   const [rejectModal, setRejectModal] = useState<WithdrawalRow | null>(null);
-  const [rejectNote, setRejectNote] = useState('');
+  const [rejectNote, setRejectNote] = useState("");
 
   const loadData = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
     setError(null);
     try {
-      const { data: w, error: we } = await supabase.from('withdrawals').select('*').order('created_at', { ascending: false });
+      const { data: w, error: we } = await supabase
+        .from("withdrawals")
+        .select("*")
+        .order("created_at", { ascending: false });
       if (we) throw we;
-      
+
       await syncUserReferralsWithSupabase();
-      
+
       const adminId = getAdminIdForCurrentUser(currentUser?.email);
       const filteredW = filterUsersByAdminGroup(w || [], adminId);
-      
+
       const list = (filteredW as WithdrawalRow[]) || [];
       setWithdrawals(list);
 
-      const ids = Array.from(new Set(list.map(x => x.user_id)));
+      const ids = Array.from(new Set(list.map((x) => x.user_id)));
       if (ids.length) {
-        const { data: p, error: pe } = await supabase.from('profiles').select('id, username, email, balance').in('id', ids);
+        const { data: p, error: pe } = await supabase
+          .from("profiles")
+          .select("id, username, email, balance")
+          .in("id", ids);
         if (pe) throw pe;
-        
+
         const map: Record<string, ProfileLite> = {};
-        (p || []).forEach((row: any) => { map[row.id] = row; });
+        (p || []).forEach((row: any) => {
+          map[row.id] = row;
+        });
         setProfiles(map);
       }
     } catch (err: any) {
@@ -73,32 +85,39 @@ const AdminWithdrawals = () => {
     }
   }, []);
 
-  useEffect(() => { loadData(); }, [loadData]);
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const handleApprove = async (withdrawal: WithdrawalRow) => {
     setActioningId(withdrawal.id);
     try {
-      const { error: updateError } = await supabase.from('withdrawals').update({ 
-        status: 'APPROVED'
-      }).eq('id', withdrawal.id);
-      
-      if (updateError) throw updateError;
-      
-      setWithdrawals(prev => prev.map(w => w.id === withdrawal.id ? { ...w, status: 'APPROVED' } : w));
+      const { error: updateError } = await supabase
+        .from("withdrawals")
+        .update({
+          status: "APPROVED",
+        })
+        .eq("id", withdrawal.id);
 
-      const adminEmail = currentUser?.email || 'admin@artesys.com';
+      if (updateError) throw updateError;
+
+      setWithdrawals((prev) =>
+        prev.map((w) => (w.id === withdrawal.id ? { ...w, status: "APPROVED" } : w)),
+      );
+
+      const adminEmail = currentUser?.email || "admin@artesys.com";
       const adminId = getAdminIdForCurrentUser(currentUser?.email);
       const userProfile = profiles[withdrawal.user_id];
 
       recordActivityLog({
-        category: 'WITHDRAWAL_REQUEST',
-        action: 'WITHDRAWAL_REQUEST_CONFIRMED',
+        category: "WITHDRAWAL_REQUEST",
+        action: "WITHDRAWAL_REQUEST_CONFIRMED",
         adminEmail,
         adminId,
-        target: `${withdrawal.asset} (${withdrawal.network || 'Mainnet'})`,
-        title: 'Confirmed Withdrawal Request',
+        target: `${withdrawal.asset} (${withdrawal.network || "Mainnet"})`,
+        title: "Confirmed Withdrawal Request",
         details: `Approved withdrawal of ${withdrawal.amount} ${withdrawal.asset} to address ${withdrawal.address} for user ${userProfile?.email || userProfile?.username || withdrawal.user_id}`,
-        severity: 'success',
+        severity: "success",
         metadata: {
           withdrawalId: withdrawal.id,
           userId: withdrawal.user_id,
@@ -108,8 +127,8 @@ const AdminWithdrawals = () => {
           network: withdrawal.network,
           address: withdrawal.address,
           amount: Number(withdrawal.amount),
-          status: 'APPROVED'
-        }
+          status: "APPROVED",
+        },
       });
     } catch (err: any) {
       console.error(err);
@@ -127,64 +146,82 @@ const AdminWithdrawals = () => {
     setActioningId(rejectModal.id);
     try {
       // 1. Update status
-      const { error: updateError } = await supabase.from('withdrawals').update({ 
-        status: 'REJECTED',
-        note: rejectNote // Using 'note' from schema instead of 'admin_notes'
-      }).eq('id', rejectModal.id);
+      const { error: updateError } = await supabase
+        .from("withdrawals")
+        .update({
+          status: "REJECTED",
+          note: rejectNote, // Using 'note' from schema instead of 'admin_notes'
+        })
+        .eq("id", rejectModal.id);
 
       if (updateError) throw updateError;
 
       // 2. Refund User - Fetch fresh data to avoid balance corruption
-      if (rejectModal.asset === 'USDT') {
-        const { data: profile, error: pErr } = await supabase.from('profiles').select('balance').eq('id', rejectModal.user_id).single();
+      if (rejectModal.asset === "USDT") {
+        const { data: profile, error: pErr } = await supabase
+          .from("profiles")
+          .select("balance")
+          .eq("id", rejectModal.user_id)
+          .single();
         if (pErr) throw pErr;
-        
+
         const currentBalance = profile?.balance || 0;
-        const { error: refundErr } = await supabase.from('profiles').update({ 
-          balance: currentBalance + rejectModal.amount 
-        }).eq('id', rejectModal.user_id);
-        
+        const { error: refundErr } = await supabase
+          .from("profiles")
+          .update({
+            balance: currentBalance + rejectModal.amount,
+          })
+          .eq("id", rejectModal.user_id);
+
         if (refundErr) throw refundErr;
       } else {
-        const { data: ast, error: aErr } = await supabase.from('user_assets')
-          .select('*')
-          .eq('user_id', rejectModal.user_id)
-          .eq('symbol', rejectModal.asset)
+        const { data: ast, error: aErr } = await supabase
+          .from("user_assets")
+          .select("*")
+          .eq("user_id", rejectModal.user_id)
+          .eq("symbol", rejectModal.asset)
           .single();
-        
-        if (aErr && aErr.code !== 'PGRST116') throw aErr; // PGRST116 is not found
-        
+
+        if (aErr && aErr.code !== "PGRST116") throw aErr; // PGRST116 is not found
+
         if (ast) {
-          const { error: refundErr } = await supabase.from('user_assets').update({ 
-            amount: ast.amount + rejectModal.amount 
-          }).eq('id', ast.id);
+          const { error: refundErr } = await supabase
+            .from("user_assets")
+            .update({
+              amount: ast.amount + rejectModal.amount,
+            })
+            .eq("id", ast.id);
           if (refundErr) throw refundErr;
         } else {
           // If asset row doesn't exist (shouldn't happen for withdrawal but safe to handle)
-          const { error: insertErr } = await supabase.from('user_assets').insert({
+          const { error: insertErr } = await supabase.from("user_assets").insert({
             user_id: rejectModal.user_id,
             symbol: rejectModal.asset,
-            amount: rejectModal.amount
+            amount: rejectModal.amount,
           });
           if (insertErr) throw insertErr;
         }
       }
 
-      setWithdrawals(prev => prev.map(w => w.id === rejectModal.id ? { ...w, status: 'REJECTED', note: rejectNote } : w));
+      setWithdrawals((prev) =>
+        prev.map((w) =>
+          w.id === rejectModal.id ? { ...w, status: "REJECTED", note: rejectNote } : w,
+        ),
+      );
 
-      const adminEmail = currentUser?.email || 'admin@artesys.com';
+      const adminEmail = currentUser?.email || "admin@artesys.com";
       const adminId = getAdminIdForCurrentUser(currentUser?.email);
       const userProfile = profiles[rejectModal.user_id];
 
       recordActivityLog({
-        category: 'WITHDRAWAL_REQUEST',
-        action: 'WITHDRAWAL_REQUEST_REJECTED',
+        category: "WITHDRAWAL_REQUEST",
+        action: "WITHDRAWAL_REQUEST_REJECTED",
         adminEmail,
         adminId,
-        target: `${rejectModal.asset} (${rejectModal.network || 'Mainnet'})`,
-        title: 'Rejected Withdrawal Request & Refunded Balance',
-        details: `Rejected withdrawal of ${rejectModal.amount} ${rejectModal.asset} for user ${userProfile?.email || userProfile?.username || rejectModal.user_id}. Refunded balance to user. Reason: "${rejectNote || 'No reason provided'}"`,
-        severity: 'danger',
+        target: `${rejectModal.asset} (${rejectModal.network || "Mainnet"})`,
+        title: "Rejected Withdrawal Request & Refunded Balance",
+        details: `Rejected withdrawal of ${rejectModal.amount} ${rejectModal.asset} for user ${userProfile?.email || userProfile?.username || rejectModal.user_id}. Refunded balance to user. Reason: "${rejectNote || "No reason provided"}"`,
+        severity: "danger",
         metadata: {
           withdrawalId: rejectModal.id,
           userId: rejectModal.user_id,
@@ -194,13 +231,13 @@ const AdminWithdrawals = () => {
           network: rejectModal.network,
           address: rejectModal.address,
           amount: Number(rejectModal.amount),
-          status: 'REJECTED',
-          reason: rejectNote
-        }
+          status: "REJECTED",
+          reason: rejectNote,
+        },
       });
 
       setRejectModal(null);
-      setRejectNote('');
+      setRejectNote("");
     } catch (err: any) {
       console.error(err);
       setError("Rejection failed: " + (err.message || "Unknown error"));
@@ -209,25 +246,33 @@ const AdminWithdrawals = () => {
     }
   };
 
-  const filteredList = withdrawals.filter(w => filter === 'ALL' || w.status === filter);
+  const filteredList = withdrawals.filter((w) => filter === "ALL" || w.status === filter);
 
   return (
     <div className="p-6 lg:p-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Withdrawal Requests</h1>
-          <p className="text-sm text-muted-foreground mt-1">Review and process user withdrawal requests.</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Review and process user withdrawal requests.
+          </p>
         </div>
-        
+
         <div className="flex flex-wrap gap-2">
-          {STATUS_FILTERS.map(f => (
-            <button key={f} onClick={() => setFilter(f)} 
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${filter === f ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20' : 'bg-card text-muted-foreground border-border hover:bg-muted'}`}>
+          {STATUS_FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${filter === f ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20" : "bg-card text-muted-foreground border-border hover:bg-muted"}`}
+            >
               {f}
             </button>
           ))}
-          <button onClick={() => loadData()} className="p-2 border border-border rounded-xl hover:bg-muted transition-colors ml-2">
-            <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
+          <button
+            onClick={() => loadData()}
+            className="p-2 border border-border rounded-xl hover:bg-muted transition-colors ml-2"
+          >
+            <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
@@ -244,7 +289,10 @@ const AdminWithdrawals = () => {
             </div>
             <h3 className="text-lg font-bold text-foreground">Sync Failure</h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs mx-auto">{error}</p>
-            <button onClick={() => loadData()} className="flex items-center gap-2 mx-auto px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition-all">
+            <button
+              onClick={() => loadData()}
+              className="flex items-center gap-2 mx-auto px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition-all"
+            >
               <RefreshCw size={18} /> Retry Load
             </button>
           </div>
@@ -263,94 +311,125 @@ const AdminWithdrawals = () => {
               </thead>
               <tbody className="divide-y divide-border">
                 {filteredList.length === 0 ? (
-                  <tr><td colSpan={6} className="p-20 text-center text-muted-foreground">No {filter.toLowerCase()} requests found.</td></tr>
-                ) : filteredList.map(w => {
-                const profile = profiles[w.user_id];
-                return (
-                  <tr key={w.id} className="hover:bg-muted/10 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase">
-                          {(profile?.username || 'U').charAt(0)}
-                        </div>
-                        <div>
-                          <div className="text-sm font-bold text-foreground">{profile?.username || 'Unknown'}</div>
-                          <div className="text-[10px] text-muted-foreground">{profile?.email || 'No email'}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <CryptoIcon symbol={w.asset} size={20} />
-                        <div>
-                          <div className="text-sm font-bold text-foreground">{w.asset}</div>
-                          <div className="text-[10px] uppercase text-muted-foreground font-bold">{w.network}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-xs font-mono text-muted-foreground max-w-[180px] truncate" title={w.address}>{w.address}</div>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="text-sm font-mono font-bold text-foreground">{w.amount}</div>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <StatusBadge status={w.status} />
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      {w.status === 'PENDING' ? (
-                        <div className="flex justify-end gap-2">
-                          <button 
-                            onClick={() => setRejectModal(w)}
-                            disabled={!!actioningId}
-                            className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-all"
-                            title="Reject & Refund"
-                          >
-                            <X size={18} />
-                          </button>
-                          <button 
-                            onClick={() => setConfirmApprove(w)}
-                            disabled={!!actioningId}
-                            className="p-2 text-success hover:bg-success/10 rounded-lg transition-all"
-                            title="Approve Withdrawal"
-                          >
-                            {actioningId === w.id ? <RefreshCw size={18} className="animate-spin" /> : <Check size={18} />}
-                          </button>
-                        </div>
-                      ) : (
-                        <span className="text-[10px] text-muted-foreground">Processed</span>
-                      )}
+                  <tr>
+                    <td colSpan={6} className="p-20 text-center text-muted-foreground">
+                      No {filter.toLowerCase()} requests found.
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+                ) : (
+                  filteredList.map((w) => {
+                    const profile = profiles[w.user_id];
+                    return (
+                      <tr key={w.id} className="hover:bg-muted/10 transition-colors">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase">
+                              {(profile?.username || "U").charAt(0)}
+                            </div>
+                            <div>
+                              <div className="text-sm font-bold text-foreground">
+                                {profile?.username || "Unknown"}
+                              </div>
+                              <div className="text-[10px] text-muted-foreground">
+                                {profile?.email || "No email"}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <CryptoIcon symbol={w.asset} size={20} />
+                            <div>
+                              <div className="text-sm font-bold text-foreground">{w.asset}</div>
+                              <div className="text-[10px] uppercase text-muted-foreground font-bold">
+                                {w.network}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div
+                            className="text-xs font-mono text-muted-foreground max-w-[180px] truncate"
+                            title={w.address}
+                          >
+                            {w.address}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <div className="text-sm font-mono font-bold text-foreground">
+                            {w.amount}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <StatusBadge status={w.status} />
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          {w.status === "PENDING" ? (
+                            <div className="flex justify-end gap-2">
+                              <button
+                                onClick={() => setRejectModal(w)}
+                                disabled={!!actioningId}
+                                className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-all"
+                                title="Reject & Refund"
+                              >
+                                <X size={18} />
+                              </button>
+                              <button
+                                onClick={() => setConfirmApprove(w)}
+                                disabled={!!actioningId}
+                                className="p-2 text-success hover:bg-success/10 rounded-lg transition-all"
+                                title="Approve Withdrawal"
+                              >
+                                {actioningId === w.id ? (
+                                  <RefreshCw size={18} className="animate-spin" />
+                                ) : (
+                                  <Check size={18} />
+                                )}
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="text-[10px] text-muted-foreground">Processed</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
       {rejectModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-3xl p-6 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
             <h3 className="text-xl font-bold text-foreground mb-2">Reject Withdrawal</h3>
-            <p className="text-muted-foreground text-sm mb-4">The funds ({rejectModal.amount} {rejectModal.asset}) will be automatically refunded to the user's balance.</p>
-            
-            <textarea 
+            <p className="text-muted-foreground text-sm mb-4">
+              The funds ({rejectModal.amount} {rejectModal.asset}) will be automatically refunded to
+              the user's balance.
+            </p>
+
+            <textarea
               value={rejectNote}
-              onChange={e => setRejectNote(e.target.value)}
+              onChange={(e) => setRejectNote(e.target.value)}
               placeholder="Reason for rejection (optional)..."
               className="w-full bg-muted border border-border rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary min-h-[80px] mb-6"
             />
 
             <div className="flex gap-3">
-              <button onClick={() => setRejectModal(null)} className="flex-1 py-3 rounded-2xl font-bold text-muted-foreground hover:bg-muted transition-all">Cancel</button>
-              <button 
+              <button
+                onClick={() => setRejectModal(null)}
+                className="flex-1 py-3 rounded-2xl font-bold text-muted-foreground hover:bg-muted transition-all"
+              >
+                Cancel
+              </button>
+              <button
                 onClick={handleReject}
                 disabled={!!actioningId}
                 className="flex-1 py-3 rounded-2xl font-bold bg-destructive text-white shadow-xl shadow-destructive/20 hover:bg-destructive/90 transition-all"
               >
-                {actioningId ? '...' : 'Reject & Refund'}
+                {actioningId ? "..." : "Reject & Refund"}
               </button>
             </div>
           </div>
@@ -363,16 +442,29 @@ const AdminWithdrawals = () => {
             <div className="w-16 h-16 rounded-full mx-auto mb-4 bg-success/10 text-success flex items-center justify-center">
               <Check size={32} />
             </div>
-            <h3 className="text-xl font-bold text-foreground text-center mb-2">Approve Withdrawal</h3>
-            <p className="text-muted-foreground text-center text-sm mb-6">Are you sure you want to approve the withdrawal of <span className="text-foreground font-bold">{confirmApprove.amount} {confirmApprove.asset}</span>?</p>
+            <h3 className="text-xl font-bold text-foreground text-center mb-2">
+              Approve Withdrawal
+            </h3>
+            <p className="text-muted-foreground text-center text-sm mb-6">
+              Are you sure you want to approve the withdrawal of{" "}
+              <span className="text-foreground font-bold">
+                {confirmApprove.amount} {confirmApprove.asset}
+              </span>
+              ?
+            </p>
             <div className="flex gap-3">
-              <button onClick={() => setConfirmApprove(null)} className="flex-1 py-3 rounded-2xl font-bold text-muted-foreground hover:bg-muted transition-all">Cancel</button>
-              <button 
+              <button
+                onClick={() => setConfirmApprove(null)}
+                className="flex-1 py-3 rounded-2xl font-bold text-muted-foreground hover:bg-muted transition-all"
+              >
+                Cancel
+              </button>
+              <button
                 onClick={() => handleApprove(confirmApprove)}
                 disabled={!!actioningId}
                 className="flex-1 py-3 rounded-2xl font-bold bg-success text-white shadow-xl shadow-success/20 hover:bg-success transition-all"
               >
-                {actioningId ? '...' : 'Approve'}
+                {actioningId ? "..." : "Approve"}
               </button>
             </div>
           </div>

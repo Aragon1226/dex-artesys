@@ -17,7 +17,6 @@ import type { PublicMarket } from "./publicMarkets.types";
 
 export type { PublicMarket };
 
-
 /** Stable pseudo-volume so SSR and client render identical markup. */
 const baselineVolume = (symbol: string, price: number): number => {
   let hash = 0;
@@ -84,9 +83,7 @@ export const readPublicMarkets = async (): Promise<PublicMarket[]> => {
       high24h: Number.isFinite(high) && high > 0 ? high : finalPrice * 1.02,
       low24h: Number.isFinite(low) && low > 0 ? low : finalPrice * 0.98,
       volume24h:
-        Number.isFinite(volume) && volume > 0
-          ? volume
-          : baselineVolume(symbol, finalPrice),
+        Number.isFinite(volume) && volume > 0 ? volume : baselineVolume(symbol, finalPrice),
       categories: getCategories(symbol),
       live: usable,
     };

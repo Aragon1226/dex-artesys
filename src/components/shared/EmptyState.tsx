@@ -74,10 +74,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   return (
     <div className={`flex flex-col items-center text-center px-4 ${padding[size]} ${className}`}>
       <div className="relative mb-4">
-        <div
-          className="absolute inset-0 rounded-full bg-primary/15 blur-2xl"
-          aria-hidden="true"
-        />
+        <div className="absolute inset-0 rounded-full bg-primary/15 blur-2xl" aria-hidden="true" />
         <img
           src={art[artKey]}
           alt=""
@@ -110,7 +107,6 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           {secondaryAction && renderAction(secondaryAction, secondaryClass)}
         </div>
       )}
-
     </div>
   );
 };

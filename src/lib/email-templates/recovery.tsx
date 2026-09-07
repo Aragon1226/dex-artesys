@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { Text } from '@react-email/components'
-import { AuthShell, text } from './auth-shell'
+import * as React from "react";
+import { Text } from "@react-email/components";
+import { AuthShell, text } from "./auth-shell";
 
 interface RecoveryEmailProps {
-  siteName: string
-  confirmationUrl: string
+  siteName: string;
+  confirmationUrl: string;
 }
 
 export const RecoveryEmail = ({ siteName, confirmationUrl }: RecoveryEmailProps) => (
@@ -20,6 +20,6 @@ export const RecoveryEmail = ({ siteName, confirmationUrl }: RecoveryEmailProps)
       to set a new one.
     </Text>
   </AuthShell>
-)
+);
 
-export default RecoveryEmail
+export default RecoveryEmail;

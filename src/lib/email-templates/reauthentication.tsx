@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { Text } from '@react-email/components'
-import { AuthShell, codeStyle, text } from './auth-shell'
+import * as React from "react";
+import { Text } from "@react-email/components";
+import { AuthShell, codeStyle, text } from "./auth-shell";
 
 interface ReauthenticationEmailProps {
-  token: string
+  token: string;
 }
 
 export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
@@ -15,6 +15,6 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
     <Text style={text}>Enter this verification code in Artesys to confirm your identity:</Text>
     <Text style={codeStyle}>{token}</Text>
   </AuthShell>
-)
+);
 
-export default ReauthenticationEmail
+export default ReauthenticationEmail;

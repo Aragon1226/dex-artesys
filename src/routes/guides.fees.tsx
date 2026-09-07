@@ -66,12 +66,12 @@ function FeesGuide() {
             than the collateral it uses. Margin requirements are shown per position.
           </Card>
           <Card title="Deposits">
-            Artesys adds nothing on top of a deposit. Only the sending network's own transaction cost
-            applies.
+            Artesys adds nothing on top of a deposit. Only the sending network's own transaction
+            cost applies.
           </Card>
           <Card title="Withdrawals">
-            The network cost of the chosen asset and chain is passed through and displayed before you
-            submit the request.
+            The network cost of the chosen asset and chain is passed through and displayed before
+            you submit the request.
           </Card>
           <Card title="Conversions">
             Quick Convert uses the live market rate for the pair and applies the same spot fee rate

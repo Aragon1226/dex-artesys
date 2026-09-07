@@ -23,10 +23,7 @@ export const Route = createFileRoute("/markets/$symbol")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [
-          { title: "Market unavailable — Artesys" },
-          { name: "robots", content: "noindex" },
-        ],
+        meta: [{ title: "Market unavailable — Artesys" }, { name: "robots", content: "noindex" }],
       };
     }
     const { market, blurb } = loaderData;
@@ -66,15 +63,16 @@ function MarketDetailPage() {
     { label: "Quote asset", value: "USDT" },
   ];
 
-  const sectors = market.categories.filter(
-    (c) => c !== "All" && c !== market.symbol,
-  );
+  const sectors = market.categories.filter((c) => c !== "All" && c !== market.symbol);
 
   return (
     <PublicShell>
       <section className="border-b border-border bg-gradient-to-b from-primary/[0.07] to-transparent px-4 py-12 sm:px-6 sm:py-16">
         <div className="mx-auto max-w-6xl">
-          <nav aria-label="Breadcrumb" className="mb-6 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-6 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground"
+          >
             <Link to="/markets" className="hover:text-primary">
               Markets
             </Link>
@@ -109,7 +107,10 @@ function MarketDetailPage() {
         </div>
       </section>
 
-      <Section title="Market statistics" intro="Live figures from the Artesys price feed, refreshed continuously.">
+      <Section
+        title="Market statistics"
+        intro="Live figures from the Artesys price feed, refreshed continuously."
+      >
         <dl className="grid gap-4 sm:grid-cols-3">
           {stats.map((s) => (
             <div key={s.label} className="rounded-2xl border border-border bg-card p-5">
@@ -124,7 +125,10 @@ function MarketDetailPage() {
         </dl>
       </Section>
 
-      <Section title={`${market.symbol} price chart`} intro="Hourly candles for the current session.">
+      <Section
+        title={`${market.symbol} price chart`}
+        intro="Hourly candles for the current session."
+      >
         <div className="rounded-2xl border border-border bg-card p-3">
           <ClientOnly fallback={<div className="h-64 animate-pulse rounded-xl bg-muted/40" />}>
             <Suspense fallback={<div className="h-64 animate-pulse rounded-xl bg-muted/40" />}>
@@ -142,7 +146,10 @@ function MarketDetailPage() {
               Buy or sell {market.symbol} outright against your USDT spot balance using limit or
               market orders. Filled orders settle straight into your Artesys wallet.
             </p>
-            <Link to="/trading/spot" className="mt-4 inline-block text-[11px] font-semibold uppercase tracking-[0.15em] text-primary">
+            <Link
+              to="/trading/spot"
+              className="mt-4 inline-block text-[11px] font-semibold uppercase tracking-[0.15em] text-primary"
+            >
               Spot trading →
             </Link>
           </div>
@@ -152,7 +159,10 @@ function MarketDetailPage() {
               Open a leveraged long or short on {market.pair} with a chosen duration. Positions
               settle automatically at expiry and the result posts to your futures balance.
             </p>
-            <Link to="/trading/futures" className="mt-4 inline-block text-[11px] font-semibold uppercase tracking-[0.15em] text-primary">
+            <Link
+              to="/trading/futures"
+              className="mt-4 inline-block text-[11px] font-semibold uppercase tracking-[0.15em] text-primary"
+            >
               Futures trading →
             </Link>
           </div>

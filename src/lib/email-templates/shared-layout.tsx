@@ -1,5 +1,14 @@
-import React from 'react'
-import { Body, Button, Container, Head, Heading, Html, Preview, Section } from '@react-email/components'
+import React from "react";
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Preview,
+  Section,
+} from "@react-email/components";
 import {
   APP_URL,
   BrandFooter,
@@ -18,22 +27,22 @@ import {
   BLUE,
   GOLD,
   MIDNIGHT,
-} from './brand'
-import type { DetailRow } from './brand'
+} from "./brand";
+import type { DetailRow } from "./brand";
 
 // Re-exported so existing transactional templates keep their imports.
-export { APP_URL, DetailCard, StatusPill, button, container, h1, hr, link, main, muted, text }
-export { BLUE, GOLD, MIDNIGHT }
-export type { DetailRow }
+export { APP_URL, DetailCard, StatusPill, button, container, h1, hr, link, main, muted, text };
+export { BLUE, GOLD, MIDNIGHT };
+export type { DetailRow };
 
 interface ShellProps {
-  preview: string
-  heading: string
-  children: React.ReactNode
-  ctaLabel?: string
-  ctaHref?: string
-  footerNote?: string
-  tagline?: string
+  preview: string;
+  heading: string;
+  children: React.ReactNode;
+  ctaLabel?: string;
+  ctaHref?: string;
+  footerNote?: string;
+  tagline?: string;
 }
 
 export const EmailShell = ({
@@ -58,7 +67,7 @@ export const EmailShell = ({
         {children}
 
         {ctaLabel && ctaHref ? (
-          <Section style={{ textAlign: 'center', margin: '26px 0 6px' }}>
+          <Section style={{ textAlign: "center", margin: "26px 0 6px" }}>
             <Button className="dm-btn" href={ctaHref} style={button}>
               {ctaLabel}
             </Button>
@@ -69,4 +78,4 @@ export const EmailShell = ({
       </Container>
     </Body>
   </Html>
-)
+);

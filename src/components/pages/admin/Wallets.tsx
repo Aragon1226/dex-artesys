@@ -1,19 +1,27 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/lib/cloudClient';
-import { useAuth } from '@/hooks/useAuth';
-import { 
-  getAdminIdForCurrentUser, 
-  getAdminWallets, 
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "@/lib/cloudClient";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  getAdminIdForCurrentUser,
+  getAdminWallets,
   saveAdminWallets,
   syncAdminWalletsWithSupabase,
   saveAdminWalletToSupabase,
-  deleteAdminWalletFromSupabase
-} from '@/lib/adminPermissions';
-import { recordActivityLog } from '@/services/systemActivityLog';
-import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import { toast } from 'sonner';
-import { Search, CheckCircle, AlertTriangle, Settings, Copy, RefreshCw, AlertCircle } from 'lucide-react';
-import CubeSpinner from '@/components/shared/CubeSpinner';
+  deleteAdminWalletFromSupabase,
+} from "@/lib/adminPermissions";
+import { recordActivityLog } from "@/services/systemActivityLog";
+import { CryptoIcon } from "@/components/shared/CryptoIcon";
+import { toast } from "sonner";
+import {
+  Search,
+  CheckCircle,
+  AlertTriangle,
+  Settings,
+  Copy,
+  RefreshCw,
+  AlertCircle,
+} from "lucide-react";
+import CubeSpinner from "@/components/shared/CubeSpinner";
 
 interface WalletRow {
   id?: string;
@@ -23,15 +31,15 @@ interface WalletRow {
 }
 
 const SUPPORTED_WALLETS = [
-  { symbol: 'BTC', network: 'BTC' },
-  { symbol: 'ETH', network: 'ERC20' },
-  { symbol: 'USDT', network: 'ERC20' },
-  { symbol: 'USDT', network: 'TRC20' },
-  { symbol: 'USDT', network: 'BEP20' },
-  { symbol: 'XRP', network: 'RIPPLE' },
-  { symbol: 'BNB', network: 'BEP20' },
-  { symbol: 'SOL', network: 'SOLANA' },
-  { symbol: 'DOGE', network: 'DOGE' },
+  { symbol: "BTC", network: "BTC" },
+  { symbol: "ETH", network: "ERC20" },
+  { symbol: "USDT", network: "ERC20" },
+  { symbol: "USDT", network: "TRC20" },
+  { symbol: "USDT", network: "BEP20" },
+  { symbol: "XRP", network: "RIPPLE" },
+  { symbol: "BNB", network: "BEP20" },
+  { symbol: "SOL", network: "SOLANA" },
+  { symbol: "DOGE", network: "DOGE" },
 ];
 
 const AdminWallets = () => {
@@ -42,8 +50,8 @@ const AdminWallets = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'ALL' | 'ACTIVE' | 'MISSING'>('ALL');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState<"ALL" | "ACTIVE" | "MISSING">("ALL");
+  const [searchTerm, setSearchTerm] = useState("");
   const [copyFeedback, setCopyFeedback] = useState<string | null>(null);
 
   const loadWallets = useCallback(async () => {
@@ -53,21 +61,23 @@ const AdminWallets = () => {
       if (adminId) {
         // Load admin specific wallets from database after syncing
         const customWallets = await syncAdminWalletsWithSupabase();
-        const adminCustomWallets = customWallets.filter(w => w.adminId === adminId);
-        const mapped = SUPPORTED_WALLETS.map(w => {
-          const existing = adminCustomWallets.find(s => s.symbol === w.symbol && s.network === w.network);
-          return { ...w, id: existing ? adminId : undefined, address: existing?.address || '' };
+        const adminCustomWallets = customWallets.filter((w) => w.adminId === adminId);
+        const mapped = SUPPORTED_WALLETS.map((w) => {
+          const existing = adminCustomWallets.find(
+            (s) => s.symbol === w.symbol && s.network === w.network,
+          );
+          return { ...w, id: existing ? adminId : undefined, address: existing?.address || "" };
         });
         setWallets(mapped);
       } else {
         // Load global system wallets from Supabase
-        const { data, error: fetchError } = await supabase.from('admin_wallets').select('*');
+        const { data, error: fetchError } = await supabase.from("admin_wallets").select("*");
         if (fetchError) throw fetchError;
-        
+
         const saved = data || [];
-        const mapped = SUPPORTED_WALLETS.map(w => {
-          const existing = saved.find(s => s.symbol === w.symbol && s.network === w.network);
-          return { ...w, id: existing?.id, address: existing?.address || '' };
+        const mapped = SUPPORTED_WALLETS.map((w) => {
+          const existing = saved.find((s) => s.symbol === w.symbol && s.network === w.network);
+          return { ...w, id: existing?.id, address: existing?.address || "" };
         });
         setWallets(mapped);
       }
@@ -78,22 +88,27 @@ const AdminWallets = () => {
     }
   }, [adminId]);
 
-  useEffect(() => { loadWallets(); }, [loadWallets]);
+  useEffect(() => {
+    loadWallets();
+  }, [loadWallets]);
 
   const handleAddressChange = (idx: number, val: string) => {
-    setWallets(prev => prev.map((w, i) => i === idx ? { ...w, address: val } : w));
+    setWallets((prev) => prev.map((w, i) => (i === idx ? { ...w, address: val } : w)));
   };
 
   const saveWallet = async (idx: number) => {
     const wallet = wallets[idx];
     setSaving(wallet.symbol + wallet.network);
-    
+
     try {
       if (adminId) {
         // Save admin-specific wallets
         const allWallets = getAdminWallets();
         // Remove existing
-        const filtered = allWallets.filter(w => !(w.adminId === adminId && w.symbol === wallet.symbol && w.network === wallet.network));
+        const filtered = allWallets.filter(
+          (w) =>
+            !(w.adminId === adminId && w.symbol === wallet.symbol && w.network === wallet.network),
+        );
         // Add new
         const trimAddress = wallet.address.trim();
         if (trimAddress) {
@@ -101,93 +116,94 @@ const AdminWallets = () => {
             adminId,
             symbol: wallet.symbol,
             network: wallet.network,
-            address: trimAddress
+            address: trimAddress,
           };
           filtered.push(newWalletPayload);
           saveAdminWallets(filtered);
           await saveAdminWalletToSupabase(newWalletPayload);
 
           recordActivityLog({
-            category: 'DEPOSIT_WALLET',
-            action: 'DEPOSIT_WALLET_UPDATED',
-            adminEmail: user?.email || 'admin@artesys.com',
+            category: "DEPOSIT_WALLET",
+            action: "DEPOSIT_WALLET_UPDATED",
+            adminEmail: user?.email || "admin@artesys.com",
             adminId,
             target: `${wallet.symbol} (${wallet.network})`,
             title: `Updated Group Deposit Wallet Address (${adminId})`,
             details: `Configured deposit address for ${wallet.symbol} on ${wallet.network} network: ${trimAddress}`,
-            severity: 'info',
+            severity: "info",
             metadata: {
               symbol: wallet.symbol,
               network: wallet.network,
               walletAddress: trimAddress,
               adminId,
-              scope: 'GROUP'
-            }
+              scope: "GROUP",
+            },
           });
         } else {
           saveAdminWallets(filtered);
           await deleteAdminWalletFromSupabase(adminId, wallet.symbol, wallet.network);
 
           recordActivityLog({
-            category: 'DEPOSIT_WALLET',
-            action: 'DEPOSIT_WALLET_REMOVED',
-            adminEmail: user?.email || 'admin@artesys.com',
+            category: "DEPOSIT_WALLET",
+            action: "DEPOSIT_WALLET_REMOVED",
+            adminEmail: user?.email || "admin@artesys.com",
             adminId,
             target: `${wallet.symbol} (${wallet.network})`,
             title: `Cleared Group Deposit Wallet Address (${adminId})`,
             details: `Removed custom deposit address for ${wallet.symbol} on ${wallet.network} network`,
-            severity: 'warning',
+            severity: "warning",
             metadata: {
               symbol: wallet.symbol,
               network: wallet.network,
               adminId,
-              scope: 'GROUP'
-            }
+              scope: "GROUP",
+            },
           });
         }
-        setWallets(prev => prev.map((w, i) => i === idx ? { ...w, id: adminId } : w));
+        setWallets((prev) => prev.map((w, i) => (i === idx ? { ...w, id: adminId } : w)));
         toast.success(`${wallet.symbol} (${wallet.network}) custom wallet updated successfully.`);
       } else {
         // Save global wallets
         const trimAddress = wallet.address.trim();
         if (wallet.id) {
           // Update
-          await supabase.from('admin_wallets')
-            .update({ address: trimAddress })
-            .eq('id', wallet.id);
+          await supabase.from("admin_wallets").update({ address: trimAddress }).eq("id", wallet.id);
         } else {
           // Insert
-          const { data } = await supabase.from('admin_wallets')
+          const { data } = await supabase
+            .from("admin_wallets")
             .insert({
               symbol: wallet.symbol,
               network: wallet.network,
-              address: trimAddress
+              address: trimAddress,
             })
             .select()
             .single();
-          
+
           if (data) {
-            setWallets(prev => prev.map((w, i) => i === idx ? { ...w, id: data.id } : w));
+            setWallets((prev) => prev.map((w, i) => (i === idx ? { ...w, id: data.id } : w)));
           }
         }
 
         recordActivityLog({
-          category: 'DEPOSIT_WALLET',
-          action: trimAddress ? 'DEPOSIT_WALLET_UPDATED' : 'DEPOSIT_WALLET_REMOVED',
-          adminEmail: user?.email || 'admin@artesys.com',
-          adminId: 'GLOBAL',
+          category: "DEPOSIT_WALLET",
+          action: trimAddress ? "DEPOSIT_WALLET_UPDATED" : "DEPOSIT_WALLET_REMOVED",
+          adminEmail: user?.email || "admin@artesys.com",
+          adminId: "GLOBAL",
           target: `${wallet.symbol} (${wallet.network})`,
-          title: trimAddress ? `Updated Global Deposit Wallet Address` : `Cleared Global Deposit Wallet Address`,
-          details: trimAddress 
+          title: trimAddress
+            ? `Updated Global Deposit Wallet Address`
+            : `Cleared Global Deposit Wallet Address`,
+          details: trimAddress
             ? `Configured global system deposit address for ${wallet.symbol} on ${wallet.network}: ${trimAddress}`
             : `Cleared global deposit address for ${wallet.symbol} on ${wallet.network}`,
-          severity: trimAddress ? 'info' : 'warning',
+          severity: trimAddress ? "info" : "warning",
           metadata: {
             symbol: wallet.symbol,
             network: wallet.network,
             walletAddress: trimAddress,
-            scope: 'GLOBAL'
-          }
+            scope: "GLOBAL",
+          },
         });
 
         toast.success(`${wallet.symbol} (${wallet.network}) system wallet updated successfully.`);
@@ -199,12 +215,14 @@ const AdminWallets = () => {
     }
   };
 
-  const filtered = wallets.filter(w => {
-    const matchesSearch = w.symbol.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         w.network.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filter === 'ALL' || 
-                         (filter === 'ACTIVE' && w.address) || 
-                         (filter === 'MISSING' && !w.address);
+  const filtered = wallets.filter((w) => {
+    const matchesSearch =
+      w.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      w.network.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter =
+      filter === "ALL" ||
+      (filter === "ACTIVE" && w.address) ||
+      (filter === "MISSING" && !w.address);
     return matchesSearch && matchesFilter;
   });
 
@@ -219,39 +237,47 @@ const AdminWallets = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            {adminId ? `Group Wallets (${adminId})` : 'System Wallets (Global)'}
+            {adminId ? `Group Wallets (${adminId})` : "System Wallets (Global)"}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {adminId 
+            {adminId
               ? `Configure custom deposit addresses shown exclusively to your group's users.`
-              : 'Configure default system deposit addresses for all supported networks.'}
+              : "Configure default system deposit addresses for all supported networks."}
           </p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
-            <input 
-              type="text" 
-              placeholder="Filter by asset..." 
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              size={16}
+            />
+            <input
+              type="text"
+              placeholder="Filter by asset..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9 pr-4 py-2 bg-card border border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 transition-all"
             />
           </div>
-          <button onClick={() => loadWallets()} className="p-2 border border-border rounded-lg hover:bg-muted transition-colors">
+          <button
+            onClick={() => loadWallets()}
+            className="p-2 border border-border rounded-lg hover:bg-muted transition-colors"
+          >
             <Settings size={18} className="text-muted-foreground" />
           </button>
         </div>
       </div>
 
       <div className="flex gap-2 mb-6 overflow-x-auto no-scrollbar">
-        {(['ALL', 'ACTIVE', 'MISSING'] as const).map(f => (
-          <button 
+        {(["ALL", "ACTIVE", "MISSING"] as const).map((f) => (
+          <button
             key={f}
             onClick={() => setFilter(f)}
             className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border ${
-              filter === f ? 'bg-primary text-primary-foreground border-primary shadow-brand' : 'bg-card text-muted-foreground border-border hover:border-muted-foreground'
+              filter === f
+                ? "bg-primary text-primary-foreground border-primary shadow-brand"
+                : "bg-card text-muted-foreground border-border hover:border-muted-foreground"
             }`}
           >
             {f}
@@ -271,67 +297,93 @@ const AdminWallets = () => {
             </div>
             <h3 className="text-lg font-bold text-foreground">Sync Failure</h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs mx-auto">{error}</p>
-            <button onClick={() => loadWallets()} className="flex items-center gap-2 mx-auto px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition-all">
+            <button
+              onClick={() => loadWallets()}
+              className="flex items-center gap-2 mx-auto px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition-all"
+            >
               <RefreshCw size={18} /> Retry Load
             </button>
           </div>
-        ) : filtered.map((wallet, idx) => (
-          <div key={wallet.symbol + wallet.network} className="bg-card rounded-2xl border border-border p-5 hover:shadow-lg transition-all group">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <CryptoIcon symbol={wallet.symbol} size={32} />
-                <div>
-                  <h3 className="font-bold text-foreground">{wallet.symbol}</h3>
-                  <span className="text-[10px] uppercase tracking-wider font-bold bg-muted px-1.5 py-0.5 rounded text-muted-foreground">{wallet.network}</span>
+        ) : (
+          filtered.map((wallet, idx) => (
+            <div
+              key={wallet.symbol + wallet.network}
+              className="bg-card rounded-2xl border border-border p-5 hover:shadow-lg transition-all group"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <CryptoIcon symbol={wallet.symbol} size={32} />
+                  <div>
+                    <h3 className="font-bold text-foreground">{wallet.symbol}</h3>
+                    <span className="text-[10px] uppercase tracking-wider font-bold bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+                      {wallet.network}
+                    </span>
+                  </div>
                 </div>
+                {wallet.address ? (
+                  <div
+                    className="text-success bg-success/10 p-1.5 rounded-lg"
+                    title="Wallet Configured"
+                  >
+                    <CheckCircle size={18} />
+                  </div>
+                ) : (
+                  <div
+                    className="text-warning bg-warning/10 p-1.5 rounded-lg"
+                    title="Address Missing"
+                  >
+                    <AlertTriangle size={18} />
+                  </div>
+                )}
               </div>
-              {wallet.address ? (
-                <div className="text-success bg-success/10 p-1.5 rounded-lg" title="Wallet Configured">
-                  <CheckCircle size={18} />
-                </div>
-              ) : (
-                <div className="text-warning bg-warning/10 p-1.5 rounded-lg" title="Address Missing">
-                  <AlertTriangle size={18} />
-                </div>
-              )}
-            </div>
 
-            <div className="space-y-3">
-              <div className="relative">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">Deposit Address</label>
+              <div className="space-y-3">
                 <div className="relative">
-                  <input 
-                    type="text" 
-                    value={wallet.address}
-                    onChange={(e) => handleAddressChange(wallets.indexOf(wallet), e.target.value)}
-                    placeholder={`Enter ${wallet.symbol} address...`}
-                    className="w-full bg-muted/50 border border-border rounded-lg pl-3 pr-10 py-2 text-sm font-mono focus:border-primary outline-none transition-colors"
-                  />
-                  {wallet.address && (
-                    <button 
-                      onClick={() => handleCopy(wallet.address)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {copyFeedback === wallet.address ? <CheckCircle size={14} className="text-success" /> : <Copy size={14} />}
-                    </button>
-                  )}
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                    Deposit Address
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={wallet.address}
+                      onChange={(e) => handleAddressChange(wallets.indexOf(wallet), e.target.value)}
+                      placeholder={`Enter ${wallet.symbol} address...`}
+                      className="w-full bg-muted/50 border border-border rounded-lg pl-3 pr-10 py-2 text-sm font-mono focus:border-primary outline-none transition-colors"
+                    />
+                    {wallet.address && (
+                      <button
+                        onClick={() => handleCopy(wallet.address)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {copyFeedback === wallet.address ? (
+                          <CheckCircle size={14} className="text-success" />
+                        ) : (
+                          <Copy size={14} />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
+
+                <button
+                  onClick={() => saveWallet(wallets.indexOf(wallet))}
+                  disabled={saving === wallet.symbol + wallet.network}
+                  className={`w-full py-2 rounded-lg text-sm font-bold transition-all ${
+                    saving === wallet.symbol + wallet.network
+                      ? "bg-muted text-muted-foreground cursor-wait"
+                      : "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
+                  }`}
+                >
+                  {saving === wallet.symbol + wallet.network
+                    ? "Saving..."
+                    : wallet.id
+                      ? "Update Address"
+                      : "Save Config"}
+                </button>
               </div>
-              
-              <button 
-                onClick={() => saveWallet(wallets.indexOf(wallet))}
-                disabled={saving === wallet.symbol + wallet.network}
-                className={`w-full py-2 rounded-lg text-sm font-bold transition-all ${
-                  saving === wallet.symbol + wallet.network 
-                    ? 'bg-muted text-muted-foreground cursor-wait' 
-                    : 'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground'
-                }`}
-              >
-                {saving === wallet.symbol + wallet.network ? 'Saving...' : wallet.id ? 'Update Address' : 'Save Config'}
-              </button>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       {!loading && filtered.length === 0 && (
@@ -340,7 +392,9 @@ const AdminWallets = () => {
             <Search size={32} className="text-muted-foreground/30" />
           </div>
           <h3 className="text-lg font-bold text-foreground">No Wallets Found</h3>
-          <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+          <p className="text-sm text-muted-foreground">
+            Try adjusting your filters or search term.
+          </p>
         </div>
       )}
     </div>

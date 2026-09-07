@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { useLocation } from "@/lib/router-compat";
 
 interface PageSkeletonProps {
-  variant?: 'home' | 'market' | 'spot' | 'futures' | 'earn' | 'assets' | 'trade-fi' | 'general';
+  variant?: "home" | "market" | "spot" | "futures" | "earn" | "assets" | "trade-fi" | "general";
 }
 
 export const PageSkeleton: React.FC<PageSkeletonProps> = ({ variant }) => {
@@ -11,28 +11,28 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({ variant }) => {
   const getEffectiveVariant = () => {
     if (variant) return variant;
     const path = location.pathname;
-    if (path.includes('/app/market')) return 'market';
-    if (path.includes('/app/spot')) return 'spot';
-    if (path.includes('/app/futures')) return 'futures';
-    if (path.includes('/app/earn')) return 'earn';
-    if (path.includes('/app/assets')) return 'assets';
-    if (path.includes('/app/trade-fi')) return 'trade-fi';
-    if (path.includes('/app/home')) return 'home';
-    return 'general';
+    if (path.includes("/app/market")) return "market";
+    if (path.includes("/app/spot")) return "spot";
+    if (path.includes("/app/futures")) return "futures";
+    if (path.includes("/app/earn")) return "earn";
+    if (path.includes("/app/assets")) return "assets";
+    if (path.includes("/app/trade-fi")) return "trade-fi";
+    if (path.includes("/app/home")) return "home";
+    return "general";
   };
 
   const effective = getEffectiveVariant();
 
   return (
     <div className="w-full min-h-[calc(100vh-5rem)] p-4 md:p-6 space-y-6 animate-pulse select-none max-w-7xl mx-auto">
-      {effective === 'home' && <HomeSkeleton />}
-      {effective === 'market' && <MarketSkeleton />}
-      {effective === 'spot' && <SpotSkeleton />}
-      {effective === 'futures' && <FuturesSkeleton />}
-      {effective === 'earn' && <EarnSkeleton />}
-      {effective === 'assets' && <AssetsSkeleton />}
-      {effective === 'trade-fi' && <TradeFiSkeleton />}
-      {effective === 'general' && <GeneralSkeleton />}
+      {effective === "home" && <HomeSkeleton />}
+      {effective === "market" && <MarketSkeleton />}
+      {effective === "spot" && <SpotSkeleton />}
+      {effective === "futures" && <FuturesSkeleton />}
+      {effective === "earn" && <EarnSkeleton />}
+      {effective === "assets" && <AssetsSkeleton />}
+      {effective === "trade-fi" && <TradeFiSkeleton />}
+      {effective === "general" && <GeneralSkeleton />}
     </div>
   );
 };
@@ -70,7 +70,7 @@ const HomeSkeleton = () => (
       </div>
       <Shimmer className="w-56 h-9" />
       <div className="grid grid-cols-4 gap-3 pt-4">
-        {[1, 2, 3, 4].map(i => (
+        {[1, 2, 3, 4].map((i) => (
           <div key={i} className="flex flex-col items-center gap-2">
             <Shimmer className="w-12 h-12 rounded-2xl" />
             <Shimmer className="w-12 h-2.5" />
@@ -81,7 +81,7 @@ const HomeSkeleton = () => (
 
     {/* Market Ticker Marquee Row */}
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      {[1, 2, 3, 4].map(i => (
+      {[1, 2, 3, 4].map((i) => (
         <div key={i} className="p-4 rounded-2xl border border-border/50 bg-card/40 space-y-2">
           <div className="flex justify-between items-center">
             <Shimmer className="w-16 h-4" />
@@ -99,8 +99,11 @@ const HomeSkeleton = () => (
         <Shimmer className="w-32 h-5" />
         <Shimmer className="w-16 h-4" />
       </div>
-      {[1, 2, 3, 4, 5].map(i => (
-        <div key={i} className="p-4 rounded-2xl border border-border/40 bg-card/30 flex items-center justify-between">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div
+          key={i}
+          className="p-4 rounded-2xl border border-border/40 bg-card/30 flex items-center justify-between"
+        >
           <div className="flex items-center gap-3">
             <Shimmer className="w-10 h-10 rounded-full" />
             <div className="space-y-1.5">
@@ -131,14 +134,14 @@ const MarketSkeleton = () => (
 
     {/* Tab Pills */}
     <div className="flex gap-2 overflow-x-auto pb-1">
-      {['All', 'Spot', 'Futures', 'Gainers', 'Volume'].map((_, i) => (
+      {["All", "Spot", "Futures", "Gainers", "Volume"].map((_, i) => (
         <Shimmer key={i} className="w-20 h-9 rounded-xl shrink-0" />
       ))}
     </div>
 
     {/* Top 3 Cards */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {[1, 2, 3].map(i => (
+      {[1, 2, 3].map((i) => (
         <div key={i} className="p-5 rounded-2xl border border-border/60 bg-card/50 space-y-3">
           <div className="flex items-center gap-2">
             <Shimmer className="w-8 h-8 rounded-full" />
@@ -161,7 +164,7 @@ const MarketSkeleton = () => (
         <Shimmer className="w-20 h-3 hidden sm:block" />
         <Shimmer className="w-20 h-3" />
       </div>
-      {[1, 2, 3, 4, 5, 6, 7].map(i => (
+      {[1, 2, 3, 4, 5, 6, 7].map((i) => (
         <div key={i} className="flex items-center justify-between py-2.5 px-2">
           <div className="flex items-center gap-3">
             <Shimmer className="w-8 h-8 rounded-full" />
@@ -191,9 +194,18 @@ const SpotSkeleton = () => (
         </div>
       </div>
       <div className="flex gap-6">
-        <div className="space-y-1"><Shimmer className="w-12 h-2.5" /><Shimmer className="w-16 h-4" /></div>
-        <div className="space-y-1"><Shimmer className="w-12 h-2.5" /><Shimmer className="w-16 h-4" /></div>
-        <div className="space-y-1 hidden sm:block"><Shimmer className="w-12 h-2.5" /><Shimmer className="w-16 h-4" /></div>
+        <div className="space-y-1">
+          <Shimmer className="w-12 h-2.5" />
+          <Shimmer className="w-16 h-4" />
+        </div>
+        <div className="space-y-1">
+          <Shimmer className="w-12 h-2.5" />
+          <Shimmer className="w-16 h-4" />
+        </div>
+        <div className="space-y-1 hidden sm:block">
+          <Shimmer className="w-12 h-2.5" />
+          <Shimmer className="w-16 h-4" />
+        </div>
       </div>
     </div>
 
@@ -204,7 +216,9 @@ const SpotSkeleton = () => (
         <div className="p-4 rounded-2xl border border-border/50 bg-card/40 h-[380px] flex flex-col justify-between">
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
-              {[1, 2, 3, 4].map(i => <Shimmer key={i} className="w-10 h-6 rounded-md" />)}
+              {[1, 2, 3, 4].map((i) => (
+                <Shimmer key={i} className="w-10 h-6 rounded-md" />
+              ))}
             </div>
             <Shimmer className="w-20 h-6 rounded-md" />
           </div>
@@ -212,7 +226,9 @@ const SpotSkeleton = () => (
             <Shimmer className="w-full h-40 rounded-xl" />
           </div>
           <div className="flex justify-between">
-            {[1, 2, 3, 4, 5].map(i => <Shimmer key={i} className="w-12 h-3" />)}
+            {[1, 2, 3, 4, 5].map((i) => (
+              <Shimmer key={i} className="w-12 h-3" />
+            ))}
           </div>
         </div>
 
@@ -222,7 +238,7 @@ const SpotSkeleton = () => (
             <Shimmer className="w-24 h-4" />
             <Shimmer className="w-24 h-4" />
           </div>
-          {[1, 2, 3].map(i => (
+          {[1, 2, 3].map((i) => (
             <div key={i} className="flex justify-between items-center py-2">
               <Shimmer className="w-28 h-3.5" />
               <Shimmer className="w-20 h-3.5" />
@@ -243,7 +259,9 @@ const SpotSkeleton = () => (
             <Shimmer className="w-full h-11 rounded-xl" />
             <Shimmer className="w-full h-11 rounded-xl" />
             <div className="flex justify-between pt-1">
-              {[1, 2, 3, 4].map(i => <Shimmer key={i} className="w-12 h-6 rounded" />)}
+              {[1, 2, 3, 4].map((i) => (
+                <Shimmer key={i} className="w-12 h-6 rounded" />
+              ))}
             </div>
             <Shimmer className="w-full h-12 rounded-xl mt-4" />
           </div>
@@ -252,7 +270,7 @@ const SpotSkeleton = () => (
         {/* Mini Order Book */}
         <div className="p-4 rounded-2xl border border-border/50 bg-card/40 space-y-2">
           <Shimmer className="w-24 h-4 mb-2" />
-          {[1, 2, 3, 4, 5, 6].map(i => (
+          {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="flex justify-between">
               <Shimmer className="w-16 h-3" />
               <Shimmer className="w-14 h-3" />
@@ -288,7 +306,9 @@ const FuturesSkeleton = () => (
           <Shimmer className="w-40 h-6" />
           <Shimmer className="w-full h-44 rounded-xl" />
           <div className="flex justify-between">
-            {[1, 2, 3, 4].map(i => <Shimmer key={i} className="w-14 h-3" />)}
+            {[1, 2, 3, 4].map((i) => (
+              <Shimmer key={i} className="w-14 h-3" />
+            ))}
           </div>
         </div>
 
@@ -298,8 +318,11 @@ const FuturesSkeleton = () => (
             <Shimmer className="w-28 h-5" />
             <Shimmer className="w-28 h-5" />
           </div>
-          {[1, 2, 3].map(i => (
-            <div key={i} className="p-3 rounded-xl border border-border/30 bg-muted/20 flex justify-between items-center">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="p-3 rounded-xl border border-border/30 bg-muted/20 flex justify-between items-center"
+            >
               <div className="space-y-1">
                 <Shimmer className="w-24 h-4" />
                 <Shimmer className="w-16 h-3" />
@@ -314,7 +337,9 @@ const FuturesSkeleton = () => (
       <div className="p-5 rounded-2xl border border-border/60 bg-card/50 space-y-4">
         <Shimmer className="w-32 h-4" />
         <div className="grid grid-cols-3 gap-2">
-          {[1, 2, 3].map(i => <Shimmer key={i} className="h-9 rounded-xl" />)}
+          {[1, 2, 3].map((i) => (
+            <Shimmer key={i} className="h-9 rounded-xl" />
+          ))}
         </div>
         <div className="space-y-2 pt-2">
           <Shimmer className="w-full h-11 rounded-xl" />
@@ -356,8 +381,11 @@ const EarnSkeleton = () => (
     {/* Vault Offers List */}
     <div className="space-y-3">
       <Shimmer className="w-36 h-5" />
-      {[1, 2, 3, 4].map(i => (
-        <div key={i} className="p-5 rounded-2xl border border-border/50 bg-card/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className="p-5 rounded-2xl border border-border/50 bg-card/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+        >
           <div className="flex items-center gap-3">
             <Shimmer className="w-10 h-10 rounded-full" />
             <div className="space-y-1">
@@ -366,8 +394,14 @@ const EarnSkeleton = () => (
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <div className="space-y-1"><Shimmer className="w-14 h-3" /><Shimmer className="w-16 h-5" /></div>
-            <div className="space-y-1"><Shimmer className="w-14 h-3" /><Shimmer className="w-16 h-5" /></div>
+            <div className="space-y-1">
+              <Shimmer className="w-14 h-3" />
+              <Shimmer className="w-16 h-5" />
+            </div>
+            <div className="space-y-1">
+              <Shimmer className="w-14 h-3" />
+              <Shimmer className="w-16 h-5" />
+            </div>
             <Shimmer className="w-24 h-10 rounded-xl" />
           </div>
         </div>
@@ -386,7 +420,7 @@ const AssetsSkeleton = () => (
       </div>
       <Shimmer className="w-64 h-10" />
       <div className="grid grid-cols-4 gap-3 pt-4">
-        {[1, 2, 3, 4].map(i => (
+        {[1, 2, 3, 4].map((i) => (
           <div key={i} className="flex flex-col items-center gap-2">
             <Shimmer className="w-12 h-12 rounded-2xl" />
             <Shimmer className="w-14 h-3" />
@@ -397,7 +431,7 @@ const AssetsSkeleton = () => (
 
     {/* Breakdown Tabs */}
     <div className="flex gap-2">
-      {['Spot', 'Futures', 'Earn'].map((_, i) => (
+      {["Spot", "Futures", "Earn"].map((_, i) => (
         <Shimmer key={i} className="w-24 h-9 rounded-xl" />
       ))}
     </div>
@@ -408,7 +442,7 @@ const AssetsSkeleton = () => (
         <Shimmer className="w-20 h-3" />
         <Shimmer className="w-20 h-3" />
       </div>
-      {[1, 2, 3, 4, 5].map(i => (
+      {[1, 2, 3, 4, 5].map((i) => (
         <div key={i} className="flex items-center justify-between py-3">
           <div className="flex items-center gap-3">
             <Shimmer className="w-10 h-10 rounded-full" />
@@ -435,7 +469,7 @@ const TradeFiSkeleton = () => (
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-      {[1, 2].map(i => (
+      {[1, 2].map((i) => (
         <div key={i} className="p-6 rounded-3xl border border-border/60 bg-card/50 space-y-4">
           <Shimmer className="w-14 h-14 rounded-2xl" />
           <Shimmer className="w-36 h-6" />

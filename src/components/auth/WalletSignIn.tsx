@@ -23,9 +23,8 @@ export const WalletSignIn = ({ onSuccess, disabled }: WalletSignInProps) => {
   const run = async (kind: WalletKind) => {
     setPending(kind);
     try {
-      const { requestWalletChallenge, verifyWalletSignature } = await import(
-        "@/lib/wallet-auth.functions"
-      );
+      const { requestWalletChallenge, verifyWalletSignature } =
+        await import("@/lib/wallet-auth.functions");
 
       const { address, provider } = await connectWallet(kind);
       const challenge = await requestWalletChallenge({

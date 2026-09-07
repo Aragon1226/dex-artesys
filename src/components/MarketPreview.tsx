@@ -79,12 +79,17 @@ export const MarketPreview = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <CryptoIcon symbol={row.symbol} size={32} />
                   <div>
-                    <p className="text-xs font-bold text-foreground font-mono tracking-tight">{row.symbol}/USDT</p>
-                    <p className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground">Spot</p>
+                    <p className="text-xs font-bold text-foreground font-mono tracking-tight">
+                      {row.symbol}/USDT
+                    </p>
+                    <p className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
+                      Spot
+                    </p>
                   </div>
                 </div>
                 <p className="text-xl font-light text-foreground font-mono tracking-tight mb-2">
-                  ${row.price.toLocaleString(undefined, {
+                  $
+                  {row.price.toLocaleString(undefined, {
                     minimumFractionDigits: row.price < 1 ? 4 : 2,
                     maximumFractionDigits: row.price < 1 ? 4 : 2,
                   })}

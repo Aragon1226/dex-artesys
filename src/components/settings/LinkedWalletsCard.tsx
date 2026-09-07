@@ -72,7 +72,11 @@ export const LinkedWalletsCard = () => {
   const remove = async (wallet: LinkedWallet) => {
     const { error } = await supabase.from("linked_wallets").delete().eq("id", wallet.id);
     if (error) {
-      toast({ title: "Could not remove wallet", description: error.message, variant: "destructive" });
+      toast({
+        title: "Could not remove wallet",
+        description: error.message,
+        variant: "destructive",
+      });
       return;
     }
     toast({ title: "Wallet removed", description: `${shortAddress(wallet.address)} unlinked.` });

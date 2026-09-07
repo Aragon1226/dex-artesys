@@ -5,7 +5,12 @@ import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, AlertTriangle } fr
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/shared/Logo";
 import { WalletSignIn } from "@/components/auth/WalletSignIn";
-import { isUserAdmin, syncAdminPermissions, getCustomAccounts, isPrimaryOwner } from "@/lib/adminPermissions";
+import {
+  isUserAdmin,
+  syncAdminPermissions,
+  getCustomAccounts,
+  isPrimaryOwner,
+} from "@/lib/adminPermissions";
 
 // Step 1: Translate raw auth/network errors into friendly, actionable wording.
 function describeAuthError(message: string): string {
@@ -28,7 +33,10 @@ function describeAuthError(message: string): string {
   if (msg.includes("user already registered") || msg.includes("already been registered")) {
     return "An account with this email already exists. Try signing in instead.";
   }
-  if (msg.includes("password") && (msg.includes("weak") || msg.includes("at least") || msg.includes("too short"))) {
+  if (
+    msg.includes("password") &&
+    (msg.includes("weak") || msg.includes("at least") || msg.includes("too short"))
+  ) {
     return "That password is too weak — please use at least 6 characters with a mix of letters and numbers.";
   }
   if (msg.includes("pwned") || msg.includes("compromised") || msg.includes("breach")) {
@@ -107,7 +115,11 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     // Check if coming from a recovery link in the URL hash/query
     const hash = window.location.hash || "";
     const search = window.location.search || "";
-    if (hash.includes("type=recovery") || hash.includes("access_token=") || search.includes("type=recovery")) {
+    if (
+      hash.includes("type=recovery") ||
+      hash.includes("access_token=") ||
+      search.includes("type=recovery")
+    ) {
       setIsUpdatePassword(true);
     }
 
@@ -159,10 +171,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
       toast({ title: "Welcome!", description: "Signed in with Google." });
       onSuccess?.();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Google sign-in failed",
-        description: error?.message || "Please try again.",
+        description: error instanceof Error ? error.message : "Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -191,10 +203,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
       toast({ title: "Welcome!", description: "Signed in with Apple." });
       onSuccess?.();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Apple sign-in failed",
-        description: error?.message || "Please try again.",
+        description: error instanceof Error ? error.message : "Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -272,8 +284,8 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               // Credential/validation errors should not be retried
               if (!/fetch|network|timeout|502|503|504/i.test(authErr.message)) break;
             }
-          } catch (err: any) {
-            authErrorMsg = err?.message || "Network error";
+          } catch (err: unknown) {
+            authErrorMsg = err instanceof Error ? err.message : "Network error";
           }
           if (attempt < MAX_ATTEMPTS - 1) {
             await new Promise((r) => setTimeout(r, 600 * Math.pow(2, attempt)));
@@ -313,18 +325,21 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               toast({ title: "Welcome!", description: "Account synchronized and logged in." });
               onSuccess?.();
               return;
-            } else if (signUpErr && signUpErr.message.toLowerCase().includes("already registered")) {
+            } else if (
+              signUpErr &&
+              signUpErr.message.toLowerCase().includes("already registered")
+            ) {
               throw new Error(
                 "This admin email is already registered on the platform. Please use your original password you signed up with, or register a different admin email in the portal.",
               );
             } else if (signUpErr) {
               throw signUpErr;
             }
-          } catch (e: any) {
-            console.warn("Seamless signup failed", e);
+          } catch (e: unknown) {
             toast({
               title: "Authentication Failed",
-              description: e.message || "Failed to synchronize admin account.",
+              description:
+                e instanceof Error ? e.message : "Failed to synchronize admin account.",
               variant: "destructive",
             });
             return;
@@ -332,7 +347,8 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
           toast({
             title: "Error",
-            description: "Could not establish a secure database session. Please check your credentials.",
+            description:
+              "Could not establish a secure database session. Please check your credentials.",
             variant: "destructive",
           });
           return;
@@ -384,7 +400,8 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           }
         }
 
-        if (!created) throw new Error(signUpError || "We couldn't create your account. Please try again.");
+        if (!created)
+          throw new Error(signUpError || "We couldn't create your account. Please try again.");
 
         toast({
           title: "Account created!",
@@ -394,7 +411,8 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
       }
       // Step 4: Final customized catch error processing block
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      const message =
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
       const failTitle = isUpdatePassword
         ? "Couldn't update password"
         : isForgotPassword
@@ -432,11 +450,17 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
       <div className="relative z-10 w-full mb-8">
         {!isInsideModal && (
           <div className="flex justify-center mb-12">
-            <Logo size={80} variant="SYMBOL" className="drop-shadow-[0_0_20px_hsl(var(--brand-primary)/0.35)]" />
+            <Logo
+              size={80}
+              variant="SYMBOL"
+              className="drop-shadow-[0_0_20px_hsl(var(--brand-primary)/0.35)]"
+            />
           </div>
         )}
 
-        <h1 className="text-3xl font-bold text-center mb-3 text-foreground tracking-tight">{title}</h1>
+        <h1 className="text-3xl font-bold text-center mb-3 text-foreground tracking-tight">
+          {title}
+        </h1>
         <p className="text-sm text-muted-foreground text-center mb-10 font-medium font-sans animate-pulse">
           {subtitle}
         </p>
@@ -601,7 +625,9 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           <div className="mt-6">
             <div className="flex items-center gap-4 mb-5">
               <div className="h-px flex-1 bg-border" />
-              <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">or</span>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                or
+              </span>
               <div className="h-px flex-1 bg-border" />
             </div>
 
@@ -645,7 +671,13 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
               {appleLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="currentColor">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  aria-hidden="true"
+                  fill="currentColor"
+                >
                   <path d="M12.55 5.48c-.04.02-.08.03-.12.03-.62 0-1.13-.5-1.13-1.13 0-.62.5-1.13 1.13-1.13.04 0 .08.01.12.02-.42.28-.7.76-.7 1.3 0 .34.12.66.32.91h.38z" />
                   <path d="M15.18 12.47c-.27 1.04-.99 1.96-1.93 2.49-.47.25-1 .39-1.55.39-.22 0-.44-.02-.65-.07-.6-.13-1.18-.13-1.77 0-.21.05-.43.07-.65.07-.55 0-1.08-.14-1.55-.39-.94-.53-1.66-1.45-1.93-2.49-.13-.5-.18-1.02-.13-1.54.08-.86.41-1.66.95-2.3.6-.71 1.43-1.13 2.32-1.17.28-.01.56.04.83.15.4.16.82.24 1.24.24s.84-.08 1.24-.24c.27-.11.55-.16.83-.15.89.04 1.72.46 2.32 1.17.54.64.87 1.44.95 2.3.05.52 0 1.04-.13 1.54zM11.7 2.5c.04.96-.68 1.84-1.63 1.94-.04 0-.09.01-.13.01-.05 0-.09-.01-.14-.01h-.01c-.02 0-.04-.01-.06-.01-.02 0-.04.01-.06.01h-.01c-.04 0-.09-.01-.13-.01-.95-.1-1.67-.98-1.63-1.94.04-.91.78-1.67 1.69-1.73.02 0 .04-.01.06-.01.02 0 .04.01.06.01h.01c.04 0 .09-.01.13-.01.04 0 .09.01.13.01h.01c.02 0 .04-.01.06-.01.02 0 .04.01.06.01.91.06 1.65.82 1.69 1.73z" />
                 </svg>
@@ -671,7 +703,9 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                   <FileText className="text-primary" size={24} />
                   <div>
                     <h3 className="text-lg font-bold text-foreground">Terms & Conditions</h3>
-                    <p className="text-xs text-muted-foreground">Educational & Demo Platform Agreement</p>
+                    <p className="text-xs text-muted-foreground">
+                      Educational & Demo Platform Agreement
+                    </p>
                   </div>
                 </div>
                 <button
@@ -688,42 +722,51 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
                     <AlertTriangle size={16} /> Educational Demo Trading Notice
                   </div>
                   <p className="text-xs text-warning/90 leading-relaxed">
-                    Artesys is strictly an educational demo trading simulator. It does not provide real financial
-                    services, real asset deposits, live money withdrawals, or financial advice. All balances are paper
-                    credits.
+                    Artesys is strictly an educational demo trading simulator. It does not provide
+                    real financial services, real asset deposits, live money withdrawals, or
+                    financial advice. All balances are paper credits.
                   </p>
                 </div>
 
                 <section className="space-y-1.5">
-                  <h4 className="font-bold text-foreground text-sm">1. Non-Financial Purpose & Educational Scope</h4>
+                  <h4 className="font-bold text-foreground text-sm">
+                    1. Non-Financial Purpose & Educational Scope
+                  </h4>
                   <p>
-                    This platform is built for software testing, educational evaluation, and demo trading practice in
-                    Web3 mechanics. No real fiat or cryptocurrency transactions occur on this platform.
+                    This platform is built for software testing, educational evaluation, and demo
+                    trading practice in Web3 mechanics. No real fiat or cryptocurrency transactions
+                    occur on this platform.
                   </p>
                 </section>
 
                 <section className="space-y-1.5">
-                  <h4 className="font-bold text-foreground text-sm">2. Complete Exemption of Developer Liability</h4>
+                  <h4 className="font-bold text-foreground text-sm">
+                    2. Complete Exemption of Developer Liability
+                  </h4>
                   <p>
-                    By signing up or logging in, the user agrees that the development teams, individual developers,
-                    software authors, and platform operators shall bear ZERO legal liability or financial responsibility
-                    for any user actions or decisions.
+                    By signing up or logging in, the user agrees that the development teams,
+                    individual developers, software authors, and platform operators shall bear ZERO
+                    legal liability or financial responsibility for any user actions or decisions.
                   </p>
                 </section>
 
                 <section className="space-y-1.5">
-                  <h4 className="font-bold text-foreground text-sm">3. Transparent Platform Capabilities</h4>
+                  <h4 className="font-bold text-foreground text-sm">
+                    3. Transparent Platform Capabilities
+                  </h4>
                   <p>
-                    Spot trading, futures leverage, staking yield, identity verification, and asset portfolio tracking
-                    are simulated software features designed to teach users trading mechanics safely.
+                    Spot trading, futures leverage, staking yield, identity verification, and asset
+                    portfolio tracking are simulated software features designed to teach users
+                    trading mechanics safely.
                   </p>
                 </section>
 
                 <section className="space-y-1.5">
                   <h4 className="font-bold text-foreground text-sm">4. Privacy & Compliance</h4>
                   <p>
-                    User account data is stored securely using encrypted database connections for session state
-                    management. We do not sell user data or engage in predatory practices.
+                    User account data is stored securely using encrypted database connections for
+                    session state management. We do not sell user data or engage in predatory
+                    practices.
                   </p>
                 </section>
               </div>
@@ -745,14 +788,20 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
 
         {isUpdatePassword ? (
           <p className="text-center text-sm text-muted-foreground mt-8">
-            <button onClick={() => setIsUpdatePassword(false)} className="text-primary font-bold hover:underline">
+            <button
+              onClick={() => setIsUpdatePassword(false)}
+              className="text-primary font-bold hover:underline"
+            >
               Cancel Reset
             </button>
           </p>
         ) : isForgotPassword ? (
           <div className="space-y-4 mt-8">
             <p className="text-center text-sm text-muted-foreground">
-              <button onClick={() => setIsForgotPassword(false)} className="text-primary font-bold hover:underline">
+              <button
+                onClick={() => setIsForgotPassword(false)}
+                className="text-primary font-bold hover:underline"
+              >
                 Back to Sign In
               </button>
             </p>
@@ -762,7 +811,10 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             <span className="text-muted-foreground">
               {isLogin ? "Don't have an account?" : "Already have an account?"}
             </span>{" "}
-            <button onClick={() => setIsLogin(!isLogin)} className="text-primary font-bold hover:underline">
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-primary font-bold hover:underline"
+            >
               {isLogin ? "Sign Up" : "Sign In"}
             </button>
           </p>

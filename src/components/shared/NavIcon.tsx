@@ -1,8 +1,20 @@
 import * as React from "react";
 import type { LucideIcon } from "lucide-react";
 import {
-  Home, BarChart2, Zap, Gem, Wallet, Settings, ShieldAlert, LayoutDashboard,
-  Users, ShieldCheck, Activity, LifeBuoy, ArrowUpCircle, TrendingUp,
+  Home,
+  BarChart2,
+  Zap,
+  Gem,
+  Wallet,
+  Settings,
+  ShieldAlert,
+  LayoutDashboard,
+  Users,
+  ShieldCheck,
+  Activity,
+  LifeBuoy,
+  ArrowUpCircle,
+  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -40,13 +52,23 @@ export interface NavIconProps {
   className?: string;
 }
 
-export const NavIcon = ({ icon, active = false, size = 20, boxed = false, className }: NavIconProps) => {
+export const NavIcon = ({
+  icon,
+  active = false,
+  size = 20,
+  boxed = false,
+  className,
+}: NavIconProps) => {
   const Icon = typeof icon === "string" ? navIcons[icon] : icon;
   const glyph = (
     <Icon
       size={size}
       strokeWidth={active ? 2.5 : 2}
-      className={boxed ? undefined : cn("transition-colors", active ? "text-current" : "text-current/70", className)}
+      className={
+        boxed
+          ? undefined
+          : cn("transition-colors", active ? "text-current" : "text-current/70", className)
+      }
     />
   );
 

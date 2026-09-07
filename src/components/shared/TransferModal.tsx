@@ -11,10 +11,16 @@ interface TransferModalProps {
   defaultDirection?: "spot_to_futures" | "futures_to_spot";
 }
 
-export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_futures" }: TransferModalProps) => {
+export const TransferModal = ({
+  onClose,
+  onSuccess,
+  defaultDirection = "spot_to_futures",
+}: TransferModalProps) => {
   const { user } = useAuth();
   const [amount, setAmount] = useState("");
-  const [direction, setDirection] = useState<"spot_to_futures" | "futures_to_spot">(defaultDirection);
+  const [direction, setDirection] = useState<"spot_to_futures" | "futures_to_spot">(
+    defaultDirection,
+  );
   const [loading, setLoading] = useState(false);
   const [spotBalance, setSpotBalance] = useState(0);
   const [futuresBalance, setFuturesBalance] = useState(0);
@@ -27,7 +33,7 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
         .select("balance, futures_balance")
         .eq("id", user.id)
         .single();
-      
+
       if (data) {
         setSpotBalance(data.balance || 0);
         setFuturesBalance(data.futures_balance || 0);
@@ -50,13 +56,13 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
     }
 
     const transferAmount = Number(amount);
-    
+
     // Validate balance
     if (direction === "spot_to_futures" && transferAmount > spotBalance) {
       toast.error("Insufficient Spot balance");
       return;
     }
-    
+
     if (direction === "futures_to_spot" && transferAmount > futuresBalance) {
       toast.error("Insufficient Futures balance");
       return;
@@ -65,14 +71,20 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
     setLoading(true);
 
     try {
-      const newSpotBalance = direction === "spot_to_futures" ? spotBalance - transferAmount : spotBalance + transferAmount;
-      const newFuturesBalance = direction === "spot_to_futures" ? futuresBalance + transferAmount : futuresBalance - transferAmount;
+      const newSpotBalance =
+        direction === "spot_to_futures"
+          ? spotBalance - transferAmount
+          : spotBalance + transferAmount;
+      const newFuturesBalance =
+        direction === "spot_to_futures"
+          ? futuresBalance + transferAmount
+          : futuresBalance - transferAmount;
 
       const { error } = await supabase
         .from("profiles")
         .update({
           balance: newSpotBalance,
-          futures_balance: newFuturesBalance
+          futures_balance: newFuturesBalance,
         })
         .eq("id", user!.id);
 
@@ -108,17 +120,25 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
             <div className="flex items-center gap-4 bg-muted/50 p-4 rounded-2xl border border-border">
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground font-bold uppercase mb-1">From</p>
-                <p className="font-bold text-foreground">{direction === "spot_to_futures" ? "Spot Wallet" : "Futures Wallet"}</p>
+                <p className="font-bold text-foreground">
+                  {direction === "spot_to_futures" ? "Spot Wallet" : "Futures Wallet"}
+                </p>
               </div>
-              <button 
-                onClick={() => setDirection(d => d === "spot_to_futures" ? "futures_to_spot" : "spot_to_futures")}
+              <button
+                onClick={() =>
+                  setDirection((d) =>
+                    d === "spot_to_futures" ? "futures_to_spot" : "spot_to_futures",
+                  )
+                }
                 className="w-10 h-10 bg-primary/10 text-primary hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors flex-shrink-0"
               >
                 <ArrowRightLeft size={16} />
               </button>
               <div className="flex-1 text-right">
                 <p className="text-xs text-muted-foreground font-bold uppercase mb-1">To</p>
-                <p className="font-bold text-foreground">{direction === "spot_to_futures" ? "Futures Wallet" : "Spot Wallet"}</p>
+                <p className="font-bold text-foreground">
+                  {direction === "spot_to_futures" ? "Futures Wallet" : "Spot Wallet"}
+                </p>
               </div>
             </div>
 
@@ -138,7 +158,11 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
               <div className="flex justify-between items-center mb-2">
                 <label className="text-sm font-bold text-muted-foreground">Amount</label>
                 <span className="text-xs text-muted-foreground">
-                  Available: <span className="text-foreground font-bold">{(direction === "spot_to_futures" ? spotBalance : futuresBalance).toFixed(2)} USDT</span>
+                  Available:{" "}
+                  <span className="text-foreground font-bold">
+                    {(direction === "spot_to_futures" ? spotBalance : futuresBalance).toFixed(2)}{" "}
+                    USDT
+                  </span>
                 </span>
               </div>
               <div className="relative">
@@ -149,8 +173,12 @@ export const TransferModal = ({ onClose, onSuccess, defaultDirection = "spot_to_
                   placeholder="0.00"
                   className="w-full bg-background border border-border focus:border-primary/50 focus:ring-1 focus:ring-primary/50 rounded-xl py-3 px-4 outline-none transition-all pr-16 font-mono"
                 />
-                <button 
-                  onClick={() => setAmount((direction === "spot_to_futures" ? spotBalance : futuresBalance).toString())}
+                <button
+                  onClick={() =>
+                    setAmount(
+                      (direction === "spot_to_futures" ? spotBalance : futuresBalance).toString(),
+                    )
+                  }
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold bg-primary/20 text-primary px-2 py-1 rounded-md"
                 >
                   MAX

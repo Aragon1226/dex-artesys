@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicShell } from "@/components/public/PublicShell";
-import { PageHero, Section, Card, CardGrid, Steps, CtaRow, FaqList } from "@/components/public/Section";
+import {
+  PageHero,
+  Section,
+  Card,
+  CardGrid,
+  Steps,
+  CtaRow,
+  FaqList,
+} from "@/components/public/Section";
 import { publicHead, breadcrumbJsonLd, faqJsonLd } from "@/lib/publicSeo";
 
 const TITLE = "Accounts & Verification — Sign-in Options | Artesys";
@@ -116,9 +124,7 @@ function AccountsPage() {
             Reach the Artesys support team from inside the app and keep the conversation attached to
             your account.
           </Card>
-          <Card title="Referrals">
-            Track referred sign-ups from your account area.
-          </Card>
+          <Card title="Referrals">Track referred sign-ups from your account area.</Card>
         </CardGrid>
       </Section>
 
