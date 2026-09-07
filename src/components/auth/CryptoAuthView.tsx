@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Logo } from "@/components/shared/Logo";
 import { AuthForm } from "./AuthForm";
+import authBackdrop from "@/assets/generated/hero-abstract.jpg";
 
 export const CryptoAuthView = () => {
   return (
@@ -10,7 +11,7 @@ export const CryptoAuthView = () => {
         className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
         style={{
           backgroundImage:
-            'url("https://images.unsplash.com/photo-1644024276273-4b901946849a?auto=format&fit=crop&q=80&w=2000")',
+            `url(${authBackdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

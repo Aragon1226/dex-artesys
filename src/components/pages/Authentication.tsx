@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/cloudClient";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { Logo } from "@/components/shared/Logo";
+import authBackdrop from "@/assets/generated/hero-abstract.jpg";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const Auth = () => {
         className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
         style={{
           backgroundImage:
-            'url("https://images.unsplash.com/photo-1644024276273-4b901946849a?auto=format&fit=crop&q=80&w=2000")',
+            `url(${authBackdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
