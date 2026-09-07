@@ -5,15 +5,27 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Artesys — Crypto Exchange | Spot, Futures & Earn" },
-      { name: "description", content: "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders." },
+      {
+        name: "description",
+        content:
+          "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders.",
+      },
       { property: "og:title", content: "Artesys — Crypto Exchange | Spot, Futures & Earn" },
-      { property: "og:description", content: "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders." },
+      {
+        property: "og:description",
+        content:
+          "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://xn--artsys-dva.com/" },
       { property: "og:image", content: "https://xn--artsys-dva.com/og-artesys.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Artesys — Crypto Exchange | Spot, Futures & Earn" },
-      { name: "twitter:description", content: "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders." },
+      {
+        name: "twitter:description",
+        content:
+          "Trade crypto spot and futures, earn yield on your assets, and manage your portfolio on Artesys — a secure exchange built for modern traders.",
+      },
       { name: "twitter:image", content: "https://xn--artsys-dva.com/og-artesys.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://xn--artsys-dva.com/" }],

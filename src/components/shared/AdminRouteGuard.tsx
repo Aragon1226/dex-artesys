@@ -69,7 +69,6 @@ export const AdminRouteGuard = ({
     signOut,
   ]);
 
-
   if (loading || checkingRole) {
     return <CubeSpinner fullScreen label="Verifying admin credentials..." />;
   }

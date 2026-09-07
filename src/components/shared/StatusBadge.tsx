@@ -1,7 +1,15 @@
 import * as React from "react";
 import {
-  CheckCircle2, Clock, XCircle, AlertTriangle, Info, Loader2,
-  ShieldCheck, TrendingUp, TrendingDown, type LucideIcon,
+  CheckCircle2,
+  Clock,
+  XCircle,
+  AlertTriangle,
+  Info,
+  Loader2,
+  ShieldCheck,
+  TrendingUp,
+  TrendingDown,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,14 +18,7 @@ import { cn } from "@/lib/utils";
  * Tones map to semantic tokens defined in src/styles.css.
  */
 export type StatusTone =
-  | "success"
-  | "warning"
-  | "danger"
-  | "info"
-  | "neutral"
-  | "brand"
-  | "up"
-  | "down";
+  "success" | "warning" | "danger" | "info" | "neutral" | "brand" | "up" | "down";
 
 const toneClasses: Record<StatusTone, string> = {
   success: "bg-success-soft text-success border-success/25",
@@ -129,14 +130,21 @@ export const StatusDot = ({
   tone = "neutral",
   pulse = false,
   className,
-}: { tone?: StatusTone; pulse?: boolean; className?: string }) => (
+}: {
+  tone?: StatusTone;
+  pulse?: boolean;
+  className?: string;
+}) => (
   <span className={cn("relative inline-flex h-2 w-2", className)}>
     {pulse && (
       <span
         className={cn("absolute inset-0 rounded-full opacity-60 animate-ping", toneClasses[tone])}
       />
     )}
-    <span className={cn("relative h-2 w-2 rounded-full", toneClasses[tone], "border-0")} style={{ backgroundColor: "currentColor" }} />
+    <span
+      className={cn("relative h-2 w-2 rounded-full", toneClasses[tone], "border-0")}
+      style={{ backgroundColor: "currentColor" }}
+    />
   </span>
 );
 

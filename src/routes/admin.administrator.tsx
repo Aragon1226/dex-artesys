@@ -7,9 +7,15 @@ export const Route = createFileRoute("/admin/administrator")({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
       { title: "Administrators — Artesys Admin" },
-      { name: "description", content: "Create staff accounts and assign page-level admin permissions." },
+      {
+        name: "description",
+        content: "Create staff accounts and assign page-level admin permissions.",
+      },
       { property: "og:title", content: "Administrators — Artesys Admin" },
-      { property: "og:description", content: "Create staff accounts and assign page-level admin permissions." },
+      {
+        property: "og:description",
+        content: "Create staff accounts and assign page-level admin permissions.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

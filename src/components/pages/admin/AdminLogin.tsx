@@ -191,8 +191,8 @@ const AdminLogin = () => {
           </button>
 
           <p className="text-[11px] text-muted-foreground text-center font-medium leading-relaxed">
-            Access attempts are logged. Administrator accounts are provisioned by the platform
-            owner and are not self-registerable.
+            Access attempts are logged. Administrator accounts are provisioned by the platform owner
+            and are not self-registerable.
           </p>
         </form>
       </motion.div>

@@ -1,13 +1,11 @@
-import { createMiddleware } from '@tanstack/react-start';
-import { supabase } from '@/lib/cloudClient';
+import { createMiddleware } from "@tanstack/react-start";
+import { supabase } from "@/lib/cloudClient";
 
-export const attachCloudAuth = createMiddleware({ type: 'function' }).client(
-  async ({ next }) => {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
+export const attachCloudAuth = createMiddleware({ type: "function" }).client(async ({ next }) => {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
 
-    return next({
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-  },
-);
+  return next({
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+});

@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicShell } from "@/components/public/PublicShell";
-import { PageHero, Section, Card, CardGrid, Steps, CtaRow, FaqList } from "@/components/public/Section";
+import {
+  PageHero,
+  Section,
+  Card,
+  CardGrid,
+  Steps,
+  CtaRow,
+  FaqList,
+} from "@/components/public/Section";
 import { publicHead, breadcrumbJsonLd, faqJsonLd } from "@/lib/publicSeo";
 
 const TITLE = "Spot Trading — Order Types, Book & Fees | Artesys";
@@ -51,7 +59,10 @@ function SpotTradingPage() {
         />
       </PageHero>
 
-      <Section title="Placing an order" intro="The spot screen pairs a live chart and order book with the order form.">
+      <Section
+        title="Placing an order"
+        intro="The spot screen pairs a live chart and order book with the order form."
+      >
         <Steps
           steps={[
             {
@@ -85,8 +96,8 @@ function SpotTradingPage() {
             before committing to a price.
           </Card>
           <Card title="Price chart">
-            Candlestick chart for the selected pair with configurable intervals, driven by the
-            same feed as the market list.
+            Candlestick chart for the selected pair with configurable intervals, driven by the same
+            feed as the market list.
           </Card>
           <Card title="Wallet panel">
             Your available USDT and asset balances for the current pair, so you can size an order

@@ -69,9 +69,8 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
             <div>
               <Logo size={48} variant="FULL" />
               <p className="mt-5 max-w-xs text-xs font-light leading-relaxed text-muted-foreground">
-                Artesys is a digital asset exchange for spot trading, leveraged
-                futures, and yield products, with crypto and synthetic
-                stocks &amp; commodities markets quoted in USDT.
+                Artesys is a digital asset exchange for spot trading, leveraged futures, and yield
+                products, with crypto and synthetic stocks &amp; commodities markets quoted in USDT.
               </p>
             </div>
 
@@ -114,13 +113,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const FooterCol = ({
-  title,
-  links,
-}: {
-  title: string;
-  links: { label: string; to: string }[];
-}) => (
+const FooterCol = ({ title, links }: { title: string; links: { label: string; to: string }[] }) => (
   <div>
     <h2 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-foreground/60">
       {title}

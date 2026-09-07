@@ -10,7 +10,13 @@ interface MetaInput {
 }
 
 /** Standard meta + canonical block for a public Artesys page. */
-export const publicHead = ({ title, description, path, type = "website", image = OG_IMAGE }: MetaInput) => {
+export const publicHead = ({
+  title,
+  description,
+  path,
+  type = "website",
+  image = OG_IMAGE,
+}: MetaInput) => {
   const url = `${SITE_ORIGIN}${path}`;
   return {
     meta: [

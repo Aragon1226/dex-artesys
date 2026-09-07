@@ -1,4 +1,4 @@
-export type KYCStatus = 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
+export type KYCStatus = "UNVERIFIED" | "PENDING" | "VERIFIED" | "REJECTED";
 
 export interface UserProfile {
   id: string;
@@ -31,12 +31,12 @@ export interface SpotOrder {
   userId: string;
   pair: string;
   symbol: string;
-  side: 'BUY' | 'SELL';
-  type: 'LIMIT' | 'MARKET' | 'CONVERT';
+  side: "BUY" | "SELL";
+  type: "LIMIT" | "MARKET" | "CONVERT";
   price: number;
   amount: number;
   total: number;
-  status: 'OPEN' | 'FILLED' | 'CANCELLED';
+  status: "OPEN" | "FILLED" | "CANCELLED";
   createdAt: string;
   filledAt?: string;
 }
@@ -59,11 +59,11 @@ export interface FuturePosition {
   margin: number;
   leverage: number;
   entry_price: number;
-  type: 'LONG' | 'SHORT' | string;
+  type: "LONG" | "SHORT" | string;
   start_time: number;
   duration_seconds: number;
   expected_profit_percentage: number;
-  status: 'OPEN' | 'CLOSED' | string;
+  status: "OPEN" | "CLOSED" | string;
   pnl: number;
   close_price?: number | null;
   created_at?: string | null;

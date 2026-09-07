@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { marketService } from '@/services/market';
+import React, { useState, useEffect } from "react";
+import { marketService } from "@/services/market";
 
 interface Order {
   price: number;
@@ -21,11 +21,11 @@ export const OrderBook = ({ symbol }: { symbol: string }) => {
       const newAsks: Order[] = [];
 
       for (let i = 1; i <= 8; i++) {
-        const bidPrice = price * (1 - (i * 0.0002));
+        const bidPrice = price * (1 - i * 0.0002);
         const bidAmt = Math.random() * 2 + 0.1;
         newBids.push({ price: bidPrice, amount: bidAmt, total: bidPrice * bidAmt });
 
-        const askPrice = price * (1 + (i * 0.0002));
+        const askPrice = price * (1 + i * 0.0002);
         const askAmt = Math.random() * 2 + 0.1;
         newAsks.push({ price: askPrice, amount: askAmt, total: askPrice * askAmt });
       }
@@ -45,15 +45,23 @@ export const OrderBook = ({ symbol }: { symbol: string }) => {
         <span>Price</span>
         <span>Amount</span>
       </div>
-      
+
       <div className="flex-1 overflow-hidden flex flex-col">
         {/* ASKS */}
         <div className="flex flex-col-reverse mb-1">
           {asks.map((order, i) => (
-            <div key={i} className="flex justify-between py-0.5 hover:bg-destructive/5 group relative overflow-hidden">
-               <div className="absolute right-0 top-0 bottom-0 bg-destructive/10 transition-all" style={{ width: `${Math.min(100, order.amount * 40)}%` }} />
-               <span className="text-destructive font-bold z-10">{order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-               <span className="text-foreground z-10">{order.amount.toFixed(4)}</span>
+            <div
+              key={i}
+              className="flex justify-between py-0.5 hover:bg-destructive/5 group relative overflow-hidden"
+            >
+              <div
+                className="absolute right-0 top-0 bottom-0 bg-destructive/10 transition-all"
+                style={{ width: `${Math.min(100, order.amount * 40)}%` }}
+              />
+              <span className="text-destructive font-bold z-10">
+                {order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+              </span>
+              <span className="text-foreground z-10">{order.amount.toFixed(4)}</span>
             </div>
           ))}
         </div>
@@ -61,17 +69,27 @@ export const OrderBook = ({ symbol }: { symbol: string }) => {
         {/* MID PRICE */}
         <div className="py-2 border-y border-border flex items-center justify-center">
           <div className="text-lg font-bold text-foreground">
-            {marketService.getCurrentPrice(symbol).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            {marketService
+              .getCurrentPrice(symbol)
+              .toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </div>
         </div>
 
         {/* BIDS */}
         <div className="flex flex-col mt-1">
           {bids.map((order, i) => (
-            <div key={i} className="flex justify-between py-0.5 hover:bg-success/5 group relative overflow-hidden">
-               <div className="absolute right-0 top-0 bottom-0 bg-success/10 transition-all" style={{ width: `${Math.min(100, order.amount * 40)}%` }} />
-               <span className="text-success font-bold z-10">{order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-               <span className="text-foreground z-10">{order.amount.toFixed(4)}</span>
+            <div
+              key={i}
+              className="flex justify-between py-0.5 hover:bg-success/5 group relative overflow-hidden"
+            >
+              <div
+                className="absolute right-0 top-0 bottom-0 bg-success/10 transition-all"
+                style={{ width: `${Math.min(100, order.amount * 40)}%` }}
+              />
+              <span className="text-success font-bold z-10">
+                {order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+              </span>
+              <span className="text-foreground z-10">{order.amount.toFixed(4)}</span>
             </div>
           ))}
         </div>

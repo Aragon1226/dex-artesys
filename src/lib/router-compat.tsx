@@ -4,12 +4,7 @@
  * `navigate(-1)`, `NavLink` render props and `useSearchParams` unchanged.
  */
 import * as React from "react";
-import {
-  Link as TanstackLink,
-  Outlet,
-  useRouter,
-  useRouterState,
-} from "@tanstack/react-router";
+import { Link as TanstackLink, Outlet, useRouter, useRouterState } from "@tanstack/react-router";
 
 export { Outlet };
 
@@ -81,7 +76,10 @@ Link.displayName = "Link";
 
 type NavLinkRender = { isActive: boolean; isPending: boolean };
 
-type NavLinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "className" | "children"> & {
+type NavLinkProps = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  "href" | "className" | "children"
+> & {
   to: string;
   end?: boolean;
   replace?: boolean;

@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
-import { History, Clock, FileText, CheckCircle2, XCircle, Trash2, ArrowUpRight, ArrowDownRight, RefreshCw } from 'lucide-react';
-import type { SpotOrder } from '@/types';
+import React, { useState } from "react";
+import {
+  History,
+  Clock,
+  FileText,
+  CheckCircle2,
+  XCircle,
+  Trash2,
+  ArrowUpRight,
+  ArrowDownRight,
+  RefreshCw,
+} from "lucide-react";
+import type { SpotOrder } from "@/types";
 
 interface TransactionHistoryProps {
   orders: SpotOrder[];
@@ -11,12 +21,12 @@ interface TransactionHistoryProps {
 export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   orders,
   onCancelOrder,
-  onClearHistory
+  onClearHistory,
 }) => {
-  const [activeTab, setActiveTab] = useState<'open' | 'history' | 'trades'>('open');
+  const [activeTab, setActiveTab] = useState<"open" | "history" | "trades">("open");
 
-  const openOrders = orders.filter(o => o.status === 'OPEN');
-  const completedOrders = orders.filter(o => o.status === 'FILLED' || o.status === 'CANCELLED');
+  const openOrders = orders.filter((o) => o.status === "OPEN");
+  const completedOrders = orders.filter((o) => o.status === "FILLED" || o.status === "CANCELLED");
 
   return (
     <div className="bg-card border border-border rounded-2xl p-4 shadow-sm space-y-3">
@@ -25,11 +35,11 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
         <div className="flex items-center gap-4">
           <button
             type="button"
-            onClick={() => setActiveTab('open')}
+            onClick={() => setActiveTab("open")}
             className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider pb-1 transition-all border-b-2 ${
-              activeTab === 'open'
-                ? 'text-primary border-primary'
-                : 'text-muted-foreground border-transparent hover:text-foreground'
+              activeTab === "open"
+                ? "text-primary border-primary"
+                : "text-muted-foreground border-transparent hover:text-foreground"
             }`}
           >
             <Clock size={14} />
@@ -41,11 +51,11 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
           <button
             type="button"
-            onClick={() => setActiveTab('history')}
+            onClick={() => setActiveTab("history")}
             className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider pb-1 transition-all border-b-2 ${
-              activeTab === 'history'
-                ? 'text-primary border-primary'
-                : 'text-muted-foreground border-transparent hover:text-foreground'
+              activeTab === "history"
+                ? "text-primary border-primary"
+                : "text-muted-foreground border-transparent hover:text-foreground"
             }`}
           >
             <History size={14} />
@@ -57,11 +67,11 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
           <button
             type="button"
-            onClick={() => setActiveTab('trades')}
+            onClick={() => setActiveTab("trades")}
             className={`flex items-center gap-1.5 text-xs font-black uppercase tracking-wider pb-1 transition-all border-b-2 ${
-              activeTab === 'trades'
-                ? 'text-primary border-primary'
-                : 'text-muted-foreground border-transparent hover:text-foreground'
+              activeTab === "trades"
+                ? "text-primary border-primary"
+                : "text-muted-foreground border-transparent hover:text-foreground"
             }`}
           >
             <FileText size={14} />
@@ -69,7 +79,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           </button>
         </div>
 
-        {completedOrders.length > 0 && activeTab === 'history' && onClearHistory && (
+        {completedOrders.length > 0 && activeTab === "history" && onClearHistory && (
           <button
             type="button"
             onClick={onClearHistory}
@@ -84,12 +94,14 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       {/* Tab Content */}
       <div className="min-h-[160px] overflow-x-auto">
         {/* 1. OPEN ORDERS TAB */}
-        {activeTab === 'open' && (
-          openOrders.length === 0 ? (
+        {activeTab === "open" &&
+          (openOrders.length === 0 ? (
             <div className="py-10 text-center text-muted-foreground space-y-1">
               <Clock size={28} className="mx-auto opacity-30" />
               <p className="text-xs font-bold">No active open orders</p>
-              <p className="text-[10px] opacity-70">Limit orders you place will appear here until filled or cancelled.</p>
+              <p className="text-[10px] opacity-70">
+                Limit orders you place will appear here until filled or cancelled.
+              </p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse min-w-[600px]">
@@ -109,22 +121,38 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 {openOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-muted/40 transition-colors">
                     <td className="py-2.5 px-2 text-muted-foreground text-[11px] font-sans">
-                      {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                      {new Date(order.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      })}
                     </td>
-                    <td className="py-2.5 px-2 font-bold text-foreground font-sans">{order.pair}</td>
-                    <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">{order.type}</td>
+                    <td className="py-2.5 px-2 font-bold text-foreground font-sans">
+                      {order.pair}
+                    </td>
+                    <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">
+                      {order.type}
+                    </td>
                     <td className="py-2.5 px-2 font-black font-sans">
-                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase ${
-                        order.side === 'BUY' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'
-                      }`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] uppercase ${
+                          order.side === "BUY"
+                            ? "bg-success/10 text-success"
+                            : "bg-danger/10 text-danger"
+                        }`}
+                      >
                         {order.side}
                       </span>
                     </td>
                     <td className="py-2.5 px-2 text-right font-bold text-foreground">
                       ${order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
-                    <td className="py-2.5 px-2 text-right text-foreground">{order.amount.toFixed(4)} {order.symbol}</td>
-                    <td className="py-2.5 px-2 text-right font-bold text-foreground">${order.total.toFixed(2)}</td>
+                    <td className="py-2.5 px-2 text-right text-foreground">
+                      {order.amount.toFixed(4)} {order.symbol}
+                    </td>
+                    <td className="py-2.5 px-2 text-right font-bold text-foreground">
+                      ${order.total.toFixed(2)}
+                    </td>
                     <td className="py-2.5 px-2 text-center font-sans">
                       <button
                         type="button"
@@ -138,16 +166,17 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 ))}
               </tbody>
             </table>
-          )
-        )}
+          ))}
 
         {/* 2. ORDER & TRANSACTION HISTORY TAB */}
-        {activeTab === 'history' && (
-          completedOrders.length === 0 ? (
+        {activeTab === "history" &&
+          (completedOrders.length === 0 ? (
             <div className="py-10 text-center text-muted-foreground space-y-1">
               <History size={28} className="mx-auto opacity-30" />
               <p className="text-xs font-bold">No transaction history yet</p>
-              <p className="text-[10px] opacity-70">Completed buys, sells, and conversions will be logged here.</p>
+              <p className="text-[10px] opacity-70">
+                Completed buys, sells, and conversions will be logged here.
+              </p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse min-w-[650px]">
@@ -167,46 +196,66 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                 {completedOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-muted/40 transition-colors">
                     <td className="py-2.5 px-2 text-muted-foreground text-[11px] font-sans">
-                      {new Date(order.createdAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      {new Date(order.createdAt).toLocaleString([], {
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </td>
-                    <td className="py-2.5 px-2 font-bold text-foreground font-sans">{order.pair}</td>
-                    <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">{order.type}</td>
+                    <td className="py-2.5 px-2 font-bold text-foreground font-sans">
+                      {order.pair}
+                    </td>
+                    <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">
+                      {order.type}
+                    </td>
                     <td className="py-2.5 px-2 font-black font-sans">
-                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase ${
-                        order.side === 'BUY' 
-                          ? 'bg-success/10 text-success' 
-                          : order.side === 'SELL' 
-                            ? 'bg-danger/10 text-danger' 
-                            : 'bg-primary/10 text-primary'
-                      }`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] uppercase ${
+                          order.side === "BUY"
+                            ? "bg-success/10 text-success"
+                            : order.side === "SELL"
+                              ? "bg-danger/10 text-danger"
+                              : "bg-primary/10 text-primary"
+                        }`}
+                      >
                         {order.side}
                       </span>
                     </td>
                     <td className="py-2.5 px-2 text-right font-bold text-foreground">
                       ${order.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
-                    <td className="py-2.5 px-2 text-right text-foreground">{order.amount.toFixed(4)} {order.symbol}</td>
-                    <td className="py-2.5 px-2 text-right font-bold text-foreground">${order.total.toFixed(2)} USDT</td>
+                    <td className="py-2.5 px-2 text-right text-foreground">
+                      {order.amount.toFixed(4)} {order.symbol}
+                    </td>
+                    <td className="py-2.5 px-2 text-right font-bold text-foreground">
+                      ${order.total.toFixed(2)} USDT
+                    </td>
                     <td className="py-2.5 px-2 text-center font-sans">
-                      <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                        order.status === 'FILLED' 
-                          ? 'bg-success/10 text-success' 
-                          : 'bg-muted text-muted-foreground'
-                      }`}>
-                        {order.status === 'FILLED' ? <CheckCircle2 size={11} /> : <XCircle size={11} />}
-                        {order.status === 'FILLED' ? 'Filled' : 'Cancelled'}
+                      <span
+                        className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          order.status === "FILLED"
+                            ? "bg-success/10 text-success"
+                            : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {order.status === "FILLED" ? (
+                          <CheckCircle2 size={11} />
+                        ) : (
+                          <XCircle size={11} />
+                        )}
+                        {order.status === "FILLED" ? "Filled" : "Cancelled"}
                       </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          )
-        )}
+          ))}
 
         {/* 3. TRADE LOG TAB */}
-        {activeTab === 'trades' && (
-          orders.length === 0 ? (
+        {activeTab === "trades" &&
+          (orders.length === 0 ? (
             <div className="py-10 text-center text-muted-foreground space-y-1">
               <FileText size={28} className="mx-auto opacity-30" />
               <p className="text-xs font-bold">No trades recorded</p>
@@ -214,32 +263,46 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           ) : (
             <div className="space-y-2">
               {orders.map((order) => (
-                <div key={order.id} className="p-2.5 bg-muted/40 border border-border/80 rounded-xl flex items-center justify-between text-xs font-mono">
+                <div
+                  key={order.id}
+                  className="p-2.5 bg-muted/40 border border-border/80 rounded-xl flex items-center justify-between text-xs font-mono"
+                >
                   <div className="flex items-center gap-2.5">
-                    <div className={`p-2 rounded-lg ${
-                      order.side === 'BUY' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'
-                    }`}>
-                      {order.side === 'BUY' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                    <div
+                      className={`p-2 rounded-lg ${
+                        order.side === "BUY"
+                          ? "bg-success/10 text-success"
+                          : "bg-danger/10 text-danger"
+                      }`}
+                    >
+                      {order.side === "BUY" ? (
+                        <ArrowUpRight size={14} />
+                      ) : (
+                        <ArrowDownRight size={14} />
+                      )}
                     </div>
                     <div>
                       <div className="font-bold text-foreground font-sans">
-                        {order.side} {order.amount.toFixed(4)} {order.symbol} @ ${order.price.toFixed(2)}
+                        {order.side} {order.amount.toFixed(4)} {order.symbol} @ $
+                        {order.price.toFixed(2)}
                       </div>
                       <div className="text-[10px] text-muted-foreground font-sans">
-                        {order.pair} • {order.type} Order • {new Date(order.createdAt).toLocaleTimeString()}
+                        {order.pair} • {order.type} Order •{" "}
+                        {new Date(order.createdAt).toLocaleTimeString()}
                       </div>
                     </div>
                   </div>
 
                   <div className="text-right">
                     <div className="font-bold text-foreground">${order.total.toFixed(2)} USDT</div>
-                    <div className="text-[10px] text-success font-bold uppercase">Spot Settlement Executed</div>
+                    <div className="text-[10px] text-success font-bold uppercase">
+                      Spot Settlement Executed
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
-          )
-        )}
+          ))}
       </div>
     </div>
   );

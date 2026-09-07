@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from "react";
-import nasLogo from '@/assets/images/nas_token_logo_1786712749407.jpg';
-import botLogo from '@/assets/images/bot_token_logo_1786712760680.jpg';
-import octLogo from '@/assets/images/oct_token_logo_1786712780224.jpg';
-import aepLogo from '@/assets/images/aep_token_logo_1786712790779.jpg';
-import ttzsLogo from '@/assets/images/ttzs_token_logo_1786716384227.jpg';
-import cfrLogo from '@/assets/images/cfr_token_logo_1786716396024.jpg';
-import stcLogo from '@/assets/images/stc_token_logo_1786716408156.jpg';
-import joeLogo from '@/assets/images/joe_token_logo_1786716418145.jpg';
+import nasLogo from "@/assets/images/nas_token_logo_1786712749407.jpg";
+import botLogo from "@/assets/images/bot_token_logo_1786712760680.jpg";
+import octLogo from "@/assets/images/oct_token_logo_1786712780224.jpg";
+import aepLogo from "@/assets/images/aep_token_logo_1786712790779.jpg";
+import ttzsLogo from "@/assets/images/ttzs_token_logo_1786716384227.jpg";
+import cfrLogo from "@/assets/images/cfr_token_logo_1786716396024.jpg";
+import stcLogo from "@/assets/images/stc_token_logo_1786716408156.jpg";
+import joeLogo from "@/assets/images/joe_token_logo_1786716418145.jpg";
 
 // Brand-specific corporate token logos (each with its own palette)
-import voltLogo from '@/assets/images/tokens/volt.png';
-import cybrLogo from '@/assets/images/tokens/cybr.png';
-import qcoreLogo from '@/assets/images/tokens/qcore.png';
-import artsLogo from '@/assets/images/tokens/arts.png';
-import axgLogo from '@/assets/images/tokens/axg.png';
-import bgnxLogo from '@/assets/images/tokens/bgnx.png';
-import omniLogo from '@/assets/images/tokens/omni.png';
-import cineLogo from '@/assets/images/tokens/cine.png';
-import tfraLogo from '@/assets/images/tokens/tfra.png';
-import cpxBrandLogo from '@/assets/images/tokens/cpx.png';
+import voltLogo from "@/assets/images/tokens/volt.png";
+import cybrLogo from "@/assets/images/tokens/cybr.png";
+import qcoreLogo from "@/assets/images/tokens/qcore.png";
+import artsLogo from "@/assets/images/tokens/arts.png";
+import axgLogo from "@/assets/images/tokens/axg.png";
+import bgnxLogo from "@/assets/images/tokens/bgnx.png";
+import omniLogo from "@/assets/images/tokens/omni.png";
+import cineLogo from "@/assets/images/tokens/cine.png";
+import tfraLogo from "@/assets/images/tokens/tfra.png";
+import cpxBrandLogo from "@/assets/images/tokens/cpx.png";
 
 // Generated 3D amber token icons (Main / Layer-2 / Stocks & Commodities)
-import cftLogo from '@/assets/images/tokens/cft.png';
-import rtvLogo from '@/assets/images/tokens/rtv.png';
-import reoLogo from '@/assets/images/tokens/reo.png';
-import bexLogo from '@/assets/images/tokens/bex.png';
-import ryrLogo from '@/assets/images/tokens/ryr.png';
-import oasLogo from '@/assets/images/tokens/oas.png';
-import jtcLogo from '@/assets/images/tokens/jtc.png';
-import goldLogo from '@/assets/images/tokens/gold.png';
-import silverLogo from '@/assets/images/tokens/silver.png';
-import oilLogo from '@/assets/images/tokens/oil.png';
-import spyLogo from '@/assets/images/tokens/spy.png';
-import vixLogo from '@/assets/images/tokens/vix.png';
+import cftLogo from "@/assets/images/tokens/cft.png";
+import rtvLogo from "@/assets/images/tokens/rtv.png";
+import reoLogo from "@/assets/images/tokens/reo.png";
+import bexLogo from "@/assets/images/tokens/bex.png";
+import ryrLogo from "@/assets/images/tokens/ryr.png";
+import oasLogo from "@/assets/images/tokens/oas.png";
+import jtcLogo from "@/assets/images/tokens/jtc.png";
+import goldLogo from "@/assets/images/tokens/gold.png";
+import silverLogo from "@/assets/images/tokens/silver.png";
+import oilLogo from "@/assets/images/tokens/oil.png";
+import spyLogo from "@/assets/images/tokens/spy.png";
+import vixLogo from "@/assets/images/tokens/vix.png";
 
 // Custom simulated / training token logos (strictly for app custom sample tokens, NEVER for real tokens)
 const CUSTOM_MOCK_LOGOS: Record<string, string> = {
@@ -46,7 +46,7 @@ const CUSTOM_MOCK_LOGOS: Record<string, string> = {
   STC: stcLogo,
   JOE: joeLogo,
   ECB: "/tokens/ECB.png",
-  
+
   // Custom Sample tokens under Stocks & Commodities
   VOLT: voltLogo,
   CYBR: cybrLogo,
@@ -78,250 +78,262 @@ const CUSTOM_MOCK_LOGOS: Record<string, string> = {
   VIX: vixLogo,
 };
 
-
 // Official open-source repositories & CDNs (TrustWallet Assets, CoinGecko, Spothq cryptocurrency-icons)
 const OFFICIAL_OPENSOURCE_ICONS: Record<string, string[]> = {
   // USDT (Tether) - Official open-source assets
   USDT: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/usdt.svg",
-    "https://assets.coingecko.com/coins/images/325/large/Tether.png"
+    "https://assets.coingecko.com/coins/images/325/large/Tether.png",
   ],
   // DOGE (Dogecoin) - Official open-source assets
   DOGE: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/doge/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/doge.svg",
-    "https://assets.coingecko.com/coins/images/5/large/dogecoin.png"
+    "https://assets.coingecko.com/coins/images/5/large/dogecoin.png",
   ],
   BTC: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/btc.svg",
-    "https://assets.coingecko.com/coins/images/1/large/bitcoin.png"
+    "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
   ],
   ETH: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/eth.svg",
-    "https://assets.coingecko.com/coins/images/279/large/ethereum.png"
+    "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
   ],
   BNB: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/bnb.svg",
-    "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png"
+    "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png",
   ],
   SOL: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/sol.svg",
-    "https://assets.coingecko.com/coins/images/4128/large/solana.png"
+    "https://assets.coingecko.com/coins/images/4128/large/solana.png",
   ],
   XRP: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ripple/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/xrp.svg",
-    "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png"
+    "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png",
   ],
   USDC: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/usdc.svg",
-    "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png"
+    "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png",
   ],
   ADA: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cardano/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/ada.svg",
-    "https://assets.coingecko.com/coins/images/975/large/cardano.png"
+    "https://assets.coingecko.com/coins/images/975/large/cardano.png",
   ],
   TRX: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/tron/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/trx.svg",
-    "https://assets.coingecko.com/coins/images/1094/large/tron-logo.png"
+    "https://assets.coingecko.com/coins/images/1094/large/tron-logo.png",
   ],
   AVAX: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/avalanchec/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/avax.svg",
-    "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png"
+    "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png",
   ],
   LINK: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/link.svg",
-    "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png"
+    "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png",
   ],
   DOT: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polkadot/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/dot.svg",
-    "https://assets.coingecko.com/coins/images/12171/large/polkadot.png"
+    "https://assets.coingecko.com/coins/images/12171/large/polkadot.png",
   ],
   MATIC: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/matic.svg",
-    "https://assets.coingecko.com/coins/images/4713/large/polygon.png"
+    "https://assets.coingecko.com/coins/images/4713/large/polygon.png",
   ],
   POL: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/matic.svg",
-    "https://assets.coingecko.com/coins/images/4713/large/polygon.png"
+    "https://assets.coingecko.com/coins/images/4713/large/polygon.png",
   ],
   SHIB: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/shib.svg",
-    "https://assets.coingecko.com/coins/images/11939/large/shiba.png"
+    "https://assets.coingecko.com/coins/images/11939/large/shiba.png",
   ],
   LTC: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/litecoin/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/ltc.svg",
-    "https://assets.coingecko.com/coins/images/2/large/litecoin.png"
+    "https://assets.coingecko.com/coins/images/2/large/litecoin.png",
   ],
   BCH: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoincash/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/bch.svg",
-    "https://assets.coingecko.com/coins/images/780/large/bitcoin-cash-circle.png"
+    "https://assets.coingecko.com/coins/images/780/large/bitcoin-cash-circle.png",
   ],
   NEAR: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/near/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/near.svg",
-    "https://assets.coingecko.com/coins/images/10365/large/near.png"
+    "https://assets.coingecko.com/coins/images/10365/large/near.png",
   ],
   APT: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/aptos/info/logo.png",
-    "https://assets.coingecko.com/coins/images/26455/large/aptos_round.png"
+    "https://assets.coingecko.com/coins/images/26455/large/aptos_round.png",
   ],
   SUI: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/sui/info/logo.png",
-    "https://assets.coingecko.com/coins/images/26375/large/sui-ocean-square.png"
+    "https://assets.coingecko.com/coins/images/26375/large/sui-ocean-square.png",
   ],
   PEPE: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6982508145454Ce325dDbE47a25d4ec3d2311933/logo.png",
-    "https://assets.coingecko.com/coins/images/29850/large/pepe-token.png"
+    "https://assets.coingecko.com/coins/images/29850/large/pepe-token.png",
   ],
   TON: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ton/info/logo.png",
-    "https://assets.coingecko.com/coins/images/17980/large/ton_symbol.png"
+    "https://assets.coingecko.com/coins/images/17980/large/ton_symbol.png",
   ],
-  WIF: [
-    "https://assets.coingecko.com/coins/images/33566/large/dogwifhat.jpg"
-  ],
-  BONK: [
-    "https://assets.coingecko.com/coins/images/28600/large/bonk.jpg"
-  ],
-  FLOKI: [
-    "https://assets.coingecko.com/coins/images/16746/large/FLOKI.png"
-  ],
-  BOME: [
-    "https://assets.coingecko.com/coins/images/36071/large/bome.png"
-  ],
-  POPCAT: [
-    "https://assets.coingecko.com/coins/images/33760/large/popcat.png"
-  ],
-  BRETT: [
-    "https://assets.coingecko.com/coins/images/35545/large/brett.png"
-  ],
-  FET: [
-    "https://assets.coingecko.com/coins/images/5681/large/Fetch.jpg"
-  ],
-  RENDER: [
-    "https://assets.coingecko.com/coins/images/11636/large/rndr.png"
-  ],
-  WLD: [
-    "https://assets.coingecko.com/coins/images/31062/large/worldcoin.png"
-  ],
+  WIF: ["https://assets.coingecko.com/coins/images/33566/large/dogwifhat.jpg"],
+  BONK: ["https://assets.coingecko.com/coins/images/28600/large/bonk.jpg"],
+  FLOKI: ["https://assets.coingecko.com/coins/images/16746/large/FLOKI.png"],
+  BOME: ["https://assets.coingecko.com/coins/images/36071/large/bome.png"],
+  POPCAT: ["https://assets.coingecko.com/coins/images/33760/large/popcat.png"],
+  BRETT: ["https://assets.coingecko.com/coins/images/35545/large/brett.png"],
+  FET: ["https://assets.coingecko.com/coins/images/5681/large/Fetch.jpg"],
+  RENDER: ["https://assets.coingecko.com/coins/images/11636/large/rndr.png"],
+  WLD: ["https://assets.coingecko.com/coins/images/31062/large/worldcoin.png"],
   UNI: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/uni.svg",
-    "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png"
+    "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png",
   ],
   ATOM: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cosmos/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/atom.svg",
-    "https://assets.coingecko.com/coins/images/1481/large/cosmos_hub.png"
+    "https://assets.coingecko.com/coins/images/1481/large/cosmos_hub.png",
   ],
   ETC: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/classic/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/etc.svg",
-    "https://assets.coingecko.com/coins/images/453/large/ethereum-classic-logo.png"
+    "https://assets.coingecko.com/coins/images/453/large/ethereum-classic-logo.png",
   ],
   XLM: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/stellar/info/logo.png",
     "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/xlm.svg",
-    "https://assets.coingecko.com/coins/images/100/large/Stellar_symbol_black_RGB.png"
+    "https://assets.coingecko.com/coins/images/100/large/Stellar_symbol_black_RGB.png",
   ],
-  ICP: [
-    "https://assets.coingecko.com/coins/images/14495/large/Internet_Computer_logo.png"
-  ],
+  ICP: ["https://assets.coingecko.com/coins/images/14495/large/Internet_Computer_logo.png"],
   OP: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/optimism/info/logo.png",
-    "https://assets.coingecko.com/coins/images/25244/large/Optimism.png"
+    "https://assets.coingecko.com/coins/images/25244/large/Optimism.png",
   ],
   ARB: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png",
-    "https://assets.coingecko.com/coins/images/16547/large/arbitrum_logo.png"
+    "https://assets.coingecko.com/coins/images/16547/large/arbitrum_logo.png",
   ],
-  SEI: [
-    "https://assets.coingecko.com/coins/images/28205/large/Sei_Logo_-_Transparent.png"
-  ],
+  SEI: ["https://assets.coingecko.com/coins/images/28205/large/Sei_Logo_-_Transparent.png"],
   FTM: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/fantom/info/logo.png",
-    "https://assets.coingecko.com/coins/images/4001/large/Fantom_round.png"
+    "https://assets.coingecko.com/coins/images/4001/large/Fantom_round.png",
   ],
   ALGO: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/algorand/info/logo.png",
-    "https://assets.coingecko.com/coins/images/4380/large/download.png"
+    "https://assets.coingecko.com/coins/images/4380/large/download.png",
   ],
-  HBAR: [
-    "https://assets.coingecko.com/coins/images/3688/large/hbar.png"
-  ],
+  HBAR: ["https://assets.coingecko.com/coins/images/3688/large/hbar.png"],
   VET: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/vechain/info/logo.png",
-    "https://assets.coingecko.com/coins/images/1167/large/VET_Token_Icon.png"
+    "https://assets.coingecko.com/coins/images/1167/large/VET_Token_Icon.png",
   ],
   LUNC: [
     "https://assets.coingecko.com/coins/images/25767/large/luna.png",
-    "https://s2.coinmarketcap.com/static/img/coins/64x64/20314.png"
+    "https://s2.coinmarketcap.com/static/img/coins/64x64/20314.png",
   ],
   USTC: [
     "https://assets.coingecko.com/coins/images/12681/large/USTC.png",
-    "https://s2.coinmarketcap.com/static/img/coins/64x64/15691.png"
+    "https://s2.coinmarketcap.com/static/img/coins/64x64/15691.png",
   ],
   AAVE: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9/logo.png",
-    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/aave.svg"
+    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/aave.svg",
   ],
   MKR: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2/logo.png",
-    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/mkr.svg"
+    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/mkr.svg",
   ],
   CRV: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xD533a949740bb3306d119CC777fa900bA034cd52/logo.png",
-    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/crv.svg"
+    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/crv.svg",
   ],
   LDO: [
-    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x5A98Fc0A5d45360b1120015B8b3C962A0cf33cE3/logo.png"
+    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x5A98Fc0A5d45360b1120015B8b3C962A0cf33cE3/logo.png",
   ],
   FIL: [
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/filecoin/info/logo.png",
-    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/fil.svg"
+    "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/fil.svg",
   ],
-  JASMY: [
-    "https://assets.coingecko.com/coins/images/13876/large/JASMY.png"
-  ],
-  GALA: [
-    "https://assets.coingecko.com/coins/images/12493/large/GALA-COINGECKO.png"
-  ],
+  JASMY: ["https://assets.coingecko.com/coins/images/13876/large/JASMY.png"],
+  GALA: ["https://assets.coingecko.com/coins/images/12493/large/GALA-COINGECKO.png"],
   CHZ: [
-    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/chiliz/info/logo.png"
+    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/chiliz/info/logo.png",
   ],
 
   // Stocks & Real Multi-Tier CDN Logos
-  TSLA: ["https://images.financialmodelingprep.com/symbol/TSLA.png", "https://logo.clearbit.com/tesla.com"],
-  AAPL: ["https://images.financialmodelingprep.com/symbol/AAPL.png", "https://logo.clearbit.com/apple.com"],
-  NVDA: ["https://images.financialmodelingprep.com/symbol/NVDA.png", "https://logo.clearbit.com/nvidia.com"],
-  AMZN: ["https://images.financialmodelingprep.com/symbol/AMZN.png", "https://logo.clearbit.com/amazon.com"],
-  MSFT: ["https://images.financialmodelingprep.com/symbol/MSFT.png", "https://logo.clearbit.com/microsoft.com"],
-  GOOGL: ["https://images.financialmodelingprep.com/symbol/GOOGL.png", "https://logo.clearbit.com/google.com"],
-  META: ["https://images.financialmodelingprep.com/symbol/META.png", "https://logo.clearbit.com/meta.com"],
-  NFLX: ["https://images.financialmodelingprep.com/symbol/NFLX.png", "https://logo.clearbit.com/netflix.com"],
-  AMD: ["https://images.financialmodelingprep.com/symbol/AMD.png", "https://logo.clearbit.com/amd.com"],
-  COIN: ["https://images.financialmodelingprep.com/symbol/COIN.png", "https://logo.clearbit.com/coinbase.com"],
-  MSTR: ["https://images.financialmodelingprep.com/symbol/MSTR.png", "https://logo.clearbit.com/microstrategy.com"],
-  SPY: ["https://images.financialmodelingprep.com/symbol/SPY.png", "https://logo.clearbit.com/ssga.com"],
-  VIX: ["https://images.financialmodelingprep.com/symbol/VIX.png", "https://logo.clearbit.com/cboe.com"],
-  GOLD: ["https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x45804880De22913dAFE09f4980848ECE6EcbAf78/logo.png"],
+  TSLA: [
+    "https://images.financialmodelingprep.com/symbol/TSLA.png",
+    "https://logo.clearbit.com/tesla.com",
+  ],
+  AAPL: [
+    "https://images.financialmodelingprep.com/symbol/AAPL.png",
+    "https://logo.clearbit.com/apple.com",
+  ],
+  NVDA: [
+    "https://images.financialmodelingprep.com/symbol/NVDA.png",
+    "https://logo.clearbit.com/nvidia.com",
+  ],
+  AMZN: [
+    "https://images.financialmodelingprep.com/symbol/AMZN.png",
+    "https://logo.clearbit.com/amazon.com",
+  ],
+  MSFT: [
+    "https://images.financialmodelingprep.com/symbol/MSFT.png",
+    "https://logo.clearbit.com/microsoft.com",
+  ],
+  GOOGL: [
+    "https://images.financialmodelingprep.com/symbol/GOOGL.png",
+    "https://logo.clearbit.com/google.com",
+  ],
+  META: [
+    "https://images.financialmodelingprep.com/symbol/META.png",
+    "https://logo.clearbit.com/meta.com",
+  ],
+  NFLX: [
+    "https://images.financialmodelingprep.com/symbol/NFLX.png",
+    "https://logo.clearbit.com/netflix.com",
+  ],
+  AMD: [
+    "https://images.financialmodelingprep.com/symbol/AMD.png",
+    "https://logo.clearbit.com/amd.com",
+  ],
+  COIN: [
+    "https://images.financialmodelingprep.com/symbol/COIN.png",
+    "https://logo.clearbit.com/coinbase.com",
+  ],
+  MSTR: [
+    "https://images.financialmodelingprep.com/symbol/MSTR.png",
+    "https://logo.clearbit.com/microstrategy.com",
+  ],
+  SPY: [
+    "https://images.financialmodelingprep.com/symbol/SPY.png",
+    "https://logo.clearbit.com/ssga.com",
+  ],
+  VIX: [
+    "https://images.financialmodelingprep.com/symbol/VIX.png",
+    "https://logo.clearbit.com/cboe.com",
+  ],
+  GOLD: [
+    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x45804880De22913dAFE09f4980848ECE6EcbAf78/logo.png",
+  ],
   SILVER: ["https://assets.coingecko.com/coins/images/279/large/silver.png"],
   OIL: ["https://assets.coingecko.com/coins/images/15453/large/oil.png"],
 };
@@ -341,20 +353,20 @@ const getGradientForSymbol = (sym: string) => {
 };
 
 const normalizeCryptoSymbol = (sym: string): string => {
-  if (!sym) return 'USDT';
+  if (!sym) return "USDT";
   let s = sym.toUpperCase().trim();
-  s = s.replace(/[/\-_ :]/g, '');
-  
-  if (s === 'USDT' || s.startsWith('USDT-') || s.startsWith('USDT_') || s === 'TETHER') {
-    return 'USDT';
+  s = s.replace(/[/\-_ :]/g, "");
+
+  if (s === "USDT" || s.startsWith("USDT-") || s.startsWith("USDT_") || s === "TETHER") {
+    return "USDT";
   }
-  if (s.endsWith('USDT') && s.length > 4) {
+  if (s.endsWith("USDT") && s.length > 4) {
     return s.slice(0, -4);
   }
-  if (s.endsWith('USDC') && s.length > 4) {
+  if (s.endsWith("USDC") && s.length > 4) {
     return s.slice(0, -4);
   }
-  if (s.endsWith('PERP') && s.length > 4) {
+  if (s.endsWith("PERP") && s.length > 4) {
     return s.slice(0, -4);
   }
   return s;
@@ -371,7 +383,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   const [imageFailed, setImageFailed] = useState(false);
 
   const normalizedSymbol = normalizeCryptoSymbol(symbol);
-  
+
   useEffect(() => {
     setSourceIndex(0);
     setImageFailed(false);
@@ -407,7 +419,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
         referrerPolicy="no-referrer"
         onError={() => {
           if (sourceIndex + 1 < sources.length) {
-            setSourceIndex(prev => prev + 1);
+            setSourceIndex((prev) => prev + 1);
           } else {
             setImageFailed(true);
           }
@@ -419,7 +431,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   // 3. Official Vector Fallbacks for Top Real Tokens (Instant 0ms, Zero-Loss Vectors)
 
   // USDT - Official Tether USD Vector Fallback
-  if (normalizedSymbol === 'USDT') {
+  if (normalizedSymbol === "USDT") {
     return (
       <svg
         width={size}
@@ -438,7 +450,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // BTC - Official Bitcoin Logo (#F7931A & Official ₿)
-  if (normalizedSymbol === 'BTC') {
+  if (normalizedSymbol === "BTC") {
     return (
       <svg
         width={size}
@@ -457,7 +469,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // ETH - Official Ethereum Logo (#627EEA Diamond)
-  if (normalizedSymbol === 'ETH') {
+  if (normalizedSymbol === "ETH") {
     return (
       <svg
         width={size}
@@ -480,7 +492,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // BNB - Official BNB Chain Logo (#F3BA2F)
-  if (normalizedSymbol === 'BNB') {
+  if (normalizedSymbol === "BNB") {
     return (
       <svg
         width={size}
@@ -499,7 +511,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // SOL - Official Solana Logo (Black with Dual Gradient Bands)
-  if (normalizedSymbol === 'SOL') {
+  if (normalizedSymbol === "SOL") {
     return (
       <svg
         width={size}
@@ -524,7 +536,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // XRP - Official Ripple / XRP Logo (#23292F)
-  if (normalizedSymbol === 'XRP') {
+  if (normalizedSymbol === "XRP") {
     return (
       <svg
         width={size}
@@ -543,7 +555,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // DOGE - Official Dogecoin Logo (#C2A633 & Ð)
-  if (normalizedSymbol === 'DOGE') {
+  if (normalizedSymbol === "DOGE") {
     return (
       <svg
         width={size}
@@ -562,7 +574,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // ADA - Official Cardano Logo (#0033AD)
-  if (normalizedSymbol === 'ADA') {
+  if (normalizedSymbol === "ADA") {
     return (
       <svg
         width={size}
@@ -586,7 +598,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // TRX - Official TRON Logo (#EF0027)
-  if (normalizedSymbol === 'TRX') {
+  if (normalizedSymbol === "TRX") {
     return (
       <svg
         width={size}
@@ -596,13 +608,16 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
         style={styleDim}
       >
         <circle cx="16" cy="16" r="16" fill="#EF0027" />
-        <path fill="#FFFFFF" d="M7 8.5l17.5 3.2L16 25.5 7 8.5zm2.8 2.2l6.2 11.7 5.6-8.8-11.8-2.9zm1.7.5l9.2 2.2-7.3-1.3-1.9-.9z" />
+        <path
+          fill="#FFFFFF"
+          d="M7 8.5l17.5 3.2L16 25.5 7 8.5zm2.8 2.2l6.2 11.7 5.6-8.8-11.8-2.9zm1.7.5l9.2 2.2-7.3-1.3-1.9-.9z"
+        />
       </svg>
     );
   }
 
   // AVAX - Official Avalanche Logo (#E84142)
-  if (normalizedSymbol === 'AVAX') {
+  if (normalizedSymbol === "AVAX") {
     return (
       <svg
         width={size}
@@ -621,7 +636,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // LINK - Official Chainlink Logo (#375BD2)
-  if (normalizedSymbol === 'LINK') {
+  if (normalizedSymbol === "LINK") {
     return (
       <svg
         width={size}
@@ -640,7 +655,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // DOT - Official Polkadot Logo (#E6007A)
-  if (normalizedSymbol === 'DOT') {
+  if (normalizedSymbol === "DOT") {
     return (
       <svg
         width={size}
@@ -659,7 +674,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // MATIC / POL - Official Polygon Logo (#8247E5)
-  if (normalizedSymbol === 'MATIC' || normalizedSymbol === 'POL') {
+  if (normalizedSymbol === "MATIC" || normalizedSymbol === "POL") {
     return (
       <svg
         width={size}
@@ -678,7 +693,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // LTC - Official Litecoin Logo (#345D9D)
-  if (normalizedSymbol === 'LTC') {
+  if (normalizedSymbol === "LTC") {
     return (
       <svg
         width={size}
@@ -697,7 +712,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // BCH - Official Bitcoin Cash Logo (#0AC18E)
-  if (normalizedSymbol === 'BCH') {
+  if (normalizedSymbol === "BCH") {
     return (
       <svg
         width={size}
@@ -716,7 +731,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // USDC - Official USD Coin Logo (#2775CA)
-  if (normalizedSymbol === 'USDC') {
+  if (normalizedSymbol === "USDC") {
     return (
       <svg
         width={size}
@@ -739,7 +754,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // TON - Official Toncoin Logo (#0088CC)
-  if (normalizedSymbol === 'TON') {
+  if (normalizedSymbol === "TON") {
     return (
       <svg
         width={size}
@@ -758,7 +773,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // SUI - Official Sui Logo (#4CA2FE)
-  if (normalizedSymbol === 'SUI') {
+  if (normalizedSymbol === "SUI") {
     return (
       <svg
         width={size}
@@ -777,7 +792,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // APT - Official Aptos Logo
-  if (normalizedSymbol === 'APT') {
+  if (normalizedSymbol === "APT") {
     return (
       <svg
         width={size}
@@ -796,7 +811,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // NEAR - Official NEAR Protocol Logo
-  if (normalizedSymbol === 'NEAR') {
+  if (normalizedSymbol === "NEAR") {
     return (
       <svg
         width={size}
@@ -806,16 +821,13 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
         style={styleDim}
       >
         <circle cx="16" cy="16" r="16" fill="#000000" />
-        <path
-          fill="#FFFFFF"
-          d="M10.2 7h2.8l6.2 9.5V7h2.6v18h-2.8L12.8 15.5V25h-2.6V7z"
-        />
+        <path fill="#FFFFFF" d="M10.2 7h2.8l6.2 9.5V7h2.6v18h-2.8L12.8 15.5V25h-2.6V7z" />
       </svg>
     );
   }
 
   // PEPE - Official Pepe Logo
-  if (normalizedSymbol === 'PEPE') {
+  if (normalizedSymbol === "PEPE") {
     return (
       <svg
         width={size}
@@ -829,7 +841,13 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
         <circle cx="20" cy="13" r="3.5" fill="#FFFFFF" />
         <circle cx="12.5" cy="13" r="1.8" fill="#18181b" />
         <circle cx="20.5" cy="13" r="1.8" fill="#18181b" />
-        <path d="M9 19c2.5 3 11.5 3 14 0" stroke="#FFFFFF" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <path
+          d="M9 19c2.5 3 11.5 3 14 0"
+          stroke="#FFFFFF"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+        />
       </svg>
     );
   }
@@ -837,9 +855,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   // 3. High-precision Graphical Vector Emblems for Main Market & Custom Training Tokens
 
   // CFT - Core Financial Futures
-  if (normalizedSymbol === 'CFT') {
+  if (normalizedSymbol === "CFT") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="cftBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#4c0519" />
@@ -853,15 +877,30 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
         <circle cx="50" cy="50" r="48" fill="url(#cftBg)" stroke="#fb7185" strokeWidth="2" />
         <path d="M 50 18 L 80 72 L 50 58 L 20 72 Z" fill="url(#cftGrad)" />
         <path d="M 50 32 L 68 64 L 50 54 L 32 64 Z" fill="#ffffff" opacity="0.9" />
-        <line x1="50" y1="18" x2="50" y2="82" stroke="#ffffff" strokeWidth="2" strokeDasharray="3 3" opacity="0.6" />
+        <line
+          x1="50"
+          y1="18"
+          x2="50"
+          y2="82"
+          stroke="#ffffff"
+          strokeWidth="2"
+          strokeDasharray="3 3"
+          opacity="0.6"
+        />
       </svg>
     );
   }
 
   // RTV - Real Time Velocity
-  if (normalizedSymbol === 'RTV') {
+  if (normalizedSymbol === "RTV") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="rtvBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#581c87" />
@@ -873,17 +912,37 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#rtvBg)" stroke="#06b6d4" strokeWidth="2" />
-        <path d="M 24 35 L 50 50 L 24 65" fill="none" stroke="#f43f5e" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M 42 30 L 72 50 L 42 70" fill="none" stroke="url(#rtvGrad)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M 24 35 L 50 50 L 24 65"
+          fill="none"
+          stroke="#f43f5e"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M 42 30 L 72 50 L 42 70"
+          fill="none"
+          stroke="url(#rtvGrad)"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
         <circle cx="72" cy="50" r="4" fill="#ffffff" />
       </svg>
     );
   }
 
   // REO - Reserve Ecosystem Oracle
-  if (normalizedSymbol === 'REO') {
+  if (normalizedSymbol === "REO") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="reoBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#451a03" />
@@ -904,9 +963,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // BEX - Block Exchange L2
-  if (normalizedSymbol === 'BEX') {
+  if (normalizedSymbol === "BEX") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="bexBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e1b4b" />
@@ -925,9 +990,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // RYR - Rhythm Yield Reserve
-  if (normalizedSymbol === 'RYR') {
+  if (normalizedSymbol === "RYR") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="ryrBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#082f49" />
@@ -939,17 +1010,37 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#ryrBg)" stroke="#38bdf8" strokeWidth="2" />
-        <circle cx="50" cy="50" r="32" fill="none" stroke="#34d399" strokeWidth="1.5" strokeDasharray="4 4" />
-        <path d="M 22 50 Q 36 26 50 50 T 78 50" fill="none" stroke="url(#ryrGrad)" strokeWidth="4" strokeLinecap="round" />
+        <circle
+          cx="50"
+          cy="50"
+          r="32"
+          fill="none"
+          stroke="#34d399"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+        <path
+          d="M 22 50 Q 36 26 50 50 T 78 50"
+          fill="none"
+          stroke="url(#ryrGrad)"
+          strokeWidth="4"
+          strokeLinecap="round"
+        />
         <circle cx="50" cy="50" r="5" fill="#ffffff" />
       </svg>
     );
   }
 
   // OAS - Oasis Alpha L2
-  if (normalizedSymbol === 'OAS') {
+  if (normalizedSymbol === "OAS") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="oasBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#064e3b" />
@@ -961,18 +1052,32 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#oasBg)" stroke="#10b981" strokeWidth="2" />
-        <polygon points="50,18 78,34 78,66 50,82 22,66 22,34" fill="none" stroke="url(#oasGrad)" strokeWidth="3" />
+        <polygon
+          points="50,18 78,34 78,66 50,82 22,66 22,34"
+          fill="none"
+          stroke="url(#oasGrad)"
+          strokeWidth="3"
+        />
         <polygon points="50,28 68,39 68,61 50,72 32,61 32,39" fill="url(#oasGrad)" opacity="0.3" />
-        <path d="M 50 36 C 50 36 38 52 38 60 C 38 66 43 70 50 70 C 57 70 62 66 62 60 C 62 52 50 36 50 36 Z" fill="url(#oasGrad)" />
+        <path
+          d="M 50 36 C 50 36 38 52 38 60 C 38 66 43 70 50 70 C 57 70 62 66 62 60 C 62 52 50 36 50 36 Z"
+          fill="url(#oasGrad)"
+        />
         <circle cx="47" cy="58" r="2" fill="#ffffff" />
       </svg>
     );
   }
 
   // JTC - Joint Training Coin
-  if (normalizedSymbol === 'JTC') {
+  if (normalizedSymbol === "JTC") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="jtcBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#3b0764" />
@@ -984,7 +1089,13 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#jtcBg)" stroke="#c084fc" strokeWidth="2" />
-        <path d="M 34 38 C 22 38 22 62 34 62 C 46 62 54 38 66 38 C 78 38 78 62 66 62 C 54 62 46 38 34 38 Z" fill="none" stroke="url(#jtcGrad)" strokeWidth="5" strokeLinecap="round" />
+        <path
+          d="M 34 38 C 22 38 22 62 34 62 C 46 62 54 38 66 38 C 78 38 78 62 66 62 C 54 62 46 38 34 38 Z"
+          fill="none"
+          stroke="url(#jtcGrad)"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
         <circle cx="34" cy="50" r="4" fill="#ffffff" />
         <circle cx="66" cy="50" r="4" fill="#ffffff" />
       </svg>
@@ -992,9 +1103,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // FTT - Futures Training Token
-  if (normalizedSymbol === 'FTT') {
+  if (normalizedSymbol === "FTT") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="fttBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e3a8a" />
@@ -1014,9 +1131,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // AUR - Aurora Synth
-  if (normalizedSymbol === 'AUR') {
+  if (normalizedSymbol === "AUR") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="aurBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#064e3b" />
@@ -1030,17 +1153,36 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#aurBg)" stroke="#34d399" strokeWidth="2" />
-        <path d="M 20 60 Q 35 25 50 50 T 80 40" fill="none" stroke="url(#aurWaves)" strokeWidth="6" strokeLinecap="round" />
-        <path d="M 20 70 Q 35 35 50 60 T 80 50" fill="none" stroke="url(#aurWaves)" strokeWidth="3" opacity="0.6" strokeLinecap="round" />
+        <path
+          d="M 20 60 Q 35 25 50 50 T 80 40"
+          fill="none"
+          stroke="url(#aurWaves)"
+          strokeWidth="6"
+          strokeLinecap="round"
+        />
+        <path
+          d="M 20 70 Q 35 35 50 60 T 80 50"
+          fill="none"
+          stroke="url(#aurWaves)"
+          strokeWidth="3"
+          opacity="0.6"
+          strokeLinecap="round"
+        />
         <circle cx="50" cy="50" r="3" fill="#ffffff" />
       </svg>
     );
   }
 
   // VTX - Vortex Protocol
-  if (normalizedSymbol === 'VTX') {
+  if (normalizedSymbol === "VTX") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="vtxBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e1b4b" />
@@ -1052,17 +1194,39 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#vtxBg)" stroke="#06b6d4" strokeWidth="2" />
-        <circle cx="50" cy="50" r="28" fill="none" stroke="url(#vtxGrad)" strokeWidth="4" strokeDasharray="30 15" />
-        <circle cx="50" cy="50" r="16" fill="none" stroke="#22d3ee" strokeWidth="3" strokeDasharray="18 10" />
+        <circle
+          cx="50"
+          cy="50"
+          r="28"
+          fill="none"
+          stroke="url(#vtxGrad)"
+          strokeWidth="4"
+          strokeDasharray="30 15"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r="16"
+          fill="none"
+          stroke="#22d3ee"
+          strokeWidth="3"
+          strokeDasharray="18 10"
+        />
         <circle cx="50" cy="50" r="5" fill="#ffffff" />
       </svg>
     );
   }
 
   // NEX - Nexus Chain
-  if (normalizedSymbol === 'NEX') {
+  if (normalizedSymbol === "NEX") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="nexBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#0f172a" />
@@ -1082,9 +1246,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // GLX - Galaxya Network
-  if (normalizedSymbol === 'GLX') {
+  if (normalizedSymbol === "GLX") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="glxBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#2e1065" />
@@ -1092,7 +1262,16 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#glxBg)" stroke="#c084fc" strokeWidth="2" />
-        <ellipse cx="50" cy="50" rx="34" ry="12" fill="none" stroke="#f472b6" strokeWidth="3" transform="rotate(-30 50 50)" />
+        <ellipse
+          cx="50"
+          cy="50"
+          rx="34"
+          ry="12"
+          fill="none"
+          stroke="#f472b6"
+          strokeWidth="3"
+          transform="rotate(-30 50 50)"
+        />
         <circle cx="50" cy="50" r="14" fill="#8b5cf6" />
         <circle cx="46" cy="46" r="3" fill="#ffffff" />
       </svg>
@@ -1100,9 +1279,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // PHX - Phoenix Token
-  if (normalizedSymbol === 'PHX') {
+  if (normalizedSymbol === "PHX") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="phxBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#7c2d12" />
@@ -1115,16 +1300,28 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#phxBg)" stroke="#f97316" strokeWidth="2" />
-        <path d="M 50 20 C 56 32 76 38 76 56 C 76 70 64 80 50 80 C 36 80 24 70 24 56 C 24 38 44 32 50 20 Z" fill="url(#phxFire)" />
-        <path d="M 50 36 C 54 44 64 50 64 60 C 64 68 58 74 50 74 C 42 74 36 68 36 60 C 36 50 46 44 50 36 Z" fill="#fef08a" />
+        <path
+          d="M 50 20 C 56 32 76 38 76 56 C 76 70 64 80 50 80 C 36 80 24 70 24 56 C 24 38 44 32 50 20 Z"
+          fill="url(#phxFire)"
+        />
+        <path
+          d="M 50 36 C 54 44 64 50 64 60 C 64 68 58 74 50 74 C 42 74 36 68 36 60 C 36 50 46 44 50 36 Z"
+          fill="#fef08a"
+        />
       </svg>
     );
   }
 
   // ZEL - Zeta Labs
-  if (normalizedSymbol === 'ZEL') {
+  if (normalizedSymbol === "ZEL") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="zelBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#022c22" />
@@ -1140,9 +1337,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // CRY - Crypto Alpha
-  if (normalizedSymbol === 'CRY') {
+  if (normalizedSymbol === "CRY") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="cryBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e3a8a" />
@@ -1150,7 +1353,12 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#cryBg)" stroke="#a855f7" strokeWidth="2" />
-        <polygon points="50,18 78,42 66,78 34,78 22,42" fill="none" stroke="#c084fc" strokeWidth="3" />
+        <polygon
+          points="50,18 78,42 66,78 34,78 22,42"
+          fill="none"
+          stroke="#c084fc"
+          strokeWidth="3"
+        />
         <polygon points="50,28 68,46 60,70 40,70 32,46" fill="#a855f7" opacity="0.4" />
         <circle cx="50" cy="48" r="5" fill="#ffffff" />
       </svg>
@@ -1158,9 +1366,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // ION - Ion Layer
-  if (normalizedSymbol === 'ION') {
+  if (normalizedSymbol === "ION") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="ionBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#083344" />
@@ -1168,8 +1382,26 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#ionBg)" stroke="#06b6d4" strokeWidth="2" />
-        <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#22d3ee" strokeWidth="2" transform="rotate(30 50 50)" />
-        <ellipse cx="50" cy="50" rx="30" ry="12" fill="none" stroke="#22d3ee" strokeWidth="2" transform="rotate(-30 50 50)" />
+        <ellipse
+          cx="50"
+          cy="50"
+          rx="30"
+          ry="12"
+          fill="none"
+          stroke="#22d3ee"
+          strokeWidth="2"
+          transform="rotate(30 50 50)"
+        />
+        <ellipse
+          cx="50"
+          cy="50"
+          rx="30"
+          ry="12"
+          fill="none"
+          stroke="#22d3ee"
+          strokeWidth="2"
+          transform="rotate(-30 50 50)"
+        />
         <circle cx="50" cy="50" r="8" fill="#06b6d4" />
         <circle cx="50" cy="50" r="3" fill="#ffffff" />
       </svg>
@@ -1177,9 +1409,15 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
   }
 
   // NOVA - Nova Network
-  if (normalizedSymbol === 'NOVA') {
+  if (normalizedSymbol === "NOVA") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="novaBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#4c0519" />
@@ -1187,16 +1425,25 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="48" fill="url(#novaBg)" stroke="#f43f5e" strokeWidth="2" />
-        <path d="M 50 18 L 54 44 L 80 50 L 54 56 L 50 82 L 46 56 L 20 50 L 46 44 Z" fill="#fb7185" />
+        <path
+          d="M 50 18 L 54 44 L 80 50 L 54 56 L 50 82 L 46 56 L 20 50 L 46 44 Z"
+          fill="#fb7185"
+        />
         <circle cx="50" cy="50" r="4" fill="#ffffff" />
       </svg>
     );
   }
 
   // LYN - Lynx Protocol
-  if (normalizedSymbol === 'LYN') {
+  if (normalizedSymbol === "LYN") {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`rounded-full shadow-sm flex-shrink-0 ${className}`} style={styleDim}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        className={`rounded-full shadow-sm flex-shrink-0 ${className}`}
+        style={styleDim}
+      >
         <defs>
           <linearGradient id="lynBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#78350f" />
@@ -1230,7 +1477,7 @@ export const CryptoIcon: React.FC<CryptoIconProps> = ({ symbol, size = 24, class
         referrerPolicy="no-referrer"
         onError={() => {
           if (sourceIndex + 1 < fallbackSources.length) {
-            setSourceIndex(prev => prev + 1);
+            setSourceIndex((prev) => prev + 1);
           } else {
             setImageFailed(true);
           }

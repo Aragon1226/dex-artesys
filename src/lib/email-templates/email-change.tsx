@@ -1,17 +1,17 @@
-import * as React from 'react'
-import { Text } from '@react-email/components'
-import { AuthShell, text } from './auth-shell'
+import * as React from "react";
+import { Text } from "@react-email/components";
+import { AuthShell, text } from "./auth-shell";
 
 interface EmailChangeEmailProps {
-  siteName: string
+  siteName: string;
   // oldEmail is the user's current address (HookData.OldEmail). For the
   // NEW-recipient half of a secure email_change fanout, `email` equals the
   // recipient (NEW), so the "from" line must render oldEmail to read
   // "from OLD to NEW" instead of "from NEW to NEW".
-  oldEmail: string
-  email: string
-  newEmail: string
-  confirmationUrl: string
+  oldEmail: string;
+  email: string;
+  newEmail: string;
+  confirmationUrl: string;
 }
 
 export const EmailChangeEmail = ({
@@ -28,11 +28,11 @@ export const EmailChangeEmail = ({
     footerNote="If you didn't request this change, ignore this email and contact support — your sign-in address stays the same."
   >
     <Text style={text}>
-      You requested to change the email on your {siteName} account from{' '}
-      <strong>{oldEmail || 'your current address'}</strong> to <strong>{newEmail}</strong>. Confirm
+      You requested to change the email on your {siteName} account from{" "}
+      <strong>{oldEmail || "your current address"}</strong> to <strong>{newEmail}</strong>. Confirm
       the change to finish.
     </Text>
   </AuthShell>
-)
+);
 
-export default EmailChangeEmail
+export default EmailChangeEmail;

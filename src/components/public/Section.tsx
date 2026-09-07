@@ -52,13 +52,7 @@ export const Section = ({
   </section>
 );
 
-export const Card = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) => (
+export const Card = ({ title, children }: { title: string; children: ReactNode }) => (
   <div className="rounded-2xl border border-border bg-card p-5">
     <h3 className="text-sm font-bold text-foreground">{title}</h3>
     <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{children}</p>

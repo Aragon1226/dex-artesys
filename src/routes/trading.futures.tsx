@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicShell } from "@/components/public/PublicShell";
-import { PageHero, Section, Card, CardGrid, Steps, CtaRow, FaqList } from "@/components/public/Section";
+import {
+  PageHero,
+  Section,
+  Card,
+  CardGrid,
+  Steps,
+  CtaRow,
+  FaqList,
+} from "@/components/public/Section";
 import { publicHead, breadcrumbJsonLd, faqJsonLd } from "@/lib/publicSeo";
 
 const TITLE = "Futures Trading — Leverage, Margin & Settlement | Artesys";
@@ -104,8 +112,8 @@ function FuturesTradingPage() {
             any time.
           </Card>
           <Card title="Risk">
-            Leverage magnifies losses as well as gains. Only commit margin you are prepared to
-            lose, and read the terms before trading.
+            Leverage magnifies losses as well as gains. Only commit margin you are prepared to lose,
+            and read the terms before trading.
           </Card>
         </CardGrid>
       </Section>

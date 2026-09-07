@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
-import { Wallet, RefreshCw, ArrowRightLeft, Search, Eye, EyeOff, ArrowUpRight, TrendingUp } from 'lucide-react';
-import { CryptoIcon } from '@/components/shared/CryptoIcon';
-import type { UserAsset } from '@/types';
-import type { MarketTicker } from '@/services/market';
+import React, { useState } from "react";
+import {
+  Wallet,
+  RefreshCw,
+  ArrowRightLeft,
+  Search,
+  Eye,
+  EyeOff,
+  ArrowUpRight,
+  TrendingUp,
+} from "lucide-react";
+import { CryptoIcon } from "@/components/shared/CryptoIcon";
+import type { UserAsset } from "@/types";
+import type { MarketTicker } from "@/services/market";
 
 interface SpotWalletBoxProps {
   usdtBalance: number;
@@ -21,18 +30,18 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
   assetConfig,
   onSelectPairToTrade,
   onOpenConvert,
-  onOpenTransfer
+  onOpenTransfer,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [hideSmallBalances, setHideSmallBalances] = useState(true);
 
   // Calculate values for non-USDT assets
-  const cryptoAssetsCalculated = userAssets.map(asset => {
+  const cryptoAssetsCalculated = userAssets.map((asset) => {
     const pair = `${asset.symbol}USDT`;
     const ticker = tickers[pair] || { lastPrice: 0, priceChangePercent: 0 };
     const price = ticker.lastPrice || 0;
     const value = asset.amount * price;
-    const config = assetConfig[asset.symbol] || { name: asset.symbol, category: 'Main' };
+    const config = assetConfig[asset.symbol] || { name: asset.symbol, category: "Main" };
 
     return {
       id: asset.id,
@@ -42,15 +51,18 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
       price,
       value,
       priceChangePercent: ticker.priceChangePercent,
-      pair
+      pair,
     };
   });
 
-  const totalCryptoValue = cryptoAssetsCalculated.reduce((acc, a) => acc + (a.value >= 0.01 ? a.value : 0), 0);
+  const totalCryptoValue = cryptoAssetsCalculated.reduce(
+    (acc, a) => acc + (a.value >= 0.01 ? a.value : 0),
+    0,
+  );
   const totalSpotBalance = usdtBalance + totalCryptoValue;
 
   // Filtered assets
-  const filteredAssets = cryptoAssetsCalculated.filter(asset => {
+  const filteredAssets = cryptoAssetsCalculated.filter((asset) => {
     if (hideSmallBalances && asset.value < 0.01) return false;
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -70,16 +82,36 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
             <span>Total Spot Holding Balance</span>
           </div>
           <div className="text-2xl font-black font-mono text-foreground">
-            ${totalSpotBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            <span className="text-xs font-bold text-muted-foreground ml-2 font-sans uppercase">USD</span>
+            $
+            {totalSpotBalance.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+            <span className="text-xs font-bold text-muted-foreground ml-2 font-sans uppercase">
+              USD
+            </span>
           </div>
           <div className="flex items-center gap-3 text-[11px] font-bold text-muted-foreground pt-0.5">
             <span>
-              Available USDT: <strong className="text-foreground font-mono">${usdtBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
+              Available USDT:{" "}
+              <strong className="text-foreground font-mono">
+                $
+                {usdtBalance.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </strong>
             </span>
             <span>•</span>
             <span>
-              Crypto Equity: <strong className="text-foreground font-mono">${totalCryptoValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
+              Crypto Equity:{" "}
+              <strong className="text-foreground font-mono">
+                $
+                {totalCryptoValue.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </strong>
             </span>
           </div>
         </div>
@@ -126,7 +158,10 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
 
           {/* Search asset */}
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" size={13} />
+            <Search
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
+              size={13}
+            />
             <input
               type="text"
               placeholder="Filter assets..."
@@ -159,16 +194,26 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                   <CryptoIcon symbol="USDT" size={26} />
                   <div>
                     <div className="font-extrabold text-foreground text-xs">USDT</div>
-                    <div className="text-[10px] text-muted-foreground font-semibold">Tether USD</div>
+                    <div className="text-[10px] text-muted-foreground font-semibold">
+                      Tether USD
+                    </div>
                   </div>
                 </div>
               </td>
               <td className="py-3 px-3 text-right font-bold text-foreground">
-                ${usdtBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                $
+                {usdtBalance.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </td>
               <td className="py-3 px-3 text-right text-muted-foreground">$1.00</td>
               <td className="py-3 px-3 text-right font-bold text-foreground">
-                ${usdtBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                $
+                {usdtBalance.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </td>
               <td className="py-3 px-3 text-right font-bold text-success">+0.00%</td>
               <td className="py-3 px-3 text-center font-sans">
@@ -190,7 +235,9 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                     <CryptoIcon symbol={asset.symbol} size={26} />
                     <div>
                       <div className="font-extrabold text-foreground text-xs">{asset.symbol}</div>
-                      <div className="text-[10px] text-muted-foreground font-semibold">{asset.name}</div>
+                      <div className="text-[10px] text-muted-foreground font-semibold">
+                        {asset.name}
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -198,18 +245,26 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                   {asset.amount.toFixed(4)} {asset.symbol}
                 </td>
                 <td className="py-3 px-3 text-right text-foreground">
-                  ${asset.price.toLocaleString(undefined, { 
+                  $
+                  {asset.price.toLocaleString(undefined, {
                     minimumFractionDigits: asset.price < 1 ? 4 : 2,
-                    maximumFractionDigits: asset.price < 1 ? 6 : 2
+                    maximumFractionDigits: asset.price < 1 ? 6 : 2,
                   })}
                 </td>
                 <td className="py-3 px-3 text-right font-bold text-foreground">
-                  ${asset.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $
+                  {asset.value.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </td>
-                <td className={`py-3 px-3 text-right font-bold ${
-                  asset.priceChangePercent >= 0 ? 'text-success' : 'text-danger'
-                }`}>
-                  {asset.priceChangePercent >= 0 ? '+' : ''}{asset.priceChangePercent.toFixed(2)}%
+                <td
+                  className={`py-3 px-3 text-right font-bold ${
+                    asset.priceChangePercent >= 0 ? "text-success" : "text-danger"
+                  }`}
+                >
+                  {asset.priceChangePercent >= 0 ? "+" : ""}
+                  {asset.priceChangePercent.toFixed(2)}%
                 </td>
                 <td className="py-3 px-3 text-center font-sans">
                   <button

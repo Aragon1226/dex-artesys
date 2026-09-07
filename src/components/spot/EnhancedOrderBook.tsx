@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { marketService } from '@/services/market';
-import { ArrowUpRight, ArrowDownRight, Layers, History } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { marketService } from "@/services/market";
+import { ArrowUpRight, ArrowDownRight, Layers, History } from "lucide-react";
 
 interface Order {
   price: number;
@@ -13,7 +13,7 @@ interface RecentTrade {
   price: number;
   amount: number;
   time: string;
-  side: 'BUY' | 'SELL';
+  side: "BUY" | "SELL";
 }
 
 interface EnhancedOrderBookProps {
@@ -22,7 +22,7 @@ interface EnhancedOrderBookProps {
 }
 
 export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, onSelectPrice }) => {
-  const [activeTab, setActiveTab] = useState<'book' | 'trades'>('book');
+  const [activeTab, setActiveTab] = useState<"book" | "trades">("book");
   const [bids, setBids] = useState<Order[]>([]);
   const [asks, setAsks] = useState<Order[]>([]);
   const [recentTrades, setRecentTrades] = useState<RecentTrade[]>([]);
@@ -37,11 +37,11 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
 
       // Generate 7 bids & asks around live price
       for (let i = 1; i <= 7; i++) {
-        const bidPrice = price * (1 - (i * 0.00025));
+        const bidPrice = price * (1 - i * 0.00025);
         const bidAmt = Math.random() * 2.5 + 0.05;
         newBids.push({ price: bidPrice, amount: bidAmt, total: bidPrice * bidAmt });
 
-        const askPrice = price * (1 + (i * 0.00025));
+        const askPrice = price * (1 + i * 0.00025);
         const askAmt = Math.random() * 2.5 + 0.05;
         newAsks.push({ price: askPrice, amount: askAmt, total: askPrice * askAmt });
       }
@@ -50,20 +50,25 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
       setAsks(newAsks.reverse());
 
       // Update recent trades
-      const side: 'BUY' | 'SELL' = Math.random() > 0.48 ? 'BUY' : 'SELL';
+      const side: "BUY" | "SELL" = Math.random() > 0.48 ? "BUY" : "SELL";
       const tradePrice = price * (1 + (Math.random() * 0.0008 - 0.0004));
       const tradeAmt = Math.random() * 1.8 + 0.01;
-      const tradeTime = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const tradeTime = new Date().toLocaleTimeString([], {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
 
-      setRecentTrades(prev => [
+      setRecentTrades((prev) => [
         {
           id: Math.random().toString(36).substring(7),
           price: tradePrice,
           amount: tradeAmt,
           time: tradeTime,
-          side
+          side,
         },
-        ...prev.slice(0, 14)
+        ...prev.slice(0, 14),
       ]);
     };
 
@@ -81,11 +86,11 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setActiveTab('book')}
+            onClick={() => setActiveTab("book")}
             className={`flex items-center gap-1 font-bold transition-colors text-xs ${
-              activeTab === 'book'
-                ? 'text-primary border-b-2 border-primary pb-0.5'
-                : 'text-muted-foreground hover:text-foreground pb-0.5'
+              activeTab === "book"
+                ? "text-primary border-b-2 border-primary pb-0.5"
+                : "text-muted-foreground hover:text-foreground pb-0.5"
             }`}
           >
             <Layers size={13} />
@@ -93,11 +98,11 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
           </button>
           <button
             type="button"
-            onClick={() => setActiveTab('trades')}
+            onClick={() => setActiveTab("trades")}
             className={`flex items-center gap-1 font-bold transition-colors text-xs ${
-              activeTab === 'trades'
-                ? 'text-primary border-b-2 border-primary pb-0.5'
-                : 'text-muted-foreground hover:text-foreground pb-0.5'
+              activeTab === "trades"
+                ? "text-primary border-b-2 border-primary pb-0.5"
+                : "text-muted-foreground hover:text-foreground pb-0.5"
             }`}
           >
             <History size={13} />
@@ -110,7 +115,7 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
         </span>
       </div>
 
-      {activeTab === 'book' ? (
+      {activeTab === "book" ? (
         <div className="flex-1 overflow-hidden flex flex-col justify-between">
           <div className="grid grid-cols-3 text-muted-foreground font-bold pb-1 text-[9px] uppercase border-b border-border/50">
             <span>Price (USDT)</span>
@@ -132,10 +137,15 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
                   style={{ width: `${Math.min(100, order.amount * 35)}%` }}
                 />
                 <span className="text-danger font-bold z-10">
-                  {order.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {order.price.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </span>
                 <span className="text-foreground text-right z-10">{order.amount.toFixed(4)}</span>
-                <span className="text-muted-foreground text-right z-10">${order.total.toFixed(2)}</span>
+                <span className="text-muted-foreground text-right z-10">
+                  ${order.total.toFixed(2)}
+                </span>
               </div>
             ))}
           </div>
@@ -144,7 +154,11 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
           <div className="py-2 border-y border-border bg-muted/30 my-1 flex items-center justify-between px-2 rounded-lg">
             <div className="flex items-center gap-1.5">
               <span className="text-sm font-black text-foreground">
-                ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                $
+                {currentPrice.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </span>
               <span className="text-[9px] font-bold text-success flex items-center">
                 <ArrowUpRight size={12} /> Live
@@ -169,10 +183,15 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
                   style={{ width: `${Math.min(100, order.amount * 35)}%` }}
                 />
                 <span className="text-success font-bold z-10">
-                  {order.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {order.price.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </span>
                 <span className="text-foreground text-right z-10">{order.amount.toFixed(4)}</span>
-                <span className="text-muted-foreground text-right z-10">${order.total.toFixed(2)}</span>
+                <span className="text-muted-foreground text-right z-10">
+                  ${order.total.toFixed(2)}
+                </span>
               </div>
             ))}
           </div>
@@ -188,11 +207,16 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
 
           {recentTrades.map((trade) => (
             <div key={trade.id} className="grid grid-cols-3 py-1 px-1 hover:bg-muted/50 rounded">
-              <span className={`font-bold flex items-center gap-0.5 ${
-                trade.side === 'BUY' ? 'text-success' : 'text-danger'
-              }`}>
-                {trade.side === 'BUY' ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
-                {trade.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              <span
+                className={`font-bold flex items-center gap-0.5 ${
+                  trade.side === "BUY" ? "text-success" : "text-danger"
+                }`}
+              >
+                {trade.side === "BUY" ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+                {trade.price.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </span>
               <span className="text-foreground text-right">{trade.amount.toFixed(4)}</span>
               <span className="text-muted-foreground text-right">{trade.time}</span>

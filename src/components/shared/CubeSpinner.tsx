@@ -10,9 +10,7 @@ const CubeSpinner = ({ fullScreen, label }: CubeSpinnerProps) => {
 
   if (fullScreen) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        {content}
-      </div>
+      <div className="flex min-h-screen items-center justify-center bg-background">{content}</div>
     );
   }
 

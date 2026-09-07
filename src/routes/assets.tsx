@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicShell } from "@/components/public/PublicShell";
-import { PageHero, Section, Card, CardGrid, Steps, CtaRow, FaqList } from "@/components/public/Section";
+import {
+  PageHero,
+  Section,
+  Card,
+  CardGrid,
+  Steps,
+  CtaRow,
+  FaqList,
+} from "@/components/public/Section";
 import { publicHead, breadcrumbJsonLd, faqJsonLd } from "@/lib/publicSeo";
 
 const TITLE = "Assets & Wallet — Deposits, Withdrawals & Earn | Artesys";
@@ -112,8 +120,8 @@ function AssetsPage() {
             your tradable balance while it is active.
           </Card>
           <Card title="Track rewards">
-            Accrued rewards are shown against the staked position so you can see what the
-            allocation has produced.
+            Accrued rewards are shown against the staked position so you can see what the allocation
+            has produced.
           </Card>
           <Card title="Keep trading">
             Staking is optional and separate — your spot and futures balances continue to work

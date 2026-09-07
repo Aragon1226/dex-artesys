@@ -16,48 +16,52 @@ const slides = [
     color: "from-success/20 to-emerald-900/40",
     accent: "text-success",
     link: "/app/spot",
-    image: slideSpot
+    image: slideSpot,
   },
   {
     id: "futures",
     title: "Futures Pro",
-    description: "Maximize your potential with up to 125x leverage and advanced AI risk management systems.",
+    description:
+      "Maximize your potential with up to 125x leverage and advanced AI risk management systems.",
     iconProps: { x: 75, y: 25, scale: 180 },
     color: "from-cyan-500/20 to-cyan-900/40",
     accent: "text-cyan-400",
     link: "/app/futures",
-    image: slideFutures
+    image: slideFutures,
   },
   {
     id: "earn",
     title: "Earn & Stake",
-    description: "Put your idle assets to work. Earn up to 14% APR with our dual staking protocols.",
+    description:
+      "Put your idle assets to work. Earn up to 14% APR with our dual staking protocols.",
     iconProps: { x: 25, y: 75, scale: 180 },
     color: "from-info/20 to-blue-900/40",
     accent: "text-info",
     link: "/app/earn",
-    image: slideEarn
+    image: slideEarn,
   },
   {
     id: "assets",
     title: "Asset Management",
-    description: "A unified dashboard to track, deposit, and withdraw your global portfolio securely.",
+    description:
+      "A unified dashboard to track, deposit, and withdraw your global portfolio securely.",
     iconProps: { x: 75, y: 75, scale: 180 },
     color: "from-purple-500/20 to-purple-900/40",
     accent: "text-purple-400",
     link: "/app/assets",
-    image: slideAssets
+    image: slideAssets,
   },
   {
     id: "support",
     title: "24/7 Support",
-    description: "Our expert team is always here to help you navigate the world of digital finance.",
+    description:
+      "Our expert team is always here to help you navigate the world of digital finance.",
     iconProps: { x: 50, y: 50, scale: 180 },
     color: "from-danger/20 to-rose-900/40",
     accent: "text-danger",
     link: "/app/home",
-    image: slideSupport
-  }
+    image: slideSupport,
+  },
 ];
 
 const BannerSlideshow = () => {
@@ -81,7 +85,9 @@ const BannerSlideshow = () => {
             <div
               key={slide.id}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out z-0 ${
-                i === current ? "opacity-100 scale-100 z-10" : "opacity-0 scale-105 pointer-events-none"
+                i === current
+                  ? "opacity-100 scale-100 z-10"
+                  : "opacity-0 scale-105 pointer-events-none"
               }`}
             >
               {/* Background Image with Overlay */}
@@ -92,29 +98,41 @@ const BannerSlideshow = () => {
                   className="w-full h-full object-cover object-right sm:object-center opacity-60 scale-105"
                   loading={i === 0 ? "eager" : "lazy"}
                 />
-                <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} opacity-40 mix-blend-screen`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-r ${slide.color} opacity-40 mix-blend-screen`}
+                />
                 <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 sm:to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-background/30 sm:via-transparent sm:to-background/40" />
               </div>
 
               {/* Content Overlay */}
               <div className="absolute inset-0 flex items-center px-5 sm:px-8 md:px-12 lg:px-16 pb-10 sm:pb-12">
-                <div className={`w-full max-w-[22rem] sm:max-w-md md:max-w-lg lg:max-w-xl transition-all duration-700 delay-300 ${i === current ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}>
-                  <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-secondary border border-border ${slide.accent} text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-widest mb-2.5 sm:mb-4 max-w-full`}>
-                    <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 shrink-0 rounded-full ${slide.accent.replace('text-', 'bg-')} animate-pulse`} />
+                <div
+                  className={`w-full max-w-[22rem] sm:max-w-md md:max-w-lg lg:max-w-xl transition-all duration-700 delay-300 ${i === current ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
+                >
+                  <div
+                    className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-secondary border border-border ${slide.accent} text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-widest mb-2.5 sm:mb-4 max-w-full`}
+                  >
+                    <div
+                      className={`w-1.5 h-1.5 sm:w-2 sm:h-2 shrink-0 rounded-full ${slide.accent.replace("text-", "bg-")} animate-pulse`}
+                    />
                     <span className="truncate">{slide.title}</span>
                   </div>
                   <h2 className="text-[1.375rem] leading-[1.15] sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-2 sm:mb-3 md:mb-4 tracking-tight text-balance">
-                    {slide.title === "Spot Trading" ? "Trade Top Cryptos" : 
-                     slide.title === "Futures Pro" ? "Maximize Your Gains" :
-                     slide.title === "Earn & Stake" ? "Passive Income Simplified" :
-                     slide.title === "Asset Management" ? "Unified Portfolio Control" :
-                     "Expert Support 24/7"}
+                    {slide.title === "Spot Trading"
+                      ? "Trade Top Cryptos"
+                      : slide.title === "Futures Pro"
+                        ? "Maximize Your Gains"
+                        : slide.title === "Earn & Stake"
+                          ? "Passive Income Simplified"
+                          : slide.title === "Asset Management"
+                            ? "Unified Portfolio Control"
+                            : "Expert Support 24/7"}
                   </h2>
                   <p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light mb-4 sm:mb-6 md:mb-8 line-clamp-2 sm:line-clamp-3 md:line-clamp-none max-w-[30ch] sm:max-w-md leading-relaxed">
                     {slide.description}
                   </p>
-                  <button 
+                  <button
                     onClick={() => navigate(slide.link)}
                     className="group/btn inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 bg-primary text-primary-foreground rounded-none font-medium text-[10px] sm:text-xs uppercase tracking-widest hover:opacity-90 transition-all"
                   >
@@ -160,7 +178,6 @@ const BannerSlideshow = () => {
         </div>
       </div>
     </section>
-
   );
 };
 

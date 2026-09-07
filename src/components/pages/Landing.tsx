@@ -99,7 +99,6 @@ const Index = () => {
     }
   }, [user, loading, navigate]);
 
-
   if (isMobileAuth && !user) {
     return <CryptoAuthView />;
   }
@@ -116,15 +115,27 @@ const Index = () => {
       {/* ---------------------------------------------------------- */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-[4.5rem] flex items-center justify-between">
-          <button className="cursor-pointer" onClick={() => navigate("/")} aria-label="Artesys home">
+          <button
+            className="cursor-pointer"
+            onClick={() => navigate("/")}
+            aria-label="Artesys home"
+          >
             <Logo size={44} variant="FULL" />
           </button>
 
           <div className="hidden lg:flex items-center gap-10 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
-            <a href="#markets" className="hover:text-primary transition-colors">Markets</a>
-            <a href="#platform" className="hover:text-primary transition-colors">Platform</a>
-            <a href="#security" className="hover:text-primary transition-colors">Security</a>
-            <a href="#onboarding" className="hover:text-primary transition-colors">Onboarding</a>
+            <a href="#markets" className="hover:text-primary transition-colors">
+              Markets
+            </a>
+            <a href="#platform" className="hover:text-primary transition-colors">
+              Platform
+            </a>
+            <a href="#security" className="hover:text-primary transition-colors">
+              Security
+            </a>
+            <a href="#onboarding" className="hover:text-primary transition-colors">
+              Onboarding
+            </a>
           </div>
 
           <div className="flex items-center gap-3 sm:gap-7">
@@ -177,7 +188,9 @@ const Index = () => {
               className="flex items-center justify-between border-y border-border/70 py-3 mb-14 sm:mb-20 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground/70"
             >
               <span>Private Wealth</span>
-              <span className="hidden sm:inline text-brand-gold">Digital Assets, Institutional Grade</span>
+              <span className="hidden sm:inline text-brand-gold">
+                Digital Assets, Institutional Grade
+              </span>
               <span>Est. {new Date().getFullYear()}</span>
             </motion.div>
 
@@ -190,7 +203,9 @@ const Index = () => {
                 className="lg:col-span-9 font-display text-[2.9rem] leading-[1.0] sm:text-7xl md:text-8xl font-light tracking-[-0.035em] text-foreground"
               >
                 The Premier Standard{" "}
-                <span className="block mt-2 text-primary italic font-medium">for Digital Finance</span>
+                <span className="block mt-2 text-primary italic font-medium">
+                  for Digital Finance
+                </span>
               </motion.h1>
 
               <motion.div
@@ -230,7 +245,6 @@ const Index = () => {
           </div>
         </section>
 
-
         {/* ---------------------------------------------------------- */}
         {/* Featured figure — product slideshow                         */}
         {/* ---------------------------------------------------------- */}
@@ -238,7 +252,9 @@ const Index = () => {
           <div className="max-w-6xl mx-auto">
             <motion.div {...fadeUp()} className="mb-10 flex items-baseline justify-between gap-6">
               <Kicker>The Platform</Kicker>
-              <span className="font-mono text-xs text-muted-foreground/50 tracking-widest">Fig. 01</span>
+              <span className="font-mono text-xs text-muted-foreground/50 tracking-widest">
+                Fig. 01
+              </span>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -265,30 +281,54 @@ const Index = () => {
         {/* ---------------------------------------------------------- */}
         {/* Onboarding — editorial numbered columns                     */}
         {/* ---------------------------------------------------------- */}
-        <section id="onboarding" className="py-24 sm:py-36 px-6 border-y border-border bg-secondary/30 scroll-mt-24">
+        <section
+          id="onboarding"
+          className="py-24 sm:py-36 px-6 border-y border-border bg-secondary/30 scroll-mt-24"
+        >
           <div className="max-w-6xl mx-auto">
             <SectionHeading
               index="02"
               kicker="Onboarding"
               title={
                 <>
-                  Three steps to <span className="text-primary italic font-medium">your first trade</span>
+                  Three steps to{" "}
+                  <span className="text-primary italic font-medium">your first trade</span>
                 </>
               }
               lede="From registration to execution in minutes — with identity verification and custody handled in-line."
             />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
               {[
-                { step: "01", title: "Open your account", copy: "Register with your email and complete identity verification in minutes." },
-                { step: "02", title: "Fund your wallet", copy: "Deposit crypto to your secure custody address and see it credited on confirmation." },
-                { step: "03", title: "Trade and earn", copy: "Access spot and futures markets, or route idle balance into Earn for daily yield." },
+                {
+                  step: "01",
+                  title: "Open your account",
+                  copy: "Register with your email and complete identity verification in minutes.",
+                },
+                {
+                  step: "02",
+                  title: "Fund your wallet",
+                  copy: "Deposit crypto to your secure custody address and see it credited on confirmation.",
+                },
+                {
+                  step: "03",
+                  title: "Trade and earn",
+                  copy: "Access spot and futures markets, or route idle balance into Earn for daily yield.",
+                },
               ].map((item, i) => (
-                <motion.article key={item.step} {...fadeUp(i * 0.12)} className="bg-card p-10 md:p-12 group hover:bg-primary/[0.03] transition-colors duration-500">
+                <motion.article
+                  key={item.step}
+                  {...fadeUp(i * 0.12)}
+                  className="bg-card p-10 md:p-12 group hover:bg-primary/[0.03] transition-colors duration-500"
+                >
                   <p className="font-mono text-5xl font-light text-primary/30 mb-10 group-hover:text-primary/60 transition-colors duration-500">
                     {item.step}
                   </p>
-                  <h3 className="font-display text-xl font-medium text-foreground mb-3 tracking-tight">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed">{item.copy}</p>
+                  <h3 className="font-display text-xl font-medium text-foreground mb-3 tracking-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                    {item.copy}
+                  </p>
                 </motion.article>
               ))}
             </div>
@@ -297,7 +337,8 @@ const Index = () => {
                 onClick={() => navigate("/auth")}
                 className="group inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-display font-semibold text-sm tracking-[0.15em] uppercase rounded-xl shadow-brand transition-all hover:scale-[1.03] active:scale-95"
               >
-                Get Started <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                Get Started{" "}
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </button>
             </motion.div>
           </div>
@@ -313,7 +354,10 @@ const Index = () => {
         {/* ---------------------------------------------------------- */}
         {/* Security / trust                                            */}
         {/* ---------------------------------------------------------- */}
-        <section id="security" className="py-24 sm:py-36 px-6 relative overflow-hidden bg-secondary/50 border-y border-border scroll-mt-24">
+        <section
+          id="security"
+          className="py-24 sm:py-36 px-6 relative overflow-hidden bg-secondary/50 border-y border-border scroll-mt-24"
+        >
           <div className="max-w-6xl mx-auto relative z-10">
             <SectionHeading
               index="04"
@@ -333,7 +377,9 @@ const Index = () => {
                     <Shield size={20} strokeWidth={1.25} />
                   </div>
                   <div>
-                    <h3 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">Military-Grade Cold Storage</h3>
+                    <h3 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">
+                      Military-Grade Cold Storage
+                    </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed font-light">
                       The vast majority of digital assets are continuously kept in geographically
                       distributed offline vaults, protected by advanced cryptographic protocols.
@@ -345,7 +391,9 @@ const Index = () => {
                     <Globe size={20} strokeWidth={1.25} />
                   </div>
                   <div>
-                    <h3 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">Global Regulatory Compliance</h3>
+                    <h3 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">
+                      Global Regulatory Compliance
+                    </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed font-light">
                       Operating strictly within premier international jurisdictions. Fully licensed,
                       routinely audited, and transparent.
@@ -366,15 +414,24 @@ const Index = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                   <figcaption className="absolute bottom-6 left-6 right-6">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-gold mb-2">Cold Storage Infrastructure</p>
-                    <p className="text-sm font-light text-foreground/80 leading-relaxed">98% of client assets held in geographically distributed offline vaults.</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-gold mb-2">
+                      Cold Storage Infrastructure
+                    </p>
+                    <p className="text-sm font-light text-foreground/80 leading-relaxed">
+                      98% of client assets held in geographically distributed offline vaults.
+                    </p>
                   </figcaption>
                 </figure>
                 <div className="p-10 border border-border bg-card/60 backdrop-blur-xl">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground mb-10 text-center">Trusted by Industry Partners</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground mb-10 text-center">
+                    Trusted by Industry Partners
+                  </p>
                   <div className="grid grid-cols-2 gap-x-10 gap-y-10 text-muted-foreground/30">
                     {["BINANCE", "COINBASE", "KRAKEN", "BYBIT"].map((name) => (
-                      <div key={name} className="flex items-center justify-center font-display font-light text-2xl tracking-[0.2em] hover:text-primary transition-colors cursor-default">
+                      <div
+                        key={name}
+                        className="flex items-center justify-center font-display font-light text-2xl tracking-[0.2em] hover:text-primary transition-colors cursor-default"
+                      >
                         {name}
                       </div>
                     ))}
@@ -391,7 +448,10 @@ const Index = () => {
         <section className="py-32 sm:py-44 px-6 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] -z-10" />
           <div className="max-w-5xl mx-auto relative z-10">
-            <motion.div {...fadeUp()} className="border-t border-border pt-8 mb-14 flex items-baseline justify-between">
+            <motion.div
+              {...fadeUp()}
+              className="border-t border-border pt-8 mb-14 flex items-baseline justify-between"
+            >
               <Kicker>Begin</Kicker>
               <span className="font-mono text-xs text-muted-foreground/50 tracking-widest">05</span>
             </motion.div>
@@ -402,7 +462,10 @@ const Index = () => {
               Elevate your{" "}
               <span className="text-primary italic font-medium">trading experience.</span>
             </motion.h2>
-            <motion.div {...fadeUp(0.2)} className="grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
+            <motion.div
+              {...fadeUp(0.2)}
+              className="grid grid-cols-1 md:grid-cols-12 gap-10 items-end"
+            >
               <p className="md:col-span-7 text-muted-foreground text-base md:text-lg font-light leading-relaxed max-w-xl">
                 Open an institutional-grade account today to access premier liquidity, personalized
                 service, and professional trading architecture.
@@ -412,7 +475,11 @@ const Index = () => {
                   onClick={() => navigate("/auth")}
                   className="group inline-flex items-center gap-3 px-10 py-4 border border-foreground text-foreground hover:bg-foreground hover:text-background font-display font-medium text-sm tracking-[0.2em] uppercase transition-all duration-500"
                 >
-                  Apply for Account <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  Apply for Account{" "}
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
                 </button>
               </div>
             </motion.div>
@@ -437,22 +504,42 @@ const Index = () => {
             </div>
 
             <div className="md:col-span-3 md:col-start-7">
-              <h5 className="font-semibold text-[10px] uppercase tracking-[0.25em] text-foreground/60 mb-8">Corporate & Legal</h5>
+              <h5 className="font-semibold text-[10px] uppercase tracking-[0.25em] text-foreground/60 mb-8">
+                Corporate & Legal
+              </h5>
               <div className="flex flex-col gap-4 text-xs font-light text-muted-foreground">
-                <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
-                <a href="/policies" className="hover:text-primary transition-colors">User Policies & Safeguards</a>
-                <a href="/faq" className="hover:text-primary transition-colors">App FAQ & Guide</a>
-                <a href="mailto:admin@artesys.com" className="hover:text-primary transition-colors">admin@artesys.com</a>
+                <a href="/terms" className="hover:text-primary transition-colors">
+                  Terms & Conditions
+                </a>
+                <a href="/policies" className="hover:text-primary transition-colors">
+                  User Policies & Safeguards
+                </a>
+                <a href="/faq" className="hover:text-primary transition-colors">
+                  App FAQ & Guide
+                </a>
+                <a href="mailto:admin@artesys.com" className="hover:text-primary transition-colors">
+                  admin@artesys.com
+                </a>
               </div>
             </div>
 
             <div className="md:col-span-3">
-              <h5 className="font-semibold text-[10px] uppercase tracking-[0.25em] text-foreground/60 mb-8">Client Service</h5>
+              <h5 className="font-semibold text-[10px] uppercase tracking-[0.25em] text-foreground/60 mb-8">
+                Client Service
+              </h5>
               <div className="flex flex-col gap-4 text-xs font-light text-muted-foreground">
-                <a href="#" className="hover:text-primary transition-colors">Wealth Support</a>
-                <a href="#" className="hover:text-primary transition-colors">Institutional APIs</a>
-                <a href="#" className="hover:text-primary transition-colors">Fee Structures</a>
-                <a href="#" className="hover:text-primary transition-colors">System Status</a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Wealth Support
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Institutional APIs
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Fee Structures
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  System Status
+                </a>
               </div>
             </div>
           </div>
@@ -462,8 +549,12 @@ const Index = () => {
               © {new Date().getFullYear()} Artesys Holdings. All Rights Reserved.
             </p>
             <div className="flex items-center gap-8">
-              <span className="text-muted-foreground hover:text-primary transition-all cursor-pointer text-[11px] font-semibold tracking-[0.2em] uppercase">X</span>
-              <span className="text-muted-foreground hover:text-primary transition-all cursor-pointer text-[11px] font-semibold tracking-[0.2em] uppercase">LinkedIn</span>
+              <span className="text-muted-foreground hover:text-primary transition-all cursor-pointer text-[11px] font-semibold tracking-[0.2em] uppercase">
+                X
+              </span>
+              <span className="text-muted-foreground hover:text-primary transition-all cursor-pointer text-[11px] font-semibold tracking-[0.2em] uppercase">
+                LinkedIn
+              </span>
             </div>
           </div>
         </div>

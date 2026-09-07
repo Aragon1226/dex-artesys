@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 interface LogoProps {
   className?: string;
   size?: number;
-  variant?: 'FULL' | 'SYMBOL' | 'WORDMARK';
+  variant?: "FULL" | "SYMBOL" | "WORDMARK";
   /** Show the "Crypto Exchange" descriptor under the wordmark. */
   descriptor?: boolean;
   /** Aureus Gold precision accent on the aperture. Used sparingly. */
@@ -19,11 +19,11 @@ interface LogoProps {
  */
 export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?: boolean }> = ({
   size = 40,
-  className = '',
+  className = "",
   accent = true,
 }) => {
-  const uid = React.useId().replace(/:/g, '');
-  const FRONT = 'M50 5 L90 87 L71 87 L50 43 L29 87 L10 87 Z';
+  const uid = React.useId().replace(/:/g, "");
+  const FRONT = "M50 5 L90 87 L71 87 L50 43 L29 87 L10 87 Z";
 
   return (
     <svg
@@ -81,8 +81,6 @@ export const ArtesysMark: React.FC<{ size?: number; className?: string; accent?:
   );
 };
 
-
-
 const Wordmark: React.FC<{ size?: number; descriptor?: boolean }> = ({ size = 40, descriptor }) => (
   <span className="flex flex-col justify-center leading-none">
     <span
@@ -101,33 +99,39 @@ const Wordmark: React.FC<{ size?: number; descriptor?: boolean }> = ({ size = 40
           className="bg-current/40"
           style={{ width: size * 0.18, height: 1, marginRight: size * 0.1 }}
         />
-        <span style={{ letterSpacing: '0.3em' }}>Crypto Exchange</span>
+        <span style={{ letterSpacing: "0.3em" }}>Crypto Exchange</span>
       </span>
     )}
   </span>
 );
 
 export const Logo: React.FC<LogoProps> = ({
-  className = '',
+  className = "",
   size = 40,
-  variant = 'FULL',
+  variant = "FULL",
   descriptor = false,
   accent = true,
 }) => {
-  if (variant === 'SYMBOL') {
+  if (variant === "SYMBOL") {
     return <ArtesysMark size={size} accent={accent} className={`text-primary ${className}`} />;
   }
 
-  if (variant === 'WORDMARK') {
+  if (variant === "WORDMARK") {
     return (
-      <span className={`inline-flex items-center text-primary ${className}`} style={{ height: size }}>
+      <span
+        className={`inline-flex items-center text-primary ${className}`}
+        style={{ height: size }}
+      >
         <Wordmark size={size} descriptor={descriptor} />
       </span>
     );
   }
 
   return (
-    <span className={`inline-flex items-center text-primary ${className}`} style={{ gap: size * 0.3 }}>
+    <span
+      className={`inline-flex items-center text-primary ${className}`}
+      style={{ gap: size * 0.3 }}
+    >
       <ArtesysMark size={size} accent={accent} />
       <Wordmark size={size} descriptor={descriptor} />
     </span>

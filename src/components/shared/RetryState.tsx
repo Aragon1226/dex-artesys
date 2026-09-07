@@ -66,9 +66,13 @@ export const RetryState: React.FC<RetryStateProps> = ({
       </div>
 
       <p className="text-sm md:text-base font-bold text-foreground">{title}</p>
-      <p className="mt-1 max-w-xs text-xs md:text-sm text-muted-foreground leading-relaxed">{description}</p>
+      <p className="mt-1 max-w-xs text-xs md:text-sm text-muted-foreground leading-relaxed">
+        {description}
+      </p>
       {detail && (
-        <p className="mt-2 max-w-sm text-[10px] font-mono text-muted-foreground/70 break-words">{detail}</p>
+        <p className="mt-2 max-w-sm text-[10px] font-mono text-muted-foreground/70 break-words">
+          {detail}
+        </p>
       )}
 
       <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full max-w-xs sm:w-auto sm:max-w-none">

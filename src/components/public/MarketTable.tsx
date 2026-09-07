@@ -26,10 +26,7 @@ export const MarketTable = ({ markets }: { markets: PublicMarket[] }) => {
     const q = query.trim().toLowerCase();
     return markets.filter((m) => {
       const inFilter = filter === "All" || m.categories.includes(filter);
-      const inQuery =
-        !q ||
-        m.symbol.toLowerCase().includes(q) ||
-        m.name.toLowerCase().includes(q);
+      const inQuery = !q || m.symbol.toLowerCase().includes(q) || m.name.toLowerCase().includes(q);
       return inFilter && inQuery;
     });
   }, [markets, filter, query]);
@@ -78,15 +75,26 @@ export const MarketTable = ({ markets }: { markets: PublicMarket[] }) => {
           </caption>
           <thead>
             <tr className="border-b border-border bg-muted/40 text-[10px] uppercase tracking-wider text-muted-foreground">
-              <th scope="col" className="px-4 py-3 text-left font-bold">Market</th>
-              <th scope="col" className="px-4 py-3 text-right font-bold">Price (USDT)</th>
-              <th scope="col" className="px-4 py-3 text-right font-bold">24h change</th>
-              <th scope="col" className="hidden px-4 py-3 text-right font-bold sm:table-cell">24h volume</th>
+              <th scope="col" className="px-4 py-3 text-left font-bold">
+                Market
+              </th>
+              <th scope="col" className="px-4 py-3 text-right font-bold">
+                Price (USDT)
+              </th>
+              <th scope="col" className="px-4 py-3 text-right font-bold">
+                24h change
+              </th>
+              <th scope="col" className="hidden px-4 py-3 text-right font-bold sm:table-cell">
+                24h volume
+              </th>
             </tr>
           </thead>
           <tbody>
             {rows.map((m) => (
-              <tr key={m.symbol} className="border-b border-border/50 last:border-0 hover:bg-muted/30">
+              <tr
+                key={m.symbol}
+                className="border-b border-border/50 last:border-0 hover:bg-muted/30"
+              >
                 <td className="px-4 py-3">
                   <Link
                     to="/markets/$symbol"
@@ -103,7 +111,9 @@ export const MarketTable = ({ markets }: { markets: PublicMarket[] }) => {
                 <td className="px-4 py-3 text-right font-mono font-bold text-foreground">
                   {formatPrice(m.price)}
                 </td>
-                <td className={`px-4 py-3 text-right font-mono font-bold ${m.change24h >= 0 ? "text-success" : "text-danger"}`}>
+                <td
+                  className={`px-4 py-3 text-right font-mono font-bold ${m.change24h >= 0 ? "text-success" : "text-danger"}`}
+                >
                   {m.change24h >= 0 ? "+" : ""}
                   {m.change24h.toFixed(2)}%
                 </td>

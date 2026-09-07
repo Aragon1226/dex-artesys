@@ -50,7 +50,9 @@ export const BrandLoader: React.FC<BrandLoaderProps> = ({ size = 48, label, clas
     </div>
 
     {label && (
-      <p className="text-[11px] md:text-xs font-bold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="text-[11px] md:text-xs font-bold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
     )}
     <span className="sr-only">Loading</span>
   </div>
@@ -98,12 +100,12 @@ export const LoadingBlock: React.FC<LoadingBlockProps> = ({
 
       <div className="space-y-2.5 select-none">
         {variant === "chat"
-          ? items.map(i => (
+          ? items.map((i) => (
               <div key={i} className={`flex ${i % 2 === 0 ? "justify-start" : "justify-end"}`}>
                 <Shimmer className={`h-12 rounded-2xl ${i % 2 === 0 ? "w-3/5" : "w-2/5"}`} />
               </div>
             ))
-          : items.map(i => (
+          : items.map((i) => (
               <div
                 key={i}
                 className="flex items-center justify-between gap-3 rounded-2xl border border-border/40 bg-card/30 px-3.5 py-3"

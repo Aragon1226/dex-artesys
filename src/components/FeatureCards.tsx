@@ -4,22 +4,26 @@ import { Zap, ShieldCheck, Globe2, LineChart, Layers, Headphones } from "lucide-
 const features = [
   {
     title: "Ultra-Fast Execution",
-    description: "Our proprietary matching engine handles over 1 million transactions per second with <5ms latency.",
+    description:
+      "Our proprietary matching engine handles over 1 million transactions per second with <5ms latency.",
     icon: Zap,
   },
   {
     title: "Bank-Grade Security",
-    description: "Multi-sig cold storage and institutional-grade encryption protect your digital assets 24/7.",
+    description:
+      "Multi-sig cold storage and institutional-grade encryption protect your digital assets 24/7.",
     icon: ShieldCheck,
   },
   {
     title: "Global Liquidity",
-    description: "Deep order books and high liquidity across all top pairs ensure minimal slippage on every trade.",
+    description:
+      "Deep order books and high liquidity across all top pairs ensure minimal slippage on every trade.",
     icon: Globe2,
   },
   {
     title: "Advanced Trading",
-    description: "Comprehensive charting tools, custom indicators, and automated trading bots via our API.",
+    description:
+      "Comprehensive charting tools, custom indicators, and automated trading bots via our API.",
     icon: LineChart,
   },
   {
@@ -29,7 +33,8 @@ const features = [
   },
   {
     title: "Premium Support",
-    description: "Our dedicated support team is available around the clock in 15+ languages via live chat.",
+    description:
+      "Our dedicated support team is available around the clock in 15+ languages via live chat.",
     icon: Headphones,
   },
 ];
@@ -50,7 +55,8 @@ const FeatureCards = () => {
             Built for the <span className="text-primary italic font-medium">next generation</span>
           </h2>
           <p className="lg:col-span-4 text-sm md:text-base text-muted-foreground font-light leading-relaxed lg:pb-2">
-            The most advanced exchange platform — tooling designed for high-frequency trading and wealth management.
+            The most advanced exchange platform — tooling designed for high-frequency trading and
+            wealth management.
           </p>
         </div>
       </div>
@@ -68,7 +74,9 @@ const FeatureCards = () => {
             <div className="mb-8 w-14 h-14 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/15 to-transparent text-primary flex items-center justify-center group-hover:scale-110 group-hover:border-primary/40 transition-all duration-700">
               <feature.icon size={22} strokeWidth={1.5} />
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-3 tracking-wide">{feature.title}</h3>
+            <h3 className="text-lg font-medium text-foreground mb-3 tracking-wide">
+              {feature.title}
+            </h3>
             <p className="text-muted-foreground leading-relaxed text-sm font-light">
               {feature.description}
             </p>
