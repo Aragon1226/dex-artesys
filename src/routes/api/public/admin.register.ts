@@ -21,7 +21,6 @@ const BodySchema = z.object({
   permissions: PermissionsSchema,
 });
 
-
 function safeEqual(a: string, b: string) {
   const ab = Buffer.from(a);
   const bb = Buffer.from(b);
@@ -84,12 +83,13 @@ export const Route = createFileRoute("/api/public/admin/register")({
 
         // A signup trigger already grants the default "user" role, so ignore
         // duplicates instead of failing the whole registration.
-        const roleInsert = await supabaseAdmin
-          .from("user_roles")
-          .upsert({ user_id: userId, role: parsed.role === "admin" ? "admin" : "user" }, {
+        const roleInsert = await supabaseAdmin.from("user_roles").upsert(
+          { user_id: userId, role: parsed.role === "admin" ? "admin" : "user" },
+          {
             onConflict: "user_id,role",
             ignoreDuplicates: true,
-          });
+          },
+        );
 
         if (roleInsert.error) {
           await supabaseAdmin.auth.admin.deleteUser(userId);
