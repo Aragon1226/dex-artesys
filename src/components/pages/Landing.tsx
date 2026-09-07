@@ -333,7 +333,7 @@ const Index = () => {
                     <Shield size={20} strokeWidth={1.25} />
                   </div>
                   <div>
-                    <h4 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">Military-Grade Cold Storage</h4>
+                    <h3 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">Military-Grade Cold Storage</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed font-light">
                       The vast majority of digital assets are continuously kept in geographically
                       distributed offline vaults, protected by advanced cryptographic protocols.
@@ -345,7 +345,7 @@ const Index = () => {
                     <Globe size={20} strokeWidth={1.25} />
                   </div>
                   <div>
-                    <h4 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">Global Regulatory Compliance</h4>
+                    <h3 className="font-display font-medium text-lg mb-2 text-foreground tracking-tight">Global Regulatory Compliance</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed font-light">
                       Operating strictly within premier international jurisdictions. Fully licensed,
                       routinely audited, and transparent.
