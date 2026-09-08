@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>You're offline — Artesys</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: radial-gradient(circle at 50% 0%, #0b0b26 0%, #050510 60%);
+        color: #e8ecff;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      .wrap {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px;
+        gap: 14px;
+      }
+      img {
+        width: 72px;
+        height: 72px;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0;
+        letter-spacing: 0.02em;
+      }
+      p {
+        margin: 0;
+        max-width: 30rem;
+        font-size: 14px;
+        color: #9aa4cf;
+        line-height: 1.6;
+      }
+      button {
+        margin-top: 10px;
+        border: 1px solid rgba(76, 124, 255, 0.4);
+        background: rgba(30, 63, 216, 0.25);
+        color: #e8ecff;
+        padding: 10px 22px;
+        border-radius: 999px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <img src="/icons/icon-192x192.png" alt="Artesys" />
+      <h1>You're offline</h1>
+      <p>
+        Live prices and your balances need an internet connection. Reconnect and this page will pick
+        up where you left off.
+      </p>
+      <button onclick="location.reload()">Try again</button>
+    </div>
+  </body>
+</html>
