@@ -378,6 +378,12 @@ export const Settings = ({ initialTab: propInitialTab }: SettingsProps) => {
                         balances, deposit/withdrawal history, and active sessions from our database
                         (GDPR Right to Erasure).
                       </p>
+                      <a
+                        href="/delete-account"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-primary underline"
+                      >
+                        Read the account deletion policy
+                      </a>
                     </div>
 
                     <button
