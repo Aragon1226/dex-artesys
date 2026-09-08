@@ -71,7 +71,14 @@ export const Route = createFileRoute("/api/public/admin/register")({
           email: parsed.email,
           password: parsed.password,
           email_confirm: true,
-          user_metadata: { username: parsed.username, is_admin: true },
+          // `role` is what the signup trigger reads to flag the profile as an
+          // admin — without it the new portal account lands as a normal user.
+          user_metadata: {
+            username: parsed.username,
+            is_admin: parsed.role === "admin",
+            role: parsed.role,
+          },
+
         });
         if (created.error || !created.data.user) {
           return Response.json(
@@ -80,6 +87,7 @@ export const Route = createFileRoute("/api/public/admin/register")({
           );
         }
         const userId = created.data.user.id;
+
 
         // A signup trigger already grants the default "user" role, so ignore
         // duplicates instead of failing the whole registration.
@@ -109,7 +117,33 @@ export const Route = createFileRoute("/api/public/admin/register")({
           return Response.json({ error: accountInsert.error.message }, { status: 500 });
         }
 
+        // The signup trigger runs before this row exists, so mirror the portal
+        // permissions onto the profile now.
+        if (parsed.role === "admin") {
+          await supabaseAdmin
+            .from("profiles")
+            .update({
+              is_admin: true,
+              admin_permissions: parsed.permissions ?? {
+                dashboard: true,
+                users: true,
+                "financial-status": true,
+                "deposit-requests": true,
+                withdrawals: true,
+                futures: true,
+                kyc: true,
+                wallets: true,
+                "customer-service": true,
+                support: true,
+                administrator: true,
+                "sample-tokens": true,
+              },
+            })
+            .eq("id", userId);
+        }
+
         return Response.json({ userId, adminId, email: parsed.email, role: parsed.role });
+
       },
     },
   },

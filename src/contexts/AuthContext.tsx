@@ -327,23 +327,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [session?.user?.id]);
 
   useEffect(() => {
-    if (session?.user?.email) {
-      const isAdminOrStaff = getAdminIdForCurrentUser(session.user.email);
-      if (!isAdminOrStaff) {
-        // The referring admin is recorded server-side at account creation from the
-        // signup's referral code. Only apply a browser-held code when the account
-        // has no referrer yet (e.g. legacy accounts), and never default here.
-        const pendingRef = localStorage.getItem("crypx_pending_ref_v1");
-        if (pendingRef) {
-          const currentReferrer = getReferrerForUser(session.user.email, session.user.id);
-          if (!currentReferrer) {
-            setReferrerForUser(session.user.email, session.user.id, pendingRef);
-          }
-          localStorage.removeItem("crypx_pending_ref_v1");
-        }
+    const email = session?.user?.email;
+    const userId = session?.user?.id;
+    if (!email || !userId) return;
+
+    const isAdminOrStaff = getAdminIdForCurrentUser(email);
+    if (isAdminOrStaff) return;
+
+    // The referring admin is normally recorded at account creation from the
+    // signup's referral code. Social sign-ins (Google/Apple) carry no code, so
+    // apply the code captured from the referral link here — but only when the
+    // account is not attributed to an admin yet.
+    const pendingRef = localStorage.getItem("crypx_pending_ref_v1");
+    if (!pendingRef) return;
+
+    let cancelled = false;
+    (async () => {
+      const normEmail = email.toLowerCase().trim();
+      const { data, error } = await supabase
+        .from("user_referrals")
+        .select("id, referred_by_admin_id")
+        .eq("user_email", normEmail)
+        .maybeSingle();
+
+      if (cancelled || error) return;
+
+      if (!data?.referred_by_admin_id) {
+        setReferrerForUser(email, userId, pendingRef);
+      } else if (!getReferrerForUser(email, userId)) {
+        // Keep the browser cache in step with what the server already knows.
+        setReferrerForUser(email, userId, data.referred_by_admin_id);
       }
-    }
-  }, [session]);
+      localStorage.removeItem("crypx_pending_ref_v1");
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.user?.id, session?.user?.email]);
+
 
   // Send the one-time welcome email as soon as the account's email is verified.
   useEffect(() => {
