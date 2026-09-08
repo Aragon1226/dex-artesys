@@ -38,6 +38,11 @@ const DOCS: { to: string; title: string; body: string }[] = [
     title: "Frequently asked questions",
     body: "Short answers about deposits, withdrawals, verification and trading.",
   },
+  {
+    to: "/delete-account",
+    title: "Delete your account & data",
+    body: "How to erase your account yourself, or request deletion by email if you cannot sign in.",
+  },
 ];
 
 const FAQS = [
