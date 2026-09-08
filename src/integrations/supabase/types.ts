@@ -538,6 +538,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_can_view_user: { Args: { _user_id: string }; Returns: boolean }
       close_trade_position: {
         Args: { p_pnl: number; p_pos_id: string }
         Returns: boolean
@@ -582,6 +583,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_owner_admin: { Args: never; Returns: boolean }
       resolve_referral_admin_id: { Args: { p_code: string }; Returns: string }
     }
     Enums: {
