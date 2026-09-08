@@ -54,7 +54,7 @@ export const CryptoAuthView = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full relative p-6 sm:p-10 rounded-[32px] sm:rounded-[48px] border border-border bg-card/40 backdrop-blur-[30px] shadow-[0_32px_128px_-32px_rgba(0,0,0,0.08)] transition-all"
+          className="w-full relative p-6 sm:p-10 rounded-[32px] sm:rounded-[48px] border border-primary/25 bg-card/25 backdrop-blur-2xl shadow-[0_32px_120px_-24px_color-mix(in_oklab,var(--primary)_35%,transparent)] transition-all"
         >
           {/* Subtle Inner Glow */}
           <div className="absolute inset-0 rounded-[32px] sm:rounded-[48px] bg-gradient-to-br from-white/10 to-transparent pointer-events-none dark:from-white/5" />
