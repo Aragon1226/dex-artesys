@@ -25,6 +25,7 @@ const entries: SitemapEntry[] = [
   { path: "/guides/security", changefreq: "monthly", priority: "0.7" },
   { path: "/auth", changefreq: "monthly", priority: "0.6" },
   { path: "/faq", changefreq: "monthly", priority: "0.6" },
+  { path: "/legal", changefreq: "yearly", priority: "0.5" },
   { path: "/policies", changefreq: "yearly", priority: "0.4" },
   { path: "/terms", changefreq: "yearly", priority: "0.4" },
   ...ALL_SYMBOLS.map<SitemapEntry>((s) => ({

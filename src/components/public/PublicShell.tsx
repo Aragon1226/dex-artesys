@@ -98,6 +98,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
                 { label: "Guides", to: "/guides" },
                 { label: "Security", to: "/guides/security" },
                 { label: "FAQ", to: "/faq" },
+                { label: "Legal & compliance", to: "/legal" },
                 { label: "Terms", to: "/terms" },
                 { label: "Policies", to: "/policies" },
               ]}
