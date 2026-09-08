@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/cloudClient";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { Logo } from "@/components/shared/Logo";
-import authBackdrop from "@/assets/generated/hero-abstract.jpg";
+import authBackdrop from "@/assets/generated/auth-bg-midnight.jpg";
 
 const Auth = () => {
   const navigate = useNavigate();
