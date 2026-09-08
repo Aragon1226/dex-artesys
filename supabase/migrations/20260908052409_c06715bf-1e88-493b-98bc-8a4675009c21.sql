@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.create_custom_admin(text, text, text, text, text, jsonb) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.create_custom_admin(text, text, text, text, text, jsonb) TO service_role;
