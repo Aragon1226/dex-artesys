@@ -5,6 +5,8 @@ import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, AlertTriangle } fr
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/shared/Logo";
 import { WalletSignIn } from "@/components/auth/WalletSignIn";
+import { getPendingReferralCode, setPendingReferralCode } from "@/lib/referralCode";
+
 import {
   isUserAdmin,
   syncAdminPermissions,
