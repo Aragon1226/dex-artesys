@@ -6,11 +6,16 @@ import type { UserProfile } from "@/types";
 import {
   getAdminIdForCurrentUser,
   setReferrerForUser,
-  getReferrerForUser,
   syncCustomAccountsWithSupabase,
   syncUserReferralsWithSupabase,
   syncAdminWalletsWithSupabase,
 } from "@/lib/adminPermissions";
+import {
+  getPendingReferralCode,
+  setPendingReferralCode,
+  clearPendingReferralCode,
+} from "@/lib/referralCode";
+
 
 export const getFallbackUserProfile = (user: User | null): UserProfile => {
   const isGuest = !user;
