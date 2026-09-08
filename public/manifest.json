@@ -83,7 +83,52 @@
       "purpose": "any"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/screenshots/markets-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Live prices for every Artesys market, quoted in USDT"
+    },
+    {
+      "src": "/screenshots/spot-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Spot trading with limit and market orders"
+    },
+    {
+      "src": "/screenshots/assets-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "One wallet for trading, futures and yield"
+    },
+    {
+      "src": "/screenshots/signin-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Secure sign-in with email, Google, Apple or a wallet"
+    },
+    {
+      "src": "/screenshots/home-wide.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Artesys — institutional-grade digital asset exchange"
+    },
+    {
+      "src": "/screenshots/markets-wide.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Market overview with 24-hour movers"
+    }
+  ],
   "shortcuts": [
+
     {
       "name": "Market Overview",
       "short_name": "Markets",
