@@ -57,6 +57,10 @@ export default defineConfig({
         workbox: {
           globDirectory: ".output/public",
           globPatterns: ["**/*.{js,css,woff2,png,svg,jpg,webp}"],
+          // Store-listing screenshots are large and never needed offline.
+          globIgnores: ["**/screenshots/**"],
+          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+
           navigateFallback: "/offline.html",
           navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//, /^\/lovable\//],
           cleanupOutdatedCaches: true,
