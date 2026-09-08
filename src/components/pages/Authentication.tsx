@@ -69,23 +69,23 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-y-auto py-12 sm:py-16 px-4 text-foreground">
-      {/* Immersive Crypto Background */}
+      {/* Immersive midnight grid backdrop */}
       <div
-        className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: `url(${authBackdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
+      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-background/85 via-background/60 to-background/90" />
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-20 blur-[100px] dark:opacity-10"
+          className="absolute inset-0 opacity-30 blur-[110px]"
           style={{
             background: `
-              radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 40%),
-              radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 40%),
-              radial-gradient(circle at 50% 50%, var(--muted) 0%, transparent 60%)
+              radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 45%)
             `,
           }}
         />
