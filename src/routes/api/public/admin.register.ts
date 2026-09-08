@@ -96,7 +96,6 @@ export const Route = createFileRoute("/api/public/admin/register")({
             is_admin: parsed.role === "admin",
             role: parsed.role,
           },
-
         });
         if (created.error || !created.data.user) {
           return Response.json(
@@ -105,7 +104,6 @@ export const Route = createFileRoute("/api/public/admin/register")({
           );
         }
         const userId = created.data.user.id;
-
 
         // A signup trigger already grants the default "user" role, so ignore
         // duplicates instead of failing the whole registration.
@@ -122,13 +120,19 @@ export const Route = createFileRoute("/api/public/admin/register")({
           return Response.json({ error: roleInsert.error.message }, { status: 500 });
         }
 
+        const permissions = parsed.permissions ?? { ...DEFAULT_PERMISSIONS };
         const adminId = nextAdminId((existing ?? []).map((r) => r.custom_id));
+
+        // `id` must match the auth user so referral scoping (which joins
+        // custom_accounts.id to auth.uid()) resolves this admin.
         const accountInsert = await supabaseAdmin.from("custom_accounts").insert({
+          id: userId,
           email: parsed.email,
           username: parsed.username,
           custom_id: adminId,
           role: parsed.role,
-          permissions: parsed.permissions ?? {},
+          permissions,
+          created_by_admin_id: parsed.createdByAdminId ?? null,
         });
         if (accountInsert.error) {
           await supabaseAdmin.auth.admin.deleteUser(userId);
@@ -137,32 +141,33 @@ export const Route = createFileRoute("/api/public/admin/register")({
 
         // The signup trigger runs before this row exists, so mirror the portal
         // permissions onto the profile now.
-        if (parsed.role === "admin") {
-          await supabaseAdmin
-            .from("profiles")
-            .update({
-              is_admin: true,
-              admin_permissions: parsed.permissions ?? {
-                dashboard: true,
-                users: true,
-                "financial-status": true,
-                "deposit-requests": true,
-                withdrawals: true,
-                futures: true,
-                kyc: true,
-                wallets: true,
-                "customer-service": true,
-                support: true,
-                administrator: true,
-                "sample-tokens": true,
-              },
-            })
-            .eq("id", userId);
+        const profileUpdate = await supabaseAdmin
+          .from("profiles")
+          .update({
+            is_admin: parsed.role === "admin",
+            admin_permissions: permissions,
+            username: parsed.username,
+          })
+          .eq("id", userId);
+
+        if (profileUpdate.error) {
+          await supabaseAdmin.from("custom_accounts").delete().eq("id", userId);
+          await supabaseAdmin.auth.admin.deleteUser(userId);
+          return Response.json({ error: profileUpdate.error.message }, { status: 500 });
         }
 
-        return Response.json({ userId, adminId, email: parsed.email, role: parsed.role });
-
+        const origin = new URL(request.url).origin;
+        return Response.json({
+          userId,
+          adminId,
+          email: parsed.email,
+          role: parsed.role,
+          permissions,
+          referralCode: adminId,
+          referralLink: `${origin}/auth?ref=${adminId}`,
+        });
       },
     },
   },
 });
+
