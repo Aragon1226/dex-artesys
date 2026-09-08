@@ -6,11 +6,16 @@ import type { UserProfile } from "@/types";
 import {
   getAdminIdForCurrentUser,
   setReferrerForUser,
-  getReferrerForUser,
   syncCustomAccountsWithSupabase,
   syncUserReferralsWithSupabase,
   syncAdminWalletsWithSupabase,
 } from "@/lib/adminPermissions";
+import {
+  getPendingReferralCode,
+  setPendingReferralCode,
+  clearPendingReferralCode,
+} from "@/lib/referralCode";
+
 
 export const getFallbackUserProfile = (user: User | null): UserProfile => {
   const isGuest = !user;
@@ -308,7 +313,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const urlParams = new URLSearchParams(window.location.search);
       const ref = urlParams.get("ref");
       if (ref) {
-        localStorage.setItem("crypx_pending_ref_v1", ref);
+        setPendingReferralCode(ref);
       }
     } catch (e) {
       console.warn("Could not parse referral parameter", e);
@@ -334,37 +339,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const isAdminOrStaff = getAdminIdForCurrentUser(email);
     if (isAdminOrStaff) return;
 
-    // The referring admin is normally recorded at account creation from the
-    // signup's referral code. Social sign-ins (Google/Apple) carry no code, so
-    // apply the code captured from the referral link here — but only when the
-    // account is not attributed to an admin yet.
-    const pendingRef = localStorage.getItem("crypx_pending_ref_v1");
-    if (!pendingRef) return;
-
+    // Attribution is resolved on the server for every sign-up path (email,
+    // Google, Apple, wallet), so a social sign-in that carries no referral
+    // code in its metadata still lands under the right admin.
     let cancelled = false;
     (async () => {
-      const normEmail = email.toLowerCase().trim();
-      const { data, error } = await supabase
-        .from("user_referrals")
-        .select("id, referred_by_admin_id")
-        .eq("user_email", normEmail)
-        .maybeSingle();
-
-      if (cancelled || error) return;
-
-      if (!data?.referred_by_admin_id) {
-        setReferrerForUser(email, userId, pendingRef);
-      } else if (!getReferrerForUser(email, userId)) {
-        // Keep the browser cache in step with what the server already knows.
-        setReferrerForUser(email, userId, data.referred_by_admin_id);
+      try {
+        const { claimReferral } = await import("@/lib/referral.functions");
+        const pendingRef = getPendingReferralCode();
+        const result = await claimReferral({ data: { code: pendingRef ?? undefined } });
+        if (cancelled) return;
+        if (result.referredByAdminId) {
+          setReferrerForUser(email, userId, result.referredByAdminId);
+          clearPendingReferralCode();
+        }
+      } catch (err) {
+        console.warn("Referral attribution failed:", err);
       }
-      localStorage.removeItem("crypx_pending_ref_v1");
     })();
 
     return () => {
       cancelled = true;
     };
   }, [session?.user?.id, session?.user?.email]);
+
 
 
   // Send the one-time welcome email as soon as the account's email is verified.

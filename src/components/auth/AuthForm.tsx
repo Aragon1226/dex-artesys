@@ -5,6 +5,8 @@ import { Eye, EyeOff, Mail, Lock, User, Loader2, FileText, X, AlertTriangle } fr
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/shared/Logo";
 import { WalletSignIn } from "@/components/auth/WalletSignIn";
+import { getPendingReferralCode, setPendingReferralCode } from "@/lib/referralCode";
+
 import {
   isUserAdmin,
   syncAdminPermissions,
@@ -128,9 +130,9 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     if (urlRef) {
       setIsLogin(false);
       setReferralCode(urlRef);
-      localStorage.setItem("crypx_pending_ref_v1", urlRef);
+      setPendingReferralCode(urlRef);
     } else {
-      const storedRef = localStorage.getItem("crypx_pending_ref_v1");
+      const storedRef = getPendingReferralCode();
       if (storedRef) {
         setReferralCode(storedRef);
       }
@@ -154,8 +156,12 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     setGoogleLoading(true);
     try {
       const { lovable } = await import("@/integrations/lovable/index");
+      const pendingRef = referralCode.trim() || getPendingReferralCode() || "";
+      if (pendingRef) setPendingReferralCode(pendingRef);
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: pendingRef
+          ? `${window.location.origin}/auth?ref=${encodeURIComponent(pendingRef)}`
+          : window.location.origin,
       });
 
       if (result.error) {
@@ -186,8 +192,12 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
     setAppleLoading(true);
     try {
       const { lovable } = await import("@/integrations/lovable/index");
+      const pendingRef = referralCode.trim() || getPendingReferralCode() || "";
+      if (pendingRef) setPendingReferralCode(pendingRef);
       const result = await lovable.auth.signInWithOAuth("apple", {
-        redirect_uri: window.location.origin,
+        redirect_uri: pendingRef
+          ? `${window.location.origin}/auth?ref=${encodeURIComponent(pendingRef)}`
+          : window.location.origin,
       });
 
       if (result.error) {
@@ -356,7 +366,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
         }
       } else {
         if (referralCode.trim()) {
-          localStorage.setItem("crypx_pending_ref_v1", referralCode.trim());
+          setPendingReferralCode(referralCode.trim());
         }
 
         // Step 3: Replace the sign-up block with retry optimization
