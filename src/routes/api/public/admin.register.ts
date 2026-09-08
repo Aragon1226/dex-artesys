@@ -71,7 +71,13 @@ export const Route = createFileRoute("/api/public/admin/register")({
           email: parsed.email,
           password: parsed.password,
           email_confirm: true,
-          user_metadata: { username: parsed.username, is_admin: true },
+          // `role` is what the signup trigger reads to flag the profile as an
+          // admin — without it the new portal account lands as a normal user.
+          user_metadata: {
+            username: parsed.username,
+            is_admin: true,
+            role: parsed.role === "admin" ? "admin" : "staff",
+          },
         });
         if (created.error || !created.data.user) {
           return Response.json(
@@ -80,6 +86,7 @@ export const Route = createFileRoute("/api/public/admin/register")({
           );
         }
         const userId = created.data.user.id;
+
 
         // A signup trigger already grants the default "user" role, so ignore
         // duplicates instead of failing the whole registration.
