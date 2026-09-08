@@ -17,6 +17,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import PageNotFound from "@/components/pages/PageNotFound";
 import { marketService } from "@/services/market";
+import { registerServiceWorker } from "@/lib/pwa";
 
 function NotFoundComponent() {
   return <PageNotFound />;
@@ -125,6 +126,9 @@ function RootComponent() {
 
   useEffect(() => {
     marketService.init();
+    registerServiceWorker();
+
+
 
     const onRejection = (event: PromiseRejectionEvent) => {
       const reason = event?.reason;

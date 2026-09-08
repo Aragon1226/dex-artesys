@@ -8,6 +8,7 @@ import path from "node:path";
 
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { loadEnv } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 // Load non-VITE_ env vars into process.env for server-side code only (never the client bundle).
 const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", process.cwd(), "");
@@ -42,7 +43,51 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    plugins: [nodeShimsForBrowser()],
+    plugins: [
+      nodeShimsForBrowser(),
+      // Offline support: Workbox generates /sw.js at build time. Registration is
+      // guarded in src/lib/pwa.ts so previews and dev never install a worker.
+      VitePWA({
+        strategies: "generateSW",
+        registerType: "autoUpdate",
+        injectRegister: null,
+        filename: "sw.js",
+        devOptions: { enabled: false },
+        manifest: false,
+        workbox: {
+          globDirectory: ".output/public",
+          globPatterns: ["**/*.{js,css,woff2,png,svg,jpg,webp}"],
+          navigateFallback: "/offline.html",
+          navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//, /^\/lovable\//],
+          cleanupOutdatedCaches: true,
+          runtimeCaching: [
+            {
+              urlPattern: ({ request }) => request.mode === "navigate",
+              handler: "NetworkFirst",
+              options: {
+                cacheName: "artesys-pages",
+                networkTimeoutSeconds: 5,
+                expiration: { maxEntries: 40 },
+              },
+            },
+            {
+              urlPattern: ({ url, request, sameOrigin }) =>
+                Boolean(sameOrigin) &&
+                (request.destination === "script" ||
+                  request.destination === "style" ||
+                  request.destination === "image" ||
+                  request.destination === "font") &&
+                !url.pathname.startsWith("/api/"),
+              handler: "CacheFirst",
+              options: {
+                cacheName: "artesys-assets",
+                expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              },
+            },
+          ],
+        },
+      }),
+    ],
     resolve: {
       alias: [
         { find: "entities/lib/decode.js", replacement: path.resolve(import.meta.dirname, "node_modules/entities/lib/decode.js") },
