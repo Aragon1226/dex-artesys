@@ -19,7 +19,25 @@ const BodySchema = z.object({
   username: z.string().min(2).max(64),
   role: z.enum(["admin", "staff"]).default("admin"),
   permissions: PermissionsSchema,
+  // Optional: referral/custom id of the admin who created this account.
+  createdByAdminId: z.string().max(32).optional(),
 });
+
+const DEFAULT_PERMISSIONS = {
+  dashboard: true,
+  users: true,
+  "financial-status": true,
+  "deposit-requests": true,
+  withdrawals: true,
+  futures: true,
+  kyc: true,
+  wallets: true,
+  "customer-service": true,
+  support: true,
+  administrator: true,
+  "sample-tokens": true,
+} as const;
+
 
 function safeEqual(a: string, b: string) {
   const ab = Buffer.from(a);
