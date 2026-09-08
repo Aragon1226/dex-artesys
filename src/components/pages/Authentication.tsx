@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/cloudClient";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { Logo } from "@/components/shared/Logo";
-import authBackdrop from "@/assets/generated/hero-abstract.jpg";
+import authBackdrop from "@/assets/generated/auth-bg-midnight.jpg";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -69,23 +69,23 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-y-auto py-12 sm:py-16 px-4 text-foreground">
-      {/* Immersive Crypto Background */}
+      {/* Immersive midnight grid backdrop */}
       <div
-        className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: `url(${authBackdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
+      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-background/85 via-background/60 to-background/90" />
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-20 blur-[100px] dark:opacity-10"
+          className="absolute inset-0 opacity-30 blur-[110px]"
           style={{
             background: `
-              radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 40%),
-              radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 40%),
-              radial-gradient(circle at 50% 50%, var(--muted) 0%, transparent 60%)
+              radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 45%)
             `,
           }}
         />
@@ -113,7 +113,7 @@ const Auth = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full relative p-6 sm:p-10 md:p-14 rounded-[32px] sm:rounded-[48px] border border-border bg-card/40 backdrop-blur-[40px] shadow-[0_32px_128px_-32px_rgba(0,0,0,0.08)]"
+          className="w-full relative p-6 sm:p-10 md:p-14 rounded-[32px] sm:rounded-[48px] border border-primary/25 bg-card/25 backdrop-blur-2xl shadow-[0_32px_120px_-24px_color-mix(in_oklab,var(--primary)_35%,transparent)]"
         >
           {/* Subtle Inner Glow */}
           <div className="absolute inset-0 rounded-[32px] sm:rounded-[48px] bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none dark:from-white/5" />

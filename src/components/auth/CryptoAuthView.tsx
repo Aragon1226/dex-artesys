@@ -1,32 +1,33 @@
 import { motion } from "motion/react";
 import { Logo } from "@/components/shared/Logo";
 import { AuthForm } from "./AuthForm";
-import authBackdrop from "@/assets/generated/hero-abstract.jpg";
+import authBackdrop from "@/assets/generated/auth-bg-midnight.jpg";
 
 export const CryptoAuthView = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-y-auto bg-background py-12 px-4">
-      {/* Immersive Crypto Background */}
+      {/* Immersive midnight grid backdrop */}
       <div
-        className="fixed inset-0 z-0 opacity-5 grayscale pointer-events-none"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: `url(${authBackdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
+      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-background/85 via-background/60 to-background/90" />
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-20 blur-[100px] dark:opacity-10"
+          className="absolute inset-0 opacity-30 blur-[110px]"
           style={{
             background: `
-              radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 40%),
-              radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 40%),
-              radial-gradient(circle at 50% 50%, var(--muted) 0%, transparent 60%)
+              radial-gradient(circle at 15% 20%, var(--primary) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, var(--accent) 0%, transparent 45%)
             `,
           }}
         />
       </div>
+
 
       <div className="relative z-10 w-full max-w-lg px-2 sm:px-6 flex flex-col items-center my-auto">
         {/* Logo and Tagline */}
@@ -53,7 +54,7 @@ export const CryptoAuthView = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full relative p-6 sm:p-10 rounded-[32px] sm:rounded-[48px] border border-border bg-card/40 backdrop-blur-[30px] shadow-[0_32px_128px_-32px_rgba(0,0,0,0.08)] transition-all"
+          className="w-full relative p-6 sm:p-10 rounded-[32px] sm:rounded-[48px] border border-primary/25 bg-card/25 backdrop-blur-2xl shadow-[0_32px_120px_-24px_color-mix(in_oklab,var(--primary)_35%,transparent)] transition-all"
         >
           {/* Subtle Inner Glow */}
           <div className="absolute inset-0 rounded-[32px] sm:rounded-[48px] bg-gradient-to-br from-white/10 to-transparent pointer-events-none dark:from-white/5" />
