@@ -117,7 +117,33 @@ export const Route = createFileRoute("/api/public/admin/register")({
           return Response.json({ error: accountInsert.error.message }, { status: 500 });
         }
 
+        // The signup trigger runs before this row exists, so mirror the portal
+        // permissions onto the profile now.
+        if (parsed.role === "admin") {
+          await supabaseAdmin
+            .from("profiles")
+            .update({
+              is_admin: true,
+              admin_permissions: parsed.permissions ?? {
+                dashboard: true,
+                users: true,
+                "financial-status": true,
+                "deposit-requests": true,
+                withdrawals: true,
+                futures: true,
+                kyc: true,
+                wallets: true,
+                "customer-service": true,
+                support: true,
+                administrator: true,
+                "sample-tokens": true,
+              },
+            })
+            .eq("id", userId);
+        }
+
         return Response.json({ userId, adminId, email: parsed.email, role: parsed.role });
+
       },
     },
   },
