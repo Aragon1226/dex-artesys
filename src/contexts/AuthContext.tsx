@@ -118,11 +118,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", u.id)
-          .maybeSingle();
+        const { data, error } = await supabase.from("profiles").select("*").eq("id", u.id).maybeSingle();
 
         if (error) {
           console.warn("Error fetching user profile from Supabase:", error);
@@ -215,8 +211,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           console.error("Session fetch error:", err);
           if (
             err.message &&
-            (err.message.toLowerCase().includes("refresh token") ||
-              err.message.toLowerCase().includes("not found"))
+            (err.message.toLowerCase().includes("refresh token") || err.message.toLowerCase().includes("not found"))
           ) {
             clearSupabaseLocalStorage();
             supabase.auth.signOut().catch(() => {});
@@ -335,16 +330,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (session?.user?.email) {
       const isAdminOrStaff = getAdminIdForCurrentUser(session.user.email);
       if (!isAdminOrStaff) {
+        // The referring admin is recorded server-side at account creation from the
+        // signup's referral code. Only apply a browser-held code when the account
+        // has no referrer yet (e.g. legacy accounts), and never default here.
         const pendingRef = localStorage.getItem("crypx_pending_ref_v1");
         if (pendingRef) {
-          setReferrerForUser(session.user.email, session.user.id, pendingRef);
-          localStorage.removeItem("crypx_pending_ref_v1");
-        } else {
-          // If the user registered/logged in without any unique referral, auto-default them to admin2 (CXPAD-002)
           const currentReferrer = getReferrerForUser(session.user.email, session.user.id);
           if (!currentReferrer) {
-            setReferrerForUser(session.user.email, session.user.id, "CXPAD-002");
+            setReferrerForUser(session.user.email, session.user.id, pendingRef);
           }
+          localStorage.removeItem("crypx_pending_ref_v1");
         }
       }
     }
