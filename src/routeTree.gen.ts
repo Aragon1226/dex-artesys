@@ -16,6 +16,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -97,6 +98,11 @@ const AuthRoute = AuthRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PoliciesRoute = PoliciesRouteImport.update({
@@ -344,6 +350,7 @@ export interface FileRoutesByFullPath {
   '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
+  '/legal': typeof LegalRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -398,6 +405,7 @@ export interface FileRoutesByTo {
   '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
+  '/legal': typeof LegalRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -455,6 +463,7 @@ export interface FileRoutesById {
   '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
+  '/legal': typeof LegalRoute
   '/policies': typeof PoliciesRoute
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -513,6 +522,7 @@ export interface FileRouteTypes {
     | '/assets'
     | '/auth'
     | '/faq'
+    | '/legal'
     | '/policies'
     | '/settings'
     | '/sitemap.xml'
@@ -567,6 +577,7 @@ export interface FileRouteTypes {
     | '/assets'
     | '/auth'
     | '/faq'
+    | '/legal'
     | '/policies'
     | '/settings'
     | '/sitemap.xml'
@@ -623,6 +634,7 @@ export interface FileRouteTypes {
     | '/assets'
     | '/auth'
     | '/faq'
+    | '/legal'
     | '/policies'
     | '/settings'
     | '/sitemap.xml'
@@ -680,6 +692,7 @@ export interface RootRouteChildren {
   AssetsRoute: typeof AssetsRoute
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
+  LegalRoute: typeof LegalRoute
   PoliciesRoute: typeof PoliciesRoute
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -750,6 +763,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/policies': {
@@ -1164,6 +1184,7 @@ const rootRouteChildren: RootRouteChildren = {
   AssetsRoute: AssetsRoute,
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
+  LegalRoute: LegalRoute,
   PoliciesRoute: PoliciesRoute,
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
