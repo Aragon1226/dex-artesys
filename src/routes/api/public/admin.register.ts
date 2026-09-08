@@ -75,9 +75,10 @@ export const Route = createFileRoute("/api/public/admin/register")({
           // admin — without it the new portal account lands as a normal user.
           user_metadata: {
             username: parsed.username,
-            is_admin: true,
-            role: parsed.role === "admin" ? "admin" : "staff",
+            is_admin: parsed.role === "admin",
+            role: parsed.role,
           },
+
         });
         if (created.error || !created.data.user) {
           return Response.json(
