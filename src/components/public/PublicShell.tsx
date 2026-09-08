@@ -101,6 +101,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
                 { label: "Legal & compliance", to: "/legal" },
                 { label: "Terms", to: "/terms" },
                 { label: "Policies", to: "/policies" },
+                { label: "Delete your account", to: "/delete-account" },
               ]}
             />
           </div>

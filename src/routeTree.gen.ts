@@ -15,6 +15,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DeleteAccountRouteImport } from './routes/delete-account'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as PoliciesRouteImport } from './routes/policies'
@@ -93,6 +94,11 @@ const AssetsRoute = AssetsRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeleteAccountRoute = DeleteAccountRouteImport.update({
+  id: '/delete-account',
+  path: '/delete-account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -349,6 +355,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/faq': typeof FaqRoute
   '/legal': typeof LegalRoute
   '/policies': typeof PoliciesRoute
@@ -404,6 +411,7 @@ export interface FileRoutesByTo {
   '/accounts': typeof AccountsRoute
   '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/faq': typeof FaqRoute
   '/legal': typeof LegalRoute
   '/policies': typeof PoliciesRoute
@@ -462,6 +470,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/assets': typeof AssetsRoute
   '/auth': typeof AuthRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/faq': typeof FaqRoute
   '/legal': typeof LegalRoute
   '/policies': typeof PoliciesRoute
@@ -521,6 +530,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/assets'
     | '/auth'
+    | '/delete-account'
     | '/faq'
     | '/legal'
     | '/policies'
@@ -576,6 +586,7 @@ export interface FileRouteTypes {
     | '/accounts'
     | '/assets'
     | '/auth'
+    | '/delete-account'
     | '/faq'
     | '/legal'
     | '/policies'
@@ -633,6 +644,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/assets'
     | '/auth'
+    | '/delete-account'
     | '/faq'
     | '/legal'
     | '/policies'
@@ -691,6 +703,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   AssetsRoute: typeof AssetsRoute
   AuthRoute: typeof AuthRoute
+  DeleteAccountRoute: typeof DeleteAccountRoute
   FaqRoute: typeof FaqRoute
   LegalRoute: typeof LegalRoute
   PoliciesRoute: typeof PoliciesRoute
@@ -756,6 +769,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delete-account': {
+      id: '/delete-account'
+      path: '/delete-account'
+      fullPath: '/delete-account'
+      preLoaderRoute: typeof DeleteAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -1183,6 +1203,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   AssetsRoute: AssetsRoute,
   AuthRoute: AuthRoute,
+  DeleteAccountRoute: DeleteAccountRoute,
   FaqRoute: FaqRoute,
   LegalRoute: LegalRoute,
   PoliciesRoute: PoliciesRoute,
