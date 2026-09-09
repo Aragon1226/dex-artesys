@@ -209,7 +209,7 @@ const DepositRequests = () => {
     <div className="p-6 lg:p-10 space-y-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">
+          <p className="text-[11px] font-black text-primary uppercase tracking-[0.3em] mb-1">
             Financial Operations
           </p>
           <h1 className="text-4xl font-black text-foreground tracking-tight">Deposit Requests</h1>
@@ -251,14 +251,14 @@ const DepositRequests = () => {
                   <div>
                     <h3 className="font-black text-foreground text-xl flex items-center gap-2">
                       {dep.amount.toLocaleString()} {dep.asset}
-                      <span className="text-[10px] font-black bg-muted px-2 py-0.5 rounded text-muted-foreground uppercase">
+                      <span className="text-[11px] font-black bg-muted px-2 py-0.5 rounded text-muted-foreground uppercase">
                         {dep.network}
                       </span>
                     </h3>
                     <p className="text-xs font-bold text-muted-foreground mt-1">
                       User: {dep.user_email || dep.user_id}
                     </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
+                    <p className="text-[11px] text-muted-foreground mt-0.5">
                       {new Date(dep.created_at).toLocaleString()}
                     </p>
                   </div>
@@ -272,7 +272,7 @@ const DepositRequests = () => {
                       className="h-24 w-auto rounded-lg object-contain cursor-pointer hover:opacity-80 transition-opacity"
                       onClick={() => window.open(dep.screenshot_url, "_blank")}
                     />
-                    <p className="text-center text-[9px] font-bold text-muted-foreground uppercase mt-1">
+                    <p className="text-center text-[11px] font-bold text-muted-foreground uppercase mt-1">
                       Proof Attached
                     </p>
                   </div>

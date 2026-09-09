@@ -111,7 +111,7 @@ const BannerSlideshow = () => {
                   className={`w-full max-w-[22rem] sm:max-w-md md:max-w-lg lg:max-w-xl transition-all duration-700 delay-300 ${i === current ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}`}
                 >
                   <div
-                    className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-secondary border border-border ${slide.accent} text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-widest mb-2.5 sm:mb-4 max-w-full`}
+                    className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-secondary border border-border ${slide.accent} text-[11px] sm:text-[11px] font-bold uppercase tracking-[0.15em] sm:tracking-widest mb-2.5 sm:mb-4 max-w-full`}
                   >
                     <div
                       className={`w-1.5 h-1.5 sm:w-2 sm:h-2 shrink-0 rounded-full ${slide.accent.replace("text-", "bg-")} animate-pulse`}
@@ -134,7 +134,7 @@ const BannerSlideshow = () => {
                   </p>
                   <button
                     onClick={() => navigate(slide.link)}
-                    className="group/btn inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 bg-primary text-primary-foreground rounded-none font-medium text-[10px] sm:text-xs uppercase tracking-widest hover:opacity-90 transition-all"
+                    className="group/btn inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 bg-primary text-primary-foreground rounded-none font-medium text-[11px] sm:text-xs uppercase tracking-widest hover:opacity-90 transition-all"
                   >
                     Get Started
                     <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />

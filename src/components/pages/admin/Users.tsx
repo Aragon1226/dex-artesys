@@ -815,7 +815,7 @@ const AdminUsers = () => {
                                   {user.username || "Unknown"}
                                   {isBanned && (
                                     <span
-                                      className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30"
+                                      className="px-1.5 py-0.5 rounded text-[11px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30"
                                       title={`Suspended: ${bannedRecord?.reason || "Administrative Action"}`}
                                     >
                                       Banned (
@@ -979,7 +979,7 @@ const AdminUsers = () => {
                                   {user.username || "Unknown"}
                                   {isBanned && (
                                     <span
-                                      className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30"
+                                      className="px-1.5 py-0.5 rounded text-[11px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30"
                                       title={`Suspension Reason: ${bannedRecord?.reason}`}
                                     >
                                       Banned (
@@ -1026,7 +1026,7 @@ const AdminUsers = () => {
                                 maximumFractionDigits: 2,
                               })}
                             </div>
-                            <div className="text-[10px] text-muted-foreground font-bold flex gap-1 items-center">
+                            <div className="text-[11px] text-muted-foreground font-bold flex gap-1 items-center">
                               <span className="text-success">
                                 S: ${(user.balance ?? 0).toFixed(0)}
                               </span>
@@ -1046,7 +1046,7 @@ const AdminUsers = () => {
                                 {user.kyc_status || "UNVERIFIED"}
                               </span>
                               {isBanned && (
-                                <span className="text-[10px] font-bold text-danger flex items-center gap-1">
+                                <span className="text-[11px] font-bold text-danger flex items-center gap-1">
                                   <Ban size={10} /> Suspended
                                 </span>
                               )}
@@ -1277,7 +1277,7 @@ const AdminUsers = () => {
             {/* Terminal Panel Detail Info */}
             <div className="grid grid-cols-2 gap-3 p-3 bg-muted/40 rounded-2xl border border-border/60 text-xs mb-4 flex-shrink-0">
               <div>
-                <span className="text-muted-foreground block font-bold uppercase text-[9px] tracking-wider mb-0.5">
+                <span className="text-muted-foreground block font-bold uppercase text-[11px] tracking-wider mb-0.5">
                   Active IP Endpoint
                 </span>
                 <span className="font-mono font-bold text-foreground flex items-center gap-1">
@@ -1292,7 +1292,7 @@ const AdminUsers = () => {
                 </span>
               </div>
               <div>
-                <span className="text-muted-foreground block font-bold uppercase text-[9px] tracking-wider mb-0.5">
+                <span className="text-muted-foreground block font-bold uppercase text-[11px] tracking-wider mb-0.5">
                   Location Anchor
                 </span>
                 <span className="font-semibold text-foreground flex items-center gap-1 font-sans">
@@ -1323,10 +1323,10 @@ const AdminUsers = () => {
                 </span>
               </div>
               <div className="col-span-2 border-t border-border/40 pt-2 mt-1">
-                <span className="text-muted-foreground block font-bold uppercase text-[9px] tracking-wider mb-0.5">
+                <span className="text-muted-foreground block font-bold uppercase text-[11px] tracking-wider mb-0.5">
                   Secure Session Key Context
                 </span>
-                <span className="font-mono text-[10px] text-muted-foreground break-all">
+                <span className="font-mono text-[11px] text-muted-foreground break-all">
                   SHA256:{selectedUserForLogs.id.replace(/-/g, "").substring(0, 32)}
                 </span>
               </div>
@@ -1334,7 +1334,7 @@ const AdminUsers = () => {
 
             {/* Scrollable Audit Feed */}
             <div className="flex-1 overflow-y-auto pr-1 mb-4">
-              <span className="text-[10px] font-bold text-muted-foreground tracking-wider uppercase mb-3 block">
+              <span className="text-[11px] font-bold text-muted-foreground tracking-wider uppercase mb-3 block">
                 Chronological Security Audit Timeline
               </span>
 
@@ -1377,13 +1377,13 @@ const AdminUsers = () => {
                           <p className="text-xs text-muted-foreground mt-1 max-w-[280px] leading-relaxed">
                             {log.description}
                           </p>
-                          <div className="flex items-center gap-1.5 mt-2 text-[10px] text-muted-foreground/60 font-mono">
+                          <div className="flex items-center gap-1.5 mt-2 text-[11px] text-muted-foreground/60 font-mono">
                             <span className="opacity-95">{log.ip}</span>
                             <span>•</span>
                             <span>{log.location}</span>
                           </div>
                         </div>
-                        <span className="text-[9px] font-mono font-semibold text-muted-foreground/50 whitespace-nowrap pt-0.5 shrink-0">
+                        <span className="text-[11px] font-mono font-semibold text-muted-foreground/50 whitespace-nowrap pt-0.5 shrink-0">
                           {new Date(log.timestamp).toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
@@ -1567,7 +1567,7 @@ const AdminUsers = () => {
                     }`}
                   >
                     <span className="text-[11px] font-bold text-foreground">Client Request</span>
-                    <span className="text-[9px] opacity-75">Self-exclusion / User initiated</span>
+                    <span className="text-[11px] opacity-75">Self-exclusion / User initiated</span>
                   </button>
 
                   <button
@@ -1583,7 +1583,7 @@ const AdminUsers = () => {
                     }`}
                   >
                     <span className="text-[11px] font-bold text-foreground">Forced Suspension</span>
-                    <span className="text-[9px] opacity-75">Admin compliance override</span>
+                    <span className="text-[11px] opacity-75">Admin compliance override</span>
                   </button>
                 </div>
               </div>
@@ -1805,7 +1805,7 @@ const AdminUsers = () => {
                 </div>
                 <div className="flex justify-between py-0.5 border-t border-border/40 mt-1 pt-1">
                   <span className="text-muted-foreground">User UUID:</span>
-                  <span className="opacity-70 text-[10px] text-foreground">
+                  <span className="opacity-70 text-[11px] text-foreground">
                     {selectedUserForDelete.id}
                   </span>
                 </div>
@@ -1830,7 +1830,7 @@ const AdminUsers = () => {
                     }`}
                   >
                     <span className="text-[11px] font-bold text-foreground">Client Request</span>
-                    <span className="text-[9px] opacity-75">Voluntary GDPR/data purge</span>
+                    <span className="text-[11px] opacity-75">Voluntary GDPR/data purge</span>
                   </button>
 
                   <button
@@ -1846,7 +1846,7 @@ const AdminUsers = () => {
                     }`}
                   >
                     <span className="text-[11px] font-bold text-foreground">Forced Purge</span>
-                    <span className="text-[9px] opacity-75">Admin forced removal</span>
+                    <span className="text-[11px] opacity-75">Admin forced removal</span>
                   </button>
                 </div>
               </div>

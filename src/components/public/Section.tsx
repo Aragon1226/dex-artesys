@@ -14,7 +14,7 @@ export const PageHero = ({
 }) => (
   <section className="border-b border-border bg-gradient-to-b from-primary/[0.07] to-transparent px-4 py-14 sm:px-6 sm:py-20">
     <div className="mx-auto max-w-6xl">
-      <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-primary">
+      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.3em] text-primary">
         {eyebrow}
       </p>
       <h1 className="max-w-3xl font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl">

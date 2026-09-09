@@ -44,7 +44,7 @@ export const CryptoAuthView = () => {
           <h2 className="text-foreground text-2xl font-light tracking-[0.4em] uppercase">
             Artesys
           </h2>
-          <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] mt-2 font-medium">
+          <p className="text-muted-foreground text-[11px] uppercase tracking-[0.2em] mt-2 font-medium">
             Digital Assets Elite
           </p>
         </motion.div>
@@ -67,7 +67,7 @@ export const CryptoAuthView = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           transition={{ delay: 0.5 }}
-          className="mt-6 text-[10px] text-muted-foreground uppercase tracking-[0.2em] whitespace-nowrap font-medium text-center"
+          className="mt-6 text-[11px] text-muted-foreground uppercase tracking-[0.2em] whitespace-nowrap font-medium text-center"
         >
           Secured by Military-Grade Encryption & Cold Vaults
         </motion.p>

@@ -47,14 +47,14 @@ const AdminShell = () => {
           <Logo size={48} variant="FULL" className="scale-110" />
           <div className="mt-2 inline-flex items-center gap-1.5 px-2 py-0.5 bg-primary/10 rounded-full border border-primary/20">
             <ShieldCheck size={10} className="text-primary" />
-            <span className="text-[10px] font-black text-primary uppercase tracking-widest">
+            <span className="text-[11px] font-black text-primary uppercase tracking-widest">
               Admin Control
             </span>
           </div>
         </div>
 
         <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
-          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-4 px-4 opacity-50">
+          <p className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-4 px-4 opacity-50">
             Main Menu
           </p>
           {navItems

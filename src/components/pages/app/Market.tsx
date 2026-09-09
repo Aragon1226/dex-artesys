@@ -8,6 +8,8 @@ import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingBlock } from "@/components/shared/BrandLoader";
 import { RetryState } from "@/components/shared/RetryState";
 import { throwIfFaultInjected } from "@/lib/devFaults";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
+import { PullToRefreshIndicator } from "@/components/shared/PullToRefreshIndicator";
 
 const MAIN_TABS = ["Overview", "Favorites", "Crypto", "Main", "Stocks & Commodities", "Alpha"];
 const SUB_TABS = ["Spot", "Futures", "Margin"];
@@ -49,6 +51,8 @@ export const Market = () => {
     }
   }, []);
 
+  const pull = usePullToRefresh({ onRefresh: fetchMarkets });
+
   useEffect(() => {
     fetchMarkets();
     const interval = setInterval(fetchMarkets, 10000);
@@ -84,6 +88,11 @@ export const Market = () => {
 
   return (
     <div className="h-full flex flex-col bg-background">
+      <PullToRefreshIndicator
+        pullDistance={pull.pullDistance}
+        isRefreshing={pull.isRefreshing}
+        isReady={pull.isReady}
+      />
       <div className="sticky top-0 z-10 bg-background border-b border-border">
         {/* Main Tabs */}
         <div className="px-4 border-b border-border overflow-x-auto no-scrollbar whitespace-nowrap bg-background">
@@ -159,7 +168,7 @@ export const Market = () => {
         </div>
 
         {/* Symbol List Header */}
-        <div className="px-4 py-3 flex text-[10px] font-bold text-muted-foreground uppercase tracking-wider items-center border-b border-border/50 bg-background">
+        <div className="px-4 py-3 flex text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center border-b border-border/50 bg-background">
           <div className="w-[45%] flex items-center gap-1">
             Coin / Volume <ChevronDown size={10} />
           </div>
@@ -223,7 +232,7 @@ export const Market = () => {
                       </div>
                       <div className="flex items-center gap-1 mt-0.5">
                         <Star size={12} className="text-primary fill-primary" />
-                        <span className="text-[10px] text-muted-foreground font-bold">
+                        <span className="text-[11px] text-muted-foreground font-bold">
                           {(market.volume24h / 1000000).toFixed(2)}M
                         </span>
                       </div>
@@ -240,7 +249,7 @@ export const Market = () => {
                         maximumFractionDigits: displayPrice < 1 ? 4 : 2,
                       })}
                     </div>
-                    <div className="text-[10px] text-muted-foreground font-bold font-mono">
+                    <div className="text-[11px] text-muted-foreground font-bold font-mono">
                       $
                       {(displayPrice * 0.999).toLocaleString(undefined, {
                         minimumFractionDigits: 2,

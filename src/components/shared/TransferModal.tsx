@@ -179,7 +179,7 @@ export const TransferModal = ({
                       (direction === "spot_to_futures" ? spotBalance : futuresBalance).toString(),
                     )
                   }
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold bg-primary/20 text-primary px-2 py-1 rounded-md"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold bg-primary/20 text-primary px-2 py-1 rounded-md"
                 >
                   MAX
                 </button>

@@ -44,7 +44,7 @@ const FeatureCards = () => {
     <section className="py-24 sm:py-36 px-6 max-w-6xl mx-auto">
       <div className="border-t border-border pt-8 mb-16 md:mb-20">
         <div className="flex items-baseline justify-between gap-6 mb-10">
-          <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-brand-gold">
+          <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-brand-gold">
             <span className="inline-block h-px w-8 bg-brand-gold/60" />
             Capabilities
           </p>

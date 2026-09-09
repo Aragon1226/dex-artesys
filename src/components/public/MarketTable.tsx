@@ -74,7 +74,7 @@ export const MarketTable = ({ markets }: { markets: PublicMarket[] }) => {
             Live Artesys market prices, 24-hour change and 24-hour volume
           </caption>
           <thead>
-            <tr className="border-b border-border bg-muted/40 text-[10px] uppercase tracking-wider text-muted-foreground">
+            <tr className="border-b border-border bg-muted/40 text-[11px] uppercase tracking-wider text-muted-foreground">
               <th scope="col" className="px-4 py-3 text-left font-bold">
                 Market
               </th>

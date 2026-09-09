@@ -39,7 +39,7 @@ export const LiveTickerMarquee = () => {
                 key={`${key}-${i}`}
                 className="inline-flex items-center gap-3 px-8 border-r border-border/50 first:border-l"
               >
-                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">
+                <span className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                   {key}
                 </span>
                 <span className="text-sm font-bold text-foreground font-mono">
@@ -50,7 +50,7 @@ export const LiveTickerMarquee = () => {
                   })}
                 </span>
                 <span
-                  className={`text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm ${isPositive ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}
+                  className={`text-[11px] font-black px-1.5 py-0.5 rounded shadow-sm ${isPositive ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}
                 >
                   {isPositive ? "↑" : "↓"} {item.change.toFixed(2)}%
                 </span>

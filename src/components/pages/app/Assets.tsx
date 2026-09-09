@@ -30,6 +30,8 @@ import { marketService } from "@/services/market";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingBlock } from "@/components/shared/BrandLoader";
 import { RetryState } from "@/components/shared/RetryState";
+import { StepProgress } from "@/components/shared/StepProgress";
+import { QrCode } from "@/components/shared/QrCode";
 
 const DEPOSIT_OPTIONS = [
   { label: "Bitcoin (BTC)", symbol: "BTC", network: "BTC" },
@@ -431,7 +433,7 @@ const Assets = () => {
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-2xl opacity-50" />
           <div className="relative z-10">
             <div className="flex justify-between items-start mb-3">
-              <div className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-1.5 text-muted-foreground text-[11px] font-bold uppercase tracking-widest">
                 <Wallet size={12} className="text-primary" /> Total Balance
               </div>
               <button
@@ -451,7 +453,7 @@ const Assets = () => {
                 hidden={balanceHidden}
                 className="text-2xl font-black text-foreground tracking-tight"
               />
-              <span className="text-[10px] font-black text-primary px-1.5 py-0.5 rounded bg-primary/10">
+              <span className="text-[11px] font-black text-primary px-1.5 py-0.5 rounded bg-primary/10">
                 USD
               </span>
             </div>
@@ -465,11 +467,11 @@ const Assets = () => {
                   key={item.label}
                   className="bg-foreground/5 p-2.5 rounded-xl border border-foreground/10"
                 >
-                  <div className="text-[9px] text-muted-foreground mb-0.5 uppercase font-bold">
+                  <div className="text-[11px] text-muted-foreground mb-0.5 uppercase font-bold">
                     {item.label}
                   </div>
                   <div className="font-bold text-foreground text-xs truncate">
-                    <span className="text-[9px] opacity-40 mr-0.5">$</span>
+                    <span className="text-[11px] opacity-40 mr-0.5">$</span>
                     <AnimatedBalance
                       value={(item.val || 0).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
@@ -498,7 +500,7 @@ const Assets = () => {
             <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 group-active:scale-95 transition-all shadow-sm">
               <ArrowDown size={18} />
             </div>
-            <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
+            <span className="text-[11px] font-bold text-muted-foreground whitespace-nowrap">
               Deposit
             </span>
           </button>
@@ -514,7 +516,7 @@ const Assets = () => {
             <div className="w-10 h-10 rounded-xl bg-destructive/10 text-destructive flex items-center justify-center border border-destructive/20 group-active:scale-95 transition-all shadow-sm">
               <ArrowUp size={18} />
             </div>
-            <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
+            <span className="text-[11px] font-bold text-muted-foreground whitespace-nowrap">
               Withdraw
             </span>
           </button>
@@ -528,7 +530,7 @@ const Assets = () => {
             <div className="w-10 h-10 rounded-xl bg-muted text-muted-foreground flex items-center justify-center border border-border group-active:scale-95 transition-all shadow-sm">
               <ArrowRightLeft size={18} />
             </div>
-            <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
+            <span className="text-[11px] font-bold text-muted-foreground whitespace-nowrap">
               Transfer
             </span>
           </button>
@@ -555,7 +557,7 @@ const Assets = () => {
                 <path d="m19 9-5 5-4-4-3 3" />
               </svg>
             </div>
-            <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
+            <span className="text-[11px] font-bold text-muted-foreground whitespace-nowrap">
               History
             </span>
           </button>
@@ -563,7 +565,7 @@ const Assets = () => {
             <div className="w-10 h-10 rounded-xl bg-muted text-muted-foreground flex items-center justify-center border border-border group-active:scale-95 transition-all shadow-sm">
               <RefreshCw size={18} />
             </div>
-            <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">
+            <span className="text-[11px] font-bold text-muted-foreground whitespace-nowrap">
               Refresh
             </span>
           </button>
@@ -580,7 +582,7 @@ const Assets = () => {
               <CryptoIcon symbol="USDT" size={28} />
               <div>
                 <div className="font-bold text-foreground text-sm">USDT</div>
-                <div className="text-[10px] text-muted-foreground font-medium font-mono">
+                <div className="text-[11px] text-muted-foreground font-medium font-mono">
                   <AnimatedBalance
                     value={`${(profile.balance || 0).toFixed(2)}`}
                     hidden={balanceHidden}
@@ -596,7 +598,7 @@ const Assets = () => {
                   hidden={balanceHidden}
                 />
               </div>
-              <div className="text-[10px] text-muted-foreground font-bold uppercase">
+              <div className="text-[11px] text-muted-foreground font-bold uppercase">
                 Price: $1.00
               </div>
             </div>
@@ -621,7 +623,7 @@ const Assets = () => {
                   <CryptoIcon symbol={sym} size={28} />
                   <div>
                     <div className="font-bold text-foreground text-sm">{sym}</div>
-                    <div className="text-[10px] text-muted-foreground font-medium font-mono">
+                    <div className="text-[11px] text-muted-foreground font-medium font-mono">
                       <AnimatedBalance value={`${amt.toFixed(4)}`} hidden={balanceHidden} />{" "}
                       Available
                     </div>
@@ -631,7 +633,7 @@ const Assets = () => {
                   <div className="font-bold text-foreground text-sm font-mono">
                     <AnimatedBalance value={`$${fiatValue.toFixed(2)}`} hidden={balanceHidden} />
                   </div>
-                  <div className="text-[10px] text-muted-foreground font-bold uppercase">
+                  <div className="text-[11px] text-muted-foreground font-bold uppercase">
                     Price: ${(prices[sym] || 0).toLocaleString()}
                   </div>
                 </div>
@@ -748,7 +750,7 @@ const Assets = () => {
                         </div>
                         <div>
                           <p className="text-sm font-bold text-foreground">{item.asset}</p>
-                          <p className="text-[10px] text-muted-foreground uppercase">
+                          <p className="text-[11px] text-muted-foreground uppercase">
                             {new Date(item.created_at).toLocaleDateString()}
                           </p>
                         </div>
@@ -761,7 +763,7 @@ const Assets = () => {
                           {item.amount}
                         </p>
                         <p
-                          className={`text-[10px] uppercase font-bold tracking-wider ${item.status === "APPROVED" || item.status === "SUCCESS" ? "text-success" : item.status === "REJECTED" || item.status === "FAILED" ? "text-danger" : "text-warning"}`}
+                          className={`text-[11px] uppercase font-bold tracking-wider ${item.status === "APPROVED" || item.status === "SUCCESS" ? "text-success" : item.status === "REJECTED" || item.status === "FAILED" ? "text-danger" : "text-warning"}`}
                         >
                           {item.status}
                         </p>
@@ -779,14 +781,22 @@ const Assets = () => {
       {activeModal === "deposit" && (
         <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center backdrop-blur-md p-4">
           <div className="bg-card w-full max-w-sm rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-scale-in relative border border-border">
-            <div className="p-4 border-b border-border flex justify-between items-center">
-              <h3 className="text-lg font-bold text-foreground">Deposit</h3>
-              <button
-                onClick={closeDepositModal}
-                className="p-1.5 hover:bg-muted rounded-full text-muted-foreground transition-colors"
-              >
-                <X size={20} />
-              </button>
+            <div className="p-4 border-b border-border">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-bold text-foreground">Deposit</h3>
+                <button
+                  onClick={closeDepositModal}
+                  aria-label="Close deposit"
+                  className="p-1.5 hover:bg-muted rounded-full text-muted-foreground transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <StepProgress
+                className="mt-3"
+                steps={["Asset", "Send", "Confirm"]}
+                current={depositSuccess ? 2 : 1}
+              />
             </div>
             <div className="p-5 flex-1 overflow-y-auto">
               {depositSuccess ? (
@@ -794,10 +804,25 @@ const Assets = () => {
                   <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center text-success mb-4">
                     <CheckCircle size={32} />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">Success</h3>
-                  <p className="text-[11px] text-muted-foreground px-4 leading-normal mb-6">
-                    Deposit is being processed. Please wait for confirmation.
+                  <h3 className="text-lg font-bold text-foreground mb-2">
+                    Waiting for confirmation
+                  </h3>
+                  <p className="text-xs text-muted-foreground px-4 leading-relaxed mb-4">
+                    Your deposit request was received. It appears in your balance once the network
+                    confirms it and our team reviews the receipt.
                   </p>
+                  <div className="w-full text-left bg-muted/40 border border-border rounded-2xl p-3 mb-5 space-y-1.5">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-muted-foreground font-semibold">Asset</span>
+                      <span className="font-bold text-foreground">
+                        {selectedToken.symbol} · {selectedToken.network}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-muted-foreground font-semibold">Status</span>
+                      <span className="font-bold text-warning">Pending review</span>
+                    </div>
+                  </div>
                   <button
                     onClick={closeDepositModal}
                     className="w-full bg-primary text-primary-foreground font-bold py-3 rounded-xl text-sm"
@@ -808,72 +833,67 @@ const Assets = () => {
               ) : (
                 <>
                   <div className="mb-4">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
-                      Select Token
+                    <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+                      Step 1 — Choose asset and network
                     </label>
                     <button
                       onClick={() => setShowTokenSelector(true)}
-                      className="w-full bg-muted border border-border rounded-xl py-2.5 px-3 flex items-center justify-between hover:bg-accent transition-colors font-bold text-foreground text-xs"
+                      className="w-full bg-muted border border-border rounded-xl py-3 px-3 flex items-center justify-between hover:bg-accent transition-colors font-bold text-foreground text-xs"
                     >
                       <div className="flex items-center gap-2.5">
-                        <CryptoIcon symbol={selectedToken.symbol} size={20} />
+                        <CryptoIcon symbol={selectedToken.symbol} size={24} />
                         <div className="text-left">
-                          <div className="font-bold text-foreground text-[11px]">
+                          <div className="font-bold text-foreground text-xs">
                             {selectedToken.symbol}
                           </div>
-                          <div className="text-[9px] text-muted-foreground font-bold uppercase">
+                          <div className="text-[11px] text-muted-foreground font-bold uppercase">
                             {selectedToken.network}
                           </div>
                         </div>
                       </div>
-                      <ChevronDown className="text-muted-foreground/50" size={14} />
+                      <ChevronDown className="text-muted-foreground" size={16} />
                     </button>
                   </div>
 
-                  <div className="flex justify-center mb-5">
-                    <div className="p-3 border border-border rounded-xl shadow-sm bg-white">
-                      <img
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(depositAddress)}&color=000000&bgcolor=ffffff`}
-                        alt="Deposit QR"
-                        className="w-32 h-32 object-contain"
-                      />
+                  <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-2">
+                    Step 2 — Send to this address
+                  </p>
+
+                  <div className="flex justify-center mb-4">
+                    <div className="p-3 border border-border rounded-2xl shadow-sm bg-white">
+                      <QrCode value={depositAddress} size={136} alt="Deposit address QR code" />
                     </div>
                   </div>
 
-                  <div className="bg-muted rounded-lg p-2 text-center mb-4">
-                    <span className="text-muted-foreground text-[10px] uppercase font-bold">
-                      Network:{" "}
-                    </span>
-                    <span className="font-black text-foreground text-xs">
-                      {selectedToken.network}
-                    </span>
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
-                      Address
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        readOnly
-                        value={depositAddress}
-                        className="flex-1 bg-muted border border-primary/30 rounded-xl px-3 py-2.5 text-[10px] font-mono text-foreground"
-                      />
-                      <button
-                        onClick={handleCopy}
-                        className="px-3 border border-border rounded-xl hover:bg-muted text-muted-foreground"
-                      >
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="w-full text-left bg-muted border border-primary/30 rounded-2xl p-3 mb-4 hover:bg-accent transition-colors"
+                  >
+                    <span className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
+                        {selectedToken.network} address
+                      </span>
+                      <span className="flex items-center gap-1 text-[11px] font-bold text-primary">
                         {copied ? (
-                          <CheckCircle size={18} className="text-success" />
+                          <>
+                            <CheckCircle size={14} className="text-success" /> Copied
+                          </>
                         ) : (
-                          <Copy size={18} />
+                          <>
+                            <Copy size={14} /> Copy
+                          </>
                         )}
-                      </button>
-                    </div>
-                  </div>
+                      </span>
+                    </span>
+                    <span className="block font-mono text-xs leading-relaxed text-foreground break-all">
+                      {depositAddress}
+                    </span>
+                  </button>
+
 
                   <div className="mb-4">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
+                    <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1.5 block">
                       Payment Screenshot *
                     </label>
                     <div className="border-2 border-dashed border-border rounded-xl p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors relative">
@@ -890,7 +910,7 @@ const Assets = () => {
                             alt="Receipt"
                             className="h-20 w-auto rounded object-cover mb-2"
                           />
-                          <span className="text-[10px] text-success font-bold">
+                          <span className="text-[11px] text-success font-bold">
                             Image attached. Tap to change.
                           </span>
                         </div>
@@ -903,7 +923,7 @@ const Assets = () => {
                   </div>
 
                   <div className="mb-5">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
+                    <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1.5 block">
                       Amount ({selectedToken.symbol})
                     </label>
                     <input
@@ -917,7 +937,7 @@ const Assets = () => {
 
                   <div className="bg-warning/10 border border-warning/20 rounded-lg p-3 mb-6 flex gap-2.5">
                     <AlertTriangle className="text-warning shrink-0" size={14} />
-                    <p className="text-[9px] text-warning font-bold leading-tight">
+                    <p className="text-[11px] text-warning font-bold leading-tight">
                       Send only{" "}
                       <strong>
                         {selectedToken.symbol} ({selectedToken.network})
@@ -992,10 +1012,10 @@ const Assets = () => {
                               {opt.label.split("(")[0]}
                             </div>
                             <div className="flex items-center gap-2 mt-0.5">
-                              <span className="text-[10px] font-bold text-muted-foreground">
+                              <span className="text-[11px] font-bold text-muted-foreground">
                                 {opt.symbol}
                               </span>
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 bg-muted text-muted-foreground rounded uppercase tracking-tighter">
+                              <span className="text-[11px] font-bold px-1.5 py-0.5 bg-muted text-muted-foreground rounded uppercase tracking-tighter">
                                 {opt.network}
                               </span>
                             </div>
@@ -1018,21 +1038,30 @@ const Assets = () => {
       {activeModal === "withdraw" && (
         <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center backdrop-blur-md p-4">
           <div className="bg-card w-full max-w-sm rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-scale-in border border-border">
-            <div className="p-4 border-b border-border flex justify-between items-center">
-              <h3 className="text-lg font-bold text-foreground">Withdrawal</h3>
-              <button
-                onClick={() => setActiveModal(null)}
-                className="p-1.5 hover:bg-muted rounded-full text-muted-foreground transition-colors"
-              >
-                <X size={20} />
-              </button>
+            <div className="p-4 border-b border-border">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-bold text-foreground">Withdrawal</h3>
+                <button
+                  onClick={() => setActiveModal(null)}
+                  aria-label="Close withdrawal"
+                  className="p-1.5 hover:bg-muted rounded-full text-muted-foreground transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <StepProgress
+                className="mt-3"
+                steps={["Asset", "Details", "Review"]}
+                current={withdrawAddress && withdrawAmount ? 2 : withdrawAddress ? 1 : 0}
+              />
             </div>
             <div className="p-5 flex-1 overflow-y-auto">
               {/* Token Select */}
               <div className="mb-4">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
-                  Select Token
+                <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+                  Select token
                 </label>
+
                 <div className="relative">
                   <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
                     <CryptoIcon symbol={withdrawToken} size={18} />
@@ -1055,7 +1084,7 @@ const Assets = () => {
 
               {/* Address */}
               <div className="mb-4">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
+                <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1.5 block">
                   Address
                 </label>
                 <input
@@ -1077,10 +1106,10 @@ const Assets = () => {
                 return (
                   <div className="mb-4">
                     <div className="flex justify-between mb-1.5">
-                      <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">
+                      <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-tighter">
                         Amount
                       </label>
-                      <span className="text-[9px] text-muted-foreground font-bold uppercase">
+                      <span className="text-[11px] text-muted-foreground font-bold uppercase">
                         Available:{" "}
                         <span className="font-mono text-foreground">
                           {availableAmount.toFixed(decimals)}
@@ -1103,7 +1132,7 @@ const Assets = () => {
                             setWithdrawAmount((availableAmount * pct).toFixed(decimals))
                           }
                           disabled={availableAmount <= 0}
-                          className="flex-1 py-1 rounded bg-muted border border-border text-[9px] font-bold text-muted-foreground hover:bg-accent hover:text-foreground transition-colors disabled:opacity-50"
+                          className="flex-1 py-1 rounded bg-muted border border-border text-[11px] font-bold text-muted-foreground hover:bg-accent hover:text-foreground transition-colors disabled:opacity-50"
                         >
                           {pct === 1 ? "MAX" : `${pct * 100}%`}
                         </button>
@@ -1115,7 +1144,7 @@ const Assets = () => {
 
               {/* Password */}
               <div className="mb-5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1.5 block">
+                <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1.5 block">
                   Security Password
                 </label>
                 <div className="relative">
@@ -1133,29 +1162,48 @@ const Assets = () => {
                 </div>
               </div>
 
-              {/* Fee summary */}
-              <div className="bg-muted rounded-xl p-3 mb-6 text-[10px] border border-border">
-                <div className="flex justify-between mb-1">
-                  <span className="text-muted-foreground font-bold uppercase">Network</span>
-                  <span className="font-bold text-foreground uppercase">
-                    {withdrawToken === "BTC"
-                      ? "Bitcoin"
-                      : withdrawToken === "ETH"
-                        ? "ERC20"
-                        : "TRC20"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground font-bold uppercase">Fee</span>
-                  <span className="font-bold text-destructive font-mono">
-                    {withdrawToken === "BTC"
-                      ? "0.0005 BTC"
-                      : withdrawToken === "ETH"
-                        ? "0.005 ETH"
-                        : "1.00 USDT"}
-                  </span>
-                </div>
-              </div>
+              {/* Review summary */}
+              {(() => {
+                const feeAmount =
+                  withdrawToken === "BTC" ? 0.0005 : withdrawToken === "ETH" ? 0.005 : 1;
+                const decimals = withdrawToken === "USDT" ? 2 : 8;
+                const entered = Number(withdrawAmount) || 0;
+                const receives = Math.max(entered - feeAmount, 0);
+                return (
+                  <div className="bg-muted/50 rounded-2xl p-3.5 mb-5 text-xs border border-border space-y-2">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                      Review
+                    </p>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground font-semibold">Network</span>
+                      <span className="font-bold text-foreground">
+                        {withdrawToken === "BTC"
+                          ? "Bitcoin"
+                          : withdrawToken === "ETH"
+                            ? "ERC20"
+                            : "TRC20"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground font-semibold">Network fee</span>
+                      <span className="font-bold text-destructive font-mono">
+                        {feeAmount.toFixed(decimals)} {withdrawToken}
+                      </span>
+                    </div>
+                    <div className="flex justify-between border-t border-border pt-2">
+                      <span className="text-muted-foreground font-semibold">You receive</span>
+                      <span className="font-bold text-foreground font-mono">
+                        {receives.toFixed(decimals)} {withdrawToken}
+                      </span>
+                    </div>
+                    <p className="flex items-start gap-2 pt-1 text-[11px] leading-relaxed text-muted-foreground">
+                      <AlertTriangle size={13} className="mt-0.5 shrink-0 text-warning" />
+                      Check the address carefully — blockchain transfers cannot be reversed.
+                    </p>
+                  </div>
+                );
+              })()}
+
 
               <button
                 onClick={handleWithdrawSubmit}
@@ -1189,7 +1237,7 @@ const Assets = () => {
             <div className="p-5 flex-1 overflow-y-auto">
               <div className="space-y-1.5 relative">
                 <div>
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block">
                     From
                   </label>
                   <div className="bg-muted border border-border rounded-lg pl-3 py-2 text-xs font-bold text-foreground">
@@ -1205,7 +1253,7 @@ const Assets = () => {
                   </button>
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block">
                     To
                   </label>
                   <div className="bg-muted border border-border rounded-lg pl-3 py-2 text-xs font-bold text-foreground">
@@ -1215,10 +1263,10 @@ const Assets = () => {
               </div>
               <div className="mt-5 mb-6">
                 <div className="flex justify-between mb-1.5">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase">
                     Amount
                   </label>
-                  <span className="text-[10px] text-muted-foreground font-bold uppercase">
+                  <span className="text-[11px] text-muted-foreground font-bold uppercase">
                     Available:{" "}
                     <span className="text-foreground">
                       {(transferFrom === "Spot"

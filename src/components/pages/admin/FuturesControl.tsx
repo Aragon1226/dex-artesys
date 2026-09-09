@@ -327,21 +327,21 @@ const FuturesControl = () => {
                             <button
                               type="button"
                               onClick={(e) => handleSetOutcome(user.id, "normal", e)}
-                              className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${!user.force_win ? "bg-foreground text-background shadow-md" : "text-muted-foreground hover:bg-muted/50"}`}
+                              className={`px-3 py-1.5 rounded-lg text-[11px] font-black tracking-wider transition-all ${!user.force_win ? "bg-foreground text-background shadow-md" : "text-muted-foreground hover:bg-muted/50"}`}
                             >
                               NRM
                             </button>
                             <button
                               type="button"
                               onClick={(e) => handleSetOutcome(user.id, "win", e)}
-                              className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${user.force_win && !user.force_loss ? "bg-success text-white shadow-md shadow-success/20" : "text-success hover:bg-success/10"}`}
+                              className={`px-3 py-1.5 rounded-lg text-[11px] font-black tracking-wider transition-all ${user.force_win && !user.force_loss ? "bg-success text-white shadow-md shadow-success/20" : "text-success hover:bg-success/10"}`}
                             >
                               WIN
                             </button>
                             <button
                               type="button"
                               onClick={(e) => handleSetOutcome(user.id, "loss", e)}
-                              className={`px-3 py-1.5 rounded-lg text-[9px] font-black tracking-wider transition-all ${user.force_win && user.force_loss ? "bg-danger text-white shadow-md shadow-danger/20" : "text-danger hover:bg-danger/10"}`}
+                              className={`px-3 py-1.5 rounded-lg text-[11px] font-black tracking-wider transition-all ${user.force_win && user.force_loss ? "bg-danger text-white shadow-md shadow-danger/20" : "text-danger hover:bg-danger/10"}`}
                             >
                               LOSS
                             </button>
@@ -350,7 +350,7 @@ const FuturesControl = () => {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <span
-                          className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-tight ${user.force_win && !user.force_loss ? "bg-success/10 text-success" : user.force_win && user.force_loss ? "bg-danger/10 text-danger" : "bg-muted text-muted-foreground"}`}
+                          className={`text-[11px] font-black px-2.5 py-1 rounded-full uppercase tracking-tight ${user.force_win && !user.force_loss ? "bg-success/10 text-success" : user.force_win && user.force_loss ? "bg-danger/10 text-danger" : "bg-muted text-muted-foreground"}`}
                         >
                           {user.force_win
                             ? user.force_loss

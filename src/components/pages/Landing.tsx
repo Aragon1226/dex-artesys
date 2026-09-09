@@ -18,7 +18,7 @@ import { useState } from "react";
 /* ------------------------------------------------------------------ */
 
 const Kicker = ({ children }: { children: React.ReactNode }) => (
-  <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-brand-gold">
+  <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-brand-gold">
     <span className="inline-block h-px w-8 bg-brand-gold/60" />
     {children}
   </p>
@@ -123,7 +123,7 @@ const Index = () => {
             <Logo size={44} variant="FULL" />
           </button>
 
-          <div className="hidden lg:flex items-center gap-10 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
+          <div className="hidden lg:flex items-center gap-10 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
             <a href="#markets" className="hover:text-primary transition-colors">
               Markets
             </a>
@@ -142,14 +142,14 @@ const Index = () => {
             {!user ? (
               <button
                 onClick={() => navigate("/auth")}
-                className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-colors"
+                className="text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-colors"
               >
                 Sign In
               </button>
             ) : null}
             <button
               onClick={() => navigate("/auth")}
-              className="px-5 sm:px-7 py-2.5 border border-primary/50 bg-primary/10 text-primary text-[10px] font-semibold uppercase tracking-[0.15em] hover:bg-primary hover:text-primary-foreground transition-all duration-300 rounded-lg"
+              className="px-5 sm:px-7 py-2.5 border border-primary/50 bg-primary/10 text-primary text-[11px] font-semibold uppercase tracking-[0.15em] hover:bg-primary hover:text-primary-foreground transition-all duration-300 rounded-lg"
             >
               Get Started
             </button>
@@ -185,7 +185,7 @@ const Index = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
-              className="flex items-center justify-between border-y border-border/70 py-3 mb-14 sm:mb-20 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-muted-foreground/70"
+              className="flex items-center justify-between border-y border-border/70 py-3 mb-14 sm:mb-20 text-[11px] sm:text-[11px] font-semibold uppercase tracking-[0.3em] text-muted-foreground/70"
             >
               <span>Private Wealth</span>
               <span className="hidden sm:inline text-brand-gold">
@@ -414,7 +414,7 @@ const Index = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                   <figcaption className="absolute bottom-6 left-6 right-6">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-gold mb-2">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-brand-gold mb-2">
                       Cold Storage Infrastructure
                     </p>
                     <p className="text-sm font-light text-foreground/80 leading-relaxed">
@@ -423,7 +423,7 @@ const Index = () => {
                   </figcaption>
                 </figure>
                 <div className="p-10 border border-border bg-card/60 backdrop-blur-xl">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground mb-10 text-center">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground mb-10 text-center">
                     Trusted by Industry Partners
                   </p>
                   <div className="grid grid-cols-2 gap-x-10 gap-y-10 text-muted-foreground/30">
@@ -504,7 +504,7 @@ const Index = () => {
             </div>
 
             <div className="md:col-span-3 md:col-start-7">
-              <h5 className="font-semibold text-[10px] uppercase tracking-[0.25em] text-foreground/60 mb-8">
+              <h5 className="font-semibold text-[11px] uppercase tracking-[0.25em] text-foreground/60 mb-8">
                 Corporate & Legal
               </h5>
               <div className="flex flex-col gap-4 text-xs font-light text-muted-foreground">
@@ -524,7 +524,7 @@ const Index = () => {
             </div>
 
             <div className="md:col-span-3">
-              <h5 className="font-semibold text-[10px] uppercase tracking-[0.25em] text-foreground/60 mb-8">
+              <h5 className="font-semibold text-[11px] uppercase tracking-[0.25em] text-foreground/60 mb-8">
                 Client Service
               </h5>
               <div className="flex flex-col gap-4 text-xs font-light text-muted-foreground">
@@ -545,7 +545,7 @@ const Index = () => {
           </div>
 
           <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6">
-            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-[0.25em]">
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.25em]">
               © {new Date().getFullYear()} Artesys Holdings. All Rights Reserved.
             </p>
             <div className="flex items-center gap-8">

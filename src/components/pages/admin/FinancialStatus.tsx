@@ -512,7 +512,7 @@ const FinancialStatus = () => {
                     }`}
                   >
                     <div className="text-xs font-bold uppercase">{w.label}</div>
-                    <div className="text-[10px] font-mono mt-1 font-semibold truncate">
+                    <div className="text-[11px] font-mono mt-1 font-semibold truncate">
                       $
                       {(w.val ?? 0).toLocaleString("en-US", {
                         minimumFractionDigits: 1,

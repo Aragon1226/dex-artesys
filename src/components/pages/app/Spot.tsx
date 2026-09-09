@@ -26,6 +26,7 @@ import { SpotOrderForm } from "@/components/spot/SpotOrderForm";
 import { EnhancedOrderBook } from "@/components/spot/EnhancedOrderBook";
 import { TransactionHistory } from "@/components/spot/TransactionHistory";
 import { SpotWalletBox } from "@/components/spot/SpotWalletBox";
+import { useDesktopDevice } from "@/hooks/useDesktopDevice";
 
 const SYMBOLS_LIST = [
   "BTCUSDT",
@@ -411,6 +412,8 @@ const Spot = () => {
 
   const [chartInterval, setChartInterval] = useState("1m");
   const [selectedPriceOverride, setSelectedPriceOverride] = useState<number | null>(null);
+  const isDesktop = useDesktopDevice();
+  const [mobileTab, setMobileTab] = useState<"chart" | "book" | "trade" | "orders">("chart");
 
   // Spot Order History & Open Orders state
   const [spotOrders, setSpotOrders] = useState<SpotOrder[]>([]);
@@ -1076,7 +1079,7 @@ const Spot = () => {
           {/* Quick Ticker Stats */}
           <div className="hidden sm:flex items-center gap-4 text-xs pl-2 border-l border-border/80">
             <div>
-              <div className="text-[10px] text-muted-foreground uppercase font-bold">24h Price</div>
+              <div className="text-[11px] text-muted-foreground uppercase font-bold">24h Price</div>
               <div
                 className={`font-mono font-black ${activeTicker.priceChangePercent >= 0 ? "text-success" : "text-danger"}`}
               >
@@ -1088,7 +1091,7 @@ const Spot = () => {
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-muted-foreground uppercase font-bold">
+              <div className="text-[11px] text-muted-foreground uppercase font-bold">
                 24h Change
               </div>
               <div
@@ -1099,13 +1102,13 @@ const Spot = () => {
               </div>
             </div>
             <div className="hidden md:block">
-              <div className="text-[10px] text-muted-foreground uppercase font-bold">24h High</div>
+              <div className="text-[11px] text-muted-foreground uppercase font-bold">24h High</div>
               <div className="font-mono font-bold text-foreground">
                 ${(activeTicker.high24h || activeTicker.lastPrice * 1.02).toFixed(2)}
               </div>
             </div>
             <div className="hidden md:block">
-              <div className="text-[10px] text-muted-foreground uppercase font-bold">24h Low</div>
+              <div className="text-[11px] text-muted-foreground uppercase font-bold">24h Low</div>
               <div className="font-mono font-bold text-foreground">
                 ${(activeTicker.low24h || activeTicker.lastPrice * 0.98).toFixed(2)}
               </div>
@@ -1133,93 +1136,144 @@ const Spot = () => {
       </div>
 
       <div className="p-3 md:p-4 space-y-4 max-w-[1600px] mx-auto">
+        {/* Compact tabs so phones never need to scroll past the chart to trade */}
+        {!isDesktop && (
+          <div
+            role="tablist"
+            aria-label="Trading panels"
+            className="grid grid-cols-4 gap-1 rounded-2xl border border-border bg-muted/50 p-1"
+          >
+            {(["chart", "book", "trade", "orders"] as const).map((tab) => (
+              <button
+                key={tab}
+                role="tab"
+                type="button"
+                aria-selected={mobileTab === tab}
+                onClick={() => setMobileTab(tab)}
+                className={`rounded-xl py-2 text-xs font-bold capitalize transition-colors ${
+                  mobileTab === tab
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab === "book" ? "Book" : tab}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Main Trading Area Layout (Chart, Order Book, Spot Order Form) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
           {/* 1. Trading Chart Card */}
-          <div className="lg:col-span-6 bg-card rounded-2xl p-3 border border-border shadow-sm flex flex-col justify-between space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CryptoIcon symbol={baseSymbol} size={24} />
-                <span className="font-black text-sm text-foreground">{selectedPair}</span>
-                <span
-                  className={`text-xs font-mono font-extrabold px-2 py-0.5 rounded ${
-                    activeTicker.priceChangePercent >= 0
-                      ? "bg-success/10 text-success"
-                      : "bg-danger/10 text-danger"
-                  }`}
-                >
-                  {activeTicker.priceChangePercent >= 0 ? "+" : ""}
-                  {activeTicker.priceChangePercent.toFixed(2)}%
-                </span>
-              </div>
-
-              {/* Timeframe Controls */}
-              <div className="flex gap-1 bg-muted/60 p-1 rounded-xl border border-border">
-                {["5s", "1m", "5m", "15m", "1h", "4h"].map((tf) => (
-                  <button
-                    key={tf}
-                    onClick={() => setChartInterval(tf)}
-                    className={`px-2 py-0.5 text-[10px] font-extrabold rounded-lg transition-colors ${
-                      chartInterval === tf
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
+          {(isDesktop || mobileTab === "chart") && (
+            <div className="lg:col-span-6 bg-card rounded-2xl p-3 border border-border shadow-sm flex flex-col justify-between space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CryptoIcon symbol={baseSymbol} size={24} />
+                  <span className="font-black text-sm text-foreground">{selectedPair}</span>
+                  <span
+                    className={`text-xs font-mono font-extrabold px-2 py-0.5 rounded ${
+                      activeTicker.priceChangePercent >= 0
+                        ? "bg-success/10 text-success"
+                        : "bg-danger/10 text-danger"
                     }`}
                   >
-                    {tf}
-                  </button>
-                ))}
+                    {activeTicker.priceChangePercent >= 0 ? "+" : ""}
+                    {activeTicker.priceChangePercent.toFixed(2)}%
+                  </span>
+                </div>
+
+                {/* Timeframe Controls */}
+                <div className="flex gap-1 bg-muted/60 p-1 rounded-xl border border-border">
+                  {["5s", "1m", "5m", "15m", "1h", "4h"].map((tf) => (
+                    <button
+                      key={tf}
+                      onClick={() => setChartInterval(tf)}
+                      className={`px-2 py-0.5 text-[11px] font-extrabold rounded-lg transition-colors ${
+                        chartInterval === tf
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {tf}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Chart Area */}
+              <div className="h-[380px] sm:h-[420px] w-full rounded-xl overflow-hidden border border-border">
+                <TradingChart symbol={selectedPair} interval={chartInterval} className="h-full" />
               </div>
             </div>
-
-            {/* Chart Area */}
-            <div className="h-[380px] sm:h-[420px] w-full rounded-xl overflow-hidden border border-border">
-              <TradingChart symbol={selectedPair} interval={chartInterval} className="h-full" />
-            </div>
-          </div>
+          )}
 
           {/* 2. Order Book */}
-          <div className="lg:col-span-3 h-[420px] sm:h-[480px]">
-            <EnhancedOrderBook
-              symbol={selectedPair}
-              onSelectPrice={(price) => setSelectedPriceOverride(price)}
-            />
-          </div>
+          {(isDesktop || mobileTab === "book") && (
+            <div className="lg:col-span-3 h-[420px] sm:h-[480px]">
+              <EnhancedOrderBook
+                symbol={selectedPair}
+                onSelectPrice={(price) => {
+                  setSelectedPriceOverride(price);
+                  if (!isDesktop) setMobileTab("trade");
+                }}
+              />
+            </div>
+          )}
 
           {/* 3. Spot Buy / Sell Order Form */}
-          <div className="lg:col-span-3 h-[420px] sm:h-[480px]">
-            <SpotOrderForm
-              symbol={baseSymbol}
-              pair={selectedPair}
-              ticker={activeTicker}
-              availableUsdt={profile.balance || 0}
-              availableBaseAsset={baseAssetBalance}
-              onExecuteTrade={handleExecuteTrade}
-              selectedPriceOverride={selectedPriceOverride}
-            />
-          </div>
+          {(isDesktop || mobileTab === "trade") && (
+            <div className="lg:col-span-3 h-[420px] sm:h-[480px]">
+              <SpotOrderForm
+                symbol={baseSymbol}
+                pair={selectedPair}
+                ticker={activeTicker}
+                availableUsdt={profile.balance || 0}
+                availableBaseAsset={baseAssetBalance}
+                onExecuteTrade={handleExecuteTrade}
+                selectedPriceOverride={selectedPriceOverride}
+              />
+            </div>
+          )}
         </div>
 
         {/* Spot Holding Balance Display Box (Formatted like regular Spot Wallet page) */}
-        <SpotWalletBox
-          usdtBalance={profile.balance || 0}
-          userAssets={userAssets}
-          tickers={tickers}
-          assetConfig={ASSET_CONFIG}
-          onSelectPairToTrade={(pair) => {
-            setSelectedPair(pair);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          onOpenConvert={() => setShowConvert(true)}
-          onOpenTransfer={() => setShowTransfer(true)}
-        />
+        {(isDesktop || mobileTab === "chart") && (
+          <SpotWalletBox
+            usdtBalance={profile.balance || 0}
+            userAssets={userAssets}
+            tickers={tickers}
+            assetConfig={ASSET_CONFIG}
+            onSelectPairToTrade={(pair) => {
+              setSelectedPair(pair);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            onOpenConvert={() => setShowConvert(true)}
+            onOpenTransfer={() => setShowTransfer(true)}
+          />
+        )}
 
         {/* Transaction History Section */}
-        <TransactionHistory
-          orders={spotOrders}
-          onCancelOrder={handleCancelOrder}
-          onClearHistory={handleClearHistory}
-        />
+        {(isDesktop || mobileTab === "orders") && (
+          <TransactionHistory
+            orders={spotOrders}
+            onCancelOrder={handleCancelOrder}
+            onClearHistory={handleClearHistory}
+          />
+        )}
       </div>
+
+      {/* Quick trade shortcut while browsing the chart on a phone */}
+      {!isDesktop && mobileTab !== "trade" && (
+        <button
+          type="button"
+          onClick={() => setMobileTab("trade")}
+          className="fixed bottom-20 left-1/2 z-40 -translate-x-1/2 rounded-full bg-primary px-5 py-3 text-xs font-black uppercase tracking-wider text-primary-foreground shadow-lg active:scale-95"
+        >
+          Buy / Sell {baseSymbol}
+        </button>
+      )}
+
 
       {/* Convert Modal */}
       {showConvert && (
@@ -1239,7 +1293,7 @@ const Spot = () => {
             <div className="p-5 flex-1 overflow-y-auto space-y-3">
               <div className="bg-muted p-3 rounded-xl border border-border">
                 <label
-                  className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block"
+                  className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block"
                   htmlFor="convertFrom"
                 >
                   From
@@ -1273,7 +1327,7 @@ const Spot = () => {
                   />
                 </div>
                 <div className="flex justify-end items-center gap-2 mt-1.5">
-                  <span className="text-[9px] text-muted-foreground font-bold uppercase truncate">
+                  <span className="text-[11px] text-muted-foreground font-bold uppercase truncate">
                     Avail:{" "}
                     {convertFrom === "USDT"
                       ? (profile.balance || 0).toFixed(4)
@@ -1287,7 +1341,7 @@ const Spot = () => {
                           : userAssets.find((a) => a.symbol === convertFrom)?.amount || 0;
                       setConvertAmount(max.toString());
                     }}
-                    className="text-[9px] font-bold text-primary bg-primary/10 hover:bg-primary/20 px-1.5 py-0.5 rounded transition-colors shrink-0"
+                    className="text-[11px] font-bold text-primary bg-primary/10 hover:bg-primary/20 px-1.5 py-0.5 rounded transition-colors shrink-0"
                   >
                     MAX
                   </button>
@@ -1305,7 +1359,7 @@ const Spot = () => {
 
               <div className="bg-muted p-3 rounded-xl border border-border">
                 <label
-                  className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block"
+                  className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block"
                   htmlFor="convertTo"
                 >
                   To
@@ -1340,7 +1394,7 @@ const Spot = () => {
                 </div>
               </div>
 
-              <div className="bg-muted p-3 rounded-xl border border-border text-[10px]">
+              <div className="bg-muted p-3 rounded-xl border border-border text-[11px]">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground font-bold uppercase">Rate</span>
                   <span className="font-bold text-foreground">
@@ -1380,7 +1434,7 @@ const Spot = () => {
             <div className="p-5 flex-1 overflow-y-auto">
               <div className="space-y-1.5 relative">
                 <div>
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block">
                     From
                   </label>
                   <div className="bg-muted border border-border rounded-lg pl-3 py-2 text-xs font-bold text-foreground">
@@ -1396,7 +1450,7 @@ const Spot = () => {
                   </button>
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block">
                     To
                   </label>
                   <div className="bg-muted border border-border rounded-lg pl-3 py-2 text-xs font-bold text-foreground">
@@ -1406,10 +1460,10 @@ const Spot = () => {
               </div>
               <div className="mt-5 mb-6">
                 <div className="flex justify-between mb-1.5">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase">
                     Amount
                   </label>
-                  <span className="text-[10px] text-muted-foreground font-bold uppercase">
+                  <span className="text-[11px] text-muted-foreground font-bold uppercase">
                     Available:{" "}
                     <span className="text-foreground">
                       {(transferFromSpot ? profile.balance : profile.futures_balance || 0).toFixed(

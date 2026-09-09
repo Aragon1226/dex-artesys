@@ -634,7 +634,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
           <div className="mt-6">
             <div className="flex items-center gap-4 mb-5">
               <div className="h-px flex-1 bg-border" />
-              <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
                 or
               </span>
               <div className="h-px flex-1 bg-border" />
@@ -695,7 +695,7 @@ export const AuthForm = ({ onSuccess, isInsideModal = false }: AuthFormProps) =>
             </button>
 
             <div className="mt-6 pt-6 border-t border-border">
-              <p className="text-[10px] text-center text-muted-foreground uppercase tracking-[0.25em] mb-3 font-semibold">
+              <p className="text-[11px] text-center text-muted-foreground uppercase tracking-[0.25em] mb-3 font-semibold">
                 Web3 sign-in
               </p>
               <WalletSignIn onSuccess={onSuccess} disabled={loading} />

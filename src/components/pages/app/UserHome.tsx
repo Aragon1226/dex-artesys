@@ -49,6 +49,9 @@ import marketBannerImg from "@/assets/images/market_hero_banner_1786696884288.jp
 import securityBannerImg from "@/assets/images/security_hero_banner_1786696894651.jpg";
 import earnBannerImg from "@/assets/images/earn_hero_banner_1786696906104.jpg";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { GetStartedChecklist } from "@/components/shared/GetStartedChecklist";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
+import { PullToRefreshIndicator } from "@/components/shared/PullToRefreshIndicator";
 
 const TOP_SYMBOLS = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT", "ADAUSDT"];
 
@@ -220,7 +223,7 @@ const PromoSlideshow = ({ onOpenKyc }: { onOpenKyc?: () => void }) => {
             {/* Tag / Category Badge */}
             <div className="flex items-center gap-2 mb-1 sm:mb-2">
               <span
-                className={`text-[9px] sm:text-xs font-black uppercase tracking-wider px-2 sm:px-2.5 py-0.5 rounded-full border backdrop-blur-md ${slide.badgeColor}`}
+                className={`text-[11px] sm:text-xs font-black uppercase tracking-wider px-2 sm:px-2.5 py-0.5 rounded-full border backdrop-blur-md ${slide.badgeColor}`}
               >
                 {slide.tag}
               </span>
@@ -520,6 +523,12 @@ const UserHome = () => {
       console.warn("Unexpected error marking notifications as read:", err);
     }
   };
+
+  const homePull = usePullToRefresh({
+    onRefresh: async () => {
+      await Promise.all([fetchProfile(), fetchNotifications()]);
+    },
+  });
 
   useEffect(() => {
     if (loading) return;
@@ -874,6 +883,11 @@ const UserHome = () => {
 
   return (
     <>
+      <PullToRefreshIndicator
+        pullDistance={homePull.pullDistance}
+        isRefreshing={homePull.isRefreshing}
+        isReady={homePull.isReady}
+      />
       <div className="pb-24 relative min-h-screen bg-background overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 pt-2.5 space-y-4">
           <h1 className="sr-only">Portfolio Overview</h1>
@@ -902,10 +916,21 @@ const UserHome = () => {
             </button>
           </div>
 
+          {/* Onboarding checklist for new accounts */}
+          <GetStartedChecklist
+            kycStatus={profile?.kyc_status}
+            funded={totalBalance > 0}
+            traded={activeTradesCount > 0}
+            onStartKyc={() => setActiveModal("KYC")}
+            onDeposit={() => navigate("/app/assets")}
+            onTrade={() => navigate("/app/spot")}
+          />
+
           {/* Promotional Slideshow */}
           <div className="pt-1">
             <PromoSlideshow onOpenKyc={() => setActiveModal("KYC")} />
           </div>
+
 
           {/* Global Portfolio Balance Overview */}
           <div
@@ -948,9 +973,9 @@ const UserHome = () => {
               <div className="flex items-center gap-4 mt-3">
                 <div className="flex items-center gap-1.5 px-2 py-1 bg-success/10 border border-success/20 rounded-lg">
                   <TrendingUp size={12} className="text-success" />
-                  <span className="text-[10px] font-bold text-success">+$124.52 (4.12%)</span>
+                  <span className="text-[11px] font-bold text-success">+$124.52 (4.12%)</span>
                 </div>
-                <div className="text-[10px] font-bold text-muted-foreground flex items-center gap-1">
+                <div className="text-[11px] font-bold text-muted-foreground flex items-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                   Market Live
                 </div>
@@ -994,7 +1019,7 @@ const UserHome = () => {
                 <div className="w-12 h-12 rounded-2xl bg-card border border-border shadow-sm flex items-center justify-center transition-all group-active:scale-90 group-hover:bg-accent">
                   <act.icon size={22} className={act.color} strokeWidth={2.5} />
                 </div>
-                <span className="text-[10px] font-bold text-muted-foreground">{act.label}</span>
+                <span className="text-[11px] font-bold text-muted-foreground">{act.label}</span>
               </div>
             ))}
           </div>
@@ -1125,7 +1150,7 @@ const UserHome = () => {
                         })}
                       </div>
                       <div
-                        className={`text-[9px] font-bold ${item.change >= 0 ? "text-success" : "text-danger"}`}
+                        className={`text-[11px] font-bold ${item.change >= 0 ? "text-success" : "text-danger"}`}
                       >
                         {item.change > 0 ? "+" : ""}
                         {item.change}%
@@ -1163,7 +1188,7 @@ const UserHome = () => {
               ))}
             </div>
 
-            <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground uppercase tracking-tight py-2 border-b border-border/50">
+            <div className="flex justify-between items-center text-[11px] font-bold text-muted-foreground uppercase tracking-tight py-2 border-b border-border/50">
               <div className="flex items-center gap-1">
                 Coin/Volume <ChevronDown size={10} />
               </div>
@@ -1197,7 +1222,7 @@ const UserHome = () => {
                             Perp
                           </span>
                         </div>
-                        <span className="text-[10px] text-muted-foreground font-bold">
+                        <span className="text-[11px] text-muted-foreground font-bold">
                           {(Math.random() * 5).toFixed(2)}B
                         </span>
                       </div>
@@ -1207,7 +1232,7 @@ const UserHome = () => {
                         <div className="text-sm font-bold text-foreground font-mono">
                           {price?.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                         </div>
-                        <div className="text-[10px] text-muted-foreground font-bold font-mono">
+                        <div className="text-[11px] text-muted-foreground font-bold font-mono">
                           ${(price * 0.999).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                         </div>
                       </div>
@@ -1253,11 +1278,11 @@ const UserHome = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2 relative z-10">
-                <div className="bg-black/20 backdrop-blur-sm rounded-lg px-2 py-1 text-[10px] font-mono border border-white/10">
+                <div className="bg-black/20 backdrop-blur-sm rounded-lg px-2 py-1 text-[11px] font-mono border border-white/10">
                   ID: {profile.ftid}
                 </div>
                 <div
-                  className={`px-2 py-1 rounded-lg text-[10px] font-bold border flex items-center gap-1 ${
+                  className={`px-2 py-1 rounded-lg text-[11px] font-bold border flex items-center gap-1 ${
                     profile.kyc_status === "VERIFIED"
                       ? "bg-success/20 border-success/30"
                       : profile.kyc_status === "PENDING"
@@ -1337,7 +1362,7 @@ const UserHome = () => {
               >
                 <LogOut size={18} /> Log Out
               </button>
-              <p className="text-center text-[10px] text-muted-foreground/50 mt-3">Version 1.2.6</p>
+              <p className="text-center text-[11px] text-muted-foreground/50 mt-3">Version 1.2.6</p>
             </div>
           </div>
         </div>
@@ -2272,7 +2297,7 @@ const UserHome = () => {
                           )}
                           {noti.title}
                         </h4>
-                        <span className="text-[10px] text-muted-foreground font-mono leading-none">
+                        <span className="text-[11px] text-muted-foreground font-mono leading-none">
                           {new Date(noti.created_at).toLocaleDateString([], {
                             month: "short",
                             day: "numeric",

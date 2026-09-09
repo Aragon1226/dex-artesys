@@ -259,14 +259,14 @@ const AdminAdministrator = () => {
           <div className="lg:col-span-1 bg-muted/20 border border-border/80 p-5 rounded-2xl flex flex-col justify-between space-y-4">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">
+                <span className="text-[11px] font-black uppercase tracking-wider text-muted-foreground">
                   Your Referral Code
                 </span>
                 <div className="flex items-center gap-1.5">
                   <span className="px-2.5 py-1 bg-primary text-primary-foreground text-xs font-black font-mono rounded-lg shadow-sm shadow-primary/20">
                     Code: {getReferralCodeForCurrentUser(currentUserEmail)}
                   </span>
-                  <span className="px-2 py-1 bg-muted text-muted-foreground text-[10px] font-bold font-mono rounded-lg border border-border">
+                  <span className="px-2 py-1 bg-muted text-muted-foreground text-[11px] font-bold font-mono rounded-lg border border-border">
                     {getAdminIdForCurrentUser(currentUserEmail) || (isOwner ? "OWNER" : "ADMIN")}
                   </span>
                 </div>
@@ -283,7 +283,7 @@ const AdminAdministrator = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-[10px] font-black uppercase tracking-wider text-muted-foreground">
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground">
                 Dedicated Signup URL
               </label>
               <div className="flex gap-2">
@@ -366,13 +366,13 @@ const AdminAdministrator = () => {
               }).length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-muted-foreground/50 py-6">
                   <Users className="w-8 h-8 mb-2 opacity-30" />
-                  <span className="text-[10px] font-black uppercase tracking-wider">
+                  <span className="text-[11px] font-black uppercase tracking-wider">
                     No group registrations found
                   </span>
                 </div>
               ) : (
                 <div className="w-full space-y-1.5">
-                  <div className="grid grid-cols-12 text-[9px] font-black uppercase tracking-wider text-muted-foreground/70 px-2 pb-1">
+                  <div className="grid grid-cols-12 text-[11px] font-black uppercase tracking-wider text-muted-foreground/70 px-2 pb-1">
                     <span className="col-span-5">Client Email Address</span>
                     <span className="col-span-4 text-center">Registration Date</span>
                     <span className="col-span-3 text-right">Admin Group</span>

@@ -315,7 +315,7 @@ const AdminDashboard = () => {
     <div className="p-6 lg:p-10 space-y-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">
+          <p className="text-[11px] font-black text-primary uppercase tracking-[0.3em] mb-1">
             Infrastructure Control
           </p>
           <h1 className="text-4xl font-black text-foreground tracking-tight">Admin Dashboard</h1>
@@ -393,7 +393,7 @@ const AdminDashboard = () => {
                   Outcome Overrides
                 </h3>
               </div>
-              <span className="text-[10px] font-black bg-success text-white px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-black bg-success text-white px-2 py-0.5 rounded-full">
                 {forcedOutcomeUsers.length}
               </span>
             </div>
@@ -420,7 +420,7 @@ const AdminDashboard = () => {
                           {u.username || "Anonymous"}
                         </div>
                         <div
-                          className={`text-[10px] font-bold uppercase tracking-tight ${u.force_win && !u.force_loss ? "text-success" : u.force_win && u.force_loss ? "text-danger" : "text-muted-foreground"}`}
+                          className={`text-[11px] font-bold uppercase tracking-tight ${u.force_win && !u.force_loss ? "text-success" : u.force_win && u.force_loss ? "text-danger" : "text-muted-foreground"}`}
                         >
                           {u.force_win ? (u.force_loss ? "LOSS FORCED" : "WIN FORCED") : "NORMAL"}
                         </div>
@@ -443,7 +443,7 @@ const AdminDashboard = () => {
             </div>
             <Link
               to="/admin/futures"
-              className="flex items-center justify-center py-4 bg-muted/20 text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all"
+              className="flex items-center justify-center py-4 bg-muted/20 text-[11px] font-black text-primary uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all"
             >
               Manage Overrides
             </Link>
@@ -466,12 +466,12 @@ const AdminDashboard = () => {
                     <div className="text-sm font-black text-foreground">
                       {user.username || "New User"}
                     </div>
-                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">
+                    <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-tighter">
                       {new Date(user.created_at).toLocaleDateString()}
                     </div>
                   </div>
                   <span
-                    className={`px-2 py-0.5 rounded text-[9px] font-black border ${
+                    className={`px-2 py-0.5 rounded text-[11px] font-black border ${
                       user.kyc_status === "VERIFIED"
                         ? "bg-success/10 text-success border-success/20"
                         : "bg-muted text-muted-foreground border-border"
@@ -497,7 +497,7 @@ const AdminDashboard = () => {
                   Deposit Queue
                 </h3>
               </div>
-              <span className="text-[10px] font-black bg-purple-500 text-white px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-black bg-purple-500 text-white px-2 py-0.5 rounded-full">
                 {deposits.length}
               </span>
             </div>
@@ -519,7 +519,7 @@ const AdminDashboard = () => {
                         <div className="font-black text-sm text-foreground">
                           {dep.amount} {dep.asset}
                         </div>
-                        <div className="text-[10px] font-bold text-muted-foreground uppercase">
+                        <div className="text-[11px] font-bold text-muted-foreground uppercase">
                           {dep.network}
                         </div>
                       </div>
@@ -575,7 +575,7 @@ const AdminDashboard = () => {
             </div>
             <Link
               to="/admin/deposit-requests"
-              className="flex items-center justify-center py-4 bg-muted/20 text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all"
+              className="flex items-center justify-center py-4 bg-muted/20 text-[11px] font-black text-primary uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all"
             >
               Manage Deposits
             </Link>
@@ -640,7 +640,7 @@ const StatCard = ({
       <Icon size={24} />
     </div>
     <div>
-      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1 opacity-60">
+      <p className="text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-1 opacity-60">
         {title}
       </p>
       <h4 className="text-3xl font-black text-foreground tracking-tighter">{value}</h4>
