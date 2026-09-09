@@ -8,6 +8,8 @@ import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingBlock } from "@/components/shared/BrandLoader";
 import { RetryState } from "@/components/shared/RetryState";
 import { throwIfFaultInjected } from "@/lib/devFaults";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
+import { PullToRefreshIndicator } from "@/components/shared/PullToRefreshIndicator";
 
 const MAIN_TABS = ["Overview", "Favorites", "Crypto", "Main", "Stocks & Commodities", "Alpha"];
 const SUB_TABS = ["Spot", "Futures", "Margin"];
