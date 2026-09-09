@@ -522,6 +522,12 @@ const UserHome = () => {
     }
   };
 
+  const homePull = usePullToRefresh({
+    onRefresh: async () => {
+      await Promise.all([fetchProfile(), fetchNotifications()]);
+    },
+  });
+
   useEffect(() => {
     if (loading) return;
     if (!user) {
