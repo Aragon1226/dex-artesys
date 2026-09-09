@@ -875,6 +875,11 @@ const UserHome = () => {
 
   return (
     <>
+      <PullToRefreshIndicator
+        pullDistance={homePull.pullDistance}
+        isRefreshing={homePull.isRefreshing}
+        isReady={homePull.isReady}
+      />
       <div className="pb-24 relative min-h-screen bg-background overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 pt-2.5 space-y-4">
           <h1 className="sr-only">Portfolio Overview</h1>
