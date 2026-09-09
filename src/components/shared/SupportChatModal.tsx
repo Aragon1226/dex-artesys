@@ -383,7 +383,7 @@ export const SupportChatModal = ({ isOpen, onClose }: SupportChatModalProps) => 
                       <p className="text-sm break-words">{m.message}</p>
                     )}
                     <span
-                      className={`text-[9px] mt-1 block text-right ${m.sender_type === "user" ? "opacity-80" : "text-muted-foreground"}`}
+                      className={`text-[11px] mt-1 block text-right ${m.sender_type === "user" ? "opacity-80" : "text-muted-foreground"}`}
                     >
                       {new Date(m.created_at).toLocaleTimeString([], {
                         hour: "2-digit",

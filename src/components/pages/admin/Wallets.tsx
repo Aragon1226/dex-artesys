@@ -315,7 +315,7 @@ const AdminWallets = () => {
                   <CryptoIcon symbol={wallet.symbol} size={32} />
                   <div>
                     <h3 className="font-bold text-foreground">{wallet.symbol}</h3>
-                    <span className="text-[10px] uppercase tracking-wider font-bold bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+                    <span className="text-[11px] uppercase tracking-wider font-bold bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
                       {wallet.network}
                     </span>
                   </div>
@@ -339,7 +339,7 @@ const AdminWallets = () => {
 
               <div className="space-y-3">
                 <div className="relative">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase mb-1 block">
                     Deposit Address
                   </label>
                   <div className="relative">

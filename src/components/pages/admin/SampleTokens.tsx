@@ -740,7 +740,7 @@ export const AdminSampleTokens = () => {
                                       style={{ width: `${Math.min(100, Math.max(0, returnPct))}%` }}
                                     />
                                   </div>
-                                  <div className="text-[10px] text-gray-400 flex justify-between items-center">
+                                  <div className="text-[11px] text-gray-400 flex justify-between items-center">
                                     <span>~{remHours}h remaining</span>
                                     <button
                                       onClick={() => handleCancelReturnToBase(token.symbol)}
@@ -775,7 +775,7 @@ export const AdminSampleTokens = () => {
                                     </span>
                                     <button
                                       onClick={() => handleStartReturnToBase(token.symbol)}
-                                      className="px-2 py-0.5 rounded bg-warning/20 hover:bg-warning/30 text-warning border border-warning/40 text-[10px] font-semibold flex items-center gap-1 transition-all"
+                                      className="px-2 py-0.5 rounded bg-warning/20 hover:bg-warning/30 text-warning border border-warning/40 text-[11px] font-semibold flex items-center gap-1 transition-all"
                                       title="Start gradual 1-4h recovery back to base price"
                                     >
                                       <RotateCcw className="w-2.5 h-2.5" />
@@ -819,7 +819,7 @@ export const AdminSampleTokens = () => {
                                       }}
                                     />
                                   </div>
-                                  <div className="text-[10px] text-gray-400 flex justify-between">
+                                  <div className="text-[11px] text-gray-400 flex justify-between">
                                     <span>{progressPct}% completed</span>
                                     <span>{sch.note || "Active"}</span>
                                   </div>

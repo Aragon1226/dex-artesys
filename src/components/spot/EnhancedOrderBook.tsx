@@ -80,7 +80,7 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
   const currentPrice = marketService.getCurrentPrice(symbol);
 
   return (
-    <div className="bg-card border border-border rounded-2xl p-3 shadow-sm flex flex-col h-full text-[10px] font-mono">
+    <div className="bg-card border border-border rounded-2xl p-3 shadow-sm flex flex-col h-full text-[11px] font-mono">
       {/* Header Tabs */}
       <div className="flex items-center justify-between border-b border-border pb-2 mb-2">
         <div className="flex items-center gap-2">
@@ -110,14 +110,14 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
           </button>
         </div>
 
-        <span className="text-[9px] font-bold text-muted-foreground uppercase bg-muted px-1.5 py-0.5 rounded">
+        <span className="text-[11px] font-bold text-muted-foreground uppercase bg-muted px-1.5 py-0.5 rounded">
           Precision: 0.01
         </span>
       </div>
 
       {activeTab === "book" ? (
         <div className="flex-1 overflow-hidden flex flex-col justify-between">
-          <div className="grid grid-cols-3 text-muted-foreground font-bold pb-1 text-[9px] uppercase border-b border-border/50">
+          <div className="grid grid-cols-3 text-muted-foreground font-bold pb-1 text-[11px] uppercase border-b border-border/50">
             <span>Price (USDT)</span>
             <span className="text-right">Size</span>
             <span className="text-right">Total</span>
@@ -160,11 +160,11 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
                   maximumFractionDigits: 2,
                 })}
               </span>
-              <span className="text-[9px] font-bold text-success flex items-center">
+              <span className="text-[11px] font-bold text-success flex items-center">
                 <ArrowUpRight size={12} /> Live
               </span>
             </div>
-            <span className="text-[9px] font-semibold text-muted-foreground uppercase">
+            <span className="text-[11px] font-semibold text-muted-foreground uppercase">
               Spread 0.01%
             </span>
           </div>
@@ -199,7 +199,7 @@ export const EnhancedOrderBook: React.FC<EnhancedOrderBookProps> = ({ symbol, on
       ) : (
         /* RECENT MARKET TRADES LIST */
         <div className="flex-1 overflow-y-auto space-y-1 custom-scrollbar pr-1">
-          <div className="grid grid-cols-3 text-muted-foreground font-bold pb-1 text-[9px] uppercase border-b border-border/50">
+          <div className="grid grid-cols-3 text-muted-foreground font-bold pb-1 text-[11px] uppercase border-b border-border/50">
             <span>Price (USDT)</span>
             <span className="text-right">Amount</span>
             <span className="text-right">Time</span>

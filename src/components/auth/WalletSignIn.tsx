@@ -91,7 +91,7 @@ export const WalletSignIn = ({ onSuccess, disabled }: WalletSignInProps) => {
         </button>
       )}
 
-      <p className="text-[10px] text-center text-muted-foreground uppercase tracking-[0.15em]">
+      <p className="text-[11px] text-center text-muted-foreground uppercase tracking-[0.15em]">
         Signature only — no gas fees, no transactions
       </p>
     </div>

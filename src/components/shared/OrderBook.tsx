@@ -40,7 +40,7 @@ export const OrderBook = ({ symbol }: { symbol: string }) => {
   }, [symbol]);
 
   return (
-    <div className="flex flex-col h-full text-[10px] font-mono">
+    <div className="flex flex-col h-full text-[11px] font-mono">
       <div className="flex justify-between text-muted-foreground mb-1 font-bold">
         <span>Price</span>
         <span>Amount</span>

@@ -48,7 +48,7 @@ export const MarketPreview = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div>
-            <p className="inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-primary mb-4">
+            <p className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-primary mb-4">
               <Activity size={12} /> Live Markets
             </p>
             <h2 className="text-3xl md:text-5xl font-light tracking-tight text-foreground">
@@ -57,7 +57,7 @@ export const MarketPreview = () => {
           </div>
           <button
             onClick={() => navigate("/app/market")}
-            className="self-start sm:self-auto inline-flex items-center gap-2 px-6 py-3 border border-border bg-card/60 text-foreground text-[10px] font-bold uppercase tracking-[0.15em] hover:border-primary/40 hover:text-primary transition-colors rounded-xl"
+            className="self-start sm:self-auto inline-flex items-center gap-2 px-6 py-3 border border-border bg-card/60 text-foreground text-[11px] font-bold uppercase tracking-[0.15em] hover:border-primary/40 hover:text-primary transition-colors rounded-xl"
           >
             View all markets <ArrowUpRight size={14} />
           </button>
@@ -82,7 +82,7 @@ export const MarketPreview = () => {
                     <p className="text-xs font-bold text-foreground font-mono tracking-tight">
                       {row.symbol}/USDT
                     </p>
-                    <p className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                       Spot
                     </p>
                   </div>
@@ -95,7 +95,7 @@ export const MarketPreview = () => {
                   })}
                 </p>
                 <span
-                  className={`inline-flex items-center gap-1 text-[10px] font-bold font-mono ${
+                  className={`inline-flex items-center gap-1 text-[11px] font-bold font-mono ${
                     up ? "text-success" : "text-destructive"
                   }`}
                 >

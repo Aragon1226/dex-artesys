@@ -177,7 +177,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
-            <tr className="border-b border-border text-[10px] font-black uppercase tracking-wider text-muted-foreground">
+            <tr className="border-b border-border text-[11px] font-black uppercase tracking-wider text-muted-foreground">
               <th className="py-2.5 px-3">Asset</th>
               <th className="py-2.5 px-3 text-right">Holding Balance</th>
               <th className="py-2.5 px-3 text-right">Current Price</th>
@@ -194,7 +194,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                   <CryptoIcon symbol="USDT" size={26} />
                   <div>
                     <div className="font-extrabold text-foreground text-xs">USDT</div>
-                    <div className="text-[10px] text-muted-foreground font-semibold">
+                    <div className="text-[11px] text-muted-foreground font-semibold">
                       Tether USD
                     </div>
                   </div>
@@ -220,7 +220,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                 <button
                   type="button"
                   onClick={onOpenConvert}
-                  className="px-2.5 py-1 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground rounded-lg text-[10px] font-bold transition-all border border-primary/20"
+                  className="px-2.5 py-1 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground rounded-lg text-[11px] font-bold transition-all border border-primary/20"
                 >
                   Convert
                 </button>
@@ -235,7 +235,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                     <CryptoIcon symbol={asset.symbol} size={26} />
                     <div>
                       <div className="font-extrabold text-foreground text-xs">{asset.symbol}</div>
-                      <div className="text-[10px] text-muted-foreground font-semibold">
+                      <div className="text-[11px] text-muted-foreground font-semibold">
                         {asset.name}
                       </div>
                     </div>
@@ -270,7 +270,7 @@ export const SpotWalletBox: React.FC<SpotWalletBoxProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectPairToTrade(asset.pair)}
-                    className="px-2.5 py-1 bg-success/10 hover:bg-success text-success hover:text-white rounded-lg text-[10px] font-bold transition-all border border-success/20 flex items-center gap-1 mx-auto"
+                    className="px-2.5 py-1 bg-success/10 hover:bg-success text-success hover:text-white rounded-lg text-[11px] font-bold transition-all border border-success/20 flex items-center gap-1 mx-auto"
                   >
                     <span>Trade</span>
                     <ArrowUpRight size={11} />

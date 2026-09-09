@@ -195,7 +195,7 @@ const KYC = () => {
                         <span className="font-bold text-foreground capitalize">{sub.id_type}</span>
                       </div>
                       <div
-                        className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${
                           sub.status === "VERIFIED"
                             ? "bg-success-soft text-success border-success/25"
                             : sub.status === "REJECTED"
@@ -230,7 +230,7 @@ const KYC = () => {
 
                           {sub.admin_notes && (
                             <div className="bg-warning/5 border border-warning/20 p-3 rounded-lg">
-                              <span className="text-[10px] font-bold text-warning uppercase block mb-1">
+                              <span className="text-[11px] font-bold text-warning uppercase block mb-1">
                                 Previous Admin Notes:
                               </span>
                               <p className="text-xs text-foreground italic">"{sub.admin_notes}"</p>
@@ -370,7 +370,7 @@ const KYC = () => {
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
   <div className="flex flex-col gap-0.5">
-    <span className="text-[10px] font-bold text-muted-foreground uppercase">{label}</span>
+    <span className="text-[11px] font-bold text-muted-foreground uppercase">{label}</span>
     <span className="text-sm text-foreground font-medium">{value || "—"}</span>
   </div>
 );
@@ -415,7 +415,7 @@ const ImagePreview = ({
 
   return (
     <div className="space-y-2">
-      <span className="text-[10px] font-bold text-muted-foreground uppercase text-center block">
+      <span className="text-[11px] font-bold text-muted-foreground uppercase text-center block">
         {label}
       </span>
       <div
@@ -441,7 +441,7 @@ const ImagePreview = ({
         ) : (
           <>
             {icon || <FileText size={20} className="text-muted-foreground mb-1" />}
-            <span className="text-[10px] font-bold text-muted-foreground uppercase px-2 text-center">
+            <span className="text-[11px] font-bold text-muted-foreground uppercase px-2 text-center">
               {error ? "Load Error" : "NOT UPLOADED"}
             </span>
           </>

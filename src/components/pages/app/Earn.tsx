@@ -181,7 +181,7 @@ const Earn = () => {
               setAmount("");
               setShowTransfer(true);
             }}
-            className="px-2.5 py-1.5 rounded-lg border border-border text-[10px] font-bold text-foreground hover:bg-muted flex items-center gap-1.5"
+            className="px-2.5 py-1.5 rounded-lg border border-border text-[11px] font-bold text-foreground hover:bg-muted flex items-center gap-1.5"
           >
             <ArrowRightLeft size={12} /> Transfer
           </button>
@@ -191,7 +191,7 @@ const Earn = () => {
               setAmount("");
               setShowStake(true);
             }}
-            className="px-2.5 py-1.5 rounded-lg bg-primary text-primary-foreground text-[10px] font-bold hover:bg-primary/90 shadow-sm flex items-center gap-1.5"
+            className="px-2.5 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold hover:bg-primary/90 shadow-sm flex items-center gap-1.5"
           >
             <Plus size={12} /> Stake
           </button>
@@ -213,7 +213,7 @@ const Earn = () => {
                   maximumFractionDigits: 2,
                 })}
               </h2>
-              <p className="text-[10px] font-bold text-success mt-1">
+              <p className="text-[11px] font-bold text-success mt-1">
                 +${dailyYield.toFixed(2)} / day est.
               </p>
             </div>
@@ -228,7 +228,7 @@ const Earn = () => {
               { label: "Annual Projection", value: `$${annualYield.toFixed(2)}` },
             ].map((s) => (
               <div key={s.label}>
-                <p className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mb-1">
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-bold mb-1">
                   {s.label}
                 </p>
                 <p className="text-sm font-bold text-foreground font-mono">{s.value}</p>
@@ -253,16 +253,16 @@ const Earn = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-foreground">Fixed Term</h3>
-                <p className="text-[10px] text-muted-foreground">Locked period, higher yield</p>
+                <p className="text-[11px] text-muted-foreground">Locked period, higher yield</p>
               </div>
             </div>
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-[10px] text-muted-foreground">APR up to</p>
+                <p className="text-[11px] text-muted-foreground">APR up to</p>
                 <p className="text-base font-bold text-success font-mono">9.80%</p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-muted-foreground">Terms</p>
+                <p className="text-[11px] text-muted-foreground">Terms</p>
                 <p className="text-[11px] font-bold text-foreground">10d – 180d</p>
               </div>
             </div>
@@ -282,16 +282,16 @@ const Earn = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-foreground">Flexible</h3>
-                <p className="text-[10px] text-muted-foreground">Redeem at any time</p>
+                <p className="text-[11px] text-muted-foreground">Redeem at any time</p>
               </div>
             </div>
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-[10px] text-muted-foreground">APR</p>
+                <p className="text-[11px] text-muted-foreground">APR</p>
                 <p className="text-base font-bold text-success font-mono">0.25%</p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-muted-foreground">Lock Period</p>
+                <p className="text-[11px] text-muted-foreground">Lock Period</p>
                 <p className="text-[11px] font-bold text-foreground">None</p>
               </div>
             </div>
@@ -304,7 +304,7 @@ const Earn = () => {
             <h3 className="text-[11px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
               <Coins size={13} className="text-primary" /> Earn Products
             </h3>
-            <span className="text-[9px] font-bold text-muted-foreground font-mono">
+            <span className="text-[11px] font-bold text-muted-foreground font-mono">
               Updated hourly
             </span>
           </div>
@@ -329,7 +329,7 @@ const Earn = () => {
                       {prod.tag}
                     </span>
                   </div>
-                  <p className="text-[10px] text-muted-foreground truncate">
+                  <p className="text-[11px] text-muted-foreground truncate">
                     {prod.name} · Min {prod.min}
                   </p>
                   <div className="h-1 mt-1.5 w-24 rounded-full bg-muted overflow-hidden">
@@ -341,7 +341,7 @@ const Earn = () => {
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-xs font-bold text-success font-mono">{prod.apr}</p>
-                  <p className="text-[9px] text-muted-foreground">Est. APR</p>
+                  <p className="text-[11px] text-muted-foreground">Est. APR</p>
                 </div>
                 <ChevronRight size={14} className="text-muted-foreground shrink-0" />
               </button>
@@ -356,7 +356,7 @@ const Earn = () => {
               <h3 className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">
                 Active Position
               </h3>
-              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-success/10 text-success uppercase">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-success/10 text-success uppercase">
                 Accruing
               </span>
             </div>
@@ -370,7 +370,7 @@ const Earn = () => {
                     maximumFractionDigits: 2,
                   })}
                 </p>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-[11px] text-muted-foreground">
                   Flexible savings · settles daily at 00:00 UTC
                 </p>
               </div>
@@ -380,7 +380,7 @@ const Earn = () => {
                   setAmount("");
                   setShowTransfer(true);
                 }}
-                className="px-3 py-1.5 rounded-lg border border-border text-[10px] font-bold text-foreground hover:bg-muted"
+                className="px-3 py-1.5 rounded-lg border border-border text-[11px] font-bold text-foreground hover:bg-muted"
               >
                 Redeem
               </button>
@@ -420,7 +420,7 @@ const Earn = () => {
               className="rounded-xl border border-border bg-card px-2 py-3 text-center"
             >
               <item.icon size={14} className="text-primary mx-auto mb-1.5" />
-              <p className="text-[9px] font-bold text-muted-foreground leading-tight">
+              <p className="text-[11px] font-bold text-muted-foreground leading-tight">
                 {item.label}
               </p>
             </div>
@@ -443,7 +443,7 @@ const Earn = () => {
           ))}
         </div>
 
-        <p className="flex items-start gap-1.5 text-[9px] text-muted-foreground leading-relaxed px-1">
+        <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground leading-relaxed px-1">
           <Info size={11} className="shrink-0 mt-0.5" />
           Displayed APRs are estimates based on current network conditions and may change. Rewards
           are simulated for demonstration purposes.
@@ -459,7 +459,7 @@ const Earn = () => {
                 <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
                   <Plus className="text-primary" size={18} /> Stake USDT
                 </h3>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-[11px] text-muted-foreground">
                   {stakeType === "fixed" ? "Locked Savings" : "Flexible Savings"}
                 </p>
               </div>
@@ -475,7 +475,7 @@ const Earn = () => {
                 className={`rounded-lg p-3 mb-4 flex items-center justify-between ${stakeType === "fixed" ? "bg-warning/5 border border-warning/25" : "bg-primary/5 border border-primary/20"}`}
               >
                 <div>
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase block mb-0.5">
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase block mb-0.5">
                     APR Rate
                   </span>
                   <span className="text-lg font-bold text-success font-mono">
@@ -506,7 +506,7 @@ const Earn = () => {
               <div className="mb-6">
                 <div className="flex justify-between mb-1.5">
                   <label className="text-[11px] font-bold text-foreground">Amount</label>
-                  <span className="text-[10px] text-muted-foreground">
+                  <span className="text-[11px] text-muted-foreground">
                     Available: {(profile.balance || 0).toFixed(2)}
                   </span>
                 </div>
@@ -554,7 +554,7 @@ const Earn = () => {
                 </div>
                 <button
                   onClick={() => setTransferFromSpot(!transferFromSpot)}
-                  className="text-[10px] text-primary font-bold"
+                  className="text-[11px] text-primary font-bold"
                 >
                   Swap Direction
                 </button>
@@ -562,7 +562,7 @@ const Earn = () => {
               <div className="mb-6">
                 <div className="flex justify-between mb-1.5">
                   <label className="text-[11px] font-bold text-foreground">Amount</label>
-                  <span className="text-[10px] text-muted-foreground">
+                  <span className="text-[11px] text-muted-foreground">
                     Available:{" "}
                     {(transferFromSpot ? profile.balance : profile.staked_balance || 0).toFixed(2)}
                   </span>

@@ -70,7 +70,7 @@ export const RetryState: React.FC<RetryStateProps> = ({
         {description}
       </p>
       {detail && (
-        <p className="mt-2 max-w-sm text-[10px] font-mono text-muted-foreground/70 break-words">
+        <p className="mt-2 max-w-sm text-[11px] font-mono text-muted-foreground/70 break-words">
           {detail}
         </p>
       )}

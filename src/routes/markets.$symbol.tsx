@@ -71,7 +71,7 @@ function MarketDetailPage() {
         <div className="mx-auto max-w-6xl">
           <nav
             aria-label="Breadcrumb"
-            className="mb-6 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground"
+            className="mb-6 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground"
           >
             <Link to="/markets" className="hover:text-primary">
               Markets
@@ -114,7 +114,7 @@ function MarketDetailPage() {
         <dl className="grid gap-4 sm:grid-cols-3">
           {stats.map((s) => (
             <div key={s.label} className="rounded-2xl border border-border bg-card p-5">
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 {s.label}
               </dt>
               <dd className={`mt-2 font-mono text-base font-bold ${s.tone ?? "text-foreground"}`}>

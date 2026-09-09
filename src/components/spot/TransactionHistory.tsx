@@ -44,7 +44,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           >
             <Clock size={14} />
             <span>Open Orders</span>
-            <span className="px-1.5 py-0.2 text-[10px] bg-primary/10 text-primary rounded-full font-mono font-bold">
+            <span className="px-1.5 py-0.2 text-[11px] bg-primary/10 text-primary rounded-full font-mono font-bold">
               {openOrders.length}
             </span>
           </button>
@@ -60,7 +60,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           >
             <History size={14} />
             <span>Order & Transaction History</span>
-            <span className="px-1.5 py-0.2 text-[10px] bg-muted text-muted-foreground rounded-full font-mono font-bold">
+            <span className="px-1.5 py-0.2 text-[11px] bg-muted text-muted-foreground rounded-full font-mono font-bold">
               {completedOrders.length}
             </span>
           </button>
@@ -83,7 +83,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           <button
             type="button"
             onClick={onClearHistory}
-            className="text-[10px] font-bold text-muted-foreground hover:text-destructive flex items-center gap-1 bg-muted/60 hover:bg-destructive/10 px-2 py-1 rounded-lg border border-border transition-colors"
+            className="text-[11px] font-bold text-muted-foreground hover:text-destructive flex items-center gap-1 bg-muted/60 hover:bg-destructive/10 px-2 py-1 rounded-lg border border-border transition-colors"
           >
             <Trash2 size={11} />
             <span>Clear History</span>
@@ -99,14 +99,14 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             <div className="py-10 text-center text-muted-foreground space-y-1">
               <Clock size={28} className="mx-auto opacity-30" />
               <p className="text-xs font-bold">No active open orders</p>
-              <p className="text-[10px] opacity-70">
+              <p className="text-[11px] opacity-70">
                 Limit orders you place will appear here until filled or cancelled.
               </p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse min-w-[600px]">
               <thead>
-                <tr className="border-b border-border text-[10px] font-black uppercase tracking-wider text-muted-foreground">
+                <tr className="border-b border-border text-[11px] font-black uppercase tracking-wider text-muted-foreground">
                   <th className="py-2 px-2">Time</th>
                   <th className="py-2 px-2">Pair</th>
                   <th className="py-2 px-2">Type</th>
@@ -130,12 +130,12 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="py-2.5 px-2 font-bold text-foreground font-sans">
                       {order.pair}
                     </td>
-                    <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">
+                    <td className="py-2.5 px-2 font-sans text-[11px] font-bold text-muted-foreground uppercase">
                       {order.type}
                     </td>
                     <td className="py-2.5 px-2 font-black font-sans">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] uppercase ${
+                        className={`px-2 py-0.5 rounded text-[11px] uppercase ${
                           order.side === "BUY"
                             ? "bg-success/10 text-success"
                             : "bg-danger/10 text-danger"
@@ -157,7 +157,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                       <button
                         type="button"
                         onClick={() => onCancelOrder(order.id)}
-                        className="px-2.5 py-1 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white rounded-lg text-[10px] font-bold transition-all border border-destructive/20"
+                        className="px-2.5 py-1 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white rounded-lg text-[11px] font-bold transition-all border border-destructive/20"
                       >
                         Cancel
                       </button>
@@ -174,14 +174,14 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             <div className="py-10 text-center text-muted-foreground space-y-1">
               <History size={28} className="mx-auto opacity-30" />
               <p className="text-xs font-bold">No transaction history yet</p>
-              <p className="text-[10px] opacity-70">
+              <p className="text-[11px] opacity-70">
                 Completed buys, sells, and conversions will be logged here.
               </p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse min-w-[650px]">
               <thead>
-                <tr className="border-b border-border text-[10px] font-black uppercase tracking-wider text-muted-foreground">
+                <tr className="border-b border-border text-[11px] font-black uppercase tracking-wider text-muted-foreground">
                   <th className="py-2 px-2">Date & Time</th>
                   <th className="py-2 px-2">Pair</th>
                   <th className="py-2 px-2">Type</th>
@@ -206,12 +206,12 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     <td className="py-2.5 px-2 font-bold text-foreground font-sans">
                       {order.pair}
                     </td>
-                    <td className="py-2.5 px-2 font-sans text-[10px] font-bold text-muted-foreground uppercase">
+                    <td className="py-2.5 px-2 font-sans text-[11px] font-bold text-muted-foreground uppercase">
                       {order.type}
                     </td>
                     <td className="py-2.5 px-2 font-black font-sans">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] uppercase ${
+                        className={`px-2 py-0.5 rounded text-[11px] uppercase ${
                           order.side === "BUY"
                             ? "bg-success/10 text-success"
                             : order.side === "SELL"
@@ -233,7 +233,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     </td>
                     <td className="py-2.5 px-2 text-center font-sans">
                       <span
-                        className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full ${
                           order.status === "FILLED"
                             ? "bg-success/10 text-success"
                             : "bg-muted text-muted-foreground"
@@ -286,7 +286,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                         {order.side} {order.amount.toFixed(4)} {order.symbol} @ $
                         {order.price.toFixed(2)}
                       </div>
-                      <div className="text-[10px] text-muted-foreground font-sans">
+                      <div className="text-[11px] text-muted-foreground font-sans">
                         {order.pair} • {order.type} Order •{" "}
                         {new Date(order.createdAt).toLocaleTimeString()}
                       </div>
@@ -295,7 +295,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
                   <div className="text-right">
                     <div className="font-bold text-foreground">${order.total.toFixed(2)} USDT</div>
-                    <div className="text-[10px] text-success font-bold uppercase">
+                    <div className="text-[11px] text-success font-bold uppercase">
                       Spot Settlement Executed
                     </div>
                   </div>

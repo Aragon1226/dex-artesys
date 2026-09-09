@@ -347,7 +347,7 @@ const QuickConvert = () => {
           )}
         </button>
 
-        <p className="text-[10px] text-muted-foreground text-center px-4 leading-normal">
+        <p className="text-[11px] text-muted-foreground text-center px-4 leading-normal">
           <AlertCircle size={10} className="inline mr-1" />
           The actual conversion rate may vary slightly due to market volatility. Zero fees applied.
         </p>

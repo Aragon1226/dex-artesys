@@ -127,7 +127,7 @@ const Auth = () => {
           animate={{ opacity: 0.5 }}
           whileHover={{ opacity: 0.9, y: -2 }}
           onClick={() => navigate("/")}
-          className="mt-8 text-[10px] text-muted-foreground uppercase tracking-[0.3em] transition-all font-medium hover:text-foreground"
+          className="mt-8 text-[11px] text-muted-foreground uppercase tracking-[0.3em] transition-all font-medium hover:text-foreground"
         >
           ← Return to Platform Overview
         </motion.button>

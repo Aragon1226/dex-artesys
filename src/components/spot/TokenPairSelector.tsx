@@ -135,7 +135,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
                 className={`text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : ""}`}
               />
             </div>
-            <div className="text-[10px] font-semibold text-muted-foreground leading-none">
+            <div className="text-[11px] font-semibold text-muted-foreground leading-none">
               {assetConfig[baseSymbol]?.name || baseSymbol}
             </div>
           </div>
@@ -156,7 +156,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
                 <SlidersHorizontal size={13} className="text-primary" />
                 <span>Select Token Pair</span>
               </div>
-              <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono">
+              <span className="text-[11px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono">
                 {filteredSymbols.length} Pairs
               </span>
             </div>
@@ -178,7 +178,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-muted-foreground hover:text-foreground bg-muted hover:bg-accent px-1.5 py-0.5 rounded"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-muted-foreground hover:text-foreground bg-muted hover:bg-accent px-1.5 py-0.5 rounded"
                 >
                   Clear
                 </button>
@@ -191,7 +191,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-bold whitespace-nowrap transition-all border ${
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all border ${
                     activeCategory === cat
                       ? "bg-primary text-primary-foreground border-primary shadow-sm"
                       : "bg-background/80 text-muted-foreground border-border hover:bg-muted hover:text-foreground"
@@ -209,7 +209,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
               <div className="p-8 text-center text-muted-foreground">
                 <Search size={24} className="mx-auto mb-2 opacity-40" />
                 <p className="text-xs font-bold">No trading pairs found</p>
-                <p className="text-[10px] opacity-70 mt-0.5">
+                <p className="text-[11px] opacity-70 mt-0.5">
                   Try searching for a different keyword
                 </p>
               </div>
@@ -245,7 +245,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
                             {config.category}
                           </span>
                         </div>
-                        <div className="text-[10px] text-muted-foreground font-medium truncate max-w-[120px]">
+                        <div className="text-[11px] text-muted-foreground font-medium truncate max-w-[120px]">
                           {config.name}
                         </div>
                       </div>
@@ -260,7 +260,7 @@ export const TokenPairSelector: React.FC<TokenPairSelectorProps> = ({
                         })}
                       </div>
                       <div
-                        className={`text-[10px] font-extrabold font-mono flex items-center justify-end gap-0.5 ${
+                        className={`text-[11px] font-extrabold font-mono flex items-center justify-end gap-0.5 ${
                           ticker.priceChangePercent >= 0 ? "text-success" : "text-danger"
                         }`}
                       >

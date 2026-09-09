@@ -114,7 +114,7 @@ const AdminLogin = () => {
           <Logo size={72} variant="SYMBOL" className="mx-auto mb-4" />
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
             <ShieldCheck size={12} className="text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
               Administrator Portal
             </span>
           </div>

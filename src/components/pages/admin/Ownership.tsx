@@ -335,7 +335,7 @@ const AdminOwnership = () => {
 
           <form onSubmit={handleCreateAdmin} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
                 Assigned Admin ID & Referral Code
               </label>
               <div className="flex gap-2">
@@ -347,7 +347,7 @@ const AdminOwnership = () => {
                   className="px-4 py-3 bg-primary/10 border border-primary/20 rounded-xl text-sm font-black text-primary font-mono flex items-center gap-1.5"
                   title="Unique referral code"
                 >
-                  <span className="text-[10px] uppercase font-sans text-muted-foreground">
+                  <span className="text-[11px] uppercase font-sans text-muted-foreground">
                     Code:
                   </span>
                   {getAdminReferralCode(nextPreviewId)}
@@ -356,7 +356,7 @@ const AdminOwnership = () => {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
                 Username / Name
               </label>
               <div className="relative">
@@ -373,7 +373,7 @@ const AdminOwnership = () => {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
                 Email Address
               </label>
               <div className="relative">
@@ -390,7 +390,7 @@ const AdminOwnership = () => {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">
                 Login Password
               </label>
               <div className="relative">
@@ -415,7 +415,7 @@ const AdminOwnership = () => {
 
             {/* Custom permissions checkboxes */}
             <div className="space-y-3 pt-2">
-              <label className="block text-[10px] font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1">
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1">
                 Page View Permissions
               </label>
               <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
@@ -439,7 +439,7 @@ const AdminOwnership = () => {
                     >
                       {selectedPermissions[page.key] && <Check size={10} className="stroke-[3]" />}
                     </div>
-                    <span className="text-[10px] truncate">{page.label}</span>
+                    <span className="text-[11px] truncate">{page.label}</span>
                   </button>
                 ))}
               </div>
@@ -494,10 +494,10 @@ const AdminOwnership = () => {
                       <div>
                         <h4 className="text-sm font-black flex items-center gap-1.5">
                           {admin.username}
-                          <span className="px-2 py-0.5 bg-info/10 text-info text-[9px] uppercase font-bold rounded-full border border-info/20">
+                          <span className="px-2 py-0.5 bg-info/10 text-info text-[11px] uppercase font-bold rounded-full border border-info/20">
                             ADMINISTRATOR
                           </span>
-                          <span className="px-2 py-0.5 bg-primary/10 text-primary text-[9px] uppercase font-bold font-mono rounded-full border border-primary/20">
+                          <span className="px-2 py-0.5 bg-primary/10 text-primary text-[11px] uppercase font-bold font-mono rounded-full border border-primary/20">
                             Ref: {getAdminReferralCode(admin)}
                           </span>
                         </h4>
@@ -581,7 +581,7 @@ const AdminOwnership = () => {
 
                   {/* Row 2: Assigned Page Permissions Matrix */}
                   <div className="space-y-2">
-                    <div className="text-[10px] font-black uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                    <div className="text-[11px] font-black uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                       <Shield size={12} />
                       Authorized Views Matrix
                     </div>
@@ -593,7 +593,7 @@ const AdminOwnership = () => {
                           <button
                             key={page.key}
                             onClick={() => handleToggleAdminPermission(admin.id, page.key)}
-                            className={`px-3 py-1.5 rounded-xl text-[10px] font-bold border flex items-center gap-1.5 transition-all ${
+                            className={`px-3 py-1.5 rounded-xl text-[11px] font-bold border flex items-center gap-1.5 transition-all ${
                               hasAccess
                                 ? "bg-primary/10 border-primary/30 text-primary"
                                 : "bg-card border-border/40 text-muted-foreground/50 hover:bg-muted"

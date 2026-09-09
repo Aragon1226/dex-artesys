@@ -375,7 +375,7 @@ const Futures = () => {
                       ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </span>
                     <span
-                      className={`text-[9px] font-bold px-1 py-0.5 rounded ${activeTicker.priceChangePercent >= 0 ? "bg-success/10 text-success" : "bg-danger/10 text-danger"}`}
+                      className={`text-[11px] font-bold px-1 py-0.5 rounded ${activeTicker.priceChangePercent >= 0 ? "bg-success/10 text-success" : "bg-danger/10 text-danger"}`}
                     >
                       {activeTicker.priceChangePercent > 0 ? "+" : ""}
                       {activeTicker.priceChangePercent.toFixed(2)}%
@@ -388,7 +388,7 @@ const Futures = () => {
                   <button
                     key={tf}
                     onClick={() => setChartInterval(tf)}
-                    className={`px-2 py-1 text-[9px] font-bold rounded transition-colors whitespace-nowrap ${chartInterval === tf ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+                    className={`px-2 py-1 text-[11px] font-bold rounded transition-colors whitespace-nowrap ${chartInterval === tf ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
                   >
                     {tf}
                   </button>
@@ -474,17 +474,17 @@ const Futures = () => {
                             {pos.type === "LONG" ? "L" : "S"}
                           </div>
                           <span className="font-bold text-foreground text-sm">{pos.pair}</span>
-                          <span className="text-[10px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
+                          <span className="text-[11px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
                             Perp
                           </span>
-                          <span className="text-[10px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
+                          <span className="text-[11px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
                             Cross {pos.leverage}x
                           </span>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
-                            <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                            <div className="text-[11px] text-muted-foreground uppercase mb-1">
                               PNL (USDT)
                             </div>
                             <div
@@ -495,7 +495,7 @@ const Futures = () => {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                            <div className="text-[11px] text-muted-foreground uppercase mb-1">
                               ROI
                             </div>
                             <div
@@ -506,7 +506,7 @@ const Futures = () => {
                             </div>
                           </div>
                           <div>
-                            <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                            <div className="text-[11px] text-muted-foreground uppercase mb-1">
                               Position Value (USDT)
                             </div>
                             <div className="text-sm font-bold text-foreground">
@@ -514,7 +514,7 @@ const Futures = () => {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                            <div className="text-[11px] text-muted-foreground uppercase mb-1">
                               Current Price (USDT)
                             </div>
                             <div className="text-sm font-bold text-foreground transition-all duration-300">
@@ -594,7 +594,7 @@ const Futures = () => {
                               {pos.type} {pos.leverage}x
                             </span>
                           </div>
-                          <div className="text-[9px] text-muted-foreground">
+                          <div className="text-[11px] text-muted-foreground">
                             {pos.created_at ? new Date(pos.created_at).toLocaleString() : ""}
                           </div>
                         </div>
@@ -606,7 +606,7 @@ const Futures = () => {
                           {pnl >= 0 ? "+" : ""}
                           {pnl.toFixed(2)} USDT
                         </div>
-                        <div className="text-[9px] text-muted-foreground truncate max-w-[150px]">
+                        <div className="text-[11px] text-muted-foreground truncate max-w-[150px]">
                           Entry:{" "}
                           {pos.entry_price.toLocaleString(undefined, {
                             minimumFractionDigits: 2,
@@ -630,7 +630,7 @@ const Futures = () => {
         {/* Right Column: Trading Form */}
         <div className="space-y-3">
           <div className="bg-card rounded-xl p-3 shadow-sm border border-border sticky top-3">
-            <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5 mb-3">
+            <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5 mb-3">
               <Activity size={12} className="text-primary" /> Trading Panel
             </h3>
 
@@ -654,11 +654,11 @@ const Futures = () => {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}{" "}
-                <span className="text-[9px] text-muted-foreground">USDT</span>
+                <span className="text-[11px] text-muted-foreground">USDT</span>
               </div>
               <button
                 onClick={() => setShowTransferModal(true)}
-                className="mt-1.5 w-full flex items-center justify-center gap-1 py-1 bg-card border border-border text-muted-foreground hover:bg-muted rounded text-[9px] font-bold transition-all shadow-sm"
+                className="mt-1.5 w-full flex items-center justify-center gap-1 py-1 bg-card border border-border text-muted-foreground hover:bg-muted rounded text-[11px] font-bold transition-all shadow-sm"
               >
                 <ArrowRightLeft size={10} /> Transfer
               </button>
@@ -666,7 +666,7 @@ const Futures = () => {
 
             {/* Leverage */}
             <div className="mb-4">
-              <label className="text-[9px] font-bold uppercase tracking-tight text-muted-foreground mb-2 block">
+              <label className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground mb-2 block">
                 Leverage
               </label>
               <div className="grid grid-cols-4 gap-1.5">
@@ -674,15 +674,15 @@ const Futures = () => {
                   <button
                     key={lev}
                     onClick={() => setLeverage(lev)}
-                    className={`py-1.5 rounded-lg text-[10px] font-black transition-all border ${leverage === lev ? "bg-primary text-primary-foreground border-primary shadow-sm" : "bg-card text-muted-foreground border-border hover:border-muted-foreground/30"}`}
+                    className={`py-1.5 rounded-lg text-[11px] font-black transition-all border ${leverage === lev ? "bg-primary text-primary-foreground border-primary shadow-sm" : "bg-card text-muted-foreground border-border hover:border-muted-foreground/30"}`}
                   >
                     {lev}x
                   </button>
                 ))}
               </div>
               <div className="flex justify-between items-center mt-2 px-0.5">
-                <span className="text-[9px] font-bold text-muted-foreground">Profit</span>
-                <span className="text-[10px] font-black text-success">
+                <span className="text-[11px] font-bold text-muted-foreground">Profit</span>
+                <span className="text-[11px] font-black text-success">
                   +{LEVERAGE_CONFIG[leverage].profit * 100}%
                 </span>
               </div>
@@ -704,7 +704,7 @@ const Futures = () => {
                   placeholder="0.00"
                   className="w-full bg-muted border border-border rounded-lg py-2 px-3 text-base font-mono font-black text-foreground focus:ring-2 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all placeholder:text-muted-foreground/30"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-black text-muted-foreground/40 tracking-tighter">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-black text-muted-foreground/40 tracking-tighter">
                   USDT
                 </span>
               </div>
@@ -807,17 +807,17 @@ const Futures = () => {
                           {pos.type === "LONG" ? "L" : "S"}
                         </div>
                         <span className="font-bold text-foreground text-sm">{pos.pair}</span>
-                        <span className="text-[10px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
+                        <span className="text-[11px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
                           Perp
                         </span>
-                        <span className="text-[10px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
+                        <span className="text-[11px] text-muted-foreground bg-background border border-border px-1.5 py-0.5 rounded">
                           Cross {pos.leverage}x
                         </span>
                       </div>
 
                       <div className="grid grid-cols-2 gap-3 mb-4">
                         <div>
-                          <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                          <div className="text-[11px] text-muted-foreground uppercase mb-1">
                             PNL (USDT)
                           </div>
                           <div
@@ -828,7 +828,7 @@ const Futures = () => {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                          <div className="text-[11px] text-muted-foreground uppercase mb-1">
                             ROI
                           </div>
                           <div
@@ -839,7 +839,7 @@ const Futures = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                          <div className="text-[11px] text-muted-foreground uppercase mb-1">
                             Position Value
                           </div>
                           <div className="text-sm font-bold text-foreground">
@@ -847,7 +847,7 @@ const Futures = () => {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-[10px] text-muted-foreground uppercase mb-1">
+                          <div className="text-[11px] text-muted-foreground uppercase mb-1">
                             Current Price
                           </div>
                           <div className="text-sm font-bold text-foreground transition-all duration-300">
@@ -935,7 +935,7 @@ const Futures = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-2 border-t border-border/50 pt-2 text-[10px] text-muted-foreground">
+                    <div className="flex flex-col gap-1 mt-2 border-t border-border/50 pt-2 text-[11px] text-muted-foreground">
                       <div className="flex justify-between">
                         <span>Margin: ${pos.margin.toFixed(2)}</span>
                         <span>
@@ -1059,7 +1059,7 @@ const Futures = () => {
                       <CryptoIcon symbol={pair.symbol} size={30} />
                       <div className="text-left">
                         <div className="font-bold text-xs text-foreground">{pair.symbol}</div>
-                        <div className="text-[10px] text-muted-foreground font-medium truncate max-w-[140px]">
+                        <div className="text-[11px] text-muted-foreground font-medium truncate max-w-[140px]">
                           {pair.name}
                         </div>
                       </div>
@@ -1073,7 +1073,7 @@ const Futures = () => {
                         })}
                       </div>
                       <div
-                        className={`text-[10px] font-bold ${pt.priceChangePercent >= 0 ? "text-success" : "text-danger"}`}
+                        className={`text-[11px] font-bold ${pt.priceChangePercent >= 0 ? "text-success" : "text-danger"}`}
                       >
                         {pt.priceChangePercent > 0 ? "+" : ""}
                         {pt.priceChangePercent.toFixed(2)}%

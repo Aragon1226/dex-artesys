@@ -210,7 +210,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
             </button>
           </div>
 
-          <div className="text-[10px] font-bold text-muted-foreground flex items-center gap-1">
+          <div className="text-[11px] font-bold text-muted-foreground flex items-center gap-1">
             <Wallet size={12} className="text-primary" />
             <span>Avail:</span>
             <span className="font-mono text-foreground">
@@ -226,10 +226,10 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
           {/* Price Input (Disabled if Market Order) */}
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <label className="text-[10px] font-extrabold uppercase text-muted-foreground tracking-wider flex items-center gap-1.5">
+              <label className="text-[11px] font-extrabold uppercase text-muted-foreground tracking-wider flex items-center gap-1.5">
                 <span>{orderType === "MARKET" ? "Mark Price" : "Limit Price"}</span>
               </label>
-              <span className="text-foreground font-mono text-[10px]">USDT</span>
+              <span className="text-foreground font-mono text-[11px]">USDT</span>
             </div>
 
             <div className="relative">
@@ -245,7 +245,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
                 }`}
               />
               {orderType === "MARKET" && (
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-success uppercase bg-success/10 px-1.5 py-0.5 rounded">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-success uppercase bg-success/10 px-1.5 py-0.5 rounded">
                   Mark Price ($
                   {ticker.lastPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })})
                 </span>
@@ -255,7 +255,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
 
           {/* Amount Input */}
           <div className="space-y-1">
-            <label className="text-[10px] font-extrabold uppercase text-muted-foreground tracking-wider flex justify-between">
+            <label className="text-[11px] font-extrabold uppercase text-muted-foreground tracking-wider flex justify-between">
               <span>Amount</span>
               <span className="text-foreground font-mono">{symbol}</span>
             </label>
@@ -288,7 +288,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
                 key={pct}
                 type="button"
                 onClick={() => handlePercentageChange(pct)}
-                className={`py-1 rounded-lg text-[10px] font-black transition-all border ${
+                className={`py-1 rounded-lg text-[11px] font-black transition-all border ${
                   percentage === pct
                     ? "bg-primary text-primary-foreground border-primary shadow-sm"
                     : "bg-muted/50 border-border text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -301,7 +301,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
 
           {/* Total USDT Input */}
           <div className="space-y-1">
-            <label className="text-[10px] font-extrabold uppercase text-muted-foreground tracking-wider flex justify-between">
+            <label className="text-[11px] font-extrabold uppercase text-muted-foreground tracking-wider flex justify-between">
               <span>Total Value</span>
               <span className="text-foreground font-mono">USDT</span>
             </label>
@@ -360,7 +360,7 @@ export const SpotOrderForm: React.FC<SpotOrderFormProps> = ({
       </div>
 
       {/* Security Tag */}
-      <div className="pt-3 border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
+      <div className="pt-3 border-t border-border flex items-center justify-between text-[11px] text-muted-foreground">
         <div className="flex items-center gap-1">
           <ShieldCheck size={12} className="text-success" />
           <span>Spot Matching Engine Active</span>

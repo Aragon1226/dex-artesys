@@ -114,7 +114,7 @@ export const LinkedWalletsCard = () => {
                   <p className="text-sm font-mono font-semibold truncate">
                     {shortAddress(wallet.address)}
                   </p>
-                  <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                  <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                     {wallet.chain} {wallet.is_primary ? "· Primary" : ""}
                   </p>
                 </div>

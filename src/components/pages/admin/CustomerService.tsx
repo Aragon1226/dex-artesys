@@ -484,11 +484,11 @@ const CustomerService = () => {
                         <span className="font-bold text-sm text-foreground truncate">
                           {u.username}
                         </span>
-                        <span className="text-[10px] text-muted-foreground whitespace-nowrap ml-2">
+                        <span className="text-[11px] text-muted-foreground whitespace-nowrap ml-2">
                           {new Date(u.lastMessageTime).toLocaleDateString()}
                         </span>
                       </div>
-                      <div className="text-[10px] text-muted-foreground mb-1 truncate">
+                      <div className="text-[11px] text-muted-foreground mb-1 truncate">
                         {u.email}
                       </div>
                       <div className="text-xs text-foreground/80 truncate">{u.lastMessage}</div>
@@ -540,7 +540,7 @@ const CustomerService = () => {
                             ) : (
                               <p className="text-sm">{m.message}</p>
                             )}
-                            <span className="text-[9px] opacity-70 mt-1 block text-right">
+                            <span className="text-[11px] opacity-70 mt-1 block text-right">
                               {new Date(m.created_at).toLocaleTimeString([], {
                                 hour: "2-digit",
                                 minute: "2-digit",

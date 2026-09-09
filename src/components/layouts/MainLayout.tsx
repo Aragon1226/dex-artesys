@@ -59,7 +59,7 @@ const MainLayout = () => {
 
           <div className="pt-6 border-t border-border mt-auto">
             <div className="bg-primary/5 rounded-2xl p-4 border border-primary/10">
-              <p className="text-[10px] uppercase font-black text-primary tracking-widest mb-1">
+              <p className="text-[11px] uppercase font-black text-primary tracking-widest mb-1">
                 Status
               </p>
               <p className="flex items-center gap-2 text-xs font-bold text-foreground">
@@ -110,7 +110,7 @@ const MainLayout = () => {
                       </div>
 
                       <span
-                        className={`text-[10px] tracking-tight transition-all duration-200 ${isActive ? "opacity-100 font-bold" : "opacity-80"}`}
+                        className={`text-[11px] tracking-tight transition-all duration-200 ${isActive ? "opacity-100 font-bold" : "opacity-80"}`}
                       >
                         {item.label}
                       </span>

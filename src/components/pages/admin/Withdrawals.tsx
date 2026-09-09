@@ -299,7 +299,7 @@ const AdminWithdrawals = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left min-w-[800px]">
-              <thead className="bg-muted/50 text-[10px] uppercase font-bold text-muted-foreground tracking-wider border-b border-border">
+              <thead className="bg-muted/50 text-[11px] uppercase font-bold text-muted-foreground tracking-wider border-b border-border">
                 <tr>
                   <th className="px-6 py-4">User</th>
                   <th className="px-6 py-4">Asset / Network</th>
@@ -330,7 +330,7 @@ const AdminWithdrawals = () => {
                               <div className="text-sm font-bold text-foreground">
                                 {profile?.username || "Unknown"}
                               </div>
-                              <div className="text-[10px] text-muted-foreground">
+                              <div className="text-[11px] text-muted-foreground">
                                 {profile?.email || "No email"}
                               </div>
                             </div>
@@ -341,7 +341,7 @@ const AdminWithdrawals = () => {
                             <CryptoIcon symbol={w.asset} size={20} />
                             <div>
                               <div className="text-sm font-bold text-foreground">{w.asset}</div>
-                              <div className="text-[10px] uppercase text-muted-foreground font-bold">
+                              <div className="text-[11px] uppercase text-muted-foreground font-bold">
                                 {w.network}
                               </div>
                             </div>
@@ -388,7 +388,7 @@ const AdminWithdrawals = () => {
                               </button>
                             </div>
                           ) : (
-                            <span className="text-[10px] text-muted-foreground">Processed</span>
+                            <span className="text-[11px] text-muted-foreground">Processed</span>
                           )}
                         </td>
                       </tr>

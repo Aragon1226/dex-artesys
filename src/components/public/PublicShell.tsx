@@ -22,7 +22,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
 
           <nav
             aria-label="Artesys sections"
-            className="hidden items-center gap-7 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/80 lg:flex"
+            className="hidden items-center gap-7 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/80 lg:flex"
           >
             {NAV.map((item) => (
               <Link
@@ -38,7 +38,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
 
           <Link
             to="/auth"
-            className="rounded-lg border border-primary/50 bg-primary/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-primary transition-all hover:bg-primary hover:text-primary-foreground sm:px-6"
+            className="rounded-lg border border-primary/50 bg-primary/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-primary transition-all hover:bg-primary hover:text-primary-foreground sm:px-6"
           >
             Launch App
           </Link>
@@ -46,7 +46,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
 
         <nav
           aria-label="Artesys sections"
-          className="no-scrollbar flex gap-5 overflow-x-auto border-t border-border px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 lg:hidden"
+          className="no-scrollbar flex gap-5 overflow-x-auto border-t border-border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/80 lg:hidden"
         >
           {NAV.map((item) => (
             <Link
@@ -106,7 +106,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
             />
           </div>
 
-          <p className="mt-12 border-t border-border pt-6 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+          <p className="mt-12 border-t border-border pt-6 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
             © {new Date().getFullYear()} Artesys. Trading digital assets carries risk.
           </p>
         </div>
@@ -117,7 +117,7 @@ export const PublicShell = ({ children }: { children: ReactNode }) => {
 
 const FooterCol = ({ title, links }: { title: string; links: { label: string; to: string }[] }) => (
   <div>
-    <h2 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-foreground/60">
+    <h2 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-foreground/60">
       {title}
     </h2>
     <ul className="flex flex-col gap-3 text-xs font-light text-muted-foreground">
