@@ -50,6 +50,8 @@ import securityBannerImg from "@/assets/images/security_hero_banner_178669689465
 import earnBannerImg from "@/assets/images/earn_hero_banner_1786696906104.jpg";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { GetStartedChecklist } from "@/components/shared/GetStartedChecklist";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
+import { PullToRefreshIndicator } from "@/components/shared/PullToRefreshIndicator";
 
 const TOP_SYMBOLS = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT", "ADAUSDT"];
 
