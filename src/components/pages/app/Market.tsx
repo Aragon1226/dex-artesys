@@ -51,6 +51,8 @@ export const Market = () => {
     }
   }, []);
 
+  const pull = usePullToRefresh({ onRefresh: fetchMarkets });
+
   useEffect(() => {
     fetchMarkets();
     const interval = setInterval(fetchMarkets, 10000);
