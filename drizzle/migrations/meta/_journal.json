@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794645534503,
+      "tag": "0000_scope_wallet_and_support_config_reads",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794645579552,
+      "tag": "0001_limit_wallet_config_reads_to_price_settings",
+      "breakpoints": true
+    }
+  ]
+}

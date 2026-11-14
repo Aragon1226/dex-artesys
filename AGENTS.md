@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture rules
+
+- Clients read deposit addresses and support contacts only through authenticated server functions in `src/lib/user-config.functions.ts`; why: the wallet and support tables hold every admin's data, so table-wide client reads stay blocked by RLS.

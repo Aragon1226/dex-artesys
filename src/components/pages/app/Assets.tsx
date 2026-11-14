@@ -6,7 +6,7 @@ import { useNavigate } from "@/lib/router-compat";
 import { CryptoIcon } from "@/components/shared/CryptoIcon";
 import type { UserProfile, UserAsset } from "@/types";
 import { toast } from "sonner";
-import { getReferrerForUser, getAdminWalletAddress } from "@/lib/adminPermissions";
+import { fetchDepositAddress } from "@/services/userConfig";
 import {
   Eye,
   EyeOff,
@@ -224,23 +224,18 @@ const Assets = () => {
 
   useEffect(() => {
     if (activeModal === "deposit") {
-      const referrerId = getReferrerForUser(user?.email, user?.id);
-      const customAddress = referrerId
-        ? getAdminWalletAddress(referrerId, selectedToken.symbol, selectedToken.network)
-        : null;
-
-      if (customAddress) {
-        setDepositAddress(customAddress);
-      } else {
-        supabase
-          .from("admin_wallets")
-          .select("address")
-          .eq("symbol", selectedToken.symbol)
-          .eq("network", selectedToken.network)
-          .single()
-          .then(({ data }) => setDepositAddress(data?.address || "Address not configured"))
-          .then(undefined, () => setDepositAddress("Address not configured"));
-      }
+      let cancelled = false;
+      setDepositAddress("");
+      fetchDepositAddress(selectedToken.symbol, selectedToken.network)
+        .then((address) => {
+          if (!cancelled) setDepositAddress(address || "Address not configured");
+        })
+        .catch(() => {
+          if (!cancelled) setDepositAddress("Address not configured");
+        });
+      return () => {
+        cancelled = true;
+      };
     }
   }, [selectedToken, activeModal, user]);
 

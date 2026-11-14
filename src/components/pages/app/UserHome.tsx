@@ -42,7 +42,7 @@ import { AnimatedBalance } from "@/components/shared/AnimatedBalance";
 import { SupportChatModal } from "@/components/shared/SupportChatModal";
 import { CryptoIcon } from "@/components/shared/CryptoIcon";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { getReferrerForUser } from "@/lib/adminPermissions";
+import { fetchSupportContact } from "@/services/userConfig";
 
 import futuresBannerImg from "@/assets/images/futures_hero_banner_1786696873345.jpg";
 import marketBannerImg from "@/assets/images/market_hero_banner_1786696884288.jpg";
@@ -656,45 +656,13 @@ const UserHome = () => {
       });
     });
 
-    // Load per-admin support config
+    // Load the support contact assigned to this client (resolved server-side)
     const fetchSupportConfig = async () => {
       try {
-        const assignedAdminId = getReferrerForUser(user?.email, user?.id) || "OWNER";
-
-        const { data, error } = await supabase.from("support_config").select("*");
-        if (!error && data && data.length > 0) {
-          const matchedRow = data.find(
-            (r: any) =>
-              (r as any).admin_id === assignedAdminId || (r as any).adminId === assignedAdminId,
-          );
-          if (matchedRow) {
-            setSupportInfo(matchedRow as any);
-            return;
-          }
-
-          const globalRow = data.find(
-            (r: any) => r.email === "global_support_configs@crypxpro.com",
-          );
-          if (globalRow && globalRow.telegram) {
-            try {
-              const allConfigs = JSON.parse(globalRow.telegram);
-              if (allConfigs[assignedAdminId]) {
-                setSupportInfo(allConfigs[assignedAdminId]);
-                return;
-              }
-            } catch (e) {
-              // ignore
-            }
-          }
-
-          const defaultRow =
-            data.find((r: any) => r.email !== "global_support_configs@crypxpro.com") || data[0];
-          if (defaultRow) {
-            setSupportInfo(defaultRow as any);
-          }
-        }
+        const contact = await fetchSupportContact();
+        if (contact) setSupportInfo(contact);
       } catch (err) {
-        console.warn("Failed to load per-admin support configurations:", err);
+        console.warn("Failed to load support contact:", err);
       }
     };
 
